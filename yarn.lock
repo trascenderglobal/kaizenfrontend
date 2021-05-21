@@ -1615,7 +1615,7 @@
   dependencies:
     http-proxy-middleware "^1.0.6"
 
-"@nuxtjs/tailwindcss@^4.0.1":
+"@nuxtjs/tailwindcss@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@nuxtjs/tailwindcss/-/tailwindcss-4.1.2.tgz#4a5a076e9c2b4a1075ad817ec7c9758c0ba57846"
   integrity sha512-Ha8FmzKziQ24og+ivyyN1PM0+PSudPipjSy+OENIFDYS00UOulAIaqfc1qoTmH+P8nDONOzX6fdsj33s2CmB9w==
@@ -9386,7 +9386,7 @@ postcss@^6.0.9:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^8.1.10, postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.13, postcss@^8.2.15, postcss@^8.2.8:
+postcss@^8.1.10, postcss@^8.1.6, postcss@^8.2.1, postcss@^8.2.13, postcss@^8.2.15:
   version "8.2.15"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.15.tgz#9e66ccf07292817d226fc315cbbf9bc148fbca65"
   integrity sha512-2zO3b26eJD/8rb106Qu2o7Qgg52ND5HPjcyQiK2B98O388h43A448LCslC0dI2P97wCAQRJsFvwTRcXxTKds+Q==
