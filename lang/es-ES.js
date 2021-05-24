@@ -6,6 +6,10 @@ export default {
     password: 'Contraseña',
     register: 'Registrarse',
     forgot: '¿Olvidaste tu contraseña?',
+    meta: {
+      title: 'Iniciar Sesión',
+      description: 'Iniciar Sesión',
+    }
   },
   signup: {
     signup: 'Regístrate',
@@ -19,5 +23,9 @@ export default {
     employer: 'Empleador',
     haveAccount: '¿Tienes una cuenta?',
     login: 'Iniciar Sesión',
+    meta: {
+      title: 'Regístrate',
+      description: 'Regístrate',
+    }
   },
 }

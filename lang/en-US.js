@@ -7,8 +7,8 @@ export default {
     register: 'Register',
     forgot: 'Forgot Password?',
     meta: {
-      title: 'Login',
-      description: 'Login',
+        title: 'Login',
+        description: 'Login',
     },
   },
   signup: {
