@@ -90,6 +90,7 @@ import Vue from 'vue'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
+  auth: 'guest',
   data() {
     return {
       email: '',

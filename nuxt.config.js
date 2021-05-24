@@ -1,6 +1,10 @@
 import { I18N } from './config/i18n'
 
 export default {
+  router: {
+    middleware: ['auth'],
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Kaizen Squad',
@@ -37,12 +41,41 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
     ['nuxt-i18n', I18N],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    credentials: true,
+    baseURL: process.env.BASE_URL,
+  },
 
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          token: {
+            property: 'token',
+          },
+          login: {
+            url: '/auth/login',
+            method: 'post',
+            propertyName: 'access_token',
+          },
+          logout: {
+            url: '/auth/logout',
+            method: 'delete',
+          },
+          user: {
+            url: '/auth/user',
+            method: 'get',
+            property: false,
+          },
+        },
+      },
+    },
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 }

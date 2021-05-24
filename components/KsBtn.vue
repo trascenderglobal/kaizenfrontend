@@ -14,7 +14,7 @@ export default Vue.extend({})
 
 <style scoped>
 .ks-btn {
-  @apply flex justify-center px-8 py-3 font-bold text-white border  rounded-lg border-gray-dark bg-blue-kaizen;
+  @apply flex justify-center px-8 py-3 font-bold text-white border  rounded-lg border-gray-dark bg-blue-kaizen transition duration-100 hover:opacity-80 disabled:opacity-75;
 }
 
 .btn-text {

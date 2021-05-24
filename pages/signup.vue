@@ -13,7 +13,7 @@
           </h2>
         </div>
         <div class="pt-4 space-y-2 xl:px-16">
-          <form id="signup" @submit.prevent>
+          <form id="signup" @submit.prevent="register">
             <ks-input
               v-model="name"
               :label="$t('signup.name')"
@@ -132,7 +132,12 @@
               $t('signup.login')
             }}</nuxt-link>
           </div>
-          <ks-btn form="signup" class="w-full lg:w-auto" type="submit">
+          <ks-btn
+            form="signup"
+            class="w-full lg:w-auto"
+            type="submit"
+            :disabled="loading"
+          >
             {{ $t('signup.signup') }}
           </ks-btn>
         </div>
@@ -149,8 +154,10 @@ import Vue from 'vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
+  auth: 'guest',
   data() {
     return {
+      loading: false,
       name: '',
       lastname: '',
       email: '',
@@ -159,6 +166,38 @@ export default Vue.extend({
       showPassword: false,
       role: '',
     }
+  },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('signup.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('signup.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+      link: [i18nHead.link],
+    }
+  },
+  methods: {
+    async register(): Promise<void> {
+      try {
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+        this.loading = true
+        const res = await this.$axios.$post('/register')
+        await this.$auth.setUserToken(res.token, res.token)
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
+    },
   },
   validations() {
     return {
@@ -179,24 +218,9 @@ export default Vue.extend({
       confirmPassword: {
         sameAsPassword: sameAs('password'),
       },
-    }
-  },
-  head(): object {
-    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      title: this.$t('signup.meta.title'),
-      htmlAttrs: {
-        ...i18nHead.htmlAttrs,
+      role: {
+        required,
       },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('signup.meta.description'),
-        },
-        ...i18nHead.meta,
-      ],
-      link: [i18nHead.link],
     }
   },
 })
