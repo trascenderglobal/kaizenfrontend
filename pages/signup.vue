@@ -112,13 +112,13 @@
                 <ks-radio
                   id="1"
                   v-model="role"
-                  :item-value="1"
+                  item-value="1"
                   :label="$t('signup.employee')"
                 />
                 <ks-radio
                   id="2"
                   v-model="role"
-                  :item-value="0"
+                  item-value="0"
                   :label="$t('signup.employer')"
                 />
               </div>
