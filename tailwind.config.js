@@ -25,11 +25,46 @@ module.exports = {
         blue: {
           light: '#A4DEE0',
           kaizen: '#3E7CA3',
-          dark: '#1B375F',
+          dark: '#007CCA',
+          darker: '#1B375F',
         },
         green: {
           kaizen: '#94D989',
         },
+      },
+      height: {
+        120: '30rem',
+        180: '45rem',
+        240: '60rem',
+        360: '90rem',
+        480: '120rem',
+      },
+      width: {
+        120: '30rem',
+        180: '45rem',
+        240: '60rem',
+        360: '90rem',
+        480: '120rem',
+      },
+      minWidth: {
+        '2/5': '40%',
+        '3/5': '60%',
+      },
+      inset: {
+        '-60': '-15rem',
+        '-90': '-22.5rem',
+        '-120': '-30rem',
+        '-180': '-45rem',
+        '-240': '-60rem',
+      },
+      borderWidth: {
+        3: '3px',
+        120: '120px',
+        180: '180px',
+        240: '240px',
+      },
+      scale: {
+        80: '0.8',
       },
     },
   },
