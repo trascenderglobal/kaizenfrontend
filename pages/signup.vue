@@ -164,7 +164,7 @@ export default Vue.extend({
       password: '',
       confirmPassword: '',
       showPassword: false,
-      role: -1,
+      role: '',
     }
   },
   head(): object {
