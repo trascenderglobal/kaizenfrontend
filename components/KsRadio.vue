@@ -24,7 +24,7 @@ export default Vue.extend({
       default: '',
     },
     itemValue: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     id: {

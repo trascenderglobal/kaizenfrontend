@@ -112,13 +112,13 @@
                 <ks-radio
                   id="1"
                   v-model="role"
-                  item-value="employee"
+                  :item-value="1"
                   :label="$t('signup.employee')"
                 />
                 <ks-radio
                   id="2"
                   v-model="role"
-                  item-value="employer"
+                  :item-value="0"
                   :label="$t('signup.employer')"
                 />
               </div>
@@ -164,7 +164,7 @@ export default Vue.extend({
       password: '',
       confirmPassword: '',
       showPassword: false,
-      role: '',
+      role: -1,
     }
   },
   head(): object {
@@ -191,7 +191,14 @@ export default Vue.extend({
         this.$v.$touch()
         if (this.$v.$invalid) return
         this.loading = true
-        const res = await this.$axios.$post('/register')
+        const res = await this.$axios.$post('/register', {
+          name: this.name,
+          last_name: this.lastname,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.confirmPassword,
+          role: this.role,
+        })
         await this.$auth.setUserToken(res.token, res.token)
       } catch (error) {
       } finally {
