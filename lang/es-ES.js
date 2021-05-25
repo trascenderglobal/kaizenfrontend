@@ -9,7 +9,7 @@ export default {
     meta: {
       title: 'Iniciar Sesión',
       description: 'Iniciar Sesión',
-    }
+    },
   },
   signup: {
     signup: 'Regístrate',
@@ -26,6 +26,13 @@ export default {
     meta: {
       title: 'Regístrate',
       description: 'Regístrate',
-    }
+    },
+  },
+  drawer: {
+    profile: 'Perfil',
+    resume: 'Currículum',
+    jobs: 'Empleos',
+    settings: 'Ajustes',
+    logout: 'Cerrar sesión',
   },
 }

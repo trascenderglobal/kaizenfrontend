@@ -7,8 +7,8 @@ export default {
     register: 'Register',
     forgot: 'Forgot Password?',
     meta: {
-        title: 'Login',
-        description: 'Login',
+      title: 'Login',
+      description: 'Login',
     },
   },
   signup: {
@@ -27,5 +27,12 @@ export default {
       title: 'Sign Up',
       description: 'Sign Up',
     },
+  },
+  drawer: {
+    profile: 'Profile',
+    resume: 'Resume',
+    jobs: 'Jobs',
+    settings: 'Settings',
+    logout: 'Log out',
   },
 }

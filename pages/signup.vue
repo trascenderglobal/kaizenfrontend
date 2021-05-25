@@ -1,6 +1,6 @@
 <template>
   <div class="ks-container">
-    <ks-card class="flex-wrap">
+    <ks-card>
       <section class="main w-full h-full px-8 py-12 xl:w-2/5 lg:px-16">
         <img
           class="w-1/2 mx-auto"
