@@ -1,18 +1,18 @@
 <template>
   <div class="ks-container">
     <ks-card class="flex-wrap">
-      <section class="w-full h-full px-8 py-8 lg:w-2/5 lg:px-16">
+      <section class="main w-full h-full px-8 py-12 xl:w-2/5 lg:px-16">
         <img
           class="w-1/2 mx-auto"
           :src="require('@/assets/img/kaizen-black.png')"
           alt="Kaizen Squad"
         />
-        <div class="pt-12 xl:px-16">
+        <div class="pt-12">
           <h2 class="text-2xl font-medium text-blue-kaizen">
             {{ $t('signup.signup') }}
           </h2>
         </div>
-        <div class="pt-4 space-y-2 xl:px-16">
+        <div class="pt-4 space-y-2">
           <form id="signup" @submit.prevent="register">
             <ks-input
               v-model="name"
@@ -73,7 +73,7 @@
                     fill-current
                     stroke-current
                     text-gray-dark
-                    hover:text-gray-500
+                    hover:text-gray-600
                   "
                 />
               </template>
@@ -101,7 +101,7 @@
                     fill-current
                     stroke-current
                     text-gray-dark
-                    hover:text-gray-500
+                    hover:text-gray-600
                   "
                 />
               </template>
@@ -112,12 +112,14 @@
                 <ks-radio
                   id="1"
                   v-model="role"
+                  class="hover:text-gray-600"
                   item-value="1"
                   :label="$t('signup.employee')"
                 />
                 <ks-radio
                   id="2"
                   v-model="role"
+                  class="hover:text-gray-600"
                   item-value="0"
                   :label="$t('signup.employer')"
                 />
@@ -125,7 +127,7 @@
             </div>
           </form>
         </div>
-        <div class="flex flex-wrap justify-between pt-5 xl:px-16">
+        <div class="flex flex-wrap justify-between pt-5">
           <div class="pb-2 space-x-2 xl:pb-0">
             <span class="text-gray-dark">{{ $t('signup.haveAccount') }}</span>
             <nuxt-link :to="localePath('/login')" class="text-blue-kaizen">{{
@@ -143,8 +145,10 @@
         </div>
       </section>
       <section
-        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black lg:block"
-      ></section>
+        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black xl:block"
+      >
+        <div class="hero"></div>
+      </section>
     </ks-card>
   </div>
 </template>
@@ -236,5 +240,14 @@ export default Vue.extend({
 <style scoped>
 .ks-container {
   @apply flex h-full mx-auto py-16 px-2 sm:px-16 lg:px-24;
+}
+
+.hero {
+  background-image: url('~/assets/img/auth.png');
+  @apply w-full h-full bg-no-repeat bg-center bg-cover absolute bg-black top-0 left-0 right-0 bottom-0;
+}
+
+.main > div {
+  @apply 2xl:px-16;
 }
 </style>

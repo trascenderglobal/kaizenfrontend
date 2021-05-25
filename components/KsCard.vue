@@ -32,6 +32,6 @@ export default Vue.extend({
 }
 
 .card-wrapper {
-  @apply flex min-h-0 max-h-full overflow-y-auto overflow-x-hidden rounded-xl;
+  @apply flex min-h-full max-h-full overflow-y-auto overflow-x-hidden rounded-xl;
 }
 </style>
