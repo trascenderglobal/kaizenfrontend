@@ -59,13 +59,13 @@ export default {
             property: 'token',
           },
           login: {
-            url: '/auth/login',
+            url: '/login',
             method: 'post',
             propertyName: 'access_token',
           },
           logout: {
-            url: '/auth/logout',
-            method: 'delete',
+            url: '/logout',
+            method: 'post',
           },
           user: {
             url: '/auth/user',
@@ -74,6 +74,9 @@ export default {
           },
         },
       },
+    },
+    redirect: {
+      home: '/profile',
     },
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build

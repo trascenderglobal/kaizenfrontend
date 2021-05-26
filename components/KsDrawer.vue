@@ -1,7 +1,9 @@
 <template>
   <div class="ks-drawer">
-    <img
-      class="w-4/5 mx-auto justify-start"
+    <nuxt-link
+      tag="img"
+      :to="localePath('/')"
+      class="kaizen-img"
       :src="require('@/assets/img/kaizen-black.png')"
       alt="Kaizen Squad"
     />
@@ -69,12 +71,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.kaizen-img {
+  @apply cursor-pointer rounded-lg w-4/5 mx-auto justify-start hover:bg-gray-lighter transition duration-200;
+}
+
 .ks-drawer {
-  @apply flex flex-col items-center min-h-full w-64 bg-white p-8 sticky left-0 overflow-y-auto;
+  @apply flex flex-col space-y-3 items-center min-h-full w-48 bg-white p-6 sticky left-0 overflow-y-auto;
 }
 
 .ks-drawer-link {
-  @apply flex justify-center items-center p-4 rounded-lg w-28 h-28 outline-none;
+  @apply flex justify-center items-center p-4 rounded-lg w-28 h-28 outline-none select-none transition duration-200;
 }
 
 .ks-drawer-link:not(.nuxt-link-exact-active) {
@@ -94,7 +100,7 @@ export default Vue.extend({
 }
 
 .menu {
-  @apply flex flex-col space-y-3 pt-4;
+  @apply flex flex-col space-y-3 pt-3;
 }
 
 #logout {

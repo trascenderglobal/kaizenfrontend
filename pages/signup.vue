@@ -138,7 +138,7 @@
             form="signup"
             class="w-full lg:w-auto"
             type="submit"
-            :disabled="loading"
+            :loading="loading"
           >
             {{ $t('signup.signup') }}
           </ks-btn>
@@ -162,6 +162,7 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
+      error: false,
       name: '',
       lastname: '',
       email: '',
@@ -195,6 +196,7 @@ export default Vue.extend({
         this.$v.$touch()
         if (this.$v.$invalid) return
         this.loading = true
+        this.error = false
         const res = await this.$axios.$post('/register', {
           name: this.name,
           last_name: this.lastname,
@@ -204,6 +206,7 @@ export default Vue.extend({
           role: this.role,
         })
         await this.$auth.setUserToken(res.token, res.token)
+        this.$router.push(this.localePath('/profile'))
       } catch (error) {
       } finally {
         this.loading = false

@@ -16,7 +16,7 @@
           </h3>
         </div>
         <div class="pt-4 space-y-2">
-          <form id="login" @submit.prevent>
+          <form id="login" @submit.prevent="login">
             <ks-input
               v-model="email"
               :label="$t('login.email')"
@@ -75,7 +75,12 @@
               >{{ $t('login.forgot') }}</nuxt-link
             >
           </div>
-          <ks-btn form="login" class="w-full lg:w-auto" type="submit">
+          <ks-btn
+            form="login"
+            class="w-full lg:w-auto"
+            :loading="loading"
+            type="submit"
+          >
             {{ $t('login.login') }}
           </ks-btn>
         </div>
@@ -97,21 +102,11 @@ export default Vue.extend({
   auth: 'guest',
   data() {
     return {
+      loading: false,
+      error: false,
       email: '',
       password: '',
       showPassword: false,
-    }
-  },
-  validations() {
-    return {
-      email: {
-        email,
-        required,
-      },
-      password: {
-        minLength: minLength(5),
-        required,
-      },
     }
   },
   head(): object {
@@ -130,6 +125,38 @@ export default Vue.extend({
         ...i18nHead.meta,
       ],
       link: [i18nHead.link],
+    }
+  },
+  methods: {
+    async login(): Promise<void> {
+      try {
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+        this.loading = true
+        this.error = false
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+        })
+      } catch (error) {
+        this.error = true
+      } finally {
+        this.loading = false
+      }
+    },
+  },
+  validations() {
+    return {
+      email: {
+        email,
+        required,
+      },
+      password: {
+        minLength: minLength(5),
+        required,
+      },
     }
   },
 })

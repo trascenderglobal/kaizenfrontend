@@ -1,0 +1,48 @@
+<template>
+  <ul class="flex space-x-2">
+    <li v-for="(item, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
+      <nuxt-link :to="item.path">{{ item.name }}</nuxt-link>
+    </li>
+  </ul>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+interface BreadCrumbItem {
+  name: string
+  path: string
+}
+
+export default Vue.extend({
+  computed: {
+    breadcrumbItems(): Array<BreadCrumbItem> {
+      const breadcrumb: BreadCrumbItem[] = []
+      const routes = this.$route.path.split('/')
+      let fullPath = ''
+      routes.forEach((route) => {
+        breadcrumb.push({
+          name: route || 'Kaizen Squad',
+          path: route ? fullPath + route : '/',
+        })
+        fullPath = fullPath + route + '/'
+      })
+      return breadcrumb
+    },
+  },
+})
+</script>
+
+<style scoped>
+li {
+  @apply inline relative capitalize  text-sm text-blue-kaizen font-light;
+}
+
+a {
+  @apply inline-flex py-1 px-2 bg-white rounded-lg;
+}
+
+a:hover {
+  @apply text-blue-darker;
+}
+</style>

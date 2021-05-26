@@ -47,8 +47,12 @@ module.exports = {
         480: '120rem',
       },
       minWidth: {
+        '1/5': '20%',
+        '1/4': '25%',
         '2/5': '40%',
         '3/5': '60%',
+        '3/4': '75%',
+        '4/5': '80%',
       },
       inset: {
         '-60': '-15rem',
@@ -71,6 +75,7 @@ module.exports = {
   variants: {
     extend: {
       opacity: ['disabled'],
+      cursor: ['disabled'],
     },
   },
   plugins: [],
