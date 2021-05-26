@@ -140,6 +140,7 @@ export default Vue.extend({
             password: this.password,
           },
         })
+        this.$router.push(this.localePath('/profile'))
       } catch (error) {
         this.error = true
       } finally {

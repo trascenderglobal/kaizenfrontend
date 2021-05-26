@@ -54,14 +54,16 @@ export default {
   auth: {
     strategies: {
       local: {
+        token: {
+          property: 'token',
+        },
+        user: {
+          property: false,
+        },
         endpoints: {
-          token: {
-            property: 'token',
-          },
           login: {
             url: '/login',
             method: 'post',
-            propertyName: 'access_token',
           },
           logout: {
             url: '/logout',
@@ -70,7 +72,6 @@ export default {
           user: {
             url: '/auth/user',
             method: 'get',
-            property: false,
           },
         },
       },

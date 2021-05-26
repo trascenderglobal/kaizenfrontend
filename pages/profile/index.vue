@@ -12,7 +12,9 @@
               <div class="user-img"></div>
               <div class="user-name pl-4">
                 <div class="flex-grow-0 max-w-full max-h-full">
-                  Andrés Martiliano
+                  <nuxt-link :to="localePath('/profile')">
+                    {{ $auth.user.name + ' ' + $auth.user.lastName }}
+                  </nuxt-link>
                 </div>
               </div>
             </ks-card>
@@ -34,9 +36,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({
-  auth: 'guest',
-})
+export default Vue.extend({})
 </script>
 
 <style scoped>
@@ -70,7 +70,7 @@ export default Vue.extend({
 }
 
 .user-name {
-  @apply flex flex-grow h-8 items-center justify-center text-blue-kaizen text-lg;
+  @apply flex flex-grow h-8 items-center justify-center text-blue-kaizen hover:text-blue-darker text-lg;
 }
 
 .main-info {
