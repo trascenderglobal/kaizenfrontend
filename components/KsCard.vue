@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card"
-    :class="[border ? `border-2 border-${bg}` : '', `bg-${bg}`]"
-  >
+  <div class="card bg-white" :class="{ 'border-2 border-white': border }">
     <div class="card-wrapper">
       <slot />
     </div>
@@ -17,10 +14,6 @@ export default Vue.extend({
     border: {
       type: Boolean,
       default: true,
-    },
-    bg: {
-      type: String,
-      default: 'white',
     },
   },
 })

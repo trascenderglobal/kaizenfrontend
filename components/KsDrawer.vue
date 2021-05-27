@@ -23,7 +23,7 @@
       <nuxt-link tag="div" :to="localePath('/jobs')" class="ks-drawer-link">
         <div class="link-wrapper">
           <span
-            class="absolute z-10 top-0 right-1 h-2 w-2 rounded-full bg-red-500"
+            class="absolute z-10 top-0 right-5 h-2 w-2 rounded-full bg-red-500"
           ></span>
           <iconly-icon name="activity" class="relative fill-current" />
           <span class="pt-2 text-center">{{ $t('drawer.jobs') }}</span>
