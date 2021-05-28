@@ -48,18 +48,7 @@
           @click="navigate"
         >
           <div class="link-wrapper">
-            <span
-              class="
-                absolute
-                z-10
-                top-0
-                right-1
-                h-2
-                w-2
-                rounded-full
-                bg-red-500
-              "
-            ></span>
+            <span class="job-badge"></span>
             <iconly-icon name="activity" class="relative fill-current" />
             <span class="pt-2 text-center">{{ $t('drawer.jobs') }}</span>
           </div>
@@ -127,7 +116,7 @@ export default Vue.extend({
 }
 
 .ks-drawer-link {
-  @apply flex justify-center items-center p-4 rounded-lg w-28 h-28 outline-none select-none transition duration-200;
+  @apply flex relative justify-center items-center p-4 rounded-lg w-28 h-28 outline-none select-none transition duration-200;
 }
 
 .ks-drawer-link:not(.link-active) {
@@ -143,11 +132,15 @@ export default Vue.extend({
 }
 
 .link-wrapper {
-  @apply relative top-2 flex flex-col items-center justify-center;
+  @apply top-2 flex flex-col items-center justify-center;
 }
 
 .menu {
   @apply flex flex-col space-y-3 pt-3;
+}
+
+.job-badge {
+  @apply absolute z-10 top-7 right-11 h-2 w-2 rounded-full bg-red-500;
 }
 
 #logout {

@@ -48,16 +48,26 @@
                   <div class="user-img-lg"></div>
                   <div class="flex flex-col space-y-1">
                     <span class="font-medium text-blue-kaizen">{{
-                      $auth.user.name + ' ' + $auth.user.lastName
+                      profile.name + ' ' + profile.lastName
                     }}</span>
-                    <span class="font-light text-gray-dark">{{
-                      profile.skills ? 'Data Scientist' : $t('profile.noSkills')
-                    }}</span>
-                    <span class="font-light text-gray-dark">{{
-                      profile.birthDate
-                        ? $d(new Date(), 'numeric')
-                        : $t('profile.noBirth')
-                    }}</span>
+                    <span
+                      class="font-light text-gray-dark"
+                      :class="{ 'select-none': !profile.skills }"
+                      >{{
+                        profile.skills
+                          ? 'Data Scientist'
+                          : $t('profile.noSkills')
+                      }}</span
+                    >
+                    <span
+                      class="font-light text-gray-dark"
+                      :class="{ 'select-none': !profile.birthdate }"
+                      >{{
+                        profile.birthDate
+                          ? $d(new Date(), 'numeric')
+                          : $t('profile.noBirth')
+                      }}</span
+                    >
                   </div>
                 </div>
                 <div class="flex flex-col min-w-40">

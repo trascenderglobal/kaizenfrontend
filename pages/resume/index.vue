@@ -13,7 +13,13 @@
         </div>
         <div class="main-content">
           <div class="main-info">
-            <ks-card class="h-full"></ks-card>
+            <ks-card class="h-full p-8">
+              <div class="resume-header">
+                <h1 class="text-3xl font-medium">
+                  {{ $t('resume.myResume') }}
+                </h1>
+              </div>
+            </ks-card>
           </div>
           <div class="alerts">
             <ks-card class="h-full"></ks-card>
@@ -58,6 +64,14 @@ export default Vue.extend({})
 
 .main-info {
   @apply h-full min-w-3/4;
+}
+
+.resume-header {
+  @apply flex text-blue-kaizen;
+}
+
+.resume-header > * {
+  @apply pt-4;
 }
 
 .alerts {

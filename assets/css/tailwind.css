@@ -34,5 +34,5 @@
 }
 
 .text-link-blue {
-  @apply text-blue-kaizen hover:text-blue-darker;
+  @apply text-blue-kaizen hover:text-blue-darker transition duration-200;
 }
