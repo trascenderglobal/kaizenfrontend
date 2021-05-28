@@ -6,6 +6,10 @@ export default {
     password: 'Contraseña',
     register: 'Registrarse',
     forgot: '¿Olvidaste tu contraseña?',
+    error: {
+      title: 'No se pudo iniciar sesión',
+      text: 'Inténtalo de nuevo.',
+    },
     meta: {
       title: 'Iniciar Sesión',
       description: 'Iniciar Sesión',
@@ -23,6 +27,10 @@ export default {
     employer: 'Empleador',
     haveAccount: '¿Tienes una cuenta?',
     login: 'Iniciar Sesión',
+    error: {
+      title: 'No se pudo registrate',
+      text: 'Please try again.',
+    },
     meta: {
       title: 'Regístrate',
       description: 'Regístrate',
@@ -34,5 +42,38 @@ export default {
     jobs: 'Empleos',
     settings: 'Ajustes',
     logout: 'Cerrar sesión',
+  },
+  alerts: {
+    alerts: 'Alertas',
+    newAlerts: 'Tienes nuevas alertas. Algunos empleadores te están buscando.',
+    seeAll: 'Ver todo',
+    noAlerts: 'No hay alertas',
+  },
+  forms: {
+    errors: {
+      email: 'E-mail inválido',
+      required: 'Requerido',
+      minLength: 'Debe tener al menos {length} caracteres',
+    },
+  },
+  profile: {
+    myProfile: 'Mi perfil',
+    contactInfo: 'Información de Contacto',
+    editProfile: 'Editar perfil',
+    novelties: 'Novedades',
+    status: 'Estado',
+    statuses: {
+      available: 'Disponible',
+      busy: 'Ocupado',
+    },
+    state: 'Estado',
+    city: 'Ciudad',
+    zip: 'Zip',
+    phone: 'Teléfono',
+    email: 'E-mail',
+    social: 'Social',
+    noBirth: 'Sin fecha de nacimiento',
+    noSkills: 'Sin habilidades asociadas',
+    notSet: 'No establecido',
   },
 }

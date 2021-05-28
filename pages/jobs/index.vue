@@ -1,6 +1,6 @@
 <template>
   <div class="ks-container">
-    <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm">
+    <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm" row>
       <ks-drawer />
       <div class="ks-content">
         <div class="top-content">
@@ -8,16 +8,7 @@
             <ks-breadcrumb />
           </div>
           <div class="user-info">
-            <ks-card class="p-2">
-              <div class="user-img"></div>
-              <div class="user-name pl-4">
-                <div class="flex-grow-0 max-w-full max-h-full">
-                  <nuxt-link :to="localePath('/profile')">
-                    {{ $auth.user.name + ' ' + $auth.user.lastName }}
-                  </nuxt-link>
-                </div>
-              </div>
-            </ks-card>
+            <user-info />
           </div>
         </div>
         <div class="main-content">
@@ -50,7 +41,7 @@ export default Vue.extend({})
 
 .top-content,
 .main-content {
-  @apply flex space-x-8;
+  @apply flex w-full space-x-8;
 }
 
 .main-content {
@@ -63,14 +54,6 @@ export default Vue.extend({})
 
 .user-info {
   @apply flex-grow;
-}
-
-.user-img {
-  @apply flex-shrink-0 w-8 h-8 rounded-md bg-gray-darker animate-pulse;
-}
-
-.user-name {
-  @apply flex flex-grow h-8 items-center justify-center text-blue-kaizen hover:text-blue-darker text-lg;
 }
 
 .main-info {

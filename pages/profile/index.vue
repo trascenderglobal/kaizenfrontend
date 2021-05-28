@@ -1,6 +1,6 @@
 <template>
   <div class="ks-container">
-    <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm">
+    <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm" row>
       <ks-drawer />
       <div class="ks-content">
         <div class="top-content">
@@ -8,24 +8,152 @@
             <ks-breadcrumb />
           </div>
           <div class="user-info">
-            <ks-card class="p-2">
-              <div class="user-img"></div>
-              <div class="user-name pl-4">
-                <div class="flex-grow-0 max-w-full max-h-full">
-                  <nuxt-link :to="localePath('/profile')">
-                    {{ $auth.user.name + ' ' + $auth.user.lastName }}
-                  </nuxt-link>
-                </div>
-              </div>
-            </ks-card>
+            <user-info />
           </div>
         </div>
         <div class="main-content">
           <div class="main-info">
-            <ks-card class="h-full"></ks-card>
+            <ks-card class="h-full p-8" col>
+              <div class="profile-header">
+                <h1 class="text-3xl font-medium">
+                  {{ $t('profile.myProfile') }}
+                </h1>
+                <nuxt-link
+                  v-slot="{ navigate }"
+                  custom
+                  :to="localePath('/profile/edit')"
+                >
+                  <div
+                    class="flex items-center space-x-4 text-link-blue min-w-40"
+                    role="link"
+                    @click="navigate"
+                  >
+                    <span>{{ $t('profile.editProfile') }}</span>
+                    <i>
+                      <iconly-icon
+                        name="edit-square"
+                        type="bold"
+                        :size="1.4"
+                        class="fill-current"
+                      />
+                    </i>
+                  </div>
+                </nuxt-link>
+              </div>
+              <h1 class="pt-6 text-lg text-blue-kaizen">
+                {{ $t('profile.contactInfo') }}
+              </h1>
+              <div class="pt-6 flex justify-between">
+                <div class="flex space-x-4">
+                  <div class="user-img-lg"></div>
+                  <div class="flex flex-col space-y-1">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $auth.user.name + ' ' + $auth.user.lastName
+                    }}</span>
+                    <span class="font-light text-gray-dark">{{
+                      profile.skills ? 'Data Scientist' : $t('profile.noSkills')
+                    }}</span>
+                    <span class="font-light text-gray-dark">{{
+                      profile.birthDate
+                        ? $d(new Date(), 'numeric')
+                        : $t('profile.noBirth')
+                    }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-col min-w-40">
+                  <span class="font-medium text-blue-kaizen">{{
+                    $t('profile.novelties')
+                  }}</span>
+                  <span class="font-light text-gray-dark"
+                    >{{ $t('profile.status') }}:</span
+                  >
+                  <ks-select></ks-select>
+                </div>
+              </div>
+              <hr class="my-8 border text-gray-darker" />
+              <div class="flex flex-col space-y-4">
+                <div class="flex flex-wrap w-full">
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.state')
+                    }}</span>
+                    <span
+                      class="text-gray-darker font-light"
+                      :class="{ 'select-none': !profile.state }"
+                      >{{ profile.state ? profile.state : '-' }}</span
+                    >
+                  </div>
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.phone')
+                    }}</span>
+                    <span
+                      class="text-gray-darker font-light"
+                      :class="{ 'select-none': !profile.phone }"
+                      >{{ profile.phone ? profile.phone : '-' }}</span
+                    >
+                  </div>
+                </div>
+                <div class="flex flex-wrap w-full">
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.city')
+                    }}</span>
+                    <span
+                      class="text-gray-darker font-light"
+                      :class="{ 'select-none': !profile.city }"
+                      >{{ profile.city ? profile.city : '-' }}</span
+                    >
+                  </div>
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.email')
+                    }}</span>
+                    <span class="text-gray-darker font-light">{{
+                      profile.email
+                    }}</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap w-full">
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.zip')
+                    }}</span>
+                    <span
+                      class="text-gray-darker font-light"
+                      :class="{ 'select-none': !profile.zip }"
+                      >{{ profile.zip ? profile.zip : '-' }}</span
+                    >
+                  </div>
+                  <div class="flex items-center space-x-4 w-1/2">
+                    <span class="font-medium text-blue-kaizen">{{
+                      $t('profile.social')
+                    }}</span>
+                    <div class="inline-flex items-center space-x-2">
+                      <div
+                        class="w-7 h-7 rounded-md bg-blue-light cursor-pointer"
+                      ></div>
+                      <div
+                        class="w-7 h-7 rounded-md bg-blue-light cursor-pointer"
+                      ></div>
+                      <button type="button" class="social-btn">
+                        <i
+                          ><iconly-icon
+                            name="plus"
+                            :size="1.25"
+                            class="fill-current"
+                        /></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ks-card>
           </div>
           <div class="alerts">
-            <ks-card class="h-full"></ks-card>
+            <ks-card class="h-full p-8">
+              <ks-employee-alerts />
+            </ks-card>
           </div>
         </div>
       </div>
@@ -36,7 +164,16 @@
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  async asyncData({ app }) {
+    try {
+      const res = await app.$axios.$get('/employee/profile')
+      return {
+        profile: res,
+      }
+    } catch (error) {}
+  },
+})
 </script>
 
 <style scoped>
@@ -50,7 +187,7 @@ export default Vue.extend({})
 
 .top-content,
 .main-content {
-  @apply flex space-x-8;
+  @apply flex w-full space-x-8;
 }
 
 .main-content {
@@ -65,16 +202,24 @@ export default Vue.extend({})
   @apply flex-grow;
 }
 
-.user-img {
-  @apply flex-shrink-0 w-8 h-8 rounded-md bg-gray-darker animate-pulse;
-}
-
-.user-name {
-  @apply flex flex-grow h-8 items-center justify-center text-blue-kaizen hover:text-blue-darker text-lg;
-}
-
 .main-info {
   @apply h-full min-w-3/4;
+}
+
+.profile-header {
+  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+}
+
+.profile-header > * {
+  @apply pt-4;
+}
+
+.user-img-lg {
+  @apply flex-shrink-0 w-20 h-20 rounded-md bg-gray-darker animate-pulse;
+}
+
+.social-btn {
+  @apply focus:outline-none rounded-lg text-blue-kaizen hover:text-blue-darker transition duration-200;
 }
 
 .alerts {

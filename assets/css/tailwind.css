@@ -28,3 +28,11 @@
 :root {
   @apply font-body;
 }
+
+*[role='link'] {
+  @apply cursor-pointer;
+}
+
+.text-link-blue {
+  @apply text-blue-kaizen hover:text-blue-darker;
+}

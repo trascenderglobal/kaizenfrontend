@@ -1,6 +1,9 @@
 <template>
   <div class="field">
-    <div class="input" :class="{ outlined: outlined }">
+    <div
+      class="input"
+      :class="{ outlined: outlined, error: errorMessages.length }"
+    >
       <div v-if="$slots['prepend-icon']" class="icon prepend-icon">
         <slot name="prepend-icon" />
       </div>
@@ -65,7 +68,7 @@ export default Vue.extend({
 
 <style scoped>
 .field {
-  @apply w-full;
+  @apply w-full mb-2;
 }
 
 .hint {
@@ -98,7 +101,11 @@ input:not(:placeholder-shown) + .label {
 }
 
 .outlined {
-  @apply border rounded-lg border-gray-light;
+  @apply border rounded-lg border-gray-light transition;
+}
+
+.outlined.error {
+  @apply border-red-400;
 }
 
 .icon {

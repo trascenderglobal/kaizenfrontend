@@ -1,38 +1,85 @@
 <template>
   <div class="ks-drawer">
-    <nuxt-link
-      tag="img"
-      :to="localePath('/')"
-      class="kaizen-img"
-      :src="require('@/assets/img/kaizen-black.png')"
-      alt="Kaizen Squad"
-    />
+    <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
+      <img
+        class="kaizen-img"
+        :src="require('@/assets/img/kaizen-black.png')"
+        alt="Kaizen Squad"
+        role="link"
+        @click="navigate"
+      />
+    </nuxt-link>
     <div class="menu">
-      <nuxt-link tag="div" :to="localePath('/profile')" class="ks-drawer-link">
-        <div class="link-wrapper">
-          <iconly-icon name="profile" class="fill-current" />
-          <span class="pt-2 text-center">{{ $t('drawer.profile') }}</span>
+      <nuxt-link
+        v-slot="{ navigate, href }"
+        custom
+        :to="localePath('/profile')"
+      >
+        <div
+          class="ks-drawer-link"
+          :class="{ 'link-active': $route.path === localePath(href) }"
+          role="link"
+          @click="navigate"
+        >
+          <div class="link-wrapper">
+            <iconly-icon name="profile" class="fill-current" />
+            <span class="pt-2 text-center">{{ $t('drawer.profile') }}</span>
+          </div>
         </div>
       </nuxt-link>
-      <nuxt-link tag="div" :to="localePath('/resume')" class="ks-drawer-link">
-        <div class="link-wrapper">
-          <iconly-icon name="document" class="fill-current" />
-          <span class="pt-2 text-center">{{ $t('drawer.resume') }}</span>
+      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/resume')">
+        <div
+          class="ks-drawer-link"
+          :class="{ 'link-active': $route.path === localePath(href) }"
+          role="link"
+          @click="navigate"
+        >
+          <div class="link-wrapper">
+            <iconly-icon name="document" class="fill-current" />
+            <span class="pt-2 text-center">{{ $t('drawer.resume') }}</span>
+          </div>
         </div>
       </nuxt-link>
-      <nuxt-link tag="div" :to="localePath('/jobs')" class="ks-drawer-link">
-        <div class="link-wrapper">
-          <span
-            class="absolute z-10 top-0 right-5 h-2 w-2 rounded-full bg-red-500"
-          ></span>
-          <iconly-icon name="activity" class="relative fill-current" />
-          <span class="pt-2 text-center">{{ $t('drawer.jobs') }}</span>
+      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/jobs')">
+        <div
+          class="ks-drawer-link"
+          :class="{ 'link-active': $route.path === localePath(href) }"
+          role="link"
+          @click="navigate"
+        >
+          <div class="link-wrapper">
+            <span
+              class="
+                absolute
+                z-10
+                top-0
+                right-1
+                h-2
+                w-2
+                rounded-full
+                bg-red-500
+              "
+            ></span>
+            <iconly-icon name="activity" class="relative fill-current" />
+            <span class="pt-2 text-center">{{ $t('drawer.jobs') }}</span>
+          </div>
         </div>
       </nuxt-link>
-      <nuxt-link tag="div" :to="localePath('/settings')" class="ks-drawer-link">
-        <div class="link-wrapper">
-          <iconly-icon name="setting" class="fill-current" />
-          <span class="pt-2 text-center">{{ $t('drawer.settings') }}</span>
+      <nuxt-link
+        v-slot="{ navigate, href }"
+        custom
+        :to="localePath('/settings')"
+      >
+        <div
+          class="ks-drawer-link"
+          :class="{ 'link-active': $route.path === localePath(href) }"
+          role="link"
+          @click="navigate"
+        >
+          <div class="link-wrapper">
+            <iconly-icon name="setting" class="fill-current" />
+            <span class="pt-2 text-center">{{ $t('drawer.settings') }}</span>
+          </div>
         </div>
       </nuxt-link>
     </div>
@@ -83,15 +130,15 @@ export default Vue.extend({
   @apply flex justify-center items-center p-4 rounded-lg w-28 h-28 outline-none select-none transition duration-200;
 }
 
-.ks-drawer-link:not(.nuxt-link-exact-active) {
+.ks-drawer-link:not(.link-active) {
   @apply cursor-pointer text-gray-dark;
 }
 
-.ks-drawer-link:not(.nuxt-link-exact-active):hover {
+.ks-drawer-link:not(.link-active):hover {
   @apply hover:bg-gray-lighter text-blue-kaizen;
 }
 
-.nuxt-link-exact-active {
+.link-active {
   @apply bg-gray-lighter text-blue-kaizen;
 }
 

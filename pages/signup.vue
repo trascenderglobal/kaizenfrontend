@@ -1,13 +1,13 @@
 <template>
   <div class="ks-container">
-    <ks-card>
-      <section class="main w-full h-full px-8 py-12 xl:w-2/5 lg:px-16">
+    <ks-card row>
+      <section class="main w-full h-full p-8 xl:w-2/5 lg:px-16">
         <img
           class="w-1/2 mx-auto"
           :src="require('@/assets/img/kaizen-black.png')"
           alt="Kaizen Squad"
         />
-        <div class="pt-12">
+        <div class="pt-8">
           <h2 class="text-2xl font-medium text-blue-kaizen">
             {{ $t('signup.signup') }}
           </h2>
@@ -136,12 +136,28 @@
           </div>
           <ks-btn
             form="signup"
-            class="w-full lg:w-auto"
+            class="w-full 2xl:w-auto"
             type="submit"
             :loading="loading"
           >
             {{ $t('signup.signup') }}
           </ks-btn>
+          <transition name="alert">
+            <ks-alert
+              v-show="error"
+              class="mt-4 bg-gray-lighter text-blue-kaizen"
+              :title="$t('login.error.title')"
+              :text="$t('login.error.text')"
+            >
+              <template #icon>
+                <iconly-icon
+                  name="danger-circle"
+                  class="fill-current"
+                  :size="1.3"
+                />
+              </template>
+            </ks-alert>
+          </transition>
         </div>
       </section>
       <section
@@ -196,7 +212,7 @@ export default Vue.extend({
         this.$v.$touch()
         if (this.$v.$invalid) return
         this.loading = true
-        this.error = false
+
         const res = await this.$axios.$post('/register', {
           name: this.name,
           last_name: this.lastname,
@@ -206,8 +222,10 @@ export default Vue.extend({
           role: this.role,
         })
         await this.$auth.setUserToken(res.token, res.token)
+        this.error = false
         this.$router.push(this.localePath('/profile'))
       } catch (error) {
+        this.error = true
       } finally {
         this.loading = false
       }
@@ -252,5 +270,14 @@ export default Vue.extend({
 
 .main > div {
   @apply 2xl:px-16;
+}
+
+.alert-enter-active,
+.alert-leave-active {
+  @apply transition duration-200;
+}
+.alert-enter,
+.alert-leave-to {
+  @apply transform translate-x-3 opacity-0;
 }
 </style>

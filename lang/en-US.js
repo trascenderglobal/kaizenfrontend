@@ -6,6 +6,10 @@ export default {
     password: 'Password',
     register: 'Register',
     forgot: 'Forgot Password?',
+    error: {
+      title: 'Could not log you in',
+      text: 'Please try again.',
+    },
     meta: {
       title: 'Login',
       description: 'Login',
@@ -23,6 +27,10 @@ export default {
     employer: 'Employer',
     haveAccount: 'Have an account?',
     login: 'Login',
+    error: {
+      title: 'Could not sign you up',
+      text: 'Please try again.',
+    },
     meta: {
       title: 'Sign Up',
       description: 'Sign Up',
@@ -34,5 +42,38 @@ export default {
     jobs: 'Jobs',
     settings: 'Settings',
     logout: 'Log out',
+  },
+  alerts: {
+    alerts: 'Alerts',
+    newAlerts: 'You have new alerts. Some employers are looking for you.',
+    seeAll: 'See all',
+    noAlerts: 'There are no alerts',
+  },
+  forms: {
+    errors: {
+      email: 'Invalid e-mail',
+      required: 'Required',
+      minLength: 'Must be at least {length} characters long',
+    },
+  },
+  profile: {
+    myProfile: 'My profile',
+    contactInfo: 'Contact Information',
+    editProfile: 'Edit profile',
+    novelties: 'Novelties',
+    status: 'Status',
+    statuses: {
+      available: 'Available',
+      busy: 'Busy',
+    },
+    state: 'State',
+    city: 'City',
+    zip: 'Zip',
+    phone: 'Phone',
+    email: 'E-mail',
+    social: 'Social',
+    noBirth: 'No birth date',
+    noSkills: 'No skills associated',
+    notSet: 'Not set',
   },
 }

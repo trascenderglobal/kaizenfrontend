@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue, { CreateElement, VNode } from 'vue'
-import icons from '~/assets/icons/icon'
+import icons from '~/assets/icons/icons'
 
 export default Vue.extend({
   props: {

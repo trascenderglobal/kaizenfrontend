@@ -1,7 +1,9 @@
 <template>
   <ul class="flex space-x-2">
     <li v-for="(item, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
-      <nuxt-link :to="item.path">{{ item.name }}</nuxt-link>
+      <nuxt-link :to="item.path" class="text-link-blue">{{
+        item.name
+      }}</nuxt-link>
     </li>
   </ul>
 </template>
@@ -35,14 +37,10 @@ export default Vue.extend({
 
 <style scoped>
 li {
-  @apply inline relative capitalize  text-sm text-blue-kaizen font-light;
+  @apply inline relative capitalize  text-sm font-light;
 }
 
 a {
   @apply inline-flex py-1 px-2 bg-white rounded-lg;
-}
-
-a:hover {
-  @apply text-blue-darker;
 }
 </style>

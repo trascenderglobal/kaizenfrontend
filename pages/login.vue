@@ -1,7 +1,7 @@
 <template>
   <div class="ks-container">
-    <ks-card>
-      <section class="main w-full h-full px-8 py-12 xl:w-2/5 lg:px-16">
+    <ks-card row>
+      <section class="main w-full h-full p-8 xl:w-2/5 lg:px-16">
         <img
           class="w-1/2 mx-auto"
           :src="require('@/assets/img/kaizen-black.png')"
@@ -21,12 +21,13 @@
               v-model="email"
               :label="$t('login.email')"
               type="email"
+              :error-messages="emailErrors"
               @blur="$v.email.$touch"
             >
               <template #prepend-icon>
                 <iconly-icon
                   name="profile"
-                  class="fill-current text-blue-kaizen"
+                  class="fill-current transition text-blue-kaizen"
                 />
               </template>
             </ks-input>
@@ -34,6 +35,7 @@
               v-model="password"
               :label="$t('login.password')"
               :type="showPassword ? 'text' : 'password'"
+              :error-messages="passwordErrors"
               @blur="$v.password.$touch"
               @click:append="showPassword = !showPassword"
             >
@@ -77,12 +79,28 @@
           </div>
           <ks-btn
             form="login"
-            class="w-full lg:w-auto"
+            class="w-full 2xl:w-auto"
             :loading="loading"
             type="submit"
           >
             {{ $t('login.login') }}
           </ks-btn>
+          <transition name="alert">
+            <ks-alert
+              v-show="error"
+              class="mt-4 bg-gray-lighter text-blue-kaizen"
+              :title="$t('login.error.title')"
+              :text="$t('login.error.text')"
+            >
+              <template #icon>
+                <iconly-icon
+                  name="danger-circle"
+                  class="fill-current"
+                  :size="1.3"
+                />
+              </template>
+            </ks-alert>
+          </transition>
         </div>
       </section>
       <section
@@ -127,19 +145,37 @@ export default Vue.extend({
       link: [i18nHead.link],
     }
   },
+  computed: {
+    emailErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.email.$dirty) return errors
+      if (!this.$v.email.required) errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
+      return errors
+    },
+    passwordErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.password.$dirty) return errors
+      if (!this.$v.password.required)
+        errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.password.minLength)
+        errors.push(this.$t('forms.errors.minLength', { length: 5 }))
+      return errors
+    },
+  },
   methods: {
     async login(): Promise<void> {
       try {
         this.$v.$touch()
         if (this.$v.$invalid) return
         this.loading = true
-        this.error = false
         await this.$auth.loginWith('local', {
           data: {
             email: this.email,
             password: this.password,
           },
         })
+        this.error = false
         this.$router.push(this.localePath('/profile'))
       } catch (error) {
         this.error = true
@@ -175,5 +211,19 @@ export default Vue.extend({
 
 .main > div {
   @apply 2xl:px-16;
+}
+
+.alert-enter-to,
+.alert-leave {
+  @apply h-auto;
+}
+
+.alert-enter-active,
+.alert-leave-active {
+  @apply transition duration-200;
+}
+.alert-enter,
+.alert-leave-to {
+  @apply transform translate-x-3 opacity-0;
 }
 </style>

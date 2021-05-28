@@ -25,6 +25,11 @@ export const I18N = {
     messages: { en, es },
     dateTimeFormats: {
       en: {
+        numeric: {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        },
         short: {
           year: 'numeric',
           month: 'long',
@@ -32,6 +37,11 @@ export const I18N = {
         },
       },
       es: {
+        numeric: {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        },
         short: {
           year: 'numeric',
           month: 'long',

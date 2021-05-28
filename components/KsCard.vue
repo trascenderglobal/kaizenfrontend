@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-white" :class="{ 'border-2 border-white': border }">
-    <div class="card-wrapper">
+    <div class="card-wrapper" :class="{ 'flex-col': !row }">
       <slot />
     </div>
   </div>
@@ -15,6 +15,7 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
+    row: Boolean,
   },
 })
 </script>
