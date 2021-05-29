@@ -34,5 +34,9 @@
 }
 
 .text-link-blue {
-  @apply text-blue-kaizen hover:text-blue-darker transition duration-200;
+  @apply text-blue-kaizen disabled:opacity-75 disabled:cursor-auto transition duration-200;
+}
+
+.text-link-blue:not(:disabled):hover {
+  @apply text-blue-darker;
 }

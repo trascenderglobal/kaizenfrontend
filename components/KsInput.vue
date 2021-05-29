@@ -2,7 +2,11 @@
   <div class="field">
     <div
       class="input"
-      :class="{ outlined: outlined, error: errorMessages.length }"
+      :class="[
+        outlined ? 'outlined' : '',
+        errorMessages.length ? '' : '',
+        borderColor,
+      ]"
     >
       <div v-if="$slots['prepend-icon']" class="icon prepend-icon">
         <slot name="prepend-icon" />
@@ -62,6 +66,10 @@ export default Vue.extend({
       type: String,
       default: '',
     },
+    borderColor: {
+      type: String,
+      default: 'border-gray-light',
+    },
   },
 })
 </script>
@@ -84,7 +92,7 @@ export default Vue.extend({
 }
 
 .input input {
-  @apply flex-grow z-10 bg-transparent;
+  @apply inline-flex flex-grow z-10 bg-transparent;
 }
 
 input:focus {
@@ -101,7 +109,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .outlined {
-  @apply border rounded-lg border-gray-light transition;
+  @apply border rounded-lg transition;
 }
 
 .outlined.error {

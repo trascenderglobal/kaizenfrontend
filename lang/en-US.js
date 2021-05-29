@@ -49,6 +49,9 @@ export default {
     seeAll: 'See all',
     noAlerts: 'There are no alerts',
   },
+  select: {
+    noItems: 'No items',
+  },
   forms: {
     errors: {
       email: 'Invalid e-mail',

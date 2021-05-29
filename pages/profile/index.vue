@@ -18,15 +18,20 @@
                 <h1 class="text-3xl font-medium">
                   {{ $t('profile.myProfile') }}
                 </h1>
-                <nuxt-link
-                  v-slot="{ navigate }"
-                  custom
-                  :to="localePath('/profile/edit')"
-                >
-                  <div
-                    class="flex items-center space-x-4 text-link-blue min-w-40"
-                    role="link"
-                    @click="navigate"
+                <div class="flex items-center min-w-40">
+                  <button
+                    type="button"
+                    class="
+                      inline-flex
+                      w-full
+                      justify-between
+                      space-x-4
+                      items-center
+                      focus:outline-none
+                      text-link-blue
+                    "
+                    :disabled="edit"
+                    @click="edit = true"
                   >
                     <span>{{ $t('profile.editProfile') }}</span>
                     <i>
@@ -37,8 +42,8 @@
                         class="fill-current"
                       />
                     </i>
-                  </div>
-                </nuxt-link>
+                  </button>
+                </div>
               </div>
               <h1 class="pt-6 text-lg text-blue-kaizen">
                 {{ $t('profile.contactInfo') }}
@@ -46,7 +51,7 @@
               <div class="pt-6 flex justify-between">
                 <div class="flex space-x-4">
                   <div class="user-img-lg"></div>
-                  <div class="flex flex-col space-y-1">
+                  <div class="flex flex-col space-y-2">
                     <span class="font-medium text-blue-kaizen">{{
                       profile.name + ' ' + profile.lastName
                     }}</span>
@@ -70,14 +75,14 @@
                     >
                   </div>
                 </div>
-                <div class="flex flex-col min-w-40">
+                <div class="flex flex-col min-w-40 space-y-2">
                   <span class="font-medium text-blue-kaizen">{{
                     $t('profile.novelties')
                   }}</span>
                   <span class="font-light text-gray-dark"
                     >{{ $t('profile.status') }}:</span
                   >
-                  <ks-select></ks-select>
+                  <ks-select :label="$t('profile.status')"></ks-select>
                 </div>
               </div>
               <hr class="my-8 border text-gray-darker" />
@@ -182,6 +187,11 @@ export default Vue.extend({
         profile: res,
       }
     } catch (error) {}
+  },
+  data() {
+    return {
+      edit: false,
+    }
   },
 })
 </script>

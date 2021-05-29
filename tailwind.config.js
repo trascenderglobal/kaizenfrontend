@@ -71,6 +71,9 @@ module.exports = {
       scale: {
         80: '0.8',
       },
+      zIndex: {
+        '-1': '-1',
+      },
     },
   },
   variants: {
