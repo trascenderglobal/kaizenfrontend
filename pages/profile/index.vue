@@ -82,7 +82,10 @@
                   <span class="font-light text-gray-dark"
                     >{{ $t('profile.status') }}:</span
                   >
-                  <ks-select :label="$t('profile.status')"></ks-select>
+                  <ks-select
+                    :label="$t('profile.status')"
+                    :disabled="!edit"
+                  ></ks-select>
                 </div>
               </div>
               <hr class="my-8 border text-gray-darker" />
@@ -202,7 +205,7 @@ export default Vue.extend({
 }
 
 .ks-content {
-  @apply flex flex-col flex-wrap flex-grow p-8 space-y-8;
+  @apply flex flex-col flex-grow p-8 space-y-8;
 }
 
 .top-content,

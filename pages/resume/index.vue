@@ -42,7 +42,7 @@ export default Vue.extend({})
 }
 
 .ks-content {
-  @apply flex flex-col flex-wrap flex-grow p-8 space-y-8;
+  @apply flex flex-col flex-grow p-8 space-y-8;
 }
 
 .top-content,

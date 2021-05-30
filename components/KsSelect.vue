@@ -1,17 +1,22 @@
 <template>
-  <div class="ks-select" :class="[bgColor, color]" @click="show = !show">
+  <div
+    class="ks-select"
+    :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
+    @click="show = !show"
+  >
     <input
       v-bind="$attrs"
       :value="selected.value"
       class="input"
       type="text"
       readonly
+      :disabled="disabled"
     />
     <span class="label">{{ selected.text || label }}</span>
     <div class="icon">
       <iconly-icon name="arrow-down-2" />
     </div>
-    <div v-show="show" class="items">
+    <div v-if="!disabled" v-show="show" class="items">
       <template v-if="items.length">
         <div
           v-for="(item, i) in items"
@@ -33,6 +38,7 @@ import Vue from 'vue'
 export default Vue.extend({
   inheritAttrs: false,
   props: {
+    disabled: Boolean,
     value: {
       type: [String, Number],
       default: '',
@@ -92,7 +98,7 @@ export default Vue.extend({
 
 <style scoped>
 .ks-select {
-  @apply relative flex justify-between w-full rounded-lg p-1 cursor-pointer;
+  @apply relative flex justify-between w-full rounded-lg p-1;
 }
 
 .ks-select .input {
