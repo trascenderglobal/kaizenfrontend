@@ -16,19 +16,21 @@
     <div class="icon">
       <iconly-icon name="arrow-down-2" />
     </div>
-    <div v-if="!disabled" v-show="show" class="items">
-      <template v-if="items.length">
-        <div
-          v-for="(item, i) in items"
-          :key="`opt-${i}`"
-          class="w-full"
-          @click.stop="changeValue(item)"
-        >
-          {{ item[itemText] }}
-        </div>
-      </template>
-      <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
-    </div>
+    <transition name="items">
+      <div v-if="!disabled" v-show="show" class="items">
+        <template v-if="items.length">
+          <div
+            v-for="(item, i) in items"
+            :key="`opt-${i}`"
+            class="w-full"
+            @click.stop="changeValue(item)"
+          >
+            {{ item[itemText] }}
+          </div>
+        </template>
+        <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -107,7 +109,7 @@ export default Vue.extend({
 }
 
 .ks-select .label {
-  @apply flex-grow px-1;
+  @apply flex-grow px-1 select-none;
 }
 
 .ks-select .icon {
@@ -136,5 +138,13 @@ export default Vue.extend({
 
 .items div:not(.no-items) {
   @apply hover:bg-gray-lighter cursor-pointer;
+}
+
+.items-leave-active {
+  transition: opacity 0.15s;
+}
+.items-enter,
+.items-leave-to {
+  opacity: 0;
 }
 </style>

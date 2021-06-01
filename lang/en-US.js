@@ -78,6 +78,13 @@ export default {
     noBirth: 'No birth date',
     noSkills: 'No skills associated',
     notSet: 'Not set',
+    edit: {
+      typeRole: 'Type your role',
+      birthDate: 'Birth date',
+      select: 'Select',
+      phone: 'Type a phone number',
+      email: 'Your best e-mail',
+    },
   },
   resume: {
     myResume: 'My resume',

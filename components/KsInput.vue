@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div class="field" :class="{ dense: dense }">
     <div
       class="input"
       :class="[
@@ -11,7 +11,7 @@
       <div v-if="$slots['prepend-icon']" class="icon prepend-icon">
         <slot name="prepend-icon" />
       </div>
-      <div class="input-wrapper">
+      <div class="input-wrapper" :class="{ dense: dense }">
         <input
           v-bind="$attrs"
           :value="value"
@@ -70,6 +70,7 @@ export default Vue.extend({
       type: String,
       default: 'border-gray-light',
     },
+    dense: Boolean,
   },
 })
 </script>
@@ -77,6 +78,10 @@ export default Vue.extend({
 <style scoped>
 .field {
   @apply w-full mb-2;
+}
+
+.field.dense {
+  @apply mb-0;
 }
 
 .hint {
@@ -89,6 +94,10 @@ export default Vue.extend({
 
 .input-wrapper {
   @apply relative flex w-full p-3;
+}
+
+.input-wrapper.dense {
+  @apply p-1;
 }
 
 .input input {
@@ -104,8 +113,17 @@ input:not(:placeholder-shown) + .label {
   @apply -translate-y-6 scale-90 bg-white;
 }
 
+.dense input:focus + .label,
+input:not(:placeholder-shown) + .label {
+  @apply -translate-y-4 scale-75 bg-white;
+}
+
 .label {
-  @apply transition transform duration-200 absolute left-0 top-3 px-1  z-0 text-gray-dark;
+  @apply transition transform duration-200 absolute left-0 top-3 px-1 select-none z-0 text-gray-dark;
+}
+
+.dense .label {
+  @apply left-0 top-1;
 }
 
 .outlined {
@@ -118,6 +136,10 @@ input:not(:placeholder-shown) + .label {
 
 .icon {
   @apply py-3;
+}
+
+.dense .icon {
+  @apply py-1;
 }
 
 .prepend-icon {

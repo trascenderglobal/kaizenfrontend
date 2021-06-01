@@ -52,27 +52,36 @@
                 <div class="flex space-x-4">
                   <div class="user-img-lg"></div>
                   <div class="flex flex-col space-y-2">
-                    <span class="font-medium text-blue-kaizen">{{
-                      profile.name + ' ' + profile.lastName
-                    }}</span>
-                    <span
-                      class="font-light text-gray-dark"
-                      :class="{ 'select-none': !profile.skills }"
-                      >{{
-                        profile.skills
-                          ? 'Data Scientist'
-                          : $t('profile.noSkills')
-                      }}</span
-                    >
-                    <span
-                      class="font-light text-gray-dark"
-                      :class="{ 'select-none': !profile.birthdate }"
-                      >{{
-                        profile.birthDate
-                          ? $d(new Date(), 'numeric')
-                          : $t('profile.noBirth')
-                      }}</span
-                    >
+                    <template v-if="!edit">
+                      <span class="font-medium text-blue-kaizen">{{
+                        profile.name + ' ' + profile.lastName
+                      }}</span>
+                      <span
+                        class="font-light text-gray-dark"
+                        :class="{ 'select-none': !profile.skills }"
+                        >{{
+                          profile.skills
+                            ? 'Data Scientist'
+                            : $t('profile.noSkills')
+                        }}</span
+                      >
+                      <span
+                        class="font-light text-gray-dark"
+                        :class="{ 'select-none': !profile.birthdate }"
+                        >{{
+                          profile.birthDate
+                            ? $d(new Date(), 'numeric')
+                            : $t('profile.noBirth')
+                        }}</span
+                      >
+                    </template>
+                    <template v-else>
+                      <ks-input
+                        border-color="border-blue-light"
+                        dense
+                        :label="$t('profile.edit.typeRole')"
+                      ></ks-input>
+                    </template>
                   </div>
                 </div>
                 <div class="flex flex-col min-w-40 space-y-2">
@@ -106,10 +115,19 @@
                       $t('profile.phone')
                     }}</span>
                     <span
+                      v-if="!edit"
                       class="text-gray-darker font-light"
                       :class="{ 'select-none': !profile.phone }"
                       >{{ profile.phone ? profile.phone : '-' }}</span
                     >
+                    <ks-input
+                      v-else
+                      border-color="border-blue-light"
+                      :label="$t('profile.edit.phone')"
+                      disable-hint
+                      dense
+                    >
+                    </ks-input>
                   </div>
                 </div>
                 <div class="flex flex-wrap w-full">
@@ -127,9 +145,17 @@
                     <span class="font-medium text-blue-kaizen">{{
                       $t('profile.email')
                     }}</span>
-                    <span class="text-gray-darker font-light">{{
+                    <span v-if="!edit" class="text-gray-darker font-light">{{
                       profile.email
                     }}</span>
+                    <ks-input
+                      v-else
+                      border-color="border-blue-light"
+                      :label="$t('profile.edit.email')"
+                      disable-hint
+                      dense
+                    >
+                    </ks-input>
                   </div>
                 </div>
                 <div class="flex flex-wrap w-full">

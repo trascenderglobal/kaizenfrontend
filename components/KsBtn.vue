@@ -1,7 +1,12 @@
 <template>
   <button class="ks-btn" :disabled="loading" type="button">
     <i v-if="loading" class="absolute z-10">
-      <iconly-icon name="time-circle" class="fill-current animate-spin" />
+      <iconly-icon
+        name="loading"
+        type="outline"
+        class="stroke-current"
+        viewBox="0 0 38 38"
+      />
     </i>
     <span class="btn-text" :class="{ 'opacity-0': loading }">
       <slot />
