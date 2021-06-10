@@ -139,6 +139,7 @@
             class="w-full 2xl:w-auto"
             type="submit"
             :loading="loading"
+            large
           >
             {{ $t('signup.signup') }}
           </ks-btn>

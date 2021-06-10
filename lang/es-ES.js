@@ -84,6 +84,12 @@ export default {
       select: 'Seleccionar',
       phone: 'Escribe un número de teléfono',
       email: 'Tu mejor e-mail',
+      save: 'Guardar',
+      saved: {
+        title: 'Cambios guardados',
+        text: 'Los cambios en tu perfil se han guardado correctamente',
+        btn: '¡Asombroso!',
+      },
     },
   },
   resume: {

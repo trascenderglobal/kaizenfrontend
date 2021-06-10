@@ -12,7 +12,6 @@
       class="input"
       type="text"
       readonly
-      tabindex="-1"
       :disabled="disabled"
     />
     <span class="label">{{ selected.text || label }}</span>
@@ -21,17 +20,7 @@
     </div>
     <transition name="items">
       <div v-if="!disabled" v-show="show" class="items">
-        <template v-if="items.length">
-          <div
-            v-for="(item, i) in items"
-            :key="`opt-${i}`"
-            class="w-full"
-            @click.stop="changeValue(item)"
-          >
-            {{ item[itemText] }}
-          </div>
-        </template>
-        <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
+        <div class="datepicker"></div>
       </div>
     </transition>
   </div>
@@ -106,7 +95,7 @@ export default Vue.extend({
 
 <style scoped>
 .ks-select {
-  @apply relative flex justify-between w-full rounded-lg py-0.5 px-1;
+  @apply relative flex justify-between w-full rounded-lg px-1 py-0.5;
 }
 
 .ks-select .input {

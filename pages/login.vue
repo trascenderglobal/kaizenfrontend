@@ -82,6 +82,7 @@
             class="w-full 2xl:w-auto"
             :loading="loading"
             type="submit"
+            large
           >
             {{ $t('login.login') }}
           </ks-btn>

@@ -97,11 +97,11 @@ export default Vue.extend({
 }
 
 .input-wrapper.dense {
-  @apply p-1;
+  @apply p-0.5;
 }
 
 .input input {
-  @apply inline-flex flex-grow z-10 bg-transparent;
+  @apply inline-flex flex-grow z-10 bg-transparent text-gray-darker;
 }
 
 input:focus {
@@ -114,8 +114,8 @@ input:not(:placeholder-shown) + .label {
 }
 
 .dense input:focus + .label,
-input:not(:placeholder-shown) + .label {
-  @apply -translate-y-4 scale-75 bg-white;
+.dense input:not(:placeholder-shown) + .label {
+  @apply -translate-y-4 scale-80 bg-white;
 }
 
 .label {
@@ -123,7 +123,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .dense .label {
-  @apply left-0 top-1;
+  @apply left-0 top-0.5;
 }
 
 .outlined {
@@ -139,7 +139,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .dense .icon {
-  @apply py-1;
+  @apply py-0.5;
 }
 
 .prepend-icon {

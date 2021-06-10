@@ -17,6 +17,7 @@ module.exports = {
           kaizen: '#E93544',
         },
         gray: {
+          lightest: '#F3F3F3',
           lighter: '#EFF7FD',
           light: '#CFCFCF',
           dark: '#9E9E9E',

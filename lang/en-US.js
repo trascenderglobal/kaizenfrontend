@@ -84,6 +84,12 @@ export default {
       select: 'Select',
       phone: 'Type a phone number',
       email: 'Your best e-mail',
+      save: 'Save',
+      saved: {
+        title: 'Changes Saved',
+        text: 'The changes to your profile have been saved correctly',
+        btn: 'Amazing!',
+      },
     },
   },
   resume: {
