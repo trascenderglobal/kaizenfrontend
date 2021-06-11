@@ -147,8 +147,8 @@
             <ks-alert
               v-show="error"
               class="mt-4 bg-gray-lighter text-blue-kaizen"
-              :title="$t('login.error.title')"
-              :text="$t('login.error.text')"
+              :title="$t('signup.error.title')"
+              :text="$t('signup.error.text')"
             >
               <template #icon>
                 <iconly-icon

@@ -78,9 +78,6 @@ export default {
         },
       },
     },
-    redirect: {
-      home: '/profile',
-    },
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
