@@ -1,5 +1,5 @@
 <template>
-  <ks-card class="h-full p-8">
+  <ks-card class="h-full p-8" col>
     <div class="resume-header">
       <h1 class="text-3xl font-medium">
         {{ $t('resume.myResume') }}
@@ -18,7 +18,7 @@ export default Vue.extend({
 
 <style scoped>
 .resume-header {
-  @apply flex text-blue-kaizen;
+  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
 
 .resume-header > * {

@@ -25,7 +25,7 @@ export default Vue.extend({
 
 <style scoped>
 .alerts-wrapper {
-  @apply flex flex-col flex-grow;
+  @apply w-full flex flex-col flex-grow;
 }
 
 .alerts-title {
@@ -34,5 +34,9 @@ export default Vue.extend({
 
 .no-alerts {
   @apply flex flex-grow flex-col justify-center items-center self-center space-y-2 text-gray-darker text-lg select-none;
+}
+
+.no-alerts * {
+  @apply text-center;
 }
 </style>

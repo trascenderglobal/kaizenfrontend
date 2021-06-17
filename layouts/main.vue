@@ -11,7 +11,7 @@
               <ks-breadcrumb />
             </div>
             <div class="user-info">
-              <user-info />
+              <ks-user-info />
             </div>
           </div>
           <div class="main-content">
@@ -55,16 +55,16 @@ export default Vue.extend({})
 }
 
 .ks-container {
-  @apply flex h-full mx-auto py-16 px-2 sm:px-16 lg:px-24;
+  @apply flex h-full mx-auto py-2 px-2 md:px-4 md:py-4 xl:px-8 xl:py-8;
 }
 
 .ks-content {
-  @apply flex flex-col flex-grow p-8 space-y-8;
+  @apply flex flex-col flex-grow p-4 xl:p-8 space-y-4 xl:space-y-8 overflow-auto;
 }
 
 .top-content,
 .main-content {
-  @apply flex w-full space-x-8;
+  @apply flex max-w-full space-x-4 xl:space-x-8;
 }
 
 .main-content {
@@ -72,7 +72,7 @@ export default Vue.extend({})
 }
 
 .breadcrumb {
-  @apply flex items-end min-w-3/4;
+  @apply flex items-end min-w-3/4 max-w-3/4;
 }
 
 .user-info {
@@ -80,7 +80,7 @@ export default Vue.extend({})
 }
 
 .main-info {
-  @apply h-full min-w-3/4;
+  @apply h-full min-w-3/4 max-w-3/4;
 }
 
 .alerts {

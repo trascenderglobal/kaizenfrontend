@@ -112,7 +112,7 @@ export default Vue.extend({
 }
 
 .ks-drawer {
-  @apply flex flex-col space-y-3 items-center min-h-full w-48 bg-white p-6 sticky top-0 overflow-y-auto;
+  @apply flex flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 sticky top-0 overflow-y-auto;
 }
 
 .ks-drawer-link {

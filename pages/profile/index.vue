@@ -26,8 +26,8 @@
     <h1 class="pt-6 text-lg text-blue-kaizen">
       {{ $t('profile.contactInfo') }}
     </h1>
-    <div class="flex justify-between pt-6">
-      <div class="flex space-x-4">
+    <div class="flex flex-wrap justify-between pt-6">
+      <div class="flex flex-grow lg:flex-grow-0 space-x-4">
         <div class="user-img-lg"></div>
         <div class="flex flex-col space-y-2">
           <template v-if="!edit">
@@ -70,7 +70,7 @@
           </template>
         </div>
       </div>
-      <div class="flex flex-col space-y-2 min-w-40">
+      <div class="flex flex-col space-y-2 min-w-full lg:min-w-40">
         <span class="font-medium text-blue-kaizen">{{
           $t('profile.novelties')
         }}</span>
@@ -83,7 +83,7 @@
     <hr class="my-8 border" />
     <div class="flex flex-col space-y-4">
       <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.state')
@@ -105,7 +105,7 @@
             ></ks-select>
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.phone')
@@ -130,7 +130,7 @@
         </div>
       </div>
       <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.city')
@@ -152,7 +152,7 @@
             ></ks-select>
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.email')
@@ -172,7 +172,7 @@
         </div>
       </div>
       <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.zip')
@@ -194,7 +194,7 @@
             ></ks-select>
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="flex items-center w-full lg:w-1/2 space-x-4">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.social')
