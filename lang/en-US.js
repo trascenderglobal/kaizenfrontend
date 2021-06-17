@@ -57,6 +57,7 @@ export default {
       email: 'Invalid e-mail',
       required: 'Required',
       minLength: 'Must be at least {length} characters long',
+      sameAsPassword: 'The passwords do not match',
     },
   },
   profile: {

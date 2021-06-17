@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="layout-circle"></div>
     <div class="layout-blur"></div>
-    <div class="ks-app ks-container">
+    <div class="ks-app">
       <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm" row>
         <ks-drawer />
         <div class="ks-content">
@@ -51,20 +51,16 @@ export default Vue.extend({})
 }
 
 .ks-app {
-  @apply relative z-10;
-}
-
-.ks-container {
-  @apply flex h-full mx-auto py-2 px-2 md:px-4 md:py-4 xl:px-8 xl:py-8;
+  @apply relative z-10 flex h-full mx-auto p-2 lg:p-4 xl:p-8;
 }
 
 .ks-content {
-  @apply flex flex-col flex-grow p-4 xl:p-8 space-y-4 xl:space-y-8 overflow-auto;
+  @apply flex flex-col flex-grow p-2 lg:p-4 space-y-2 lg:space-y-4 overflow-auto;
 }
 
 .top-content,
 .main-content {
-  @apply flex max-w-full space-x-4 xl:space-x-8;
+  @apply flex max-w-full space-x-2 lg:space-x-4;
 }
 
 .main-content {

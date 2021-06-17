@@ -33,6 +33,11 @@
   @apply cursor-pointer;
 }
 
+.scroller {
+  scrollbar-color: dark;
+  scrollbar-width: thin;
+}
+
 .text-link-blue {
   @apply text-blue-kaizen disabled:opacity-75 disabled:cursor-auto transition duration-200;
 }

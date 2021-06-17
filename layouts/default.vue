@@ -26,6 +26,6 @@ export default Vue.extend({})
 }
 
 .ks-app {
-  @apply relative z-10;
+  @apply relative z-10 flex h-full mx-auto p-2 lg:p-4 xl:p-8;
 }
 </style>

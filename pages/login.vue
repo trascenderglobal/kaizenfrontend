@@ -1,7 +1,7 @@
 <template>
-  <div class="ks-container">
+  <div>
     <ks-card row>
-      <section class="main w-full h-full p-8 xl:w-2/5 lg:px-16">
+      <section class="main scroller">
         <img
           class="w-1/2 mx-auto"
           :src="require('@/assets/img/kaizen-black.png')"
@@ -65,7 +65,7 @@
           </form>
         </div>
         <div class="flex flex-wrap justify-between pt-2">
-          <div class="pb-2 space-x-2 xl:pb-0">
+          <div class="pb-2 space-x-2">
             <nuxt-link
               :to="localePath('/signup')"
               class="text-gray-dark hover:text-gray-600"
@@ -105,7 +105,7 @@
         </div>
       </section>
       <section
-        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black xl:block"
+        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black lg:block"
       >
         <div class="hero"></div>
       </section>
@@ -201,13 +201,13 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.ks-container {
-  @apply flex h-full mx-auto py-16 px-2 sm:px-16 lg:px-24;
-}
-
 .hero {
   background-image: url('~/assets/img/auth.png');
   @apply w-full h-full bg-no-repeat bg-center bg-cover absolute bg-black top-0 left-0 right-0 bottom-0;
+}
+
+.main {
+  @apply w-full h-full p-8 lg:w-2/5 xl:px-16;
 }
 
 .main > div {

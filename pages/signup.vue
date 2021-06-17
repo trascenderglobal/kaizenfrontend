@@ -1,7 +1,7 @@
 <template>
-  <div class="ks-container">
+  <div>
     <ks-card row>
-      <section class="main w-full h-full p-8 xl:w-2/5 lg:px-16">
+      <section class="main scroller">
         <img
           class="w-1/2 mx-auto"
           :src="require('@/assets/img/kaizen-black.png')"
@@ -17,6 +17,7 @@
             <ks-input
               v-model="name"
               :label="$t('signup.name')"
+              :error-messages="nameErrors"
               @blur="$v.name.$touch"
             >
               <template #prepend-icon>
@@ -29,6 +30,7 @@
             <ks-input
               v-model="lastname"
               :label="$t('signup.lastname')"
+              :error-messages="lastnameErrors"
               @blur="$v.lastname.$touch"
             >
               <template #prepend-icon>
@@ -41,6 +43,7 @@
             <ks-input
               v-model="email"
               :label="$t('signup.email')"
+              :error-messages="emailErrors"
               @blur="$v.email.$touch"
             >
               <template #prepend-icon>
@@ -54,6 +57,7 @@
               v-model="password"
               :label="$t('signup.password')"
               :type="showPassword ? 'text' : 'password'"
+              :error-messages="passwordErrors"
               @blur="$v.password.$touch"
               @click:append="showPassword = !showPassword"
             >
@@ -82,6 +86,7 @@
               v-model="confirmPassword"
               :label="$t('signup.confirmPassword')"
               :type="showPassword ? 'text' : 'password'"
+              :error-messages="confirmPasswordErrors"
               @blur="$v.confirmPassword.$touch"
               @click:append="showPassword = !showPassword"
             >
@@ -125,10 +130,13 @@
                 />
               </div>
             </div>
+            <div class="hint">
+              {{ roleErrors.length ? roleErrors[0] : '' }}
+            </div>
           </form>
         </div>
         <div class="flex flex-wrap justify-between pt-5">
-          <div class="pb-2 space-x-2 xl:pb-0">
+          <div class="pb-2 space-x-2">
             <span class="text-gray-dark">{{ $t('signup.haveAccount') }}</span>
             <nuxt-link :to="localePath('/login')" class="text-blue-kaizen">{{
               $t('signup.login')
@@ -162,7 +170,7 @@
         </div>
       </section>
       <section
-        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black xl:block"
+        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black lg:block"
       >
         <div class="hero"></div>
       </section>
@@ -207,6 +215,52 @@ export default Vue.extend({
       link: [i18nHead.link],
     }
   },
+  computed: {
+    nameErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.name.$dirty) return errors
+      if (!this.$v.name.required) errors.push(this.$t('forms.errors.required'))
+      return errors
+    },
+    lastnameErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.lastname.$dirty) return errors
+      if (!this.$v.lastname.required)
+        errors.push(this.$t('forms.errors.required'))
+      return errors
+    },
+    emailErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.email.$dirty) return errors
+      if (!this.$v.email.required) errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
+      return errors
+    },
+    passwordErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.password.$dirty) return errors
+      if (!this.$v.password.required)
+        errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.password.minLength)
+        errors.push(this.$t('forms.errors.minLength', { length: 5 }))
+      return errors
+    },
+    confirmPasswordErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.confirmPassword.$dirty) return errors
+      if (!this.$v.confirmPassword.required)
+        errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.confirmPassword.sameAsPassword)
+        errors.push(this.$t('forms.errors.sameAsPassword'))
+      return errors
+    },
+    roleErrors(): String[] {
+      const errors: String[] = []
+      if (!this.$v.role.$dirty) return errors
+      if (!this.$v.role.required) errors.push(this.$t('forms.errors.required'))
+      return errors
+    },
+  },
   methods: {
     async register(): Promise<void> {
       try {
@@ -249,6 +303,7 @@ export default Vue.extend({
         required,
       },
       confirmPassword: {
+        required,
         sameAsPassword: sameAs('password'),
       },
       role: {
@@ -260,17 +315,21 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.ks-container {
-  @apply flex h-full mx-auto py-16 px-2 sm:px-16 lg:px-24;
-}
-
 .hero {
   background-image: url('~/assets/img/auth.png');
   @apply w-full h-full bg-no-repeat bg-center bg-cover absolute bg-black top-0 left-0 right-0 bottom-0;
 }
 
+.main {
+  @apply relative z-10 w-full h-full p-8 lg:w-2/5 xl:px-16;
+}
+
 .main > div {
   @apply 2xl:px-16;
+}
+
+.hint {
+  @apply w-full text-right h-5 text-sm px-1 pt-0.5 text-red-400;
 }
 
 .alert-enter-active,
