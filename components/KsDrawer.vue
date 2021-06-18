@@ -10,11 +10,7 @@
       />
     </nuxt-link>
     <div class="menu">
-      <nuxt-link
-        v-slot="{ navigate, href }"
-        custom
-        :to="localePath('/profile')"
-      >
+      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/profile')">
         <div
           class="ks-drawer-link"
           :class="{ 'link-active': $route.path === localePath(href) }"
@@ -54,11 +50,7 @@
           </div>
         </div>
       </nuxt-link>
-      <nuxt-link
-        v-slot="{ navigate, href }"
-        custom
-        :to="localePath('/settings')"
-      >
+      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/settings')">
         <div
           class="ks-drawer-link"
           :class="{ 'link-active': $route.path === localePath(href) }"
@@ -88,6 +80,12 @@ import Vue from 'vue'
 
 export default Vue.extend({
   data() {
+    employeeIcons: [
+      {}
+    ]
+    employerIcons: [
+      {}
+    ]
     return {
       loading: false,
     }
