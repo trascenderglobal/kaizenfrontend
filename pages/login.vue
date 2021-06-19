@@ -177,7 +177,6 @@ export default Vue.extend({
           },
         })
         this.error = false
-        this.$router.push(this.localePath('/profile'))
       } catch (error) {
         this.error = true
       } finally {

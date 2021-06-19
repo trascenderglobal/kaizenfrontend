@@ -11,9 +11,11 @@
     </nuxt-link>
     <div class="menu">
       <nuxt-link
+        v-for="link in links"
+        :key="link.path"
         v-slot="{ navigate, href }"
         custom
-        :to="localePath('/profile')"
+        :to="localePath(link.path)"
       >
         <div
           class="ks-drawer-link"
@@ -22,52 +24,9 @@
           @click="navigate"
         >
           <div class="link-wrapper">
-            <iconly-icon name="profile" class="fill-current" />
-            <span class="pt-2 text-center">{{ $t('drawer.profile') }}</span>
-          </div>
-        </div>
-      </nuxt-link>
-      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/resume')">
-        <div
-          class="ks-drawer-link"
-          :class="{ 'link-active': $route.path === localePath(href) }"
-          role="link"
-          @click="navigate"
-        >
-          <div class="link-wrapper">
-            <iconly-icon name="document" class="fill-current" />
-            <span class="pt-2 text-center">{{ $t('drawer.resume') }}</span>
-          </div>
-        </div>
-      </nuxt-link>
-      <nuxt-link v-slot="{ navigate, href }" custom :to="localePath('/jobs')">
-        <div
-          class="ks-drawer-link"
-          :class="{ 'link-active': $route.path === localePath(href) }"
-          role="link"
-          @click="navigate"
-        >
-          <div class="link-wrapper">
-            <span class="job-badge"></span>
-            <iconly-icon name="activity" class="relative fill-current" />
-            <span class="pt-2 text-center">{{ $t('drawer.jobs') }}</span>
-          </div>
-        </div>
-      </nuxt-link>
-      <nuxt-link
-        v-slot="{ navigate, href }"
-        custom
-        :to="localePath('/settings')"
-      >
-        <div
-          class="ks-drawer-link"
-          :class="{ 'link-active': $route.path === localePath(href) }"
-          role="link"
-          @click="navigate"
-        >
-          <div class="link-wrapper">
-            <iconly-icon name="setting" class="fill-current" />
-            <span class="pt-2 text-center">{{ $t('drawer.settings') }}</span>
+            <span v-if="link.badge" class="job-badge"></span>
+            <iconly-icon :name="link.icon" class="fill-current" />
+            <span class="pt-2 text-center">{{ $t(link.text) }}</span>
           </div>
         </div>
       </nuxt-link>
@@ -86,11 +45,91 @@
 <script lang="ts">
 import Vue from 'vue'
 
+interface DrawerLink {
+  text: string
+  icon: string
+  path: string
+  badge?: boolean
+}
+
 export default Vue.extend({
   data() {
     return {
       loading: false,
     }
+  },
+  computed: {
+    links() {
+      const links = [] as DrawerLink[]
+      if (!this.$auth.user) return links
+      else if (this.$auth.user.role === 0) {
+        links.push(
+          {
+            text: 'drawer.profile',
+            icon: 'profile',
+            path: '/employer/profile',
+          },
+          {
+            text: 'drawer.search',
+            icon: 'search',
+            path: '/employer/search',
+          },
+          {
+            text: 'drawer.requests',
+            icon: 'star',
+            path: '/employer/requests',
+          },
+          {
+            text: 'drawer.deals',
+            icon: 'bag',
+            path: '/employer/deals',
+          },
+          {
+            text: 'drawer.settings',
+            icon: 'setting',
+            path: '/employer/settings',
+          }
+        )
+      } else if (this.$auth.user.role === 1) {
+        links.push(
+          {
+            text: 'drawer.profile',
+            icon: 'profile',
+            path: '/employee/profile',
+          },
+          {
+            text: 'drawer.resume',
+            icon: 'document',
+            path: '/employee/resume',
+          },
+          {
+            text: 'drawer.jobs',
+            icon: 'activity',
+            path: '/employee/jobs',
+            badge: true,
+          },
+          {
+            text: 'drawer.settings',
+            path: '/employee/settings',
+            icon: 'setting',
+          }
+        )
+      } else if (this.$auth.user.role === 2) {
+        links.push(
+          {
+            text: 'drawer.deals',
+            path: '/admin/deals',
+            icon: 'bag',
+          },
+          {
+            text: 'drawer.personnel',
+            path: '/admin/personnel',
+            icon: '3-user',
+          }
+        )
+      }
+      return links
+    },
   },
   methods: {
     async logout(): Promise<void> {

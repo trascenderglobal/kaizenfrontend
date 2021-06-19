@@ -41,6 +41,10 @@ export default {
     resume: 'Currículum',
     jobs: 'Empleos',
     settings: 'Ajustes',
+    search: 'Buscar',
+    requests: 'Solicitudes',
+    deals: 'Tratos',
+    personnel: 'Personal',
     logout: 'Cerrar sesión',
   },
   alerts: {

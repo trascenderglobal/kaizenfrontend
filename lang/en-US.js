@@ -41,6 +41,10 @@ export default {
     resume: 'Resume',
     jobs: 'Jobs',
     settings: 'Settings',
+    search: 'Search',
+    requests: 'Requests',
+    deals: 'Deals',
+    personnel: 'Personnel',
     logout: 'Log out',
   },
   alerts: {
