@@ -54,6 +54,12 @@ interface DrawerLink {
 
 export default Vue.extend({
   data() {
+    employeeIcons: [
+      {}
+    ]
+    employerIcons: [
+      {}
+    ]
     return {
       loading: false,
     }
