@@ -311,7 +311,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-    layout: 'main',
+    layout: 'employer',
   async asyncData({ app }) {
     try {
       const res = await app.$axios.$get('/employer/profile')
