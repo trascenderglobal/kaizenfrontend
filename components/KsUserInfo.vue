@@ -1,11 +1,15 @@
 <template>
   <div class="user-wrap">
     <div class="user-img"></div>
-    <div class="user-name text-link-blue pl-4">
-      <div class="flex-grow-0 max-w-full max-h-full overflow-hidden">
-        <nuxt-link :to="localePath('/profile')">
+    <div class="user-name text-link-blue">
+      <div class="user-name-wrap">
+        <nuxt-link
+          v-if="$auth.user.role !== 2"
+          :to="localePath(`${role}/profile`)"
+        >
           {{ $auth.user.name + ' ' + $auth.user.lastName }}
         </nuxt-link>
+        <span v-else>{{ $t('userInfo.admin') }}</span>
       </div>
     </div>
   </div>
@@ -14,7 +18,17 @@
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  computed: {
+    role() {
+      if (this.$auth.user) {
+        if (this.$auth.user.role === 0) return '/employer'
+        else if (this.$auth.user.role === 1) return '/employee'
+      }
+      return '/'
+    },
+  },
+})
 </script>
 
 <style scoped>
@@ -27,6 +41,10 @@ export default Vue.extend({})
 }
 
 .user-name {
-  @apply flex flex-grow h-8 items-center justify-center text-lg;
+  @apply flex flex-grow h-8 items-center justify-center pl-4 text-lg;
+}
+
+.user-name-wrap {
+  @apply flex-grow-0 max-w-full max-h-full overflow-hidden;
 }
 </style>

@@ -47,6 +47,9 @@ export default {
     personnel: 'Personnel',
     logout: 'Log out',
   },
+  userInfo: {
+    admin: 'Administrator',
+  },
   alerts: {
     alerts: 'Alerts',
     newAlerts: 'You have new alerts. Some employers are looking for you.',

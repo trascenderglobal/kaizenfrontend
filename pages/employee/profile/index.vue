@@ -202,7 +202,6 @@
           </div>
           <div class="inline-flex items-center space-x-2">
             <div class="rounded-md cursor-pointer w-7 h-7 bg-blue-light"></div>
-            <div class="rounded-md cursor-pointer w-7 h-7 bg-blue-light"></div>
             <button
               type="button"
               class="social-btn text-link-blue"

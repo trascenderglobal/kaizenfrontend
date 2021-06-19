@@ -21,7 +21,6 @@ export default Vue.extend({
     breadcrumbItems(): Array<BreadCrumbItem> {
       const breadcrumb: BreadCrumbItem[] = []
       const routes = this.$route.path.split('/')
-      routes.splice(1, 1)
       let fullPath = ''
       routes.forEach((route) => {
         breadcrumb.push({
@@ -30,6 +29,7 @@ export default Vue.extend({
         })
         fullPath = fullPath + route + '/'
       })
+      breadcrumb.splice(1, 1)
       return breadcrumb
     },
   },
