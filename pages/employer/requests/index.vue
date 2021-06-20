@@ -1,6 +1,36 @@
 <template>
   <ks-card class="h-full p-8" col>
-    
+    <div class="title">
+      <div class="deal-header">
+        <h1 class="text-3xl font-medium">
+          {{ $t('requests.requests') }}
+        </h1>
+      </div>
+      <div class="flex items-center min-w-40 text-header">
+          <span>{{ $t('requests.header') }}</span>
+      </div>
+    </div>
+    <div class="flex justify pt-6">
+      <div class="flex flex-col space-y-2 min-w-40">
+          <span class="font-light text-gray-dark">{{ $t('requests.showBy') }}</span>
+      </div>
+      <div class="flex flex-col space-y-2 min-w-40">
+        <ks-select :label="$t('requests.showBy')"></ks-select>
+      </div>  
+    </div>
+    <div>
+      <table class="flex justify-between">
+        <thead class="">
+          <tr class="text-thead">
+            <th>{{ $t('requests.table.name') }}</th>
+            <th>{{ $t('requests.table.position') }}</th>
+            <th>{{ $t('requests.table.date') }}</th>
+            <th>{{ $t('requests.table.status') }}</th>
+          </tr>
+          <hr class="my-8 border"/>
+        </thead>
+      </table>
+    </div>
   </ks-card>
 </template>
 
@@ -39,38 +69,19 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.profile-header {
+.deal-header {
   @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
-.profile-header > * {
+.deal-header > * {
   @apply pt-4;
 }
-.user-img-lg {
-  @apply flex-shrink-0 w-20 h-20 rounded-md bg-gray-darker animate-pulse;
+.text-header{
+  @apply text-blue-kaizen flex-col lg:flex-row;
 }
-
-.social-btn {
-  @apply focus:outline-none rounded-lg;
+.title {
+  @apply flex-row
 }
-
-.edit-profile-btn {
-  @apply inline-flex items-center justify-between w-full space-x-4  focus:outline-none;
-}
-
-.item-value {
-  @apply text-gray-darker font-light py-1;
-}
-
-.edit-enter-active,
-.edit-leave-active {
-  transition: opacity 0.2s;
-}
-.edit-enter,
-.edit-leave-to {
-  opacity: 0;
-}
-
-.saved-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
+.text-thead{
+  @apply text-blue-kaizen flex
 }
 </style>
