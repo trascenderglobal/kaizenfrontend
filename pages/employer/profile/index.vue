@@ -131,6 +131,29 @@
     </div>
     <hr class="my-8 border" />
     <div class="flex flex-col space-y-4">
+      <div class="flex items-center w-1/2 space-x-4">
+        <div class = 'min-w-1/5'>
+          <span class="font-medium text-blue-kaizen">
+          {{$t('profile.adress')}}
+        </span>
+        </div>
+        <span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.adress }"
+            >{{ profile.adress ? profile.adress : '-' }}</span
+          >
+          <div v-else class="w-1/2">
+            <ks-input
+              v-model="profile.adress"
+              border-color="border-blue-light"
+              :label="$t('profile.adress')"
+              disable-hint
+              dense
+            >
+            </ks-input>
+          </div>
+      </div>
       <div class="flex flex-wrap w-full">
         <div class="flex items-center w-1/2 space-x-4">
           <div class="min-w-1/5">
@@ -331,6 +354,7 @@ export default Vue.extend({
         birthDate: null,
         novelties: null,
         contactPerson: '',
+        adress: null,
         position: '',
         state: null,
         city: null,
@@ -358,6 +382,7 @@ export default Vue.extend({
           linkedin: this.profile.linkedin,
           contactPerson: this.profile.contactPerson,
           position: this.profile.position,
+          adress: this.profile.adress,
         })
         this.saved = true
       } catch (error) {

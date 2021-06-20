@@ -1,0 +1,76 @@
+<template>
+  <ks-card class="h-full p-8" col>
+    
+  </ks-card>
+</template>
+
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+    layout: 'employer',
+  async asyncData({ app }) {
+    try {
+      const res = await app.$axios.$get('/employer/profile')
+      return {
+        profile: res,
+      }
+    } catch (error) {}
+  },
+  data() {
+    return {
+    }
+  },
+  methods: {
+    async updateProfile() {
+      try {
+        await this.$axios.$post('/employer/profile/edit', {
+        })
+        
+      } catch (error) {
+        
+      } finally {
+        
+      }
+    },
+  },
+})
+</script>
+
+<style scoped>
+.profile-header {
+  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+}
+.profile-header > * {
+  @apply pt-4;
+}
+.user-img-lg {
+  @apply flex-shrink-0 w-20 h-20 rounded-md bg-gray-darker animate-pulse;
+}
+
+.social-btn {
+  @apply focus:outline-none rounded-lg;
+}
+
+.edit-profile-btn {
+  @apply inline-flex items-center justify-between w-full space-x-4  focus:outline-none;
+}
+
+.item-value {
+  @apply text-gray-darker font-light py-1;
+}
+
+.edit-enter-active,
+.edit-leave-active {
+  transition: opacity 0.2s;
+}
+.edit-enter,
+.edit-leave-to {
+  opacity: 0;
+}
+
+.saved-modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
+}
+</style>

@@ -1,0 +1,69 @@
+<template>
+  <ks-card class="h-full p-8" col>
+    <div class="title">
+      <div class="deal-header">
+        <h1 class="text-3xl font-medium">
+          {{ $t('deals.deals') }}
+        </h1>
+      </div>
+      <div class="flex items-center min-w-40 text-header">
+          <span>{{ $t('deals.header') }}</span>
+      </div>
+    </div>
+    <div class="flex justify pt-6">
+      <div class="flex flex-col space-y-2 min-w-40">
+          <span class="font-light text-gray-dark">{{ $t('deals.showBy') }}</span>
+      </div>
+      <div class="flex flex-col space-y-2 min-w-40">
+        <ks-select :label="$t('deals.showBy')"></ks-select>
+      </div>  
+    </div>
+    
+  </ks-card>
+</template>
+
+
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
+    layout: 'employer',
+  async asyncData({ app }) {
+    try {
+      const res = await app.$axios.$get('/employer/profile')
+      return {
+        profile: res,
+      }
+    } catch (error) {}
+  },
+  data() {
+    return {
+    }
+  },
+  methods: {
+    async updateProfile() {
+      try {
+        await this.$axios.$post('/employer/profile/edit', {
+        })
+        
+      } catch (error) {
+        
+      } finally {
+        
+      }
+    },
+  },
+})
+</script>
+
+<style scoped>
+.deal-header {
+  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+}
+.deal-header > * {
+  @apply pt-4;
+}
+.text-header{
+  @apply text-blue-kaizen flex-col lg:flex-row;
+}
+</style>
