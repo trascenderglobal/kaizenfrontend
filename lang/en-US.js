@@ -143,10 +143,12 @@ export default {
     requests: 'Requests',
     header: 'Filter you requests by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
-    name: 'Name',
-    position: 'Position',
-    date: 'Date',
-    status: 'Status',
+    table:{
+      name: 'Name',
+      position: 'Position',
+      date: 'Date',
+      status: 'Status',
+    },
     previous: 'Previous',
     next: 'Next',
   }

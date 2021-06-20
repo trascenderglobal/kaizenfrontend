@@ -143,10 +143,13 @@ export default {
     requests: 'Solicitudes',
     header: 'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
     showBy: 'Mostrar: ',
-    name: 'Nombre',
-    position: 'Cargo',
-    date: 'Fecha',
-    status: 'Estado',
+    table: {
+      name: 'Nombre',
+      position: 'Cargo',
+      date: 'Fecha',
+      status: 'Estado',
+    },
+    
     previous: 'Anterior',
     next: 'Siguiente',
   }
