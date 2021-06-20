@@ -18,7 +18,19 @@
         <ks-select :label="$t('deals.showBy')"></ks-select>
       </div>  
     </div>
-    
+    <div>
+      <table class="flex justify-between">
+        <thead class="">
+          <tr class="text-thead">
+            <th>{{ $t('deals.table.searched') }}</th>
+            <th>{{ $t('deals.table.date') }}</th>
+            <th>{{ $t('deals.table.status') }}</th>
+            <th>{{ $t('deals.table.details') }}</th>
+          </tr>
+          <hr class="my-8 border"/>
+        </thead>
+      </table>
+    </div>
   </ks-card>
 </template>
 
@@ -65,5 +77,11 @@ export default Vue.extend({
 }
 .text-header{
   @apply text-blue-kaizen flex-col lg:flex-row;
+}
+.title {
+  @apply flex-row
+}
+.text-thead{
+  @apply text-blue-kaizen flex
 }
 </style>
