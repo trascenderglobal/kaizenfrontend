@@ -155,8 +155,22 @@ export default {
       date: 'Fecha',
       status: 'Estado',
     },
-    
     previous: 'Anterior',
     next: 'Siguiente',
+  },
+  settings: {
+    settings: 'Ajustes',
+    header: 'Información de la cuenta',
+    account: 'Tu cuenta fue creada el:',
+    language: 'Idioma',
+    subscription: 'Suscripción',
+    proPlan: 'Pro plan',
+    payment: 'Pago',
+    paymentMethod: 'Metodo de pago',
+    renew: 'Debes renovar tu suscripción el',
+    changePayment: 'cambiar metodo de pago',
+    unsuscribe: 'Cancelar suscripción',
+    ifUnsuscribe: 'Si cancelas tu suscripción todos tus datos serán borrados, ¿estás seguro?',
+    noDate: 'Sin datos'
   }
 }

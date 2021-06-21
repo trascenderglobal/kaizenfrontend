@@ -157,5 +157,20 @@ export default {
     },
     previous: 'Previous',
     next: 'Next',
+  },
+  settings: {
+    settings: 'Settings',
+    header: 'Account information',
+    account: 'Your account was created on:',
+    language: 'Language',
+    subscription: 'Subscription',
+    proPlan: 'Pro plan',
+    payment: 'Payment',
+    paymentMethod: 'Payment method',
+    renew: 'On january 8th, 2022, you ned to renew yur subscription.',
+    changePayment: 'change the payment method that suits your preferences.',
+    unsuscribe: 'Unsuscribe',
+    ifUnsuscribe: 'If you unsuscribe, all your data will be deleted. Are you sure?',
+    noDate: 'No date'
   }
 }
