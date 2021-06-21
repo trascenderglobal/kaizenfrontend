@@ -27,8 +27,26 @@
             <th class="w-1/5">{{ $t('deals.table.status') }}</th>
             <th class="w-1/5">{{ $t('deals.table.details') }}</th>
           </tr>
+          <tr>
+            <td colspan="4">
+              <hr/>
+            </td>
+          </tr>
         </thead>
+        
         <tbody class="text-tbody">
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>quiero mas</td>
+            <td>que chimba verte</td>
+          </tr>
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>quiero mas</td>
+            <td>que chimba verte</td>
+          </tr>
           <tr>
             <td>hola</td>
             <td>como estas</td>
@@ -86,12 +104,15 @@ export default Vue.extend({
   @apply text-blue-kaizen flex-col lg:flex-row;
 }
 .title {
-  @apply flex-row
+  @apply flex-row;
 }
 .text-thead{
-  @apply text-blue-kaizen text-left
+  @apply text-blue-kaizen text-left;
 }
 .text-tbody{
-  @apply font-light text-gray-dark 
+  @apply font-light text-gray-dark; 
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 </style>

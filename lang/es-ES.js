@@ -56,6 +56,12 @@ export default {
     seeAll: 'Ver todo',
     noAlerts: 'No hay alertas',
   },
+  approved:{
+    approved: 'Aprobado',
+    alerts: 'El nuevo talento de tu empresa te está esperando',
+    seeAll: 'Ver todo',
+    noApproved: 'No hay aprobados'
+  },
   select: {
     noItems: 'Sin artículos',
   },

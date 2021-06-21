@@ -56,6 +56,12 @@ export default {
     seeAll: 'See all',
     noAlerts: 'There are no alerts',
   },
+  approved:{
+    approved: 'Approved',
+    alerts: 'The new talent of your company is waiting for you',
+    seeAll: 'See all requests',
+    noApproved: 'There are no approved'
+  },
   select: {
     noItems: 'No items',
   },

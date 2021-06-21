@@ -27,8 +27,25 @@
             <th class="w-1/5">{{ $t('requests.table.date') }}</th>
             <th class="w-1/5">{{ $t('requests.table.status') }}</th>
           </tr>
+          <tr>
+            <td colspan="4">
+              <hr/>
+            </td>
+          </tr>
         </thead>
         <tbody class="text-tbody">
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>quiero mas</td>
+            <td>que chimba verte</td>
+          </tr>
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>quiero mas</td>
+            <td>que chimba verte</td>
+          </tr>
           <tr>
             <td>hola</td>
             <td>como estas</td>
@@ -93,5 +110,8 @@ export default Vue.extend({
 }
 .text-tbody{
   @apply font-light text-gray-dark 
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 </style>

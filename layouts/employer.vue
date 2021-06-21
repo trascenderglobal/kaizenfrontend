@@ -20,7 +20,7 @@
             </div>
             <div class="alerts">
               <ks-card class="h-full p-8">
-                <ks-employee-alerts />
+                <ks-employer-approved />
               </ks-card>
             </div>
           </div>
@@ -32,8 +32,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import KsEmployerApproved from '~/components/KsEmployerApproved.vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  components: { KsEmployerApproved },})
 </script>
 
 <style scoped>
