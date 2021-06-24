@@ -56,14 +56,41 @@ export default {
     seeAll: 'Ver todo',
     noAlerts: 'No hay alertas',
   },
-  approved:{
+  approved: {
     approved: 'Aprobado',
     alerts: 'El nuevo talento de tu empresa te está esperando',
     seeAll: 'Ver todo',
-    noApproved: 'No hay aprobados'
+    noApproved: 'No hay aprobados',
   },
   select: {
     noItems: 'Sin artículos',
+  },
+  datepicker: {
+    lang: {
+      formatLocale: {
+        // MMM
+        monthsShort: [
+          'Ene',
+          'Feb',
+          'Mar',
+          'Abr',
+          'May',
+          'Jun',
+          'Jul',
+          'Ago',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dic',
+        ],
+        // dd
+        weekdaysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+        // first day of week
+        firstDayOfWeek: 0,
+        // first week contains January 1st.
+        firstWeekContainsDate: 1,
+      },
+    },
   },
   forms: {
     errors: {
@@ -94,7 +121,7 @@ export default {
     social: 'Social',
     noBirth: 'Sin fecha de nacimiento',
     noSkills: 'Sin habilidades asociadas',
-    noIndustry:'Sin industria asociada',
+    noIndustry: 'Sin industria asociada',
     notSet: 'No establecido',
     edit: {
       typeRole: 'Escribe tu rol',
@@ -109,6 +136,10 @@ export default {
         text: 'Los cambios en tu perfil se han guardado correctamente',
         btn: '¡Asombroso!',
       },
+    },
+    meta: {
+      title: 'Perfil',
+      description: 'Perfil',
     },
   },
   resume: {
@@ -126,12 +157,16 @@ export default {
     contactPerson: 'Persona de contacto',
     phone: 'Teléfono',
     addMoreExperience: 'Ingresa más experiencia',
+    meta: {
+      title: 'Currículum',
+      description: 'Currículum',
+    },
   },
   deals: {
     deals: 'Tratos',
     header: 'Filtrar por reciente, aprobado, en proceso, pasado o cancelado',
     showBy: 'Mostrar: ',
-    table:{
+    table: {
       searched: 'Buscado',
       date: 'Fecha',
       status: 'Status',
@@ -147,7 +182,8 @@ export default {
   },
   requests: {
     requests: 'Solicitudes',
-    header: 'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
+    header:
+      'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
     showBy: 'Mostrar: ',
     table: {
       name: 'Nombre',
@@ -170,7 +206,8 @@ export default {
     renew: 'Debes renovar tu suscripción el',
     changePayment: 'cambiar metodo de pago',
     unsuscribe: 'Cancelar suscripción',
-    ifUnsuscribe: 'Si cancelas tu suscripción todos tus datos serán borrados, ¿estás seguro?',
-    noDate: 'Sin datos'
-  }
+    ifUnsuscribe:
+      'Si cancelas tu suscripción todos tus datos serán borrados, ¿estás seguro?',
+    noDate: 'Sin datos',
+  },
 }

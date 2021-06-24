@@ -56,14 +56,41 @@ export default {
     seeAll: 'See all',
     noAlerts: 'There are no alerts',
   },
-  approved:{
+  approved: {
     approved: 'Approved',
     alerts: 'The new talent of your company is waiting for you',
     seeAll: 'See all requests',
-    noApproved: 'There are no approved'
+    noApproved: 'There are no approved',
   },
   select: {
     noItems: 'No items',
+  },
+  datepicker: {
+    lang: {
+      formatLocale: {
+        // MMM
+        monthsShort: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ],
+        // dd
+        weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        // first day of week
+        firstDayOfWeek: 0,
+        // first week contains January 1st.
+        firstWeekContainsDate: 1,
+      },
+    },
   },
   forms: {
     errors: {
@@ -94,7 +121,7 @@ export default {
     social: 'Social',
     noBirth: 'No birth date',
     noSkills: 'No skills associated',
-    noIndustry:'No industry associated',
+    noIndustry: 'No industry associated',
     notSet: 'Not set',
     edit: {
       typeRole: 'Type your role',
@@ -109,6 +136,10 @@ export default {
         text: 'The changes to your profile have been saved correctly',
         btn: 'Amazing!',
       },
+    },
+    meta: {
+      title: 'Profile',
+      description: 'Profile',
     },
   },
   resume: {
@@ -126,12 +157,16 @@ export default {
     contactPerson: 'Contact person',
     phone: 'Phone',
     addMoreExperience: 'Add more experience',
+    meta: {
+      title: 'Resume',
+      description: 'Resume',
+    },
   },
   deals: {
     deals: 'Deals',
     header: 'Filter by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
-    table:{
+    table: {
       searched: 'Searched',
       date: 'Date',
       status: 'Status',
@@ -147,9 +182,10 @@ export default {
   },
   requests: {
     requests: 'Requests',
-    header: 'Filter you requests by recent, approved, in process, past or cancelled',
+    header:
+      'Filter you requests by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
-    table:{
+    table: {
       name: 'Name',
       position: 'Position',
       date: 'Date',
@@ -170,7 +206,8 @@ export default {
     renew: 'On january 8th, 2022, you ned to renew yur subscription.',
     changePayment: 'change the payment method that suits your preferences.',
     unsuscribe: 'Unsuscribe',
-    ifUnsuscribe: 'If you unsuscribe, all your data will be deleted. Are you sure?',
-    noDate: 'No date'
-  }
+    ifUnsuscribe:
+      'If you unsuscribe, all your data will be deleted. Are you sure?',
+    noDate: 'No date',
+  },
 }

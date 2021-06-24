@@ -143,7 +143,7 @@ export default Vue.extend({
         },
         ...i18nHead.meta,
       ],
-      link: [i18nHead.link],
+      link: [...i18nHead.link],
     }
   },
   computed: {

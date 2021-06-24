@@ -4,23 +4,29 @@
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
     tabindex="0"
     @click="showItems"
-    @blur="show = false"
   >
-    <input
-      v-bind="$attrs"
-      :value="selected.value"
-      class="input"
-      type="text"
-      readonly
-      :disabled="disabled"
-    />
-    <span class="label">{{ selected.text || label }}</span>
+    <input class="input" type="text" readonly :disabled="disabled" />
+    <span class="label">{{ date ? $d(date) : label }}</span>
     <div class="icon">
       <iconly-icon name="arrow-down-2" />
     </div>
     <transition name="items">
-      <div v-if="!disabled" v-show="show" class="items">
-        <div class="datepicker"></div>
+      <div class="items" @click.stop>
+        <client-only>
+          <date-picker
+            v-if="!disabled"
+            v-show="show"
+            v-model="date"
+            :lang="$t('datepicker.lang')"
+            inline
+            :disabled-date="disabledDate"
+            :default-value="defaultValue"
+            @pick="
+              show = false
+              $emit('input', date)
+            "
+          />
+        </client-only>
       </div>
     </transition>
   </div>
@@ -28,18 +34,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import 'vue2-datepicker/index.css'
 
 export default Vue.extend({
-  inheritAttrs: false,
   props: {
     disabled: Boolean,
     value: {
-      type: [String, Number],
-      default: '',
-    },
-    items: {
-      type: Array,
-      default: () => [],
+      type: Date,
+      default: null,
     },
     bgColor: {
       type: String,
@@ -53,39 +55,22 @@ export default Vue.extend({
       type: String,
       default: '',
     },
-    itemText: {
-      type: String,
-      default: 'text',
+    disabledDate: {
+      type: [Function],
+      default: () => false,
     },
-    itemValue: {
-      type: String,
-      default: 'value',
+    defaultValue: {
+      type: Date,
+      default: new Date(),
     },
   },
   data() {
     return {
       show: false,
-      selected: {
-        text: '',
-        value: '',
-      },
+      date: null,
     }
   },
-  beforeMount() {
-    this.items.forEach((item: any) => {
-      if (item[this.itemValue] === this.value) {
-        this.selected.text = item[this.itemText]
-        this.selected.value = item[this.itemValue]
-      }
-    })
-  },
   methods: {
-    changeValue(item: any) {
-      this.selected.text = item[this.itemText]
-      this.selected.value = item[this.itemValue]
-      this.show = false
-      this.$emit('input', item[this.itemValue])
-    },
     showItems() {
       if (!this.disabled) this.show = !this.show
     },
@@ -112,27 +97,19 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-10 left-0 top-10 w-full flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-10 left-0 top-10 flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
-.items div:first-child {
-  @apply rounded-t-lg;
+.items > div {
+  @apply p-1 text-gray-darker;
 }
 
-.items div:last-child {
-  @apply rounded-b-lg;
+.items >>> * {
+  @apply border-0 focus:outline-none;
 }
 
-.items div {
-  @apply py-1 px-2 text-gray-darker;
-}
-
-.items .no-items {
+.datepicker .items .no-items {
   @apply select-none cursor-default;
-}
-
-.items div:not(.no-items) {
-  @apply hover:bg-gray-lighter cursor-pointer;
 }
 
 .items-leave-active {

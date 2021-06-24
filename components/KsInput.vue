@@ -89,7 +89,7 @@ export default Vue.extend({
 }
 
 .input {
-  @apply flex w-full;
+  @apply flex w-full px-1;
 }
 
 .input-wrapper {
@@ -101,7 +101,7 @@ export default Vue.extend({
 }
 
 .input input {
-  @apply inline-flex flex-grow z-10 bg-transparent text-gray-darker;
+  @apply inline-flex relative flex-grow z-10 bg-transparent text-gray-darker;
 }
 
 input:focus {
@@ -119,7 +119,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .label {
-  @apply transition transform duration-200 absolute left-0 top-3 px-1 select-none z-0 text-gray-dark;
+  @apply transition transform duration-200 absolute left-0 top-3 select-none z-0 text-gray-dark;
 }
 
 .dense .label {

@@ -60,13 +60,16 @@
               dense
               disable-hint
               :label="$t('profile.edit.typeRole')"
-            ></ks-input>
+            />
             <ks-datepicker
+              v-model="profile.birthDate"
               class="border border-blue-light"
               :label="$t('profile.edit.birthDate')"
+              :disabled-date="isLaborAge"
+              :default-value="laborAge"
               bg-color="bg-transparent"
               color="text-gray-darker"
-            ></ks-datepicker>
+            />
           </template>
         </div>
       </div>
@@ -77,7 +80,21 @@
         <span class="font-light text-gray-dark"
           >{{ $t('profile.status') }}:</span
         >
-        <ks-select :label="$t('profile.status')" :disabled="!edit"></ks-select>
+        <ks-select
+          v-model="profile.status"
+          :label="$t('profile.status')"
+          :bg-color="
+            edit
+              ? 'bg-gray-darker'
+              : profile.status === $t('profile.statuses.available')
+              ? 'bg-green-kaizen'
+              : profile.status === $t('profile.statuses.busy')
+              ? 'bg-red-kaizen'
+              : 'bg-gray-darker'
+          "
+          :disabled="!edit"
+          :items="statuses"
+        />
       </div>
     </div>
     <hr class="my-8 border" />
@@ -98,11 +115,12 @@
           <div v-else class="w-1/2">
             <ks-select
               v-model="profile.state"
+              :items="states"
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
               bg-color="bg-transparent"
               color="text-gray-darker"
-            ></ks-select>
+            />
           </div>
         </div>
         <div class="flex items-center w-full lg:w-1/2 space-x-4">
@@ -124,8 +142,7 @@
               :label="$t('profile.edit.phone')"
               disable-hint
               dense
-            >
-            </ks-input>
+            />
           </div>
         </div>
       </div>
@@ -149,7 +166,7 @@
               :label="$t('profile.edit.select')"
               bg-color="bg-transparent"
               color="text-gray-darker"
-            ></ks-select>
+            />
           </div>
         </div>
         <div class="flex items-center w-full lg:w-1/2 space-x-4">
@@ -166,8 +183,7 @@
               :label="$t('profile.edit.email')"
               disable-hint
               dense
-            >
-            </ks-input>
+            />
           </div>
         </div>
       </div>
@@ -185,13 +201,14 @@
             >{{ profile.zip ? profile.zip : '-' }}</span
           >
           <div v-else class="w-1/2">
-            <ks-select
+            <ks-input
               v-model="profile.zip"
-              class="border border-blue-light"
-              :label="$t('profile.edit.select')"
-              bg-color="bg-transparent"
-              color="text-gray-darker"
-            ></ks-select>
+              border-color="border-blue-light"
+              :label="$t('profile.edit.typeZip')"
+              maxlength="5"
+              disable-hint
+              dense
+            />
           </div>
         </div>
         <div class="flex items-center w-full lg:w-1/2 space-x-4">
@@ -259,6 +276,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
   layout: 'employee',
@@ -286,14 +304,67 @@ export default Vue.extend({
         email: '',
         zip: null,
         linkedin: null,
+        status: '',
       },
+      states: [
+        {
+          text: 'Indiana',
+          value: 'IN',
+        },
+        {
+          text: 'Michigan',
+          value: 'MI',
+        },
+      ],
     }
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('profile.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('profile.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+      link: [i18nHead.link],
+    }
+  },
+  computed: {
+    laborAge(): Date {
+      const labor = new Date()
+      labor.setFullYear(labor.getFullYear() - 14)
+      return labor
+    },
+    statuses(): Object[] {
+      return [
+        {
+          text: this.$t('profile.statuses.available'),
+          value: 'available',
+        },
+        {
+          text: this.$t('profile.statuses.busy'),
+          value: 'busy',
+        },
+      ]
+    },
+  },
   methods: {
-    async updateProfile() {
+    isLaborAge(d: Date): boolean {
+      return d > this.laborAge
+    },
+    async updateProfile(): Promise<void> {
       try {
         this.edit = false
         this.loading = true
+        this.$v.$touch()
+        if (this.$v.$invalid) return
         await this.$axios.$post('/employee/profile/edit', {
           name: this.profile.name,
           last_name: this.profile.lastName,
@@ -312,6 +383,17 @@ export default Vue.extend({
         this.loading = false
       }
     },
+  },
+  validations() {
+    return {
+      profile: {
+        zip: {
+          required,
+          minLength: minLength(5),
+          maxLength: maxLength(5),
+        },
+      },
+    }
   },
 })
 </script>

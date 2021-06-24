@@ -123,7 +123,7 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-10 left-0 top-10 w-full flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-20 left-0 top-8 w-full flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
 .items div:first-child {
