@@ -20,7 +20,6 @@
             :lang="$t('datepicker.lang')"
             inline
             :disabled-date="disabledDate"
-            :default-value="defaultValue"
             @pick="
               show = false
               $emit('input', date)
@@ -67,7 +66,7 @@ export default Vue.extend({
   data() {
     return {
       show: false,
-      date: null,
+      date: this.value || this.defaultValue,
     }
   },
   methods: {
@@ -97,7 +96,7 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-10 left-0 top-10 flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-20 left-0 top-10 flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
 .items > div {

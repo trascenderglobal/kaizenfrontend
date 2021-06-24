@@ -43,7 +43,7 @@
                 <iconly-icon
                   name="password"
                   fill="none"
-                  viewBox="0 0 24 27"
+                  view-box="0 0 24 27"
                   class="relative stroke-current left-1 text-blue-kaizen"
                 />
               </template>
@@ -148,14 +148,14 @@ export default Vue.extend({
   },
   computed: {
     emailErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.email.$dirty) return errors
       if (!this.$v.email.required) errors.push(this.$t('forms.errors.required'))
       if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
       return errors
     },
     passwordErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.password.$dirty) return errors
       if (!this.$v.password.required)
         errors.push(this.$t('forms.errors.required'))

@@ -98,6 +98,7 @@ export default {
       required: 'Required',
       minLength: 'Must be at least {length} characters long',
       sameAsPassword: 'The passwords do not match',
+      url: 'Invalid URL',
     },
   },
   profile: {
@@ -130,6 +131,7 @@ export default {
       select: 'Select',
       phone: 'Type a phone number',
       email: 'Your best e-mail',
+      linkedin: 'Your LinkedIn profile',
       save: 'Save',
       saved: {
         title: 'Changes Saved',

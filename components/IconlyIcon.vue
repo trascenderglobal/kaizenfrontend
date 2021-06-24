@@ -20,6 +20,10 @@ export default Vue.extend({
       type: String,
       default: 'blue-kaizen',
     },
+    viewBox: {
+      type: String,
+      default: '0 0 24 24',
+    },
   },
   render(h: CreateElement): VNode {
     const svg = icons[this.name]?.[this.type]
@@ -29,7 +33,7 @@ export default Vue.extend({
       attrs: {
         width: `${this.size * 24}px`,
         height: `${this.size * 24}px`,
-        viewBox: '0 0 24 24',
+        viewBox: this.viewBox,
         xmlns: 'http://www.w3.org/2000/svg',
       },
       domProps: {

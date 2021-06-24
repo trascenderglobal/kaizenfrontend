@@ -15,6 +15,7 @@
         <input
           v-bind="$attrs"
           :value="value"
+          :title="label"
           placeholder=" "
           @input="$emit('input', $event.target.value)"
           @blur="$emit('blur')"
@@ -93,7 +94,7 @@ export default Vue.extend({
 }
 
 .input-wrapper {
-  @apply relative flex w-full p-3;
+  @apply relative flex flex-grow p-3;
 }
 
 .input-wrapper.dense {
@@ -101,7 +102,7 @@ export default Vue.extend({
 }
 
 .input input {
-  @apply inline-flex relative flex-grow z-10 bg-transparent text-gray-darker;
+  @apply relative w-full z-10 bg-transparent text-gray-darker;
 }
 
 input:focus {
@@ -119,7 +120,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .label {
-  @apply transition transform duration-200 absolute left-0 top-3 select-none z-0 text-gray-dark;
+  @apply transition transform max-w-full duration-200 absolute left-0 top-3 select-none z-0 text-gray-dark whitespace-nowrap overflow-hidden overflow-ellipsis;
 }
 
 .dense .label {

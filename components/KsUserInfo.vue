@@ -37,7 +37,7 @@ export default Vue.extend({
 }
 
 .user-img {
-  @apply flex-shrink-0 w-8 h-8 rounded-md bg-gray-darker animate-pulse;
+  @apply flex-shrink-0 w-8 h-8 rounded-md bg-gray-darker;
 }
 
 .user-name {

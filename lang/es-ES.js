@@ -130,6 +130,7 @@ export default {
       select: 'Seleccionar',
       phone: 'Escribe un número de teléfono',
       email: 'Tu mejor e-mail',
+      linkedin: 'Tu perfil de LinkedIn',
       save: 'Guardar',
       saved: {
         title: 'Cambios guardados',
