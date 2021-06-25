@@ -7,8 +7,19 @@
   >
     <input class="input" type="text" readonly :disabled="disabled" />
     <span class="label">{{ date ? $d(date) : label }}</span>
+    <div
+      v-if="clearable && date && !disabled"
+      class="icon clear"
+      @click.stop="clearValue"
+    >
+      <iconly-icon name="close" view-box="0 0 311 311.07733" :size="0.5" />
+    </div>
     <div class="icon">
-      <iconly-icon name="arrow-down-2" />
+      <iconly-icon
+        class="transition"
+        :class="{ 'transform rotate-180': show }"
+        name="arrow-down-2"
+      />
     </div>
     <transition name="items">
       <div class="items" @click.stop>
@@ -35,12 +46,15 @@
 import Vue from 'vue'
 import 'vue2-datepicker/index.css'
 
+type NullableDate = Date | null
+
 export default Vue.extend({
   props: {
     disabled: Boolean,
+    clearable: Boolean,
     value: {
       type: Date,
-      default: null,
+      default: null as NullableDate,
     },
     bgColor: {
       type: String,
@@ -66,12 +80,16 @@ export default Vue.extend({
   data() {
     return {
       show: false,
-      date: this.value || this.defaultValue,
+      date: this.value as NullableDate,
     }
   },
   methods: {
     showItems() {
       if (!this.disabled) this.show = !this.show
+    },
+    clearValue(): void {
+      this.date = null
+      this.$emit('input', null)
     },
   },
 })
@@ -92,7 +110,7 @@ export default Vue.extend({
 }
 
 .ks-select .icon {
-  @apply fill-current;
+  @apply flex items-center justify-center fill-current min-w-6;
 }
 
 .ks-select .items {

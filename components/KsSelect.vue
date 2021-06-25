@@ -18,11 +18,22 @@
     <span class="label">{{
       selected.text === null ? label : selected.text
     }}</span>
+    <div
+      v-if="clearable && selected.text && !disabled"
+      class="icon clear"
+      @click.stop="clearValue"
+    >
+      <iconly-icon name="close" view-box="0 0 311 311.07733" :size="0.5" />
+    </div>
     <div class="icon">
-      <iconly-icon name="arrow-down-2" />
+      <iconly-icon
+        class="transition"
+        :class="{ 'transform rotate-180': show }"
+        name="arrow-down-2"
+      />
     </div>
     <transition name="items">
-      <div v-if="!disabled" v-show="show" class="items">
+      <div v-if="!disabled" v-show="show" class="items scroller">
         <template v-if="items.length">
           <div
             v-for="(item, i) in items"
@@ -31,7 +42,7 @@
             :class="selected.index === i ? 'selected' : ''"
             @click.stop="changeValue(item, i)"
           >
-            {{ stringArray ? item : item[itemText] }}
+            {{ simpleArray ? item : item[itemText] }}
           </div>
         </template>
         <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
@@ -44,7 +55,7 @@
 import Vue from 'vue'
 
 interface Item {
-  text: string | null
+  text: string | number | null
   value: string | number | null
   index: number | null
 }
@@ -53,9 +64,10 @@ export default Vue.extend({
   inheritAttrs: false,
   props: {
     disabled: Boolean,
+    clearable: Boolean,
     value: {
       type: [String, Number],
-      default: '',
+      default: null,
     },
     items: {
       type: Array,
@@ -93,27 +105,27 @@ export default Vue.extend({
     }
   },
   computed: {
-    stringArray(): Boolean {
+    simpleArray(): Boolean {
       if (!this.items.length) return false
-      else if (typeof this.items[0] === 'string') return true
+      else if (
+        typeof this.items[0] === 'string' ||
+        typeof this.items[0] === 'number'
+      )
+        return true
       return false
     },
   },
   watch: {
     items: {
       handler() {
-        this.selected = {
-          text: null,
-          value: null,
-          index: null,
-        }
+        this.clearValue()
       },
       immediate: false,
     },
   },
   beforeMount() {
-    if (this.stringArray) {
-      ;(this.items as string[]).forEach((item: string, i: number) => {
+    if (this.simpleArray) {
+      ;(this.items as any[]).forEach((item: any, i: number) => {
         if (item === this.value) {
           this.selected.text = item
           this.selected.value = item
@@ -131,8 +143,8 @@ export default Vue.extend({
     }
   },
   methods: {
-    changeValue(item: any, i: number) {
-      if (this.stringArray) {
+    changeValue(item: any, i: number): void {
+      if (this.simpleArray) {
         this.selected.text = item
         this.selected.value = item
         this.selected.index = i
@@ -146,7 +158,15 @@ export default Vue.extend({
         this.$emit('input', item[this.itemValue])
       }
     },
-    showItems() {
+    clearValue(): void {
+      this.selected = {
+        text: null,
+        value: null,
+        index: null,
+      }
+      this.$emit('input', null)
+    },
+    showItems(): void {
       if (!this.disabled) this.show = !this.show
     },
   },
@@ -164,11 +184,11 @@ export default Vue.extend({
 }
 
 .ks-select .label {
-  @apply flex-grow px-1 select-none;
+  @apply flex-grow pl-1 pr-2 select-none whitespace-nowrap overflow-hidden overflow-ellipsis;
 }
 
 .ks-select .icon {
-  @apply fill-current;
+  @apply flex items-center justify-center fill-current min-w-6;
 }
 
 .ks-select .items {

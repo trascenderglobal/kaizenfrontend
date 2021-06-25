@@ -53,14 +53,18 @@
             ></div>
             <div class="add-img">
               <iconly-icon
-                name="plus"
-                type="bold"
+                name="camera"
                 class="fill-current text-white"
+                :size="1.2"
               />
             </div>
           </div>
           <div v-else class="img-wrapper">
-            <iconly-icon name="image" class="fill-current text-white" />
+            <iconly-icon
+              name="camera"
+              :size="1.2"
+              class="fill-current text-white"
+            />
             <div
               role="img"
               :aria-label="$t('profile.userImage')"
@@ -106,9 +110,9 @@
               class="border border-blue-light"
               :label="$t('profile.edit.birthDate')"
               :disabled-date="isLaborAge"
-              :default-value="laborAge"
               bg-color="bg-transparent"
               color="text-gray-darker"
+              clearable
             />
           </template>
         </div>
@@ -134,13 +138,14 @@
           "
           :disabled="!edit"
           :items="statuses"
+          clearable
         />
       </div>
     </div>
     <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
     <div class="fields">
-      <div class="flex flex-wrap w-full">
-        <div class="fields-col">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.state')
@@ -159,11 +164,12 @@
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
               bg-color="bg-transparent"
+              clearable
               color="text-gray-darker"
             />
           </div>
         </div>
-        <div class="fields-col">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.phone')
@@ -188,8 +194,8 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="fields-col">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.city')
@@ -207,12 +213,13 @@
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
               :items="cities"
+              clearable
               bg-color="bg-transparent"
               color="text-gray-darker"
             />
           </div>
         </div>
-        <div class="fields-col">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.email')
@@ -232,8 +239,8 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="fields-col">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.zip')
@@ -258,7 +265,7 @@
             />
           </div>
         </div>
-        <div class="fields-col">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.social')
@@ -314,7 +321,11 @@
               </h1>
               <div class="user-img-lg">
                 <div class="img-wrapper">
-                  <iconly-icon name="image" class="fill-current text-white" />
+                  <iconly-icon
+                    name="camera"
+                    :size="1.2"
+                    class="fill-current text-white"
+                  />
                   <div class="img" :style="userImage"></div>
                 </div>
               </div>
@@ -524,8 +535,8 @@ export default Vue.extend({
         if (this.image) data.append('profile_picture', this.image as any)
         if (this.profile.birthDate)
           data.append('birth_date', this.profile.birthDate.toJSON())
-        data.append('name', this.$auth.user.name)
-        data.append('last_name', this.$auth.user.lastName)
+        data.append('name', this.profile.name)
+        data.append('last_name', this.profile.lastName)
         data.append(
           'novelties',
           this.profile.novelties === null ? '' : this.profile.novelties
@@ -653,7 +664,11 @@ export default Vue.extend({
   @apply flex flex-col;
 }
 
-.fields-col {
+.field-row {
+  @apply flex flex-wrap w-full;
+}
+
+.field-col {
   @apply flex items-center w-full lg:w-1/2 space-x-4 pb-4;
 }
 

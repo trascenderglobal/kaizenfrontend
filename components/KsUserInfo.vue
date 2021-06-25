@@ -2,7 +2,7 @@
   <div class="user-wrap">
     <div class="user-img">
       <div class="img-wrapper">
-        <iconly-icon name="image" class="fill-current text-white" />
+        <iconly-icon name="camera" class="fill-current text-white" />
         <div
           role="img"
           :aria-label="$t('profile.userImage')"
