@@ -14,7 +14,7 @@
         :key="`main-skill-${i}`"
         class="field-row"
       >
-        <div class="field-col flex-auto">
+        <div class="field-col flex-1">
           <div class="flex-grow lg:flex-grow-0 xl:w-3/5">
             <ks-select
               v-model="mainSkill.skill"
@@ -36,7 +36,7 @@
             />
           </div>
         </div>
-        <div class="field-col flex-auto flex-wrap justify-between">
+        <div class="field-col flex-1 flex-wrap justify-between">
           <div class="text-blue-kaizen pr-4">
             <span>{{ $t('resume.yearsExperience') }}</span>
           </div>
@@ -134,7 +134,7 @@
     <h1 class="title">
       {{ $t('resume.previousJob') }}
     </h1>
-    <div class="previous-jobs">
+    <div v-for="" class="previous-jobs">
       <div class="field-row">
         <div class="field-col flex-1">
           <ks-input dense disable-hint :label="$t('resume.companyName')" />
@@ -201,16 +201,7 @@ export default Vue.extend({
           years: null,
         },
       ],
-      secondarySkills: [
-        {
-          skill: 6,
-          years: null,
-        },
-        {
-          skill: 2,
-          years: null,
-        },
-      ],
+      secondarySkills: [],
       secondarySkill: {
         skill: null,
         years: null,
@@ -287,7 +278,7 @@ export default Vue.extend({
 
 <style scoped>
 hr {
-  @apply my-8 border-blue-light;
+  @apply mt-2 mb-6 border-blue-light mx-2;
 }
 
 .resume-header {
@@ -314,11 +305,11 @@ hr {
 .secondary-skills,
 .secondary-language,
 .previous-jobs {
-  @apply flex flex-col pt-8;
+  @apply flex flex-col pt-6;
 }
 
 .item-chips {
-  @apply flex items-center flex-wrap px-2;
+  @apply flex items-start flex-wrap px-2;
 }
 
 .item-chips > div:not(:last-child) {
