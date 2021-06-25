@@ -105,7 +105,7 @@ export default Vue.extend({
 }
 
 .input input {
-  @apply relative w-full z-10 bg-transparent text-gray-darker;
+  @apply relative min-w-6 w-full z-10 bg-transparent text-gray-darker;
 }
 
 input:focus {
