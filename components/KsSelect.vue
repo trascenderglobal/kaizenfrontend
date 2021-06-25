@@ -12,7 +12,7 @@
         class="icon clear"
         @click.stop="clearValue"
       >
-        <iconly-icon name="close" view-box="0 0 311 311.07733" :size="0.5" />
+        <iconly-icon name="close" view-box="0 0 329.26933 329" :size="0.45" />
       </div>
       <div class="icon">
         <iconly-icon

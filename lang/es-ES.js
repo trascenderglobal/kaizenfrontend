@@ -1,4 +1,8 @@
 export default {
+  languages: {
+    en: 'Inglés',
+    es: 'Español',
+  },
   login: {
     login: 'Iniciar Sesión',
     subtitle: '¡Te estamos buscando!',
@@ -98,6 +102,7 @@ export default {
       required: 'Requerido',
       minLength: 'Debe tener al menos {length} caracteres',
       sameAsPassword: 'Las contraseñas no coinciden',
+      url: 'URL inválida',
     },
   },
   profile: {
@@ -166,6 +171,8 @@ export default {
     year: '{count} año | {count} años',
     secondarySkills: 'Habilidades principales',
     secondaryLanguage: 'Idioma secundario',
+    selectLanguage: 'Selecciona un idioma',
+    level: 'Nivel',
     previousJob: 'Empleos previos',
     companyName: 'Nombre de la compañía',
     from: 'Desde',

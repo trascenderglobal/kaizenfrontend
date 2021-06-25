@@ -1,4 +1,8 @@
 export default {
+  languages: {
+    en: 'English',
+    es: 'Spanish',
+  },
   login: {
     login: 'Login',
     subtitle: 'We are looking for you!',
@@ -167,6 +171,8 @@ export default {
     year: '{count} year | {count} years',
     secondarySkills: 'Secondary skills',
     secondaryLanguage: 'Secondary language',
+    selectLanguage: 'Select a language',
+    level: 'Level',
     previousJob: 'Previous jobs',
     companyName: 'Company name',
     from: 'From',

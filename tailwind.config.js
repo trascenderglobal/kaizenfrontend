@@ -41,6 +41,9 @@ module.exports = {
         360: '90rem',
         480: '120rem',
       },
+      minHeight: {
+        4: '1rem',
+      },
       width: {
         120: '30rem',
         180: '45rem',
@@ -49,6 +52,7 @@ module.exports = {
         480: '120rem',
       },
       minWidth: {
+        4: '1rem',
         6: '1.5rem',
         40: '10rem',
         48: '12rem',
