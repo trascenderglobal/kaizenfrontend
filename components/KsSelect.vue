@@ -15,7 +15,9 @@
       tabindex="-1"
       :disabled="disabled"
     />
-    <span class="label">{{ selected.text || label }}</span>
+    <span class="label">{{
+      selected.text === null ? label : selected.text
+    }}</span>
     <div class="icon">
       <iconly-icon name="arrow-down-2" />
     </div>
@@ -26,9 +28,10 @@
             v-for="(item, i) in items"
             :key="`opt-${i}`"
             class="w-full"
-            @click.stop="changeValue(item)"
+            :class="selected.index === i ? 'selected' : ''"
+            @click.stop="changeValue(item, i)"
           >
-            {{ item[itemText] }}
+            {{ stringArray ? item : item[itemText] }}
           </div>
         </template>
         <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
@@ -39,6 +42,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
+interface Item {
+  text: string | null
+  value: string | number | null
+  index: number | null
+}
 
 export default Vue.extend({
   inheritAttrs: false,
@@ -77,25 +86,65 @@ export default Vue.extend({
     return {
       show: false,
       selected: {
-        text: '',
-        value: '',
-      },
+        text: null,
+        value: null,
+        index: null,
+      } as Item,
     }
   },
+  computed: {
+    stringArray(): Boolean {
+      if (!this.items.length) return false
+      else if (typeof this.items[0] === 'string') return true
+      return false
+    },
+  },
+  watch: {
+    items: {
+      handler() {
+        this.selected = {
+          text: null,
+          value: null,
+          index: null,
+        }
+      },
+      immediate: false,
+    },
+  },
   beforeMount() {
-    this.items.forEach((item: any) => {
-      if (item[this.itemValue] === this.value) {
-        this.selected.text = item[this.itemText]
-        this.selected.value = item[this.itemValue]
-      }
-    })
+    if (this.stringArray) {
+      ;(this.items as string[]).forEach((item: string, i: number) => {
+        if (item === this.value) {
+          this.selected.text = item
+          this.selected.value = item
+          this.selected.index = i
+        }
+      })
+    } else {
+      ;(this.items as any[]).forEach((item: any, i: number) => {
+        if (item[this.itemValue] === this.value) {
+          this.selected.text = item[this.itemText]
+          this.selected.value = item[this.itemValue]
+          this.selected.index = i
+        }
+      })
+    }
   },
   methods: {
-    changeValue(item: any) {
-      this.selected.text = item[this.itemText]
-      this.selected.value = item[this.itemValue]
-      this.show = false
-      this.$emit('input', item[this.itemValue])
+    changeValue(item: any, i: number) {
+      if (this.stringArray) {
+        this.selected.text = item
+        this.selected.value = item
+        this.selected.index = i
+        this.show = false
+        this.$emit('input', item)
+      } else {
+        this.selected.text = item[this.itemText]
+        this.selected.value = item[this.itemValue]
+        this.selected.index = i
+        this.show = false
+        this.$emit('input', item[this.itemValue])
+      }
     },
     showItems() {
       if (!this.disabled) this.show = !this.show
@@ -123,7 +172,7 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-20 left-0 top-8 w-full flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-20 left-0 top-8 w-full max-h-48 overflow-y-auto flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
 .items div:first-child {
@@ -144,6 +193,10 @@ export default Vue.extend({
 
 .items div:not(.no-items) {
   @apply hover:bg-gray-lighter cursor-pointer;
+}
+
+.items .selected {
+  @apply bg-gray-lighter;
 }
 
 .items-leave-active {

@@ -103,6 +103,7 @@ export default {
   },
   profile: {
     myProfile: 'My profile',
+    userImage: 'Profile picture',
     contactInfo: 'Contact Information',
     editProfile: 'Edit profile',
     novelties: 'Novelties',
@@ -125,6 +126,7 @@ export default {
     noIndustry: 'No industry associated',
     notSet: 'Not set',
     edit: {
+      addImage: 'Add your profile picture',
       typeRole: 'Type your role',
       typeZip: 'Type your zip',
       birthDate: 'Birth date',

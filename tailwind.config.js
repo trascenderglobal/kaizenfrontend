@@ -14,7 +14,8 @@ module.exports = {
     extend: {
       colors: {
         red: {
-          kaizen: '#E93544',
+          badge: '#E93544',
+          kaizen: '#F2868F',
         },
         gray: {
           lightest: '#F3F3F3',

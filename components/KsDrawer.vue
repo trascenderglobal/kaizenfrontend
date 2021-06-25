@@ -179,7 +179,7 @@ export default Vue.extend({
 }
 
 .job-badge {
-  @apply absolute z-10 top-7 right-13 h-2 w-2 rounded-full bg-red-500;
+  @apply absolute z-10 top-7 right-13 h-2 w-2 rounded-full bg-red-badge;
 }
 
 #logout {

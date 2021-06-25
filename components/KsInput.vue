@@ -4,7 +4,7 @@
       class="input"
       :class="[
         outlined ? 'outlined' : '',
-        errorMessages.length ? '' : '',
+        errorMessages.length || error ? 'error' : '',
         borderColor,
       ]"
     >
@@ -33,7 +33,9 @@
     <div
       v-if="!disableHint"
       class="hint"
-      :class="[errorMessages.length ? 'text-red-400' : 'text-gray-dark']"
+      :class="[
+        errorMessages.length || error ? 'text-red-kaizen' : 'text-gray-dark',
+      ]"
     >
       {{ errorMessages.length ? errorMessages[0] : hint }}
     </div>
@@ -63,6 +65,7 @@ export default Vue.extend({
       type: Array,
       default: () => [],
     },
+    error: Boolean,
     hint: {
       type: String,
       default: '',
@@ -132,7 +135,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .outlined.error {
-  @apply border-red-400;
+  @apply border-red-kaizen;
 }
 
 .icon {

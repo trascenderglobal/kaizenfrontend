@@ -31,7 +31,7 @@
         <div class="user-img-lg" :class="{ 'cursor-pointer': edit }">
           <div
             v-if="edit"
-            class="w-full h-full"
+            class="img-wrapper"
             @click="$refs.imgInput.click()"
             @dragenter.prevent
             @dragover.prevent
@@ -41,27 +41,33 @@
             <input
               ref="imgInput"
               type="file"
-              accept="image/*"
+              accept=".png, .jpg, .jpeg"
               class="img-input"
               @change="setFile"
             />
+            <div
+              role="img"
+              :aria-label="$t('profile.userImage')"
+              class="img"
+              :style="userImage"
+            ></div>
             <div class="add-img">
-              <iconly-icon name="image" class="fill-current text-white" />
+              <iconly-icon
+                name="plus"
+                type="bold"
+                class="fill-current text-white"
+              />
             </div>
           </div>
-          <template v-else>
-            <div v-if="!profile.profile_picture_URL" class="img-placeholder">
-              <iconly-icon name="image" class="fill-current text-white" />
-            </div>
-            <div v-else class="img-wrapper">
-              <div
-                class="img"
-                :style="{
-                  'background-image': `url(${profile.profile_picture_URL})`,
-                }"
-              ></div>
-            </div>
-          </template>
+          <div v-else class="img-wrapper">
+            <iconly-icon name="image" class="fill-current text-white" />
+            <div
+              role="img"
+              :aria-label="$t('profile.userImage')"
+              class="img"
+              :style="userImage"
+            ></div>
+          </div>
         </div>
         <div class="flex flex-col space-y-2">
           <template v-if="!edit">
@@ -77,7 +83,7 @@
             >
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.birthdate }"
+              :class="{ 'select-none': !profile.birthDate }"
               >{{
                 profile.birthDate
                   ? $d(profile.birthDate, 'numeric')
@@ -144,7 +150,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.state }"
-            >{{ profile.state ? profile.state : '-' }}</span
+            >{{ stateAbbr }}</span
           >
           <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
@@ -173,9 +179,11 @@
             <ks-input
               v-model="profile.phone"
               border-color="border-blue-light"
+              :error="$v.profile.phone.$error"
               :label="$t('profile.edit.phone')"
               disable-hint
               dense
+              @blur="$v.profile.phone.$touch"
             />
           </div>
         </div>
@@ -198,6 +206,7 @@
               v-model="profile.city"
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
+              :items="cities"
               bg-color="bg-transparent"
               color="text-gray-darker"
             />
@@ -214,9 +223,11 @@
             <ks-input
               v-model="profile.email"
               border-color="border-blue-light"
+              :error="$v.profile.email.$error"
               :label="$t('profile.edit.email')"
               disable-hint
               dense
+              @blur="$v.profile.email.$touch"
             />
           </div>
         </div>
@@ -238,10 +249,12 @@
             <ks-input
               v-model="profile.zip"
               border-color="border-blue-light"
+              :error="$v.profile.zip.$error"
               :label="$t('profile.edit.typeZip')"
-              maxlength="5"
+              maxlength="9"
               disable-hint
               dense
+              @blur="$v.profile.zip.$touch"
             />
           </div>
         </div>
@@ -255,6 +268,9 @@
             <button
               type="button"
               class="linkedin-btn"
+              :class="{
+                active: profile.linkedin && !$v.profile.linkedin.$invalid,
+              }"
               :disabled="edit"
               @click.stop="showLinkedin"
             >
@@ -266,7 +282,9 @@
                 border-color="border-blue-light"
                 dense
                 disable-hint
+                :error="$v.profile.linkedin.$error"
                 :label="$t('profile.edit.linkedin')"
+                @blur="$v.profile.linkedin.$touch"
               />
             </div>
           </div>
@@ -294,7 +312,12 @@
               <h1 class="text-3xl font-medium text-center text-blue-kaizen">
                 {{ $t('profile.edit.saved.title') }}
               </h1>
-              <div class="user-img-lg"></div>
+              <div class="user-img-lg">
+                <div class="img-wrapper">
+                  <iconly-icon name="image" class="fill-current text-white" />
+                  <div class="img" :style="userImage"></div>
+                </div>
+              </div>
               <hr class="border self-stretch" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}
@@ -317,25 +340,34 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {
-  // required,
-  minLength,
-  maxLength,
-  url,
-  helpers,
-} from 'vuelidate/lib/validators'
+import { helpers, email } from 'vuelidate/lib/validators'
 
 const isLinkedin = helpers.regex(
   'isLinkedin',
-  /https:\/\/(www\.)?linkedin\.com\/in\/./i
+  /^https:\/\/(www\.)?linkedin\.com\/in\/./i
 )
 
+const isPhoneUS = helpers.regex(
+  'isPhoneUS',
+  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+)
+// Indiana and Michigan ZIP codes start at 46 and 49
+const isZIP = helpers.regex('isZIP', /^4[6-9]\d{3}(?:[- ]?\d{4})?$/)
+
 const isImage = (value: File) => {
-  if (value) return value.type.includes('image')
+  if (value)
+    return (
+      value.type.includes('png') ||
+      value.type.includes('jpg') ||
+      value.type.includes('jpeg')
+    )
   return true
 }
 
+type Image = null | File
+
 export default Vue.extend({
+  name: 'ProfilePage',
   layout: 'employee',
   async asyncData({ app }) {
     try {
@@ -352,7 +384,7 @@ export default Vue.extend({
       saved: false,
       loading: false,
       showSocial: false,
-      image: null,
+      image: null as Image,
       profile: {
         name: '',
         lastName: '',
@@ -364,15 +396,16 @@ export default Vue.extend({
         email: '',
         zip: '',
         linkedin: '',
+        profile_picture_URL: '',
       },
       states: [
         {
           text: 'Indiana',
-          value: 'Indiana',
+          value: 'IN',
         },
         {
           text: 'Michigan',
-          value: 'Michigan',
+          value: 'MI',
         },
       ],
     }
@@ -392,7 +425,6 @@ export default Vue.extend({
         },
         ...i18nHead.meta,
       ],
-      link: [i18nHead.link],
     }
   },
   computed: {
@@ -400,6 +432,63 @@ export default Vue.extend({
       const labor = new Date()
       labor.setFullYear(labor.getFullYear() - 14)
       return labor
+    },
+    stateAbbr(): String {
+      if (this.profile.state === 'IN') return 'Indiana'
+      if (this.profile.state === 'MI') return 'Michigan'
+      return '-'
+    },
+    cities(): String[] {
+      if (this.profile.state === 'IN')
+        return [
+          'Bremen',
+          'Bristol',
+          'Dunlap',
+          'Elkhart',
+          'Goshen',
+          'Granger',
+          'Jamestown',
+          'LaGrange',
+          'Ligonier',
+          'Middleburry',
+          'Milford',
+          'Mishawaka',
+          'Nappanee',
+          'New Paris',
+          'Osceola',
+          'Plymouth',
+          'South Bend',
+          'Syracuse',
+          'Wakarusa',
+          'Warsaw',
+        ]
+      if (this.profile.state === 'MI')
+        return [
+          'Allenton',
+          'Berrien Springs',
+          'Buchanan',
+          'Cassopolis',
+          'Constantine',
+          'Dowagiac',
+          'Eau Claire',
+          'Edwardsburg',
+          'Galien',
+          'Jones',
+          'Marcellus',
+          'Niles',
+          'Pokagon',
+          'Union',
+          'Vandalia',
+          'White Pigeon',
+        ]
+      return []
+    },
+    userImage(): Object {
+      if (this.profile.profile_picture_URL)
+        return {
+          'background-image': `url(${this.profile.profile_picture_URL})`,
+        }
+      return {}
     },
     statuses(): Object[] {
       return [
@@ -412,6 +501,13 @@ export default Vue.extend({
           value: 0,
         },
       ]
+    },
+  },
+  watch: {
+    'profile.state': {
+      handler() {
+        this.profile.city = ''
+      },
     },
   },
   methods: {
@@ -430,13 +526,22 @@ export default Vue.extend({
           data.append('birth_date', this.profile.birthDate.toJSON())
         data.append('name', this.$auth.user.name)
         data.append('last_name', this.$auth.user.lastName)
-        data.append('novelties', this.profile.novelties || '')
+        data.append(
+          'novelties',
+          this.profile.novelties === null ? '' : this.profile.novelties
+        )
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')
         data.append('city', this.profile.city || '')
         data.append('zip', this.profile.zip || '')
         data.append('linkedin', this.profile.linkedin || '')
         await this.$axios.$post('/employee/profile/edit', data)
+        // re fetch user profile
+        const res = await this.$axios.$get('/employee/profile')
+        res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+        URL.revokeObjectURL(this.profile.profile_picture_URL)
+        this.profile = res
+        this.image = null
         this.saved = true
       } catch (error) {
         this.saved = false
@@ -449,26 +554,38 @@ export default Vue.extend({
         window.open(this.profile.linkedin, '_blank')
     },
     setFile(e: any) {
-      const fileList = [...e.target.files]
+      const fileList: File[] = [...e.target.files]
       this.image = fileList[0]
+      this.$v.image.$touch()
+      if (this.$v.image.isImage)
+        this.profile.profile_picture_URL = URL.createObjectURL(this.image)
+      else this.image = null
     },
     setFileDrop(e: any) {
-      const fileList = [...e.dataTransfer.files]
+      const fileList: File[] = [...e.dataTransfer.files]
       this.image = fileList[0]
+      this.$v.image.$touch()
+      if (this.$v.image.isImage)
+        this.profile.profile_picture_URL = URL.createObjectURL(this.image)
+      else this.image = null
     },
   },
   validations() {
     return {
+      image: {
+        isImage,
+      },
       profile: {
-        image: {
-          isImage,
+        phone: {
+          isPhoneUS,
+        },
+        email: {
+          email,
         },
         zip: {
-          minLength: minLength(5),
-          maxLength: maxLength(5),
+          isZIP,
         },
         linkedin: {
-          url,
           isLinkedin,
         },
       },
@@ -490,24 +607,21 @@ export default Vue.extend({
   @apply flex-shrink-0 w-20 h-20;
 }
 
-.user-img-lg:hover .add-img {
-  @apply opacity-100 visible;
+.add-img:hover {
+  @apply bg-opacity-50 transition duration-200;
 }
 
 .add-img {
-  @apply flex items-center justify-center w-full h-full rounded-md opacity-0 invisible bg-opacity-30 bg-black transition duration-200;
-}
-
-.img-placeholder {
-  @apply flex items-center justify-center w-full h-full rounded-md bg-gray-darker;
+  @apply absolute flex items-center justify-center z-20 w-full h-full rounded-lg bg-opacity-20 bg-black shadow-md;
 }
 
 .img-wrapper {
-  @apply relative w-full h-full bg-gray-darker rounded-lg;
+  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
 }
 
-.img-wrapper > .img {
-  @apply w-full h-full bg-no-repeat bg-center bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
+.img-wrapper > .img,
+.add-img > .img {
+  @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
 }
 
 .img-input {
@@ -515,11 +629,16 @@ export default Vue.extend({
 }
 
 .linkedin-btn {
-  @apply flex transition items-center justify-center rounded-lg cursor-pointer w-8 h-8 focus:outline-none bg-blue-light hover:bg-blue-kaizen;
+  @apply flex transition items-center justify-center cursor-default rounded-lg w-8 h-8 focus:outline-none bg-blue-light;
 }
 
-.linkedin-btn:disabled {
-  @apply bg-gray-darker hover:bg-gray-darker cursor-auto;
+.linkedin-btn.active {
+  @apply cursor-pointer hover:bg-blue-kaizen;
+}
+
+.linkedin-btn:disabled,
+.linkedin-btn.active:disabled {
+  @apply bg-gray-darker hover:bg-gray-darker cursor-default;
 }
 
 .edit-profile-btn {

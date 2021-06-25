@@ -12,7 +12,25 @@
 import Vue from 'vue'
 
 export default Vue.extend({
+  name: 'ResumePage',
   layout: 'employee',
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('resume.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('resume.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
 })
 </script>
 

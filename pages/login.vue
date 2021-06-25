@@ -118,6 +118,7 @@ import Vue from 'vue'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
+  name: 'LoginPage',
   auth: 'guest',
   data() {
     return {
@@ -143,7 +144,6 @@ export default Vue.extend({
         },
         ...i18nHead.meta,
       ],
-      link: [...i18nHead.link],
     }
   },
   computed: {

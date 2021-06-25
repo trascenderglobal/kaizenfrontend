@@ -102,6 +102,7 @@ export default {
   },
   profile: {
     myProfile: 'Mi perfil',
+    userImage: 'Foto de perfil',
     contactInfo: 'Información de Contacto',
     editProfile: 'Editar perfil',
     novelties: 'Novedades',
@@ -124,6 +125,7 @@ export default {
     noIndustry: 'Sin industria asociada',
     notSet: 'No establecido',
     edit: {
+      addImage: 'Agrega tu foto de perfil',
       typeRole: 'Escribe tu rol',
       typeZip: 'Escribe tu zip',
       birthDate: 'Fecha de nacimiento',
