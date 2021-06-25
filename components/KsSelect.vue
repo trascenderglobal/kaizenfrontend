@@ -1,53 +1,52 @@
 <template>
   <div
-    class="ks-select"
+    class="field"
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
-    tabindex="0"
-    @click="showItems"
-    @blur="show = false"
   >
-    <input
-      v-bind="$attrs"
-      :value="selected.value"
-      class="input"
-      type="text"
-      readonly
-      tabindex="-1"
-      :disabled="disabled"
-    />
-    <span class="label">{{
-      selected.text === null ? label : selected.text
-    }}</span>
-    <div
-      v-if="clearable && selected.text && !disabled"
-      class="icon clear"
-      @click.stop="clearValue"
-    >
-      <iconly-icon name="close" view-box="0 0 311 311.07733" :size="0.5" />
-    </div>
-    <div class="icon">
-      <iconly-icon
-        class="transition"
-        :class="{ 'transform rotate-180': show }"
-        name="arrow-down-2"
-      />
-    </div>
-    <transition name="items">
-      <div v-if="!disabled" v-show="show" class="items scroller">
-        <template v-if="items.length">
-          <div
-            v-for="(item, i) in items"
-            :key="`opt-${i}`"
-            class="w-full"
-            :class="selected.index === i ? 'selected' : ''"
-            @click.stop="changeValue(item, i)"
-          >
-            {{ simpleArray ? item : item[itemText] }}
-          </div>
-        </template>
-        <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
+    <div class="ks-select" tabindex="0" @click="showItems" @blur="show = false">
+      <span class="label">{{
+        selected.text === null ? label : selected.text
+      }}</span>
+      <div
+        v-if="clearable && selected.text && !disabled"
+        class="icon clear"
+        @click.stop="clearValue"
+      >
+        <iconly-icon name="close" view-box="0 0 311 311.07733" :size="0.5" />
       </div>
-    </transition>
+      <div class="icon">
+        <iconly-icon
+          class="transition"
+          :class="{ 'transform rotate-180': show }"
+          name="arrow-down-2"
+        />
+      </div>
+      <transition name="items">
+        <div v-if="!disabled" v-show="show" class="items scroller">
+          <template v-if="items.length">
+            <div
+              v-for="(item, i) in items"
+              :key="`opt-${i}`"
+              class="w-full"
+              :class="selected.index === i ? 'selected' : ''"
+              @click.stop="changeValue(item, i)"
+            >
+              {{ simpleArray ? item : item[itemText] }}
+            </div>
+          </template>
+          <div v-else class="w-full no-items">{{ $t('select.noItems') }}</div>
+        </div>
+      </transition>
+    </div>
+    <div
+      v-if="enableHint"
+      class="hint"
+      :class="[
+        errorMessages.length || error ? 'text-red-kaizen' : 'text-gray-dark',
+      ]"
+    >
+      {{ errorMessages.length ? errorMessages[0] : hint }}
+    </div>
   </div>
 </template>
 
@@ -61,7 +60,6 @@ interface Item {
 }
 
 export default Vue.extend({
-  inheritAttrs: false,
   props: {
     disabled: Boolean,
     clearable: Boolean,
@@ -72,6 +70,16 @@ export default Vue.extend({
     items: {
       type: Array,
       default: () => [],
+    },
+    enableHint: Boolean,
+    errorMessages: {
+      type: Array,
+      default: () => [],
+    },
+    error: Boolean,
+    hint: {
+      type: String,
+      default: '',
     },
     bgColor: {
       type: String,
@@ -174,13 +182,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.ks-select {
-  @apply relative flex justify-between w-full rounded-lg py-0.5 px-1;
+.field {
+  @apply w-full rounded-lg;
 }
 
-.ks-select .input {
-  z-index: -1;
-  @apply opacity-0 absolute w-full inline-flex select-none;
+.hint {
+  @apply h-5 text-sm px-1 pt-0.5;
+}
+
+.ks-select {
+  @apply relative flex justify-between w-full rounded-lg py-0.5 px-1;
 }
 
 .ks-select .label {

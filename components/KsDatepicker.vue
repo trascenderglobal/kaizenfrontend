@@ -5,7 +5,6 @@
     tabindex="0"
     @click="showItems"
   >
-    <input class="input" type="text" readonly :disabled="disabled" />
     <span class="label">{{ date ? $d(date) : label }}</span>
     <div
       v-if="clearable && date && !disabled"
@@ -98,11 +97,6 @@ export default Vue.extend({
 <style scoped>
 .ks-select {
   @apply relative flex justify-between w-full rounded-lg px-1 py-0.5;
-}
-
-.ks-select .input {
-  z-index: -1;
-  @apply opacity-0 absolute w-full inline-flex select-none;
 }
 
 .ks-select .label {

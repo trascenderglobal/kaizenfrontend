@@ -1,5 +1,5 @@
 <template>
-  <div class="ks-drawer">
+  <div class="ks-drawer scroller">
     <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
       <img
         class="kaizen-img"
