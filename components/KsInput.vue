@@ -4,7 +4,7 @@
       class="input"
       :class="[
         outlined ? 'outlined' : '',
-        errorMessages.length ? '' : '',
+        errorMessages.length || error ? 'error' : '',
         borderColor,
       ]"
     >
@@ -15,6 +15,7 @@
         <input
           v-bind="$attrs"
           :value="value"
+          :title="label"
           placeholder=" "
           @input="$emit('input', $event.target.value)"
           @blur="$emit('blur')"
@@ -32,7 +33,9 @@
     <div
       v-if="!disableHint"
       class="hint"
-      :class="[errorMessages.length ? 'text-red-400' : 'text-gray-dark']"
+      :class="[
+        errorMessages.length || error ? 'text-red-kaizen' : 'text-gray-dark',
+      ]"
     >
       {{ errorMessages.length ? errorMessages[0] : hint }}
     </div>
@@ -62,6 +65,7 @@ export default Vue.extend({
       type: Array,
       default: () => [],
     },
+    error: Boolean,
     hint: {
       type: String,
       default: '',
@@ -89,11 +93,11 @@ export default Vue.extend({
 }
 
 .input {
-  @apply flex w-full;
+  @apply flex w-full px-1;
 }
 
 .input-wrapper {
-  @apply relative flex w-full p-3;
+  @apply relative flex flex-grow p-3;
 }
 
 .input-wrapper.dense {
@@ -101,7 +105,7 @@ export default Vue.extend({
 }
 
 .input input {
-  @apply inline-flex flex-grow z-10 bg-transparent text-gray-darker;
+  @apply relative w-full z-10 bg-transparent text-gray-darker;
 }
 
 input:focus {
@@ -119,7 +123,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .label {
-  @apply transition transform duration-200 absolute left-0 top-3 px-1 select-none z-0 text-gray-dark;
+  @apply transition transform max-w-full duration-200 absolute left-0 top-3 select-none z-0 text-gray-dark whitespace-nowrap overflow-hidden overflow-ellipsis;
 }
 
 .dense .label {
@@ -131,7 +135,7 @@ input:not(:placeholder-shown) + .label {
 }
 
 .outlined.error {
-  @apply border-red-400;
+  @apply border-red-kaizen;
 }
 
 .icon {

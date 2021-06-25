@@ -1,4 +1,8 @@
 export default {
+  languages: {
+    en: 'Inglés',
+    es: 'Español',
+  },
   login: {
     login: 'Iniciar Sesión',
     subtitle: '¡Te estamos buscando!',
@@ -56,14 +60,41 @@ export default {
     seeAll: 'Ver todo',
     noAlerts: 'No hay alertas',
   },
-  approved:{
+  approved: {
     approved: 'Aprobado',
     alerts: 'El nuevo talento de tu empresa te está esperando',
     seeAll: 'Ver todo',
-    noApproved: 'No hay aprobados'
+    noApproved: 'No hay aprobados',
   },
   select: {
     noItems: 'Sin artículos',
+  },
+  datepicker: {
+    lang: {
+      formatLocale: {
+        // MMM
+        monthsShort: [
+          'Ene',
+          'Feb',
+          'Mar',
+          'Abr',
+          'May',
+          'Jun',
+          'Jul',
+          'Ago',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dic',
+        ],
+        // dd
+        weekdaysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+        // first day of week
+        firstDayOfWeek: 0,
+        // first week contains January 1st.
+        firstWeekContainsDate: 1,
+      },
+    },
   },
   forms: {
     errors: {
@@ -71,10 +102,12 @@ export default {
       required: 'Requerido',
       minLength: 'Debe tener al menos {length} caracteres',
       sameAsPassword: 'Las contraseñas no coinciden',
+      url: 'URL inválida',
     },
   },
   profile: {
     myProfile: 'Mi perfil',
+    userImage: 'Foto de perfil',
     contactInfo: 'Información de Contacto',
     editProfile: 'Editar perfil',
     novelties: 'Novedades',
@@ -94,15 +127,17 @@ export default {
     social: 'Social',
     noBirth: 'Sin fecha de nacimiento',
     noSkills: 'Sin habilidades asociadas',
-    noIndustry:'Sin industria asociada',
+    noIndustry: 'Sin industria asociada',
     notSet: 'No establecido',
     edit: {
+      addImage: 'Agrega tu foto de perfil',
       typeRole: 'Escribe tu rol',
       typeZip: 'Escribe tu zip',
       birthDate: 'Fecha de nacimiento',
       select: 'Seleccionar',
       phone: 'Escribe un número de teléfono',
       email: 'Tu mejor e-mail',
+      linkedin: 'Tu perfil de LinkedIn',
       save: 'Guardar',
       saved: {
         title: 'Cambios guardados',
@@ -110,14 +145,34 @@ export default {
         btn: '¡Asombroso!',
       },
     },
+    meta: {
+      title: 'Perfil',
+      description: 'Perfil',
+    },
   },
   resume: {
     myResume: 'Mi currículum',
     mainSkills: 'Habilidades principales',
-    typeSkill: 'Escribe una habilidad',
+    selectSkill: 'Selecciona una habilidad',
+    skills: {
+      0: 'Pegado',
+      1: 'Montaje',
+      2: 'Costura',
+      3: 'Corte',
+      4: 'Tapicería',
+      5: 'Embalaje',
+      6: 'Soldadura MIG',
+      7: 'Soldadura TIG',
+      8: 'Soldadura MIG y TIG',
+      9: 'Trabajo general',
+    },
     yearsExperience: 'Años de experiencia',
+    years: 'Años',
+    year: '{count} año | {count} años',
     secondarySkills: 'Habilidades principales',
     secondaryLanguage: 'Idioma secundario',
+    selectLanguage: 'Selecciona un idioma',
+    level: 'Nivel',
     previousJob: 'Empleos previos',
     companyName: 'Nombre de la compañía',
     from: 'Desde',
@@ -126,12 +181,16 @@ export default {
     contactPerson: 'Persona de contacto',
     phone: 'Teléfono',
     addMoreExperience: 'Ingresa más experiencia',
+    meta: {
+      title: 'Currículum',
+      description: 'Currículum',
+    },
   },
   deals: {
     deals: 'Tratos',
     header: 'Filtrar por reciente, aprobado, en proceso, pasado o cancelado',
     showBy: 'Mostrar: ',
-    table:{
+    table: {
       searched: 'Buscado',
       date: 'Fecha',
       status: 'Status',
@@ -147,7 +206,8 @@ export default {
   },
   requests: {
     requests: 'Solicitudes',
-    header: 'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
+    header:
+      'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
     showBy: 'Mostrar: ',
     table: {
       name: 'Nombre',
@@ -170,7 +230,8 @@ export default {
     renew: 'Debes renovar tu suscripción el',
     changePayment: 'cambiar metodo de pago',
     unsuscribe: 'Cancelar suscripción',
-    ifUnsuscribe: 'Si cancelas tu suscripción todos tus datos serán borrados, ¿estás seguro?',
-    noDate: 'Sin datos'
-  }
+    ifUnsuscribe:
+      'Si cancelas tu suscripción todos tus datos serán borrados, ¿estás seguro?',
+    noDate: 'Sin datos',
+  },
 }

@@ -28,7 +28,51 @@
     </h1>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <div class="user-img-lg"></div>
+        <div class="user-img-lg" :class="{ 'cursor-pointer': edit }">
+          <div
+            v-if="edit"
+            class="img-wrapper"
+            @click="$refs.imgInput.click()"
+            @dragenter.prevent
+            @dragover.prevent
+            @dragleave.prevent
+            @drop.prevent="setFileDrop"
+          >
+            <input
+              ref="imgInput"
+              type="file"
+              accept=".png, .jpg, .jpeg"
+              class="img-input"
+              @change="setFile"
+            />
+            <div
+              role="img"
+              :aria-label="$t('profile.userImage')"
+              class="img"
+              :style="userImage"
+            ></div>
+            <div class="add-img">
+              <iconly-icon
+                name="camera"
+                class="fill-current text-white"
+                :size="1.2"
+              />
+            </div>
+          </div>
+          <div v-else class="img-wrapper">
+            <iconly-icon
+              name="camera"
+              :size="1.2"
+              class="fill-current text-white"
+            />
+            <div
+              role="img"
+              :aria-label="$t('profile.userImage')"
+              class="img"
+              :style="userImage"
+            ></div>
+          </div>
+        </div>
         <div class="flex flex-col space-y-2">
           <template v-if="!edit">
             <span class="font-medium text-blue-kaizen">{{
@@ -43,10 +87,10 @@
             >
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.birthdate }"
+              :class="{ 'select-none': !profile.birthDate }"
               >{{
                 profile.birthDate
-                  ? $d(new Date(), 'numeric')
+                  ? $d(profile.birthDate, 'numeric')
                   : $t('profile.noBirth')
               }}</span
             >
@@ -60,13 +104,16 @@
               dense
               disable-hint
               :label="$t('profile.edit.typeRole')"
-            ></ks-input>
+            />
             <ks-datepicker
+              v-model="profile.birthDate"
               class="border border-blue-light"
               :label="$t('profile.edit.birthDate')"
+              :disabled-date="isLaborAge"
               bg-color="bg-transparent"
               color="text-gray-darker"
-            ></ks-datepicker>
+              clearable
+            />
           </template>
         </div>
       </div>
@@ -77,13 +124,28 @@
         <span class="font-light text-gray-dark"
           >{{ $t('profile.status') }}:</span
         >
-        <ks-select :label="$t('profile.status')" :disabled="!edit"></ks-select>
+        <ks-select
+          v-model="profile.novelties"
+          :label="$t('profile.status')"
+          :bg-color="
+            edit
+              ? 'bg-gray-darker'
+              : profile.novelties === 1
+              ? 'bg-green-kaizen'
+              : profile.novelties === 0
+              ? 'bg-red-kaizen'
+              : 'bg-gray-darker'
+          "
+          :disabled="!edit"
+          :items="statuses"
+          clearable
+        />
       </div>
     </div>
-    <hr class="my-8 border" />
-    <div class="flex flex-col space-y-4">
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+    <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
+    <div class="fields">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.state')
@@ -93,19 +155,21 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.state }"
-            >{{ profile.state ? profile.state : '-' }}</span
+            >{{ stateAbbr }}</span
           >
-          <div v-else class="w-1/2">
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
               v-model="profile.state"
+              :items="states"
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
               bg-color="bg-transparent"
+              clearable
               color="text-gray-darker"
-            ></ks-select>
+            />
           </div>
         </div>
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.phone')
@@ -117,20 +181,21 @@
             :class="{ 'select-none': !profile.phone }"
             >{{ profile.phone ? profile.phone : '-' }}</span
           >
-          <div v-else class="w-full">
+          <div v-else class="flex-grow">
             <ks-input
               v-model="profile.phone"
               border-color="border-blue-light"
+              :error="$v.profile.phone.$error"
               :label="$t('profile.edit.phone')"
               disable-hint
               dense
-            >
-            </ks-input>
+              @blur="$v.profile.phone.$touch"
+            />
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.city')
@@ -142,37 +207,40 @@
             :class="{ 'select-none': !profile.city }"
             >{{ profile.city ? profile.city : '-' }}</span
           >
-          <div v-else class="w-1/2">
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
               v-model="profile.city"
               class="border border-blue-light"
               :label="$t('profile.edit.select')"
+              :items="cities"
+              clearable
               bg-color="bg-transparent"
               color="text-gray-darker"
-            ></ks-select>
+            />
           </div>
         </div>
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.email')
             }}</span>
           </div>
           <span v-if="!edit" class="item-value">{{ profile.email }}</span>
-          <div v-else class="w-full">
+          <div v-else class="flex-grow">
             <ks-input
               v-model="profile.email"
               border-color="border-blue-light"
+              :error="$v.profile.email.$error"
               :label="$t('profile.edit.email')"
               disable-hint
               dense
-            >
-            </ks-input>
+              @blur="$v.profile.email.$touch"
+            />
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.zip')
@@ -184,33 +252,48 @@
             :class="{ 'select-none': !profile.zip }"
             >{{ profile.zip ? profile.zip : '-' }}</span
           >
-          <div v-else class="w-1/2">
-            <ks-select
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
+            <ks-input
               v-model="profile.zip"
-              class="border border-blue-light"
-              :label="$t('profile.edit.select')"
-              bg-color="bg-transparent"
-              color="text-gray-darker"
-            ></ks-select>
+              border-color="border-blue-light"
+              :error="$v.profile.zip.$error"
+              :label="$t('profile.edit.typeZip')"
+              maxlength="9"
+              disable-hint
+              dense
+              @blur="$v.profile.zip.$touch"
+            />
           </div>
         </div>
-        <div class="flex items-center w-full lg:w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.social')
             }}</span>
           </div>
-          <div class="inline-flex items-center space-x-2">
-            <div class="rounded-md cursor-pointer w-7 h-7 bg-blue-light"></div>
+          <div class="flex-grow inline-flex items-center space-x-2">
             <button
               type="button"
-              class="social-btn text-link-blue"
-              :disabled="!edit"
+              class="linkedin-btn"
+              :class="{
+                active: profile.linkedin && !$v.profile.linkedin.$invalid,
+              }"
+              :disabled="edit"
+              @click.stop="showLinkedin"
             >
-              <i
-                ><iconly-icon name="plus" :size="1.25" class="fill-current"
-              /></i>
+              <iconly-icon name="linkedin" :size="0.8" />
             </button>
+            <div v-if="edit" class="flex-grow">
+              <ks-input
+                v-model="profile.linkedin"
+                border-color="border-blue-light"
+                dense
+                disable-hint
+                :error="$v.profile.linkedin.$error"
+                :label="$t('profile.edit.linkedin')"
+                @blur="$v.profile.linkedin.$touch"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -236,7 +319,16 @@
               <h1 class="text-3xl font-medium text-center text-blue-kaizen">
                 {{ $t('profile.edit.saved.title') }}
               </h1>
-              <div class="user-img-lg"></div>
+              <div class="user-img-lg">
+                <div class="img-wrapper">
+                  <iconly-icon
+                    name="camera"
+                    :size="1.2"
+                    class="fill-current text-white"
+                  />
+                  <div class="img" :style="userImage"></div>
+                </div>
+              </div>
               <hr class="border self-stretch" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}
@@ -259,12 +351,39 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { helpers, email } from 'vuelidate/lib/validators'
+
+const isLinkedin = helpers.regex(
+  'isLinkedin',
+  /^https:\/\/(www\.)?linkedin\.com\/in\/./i
+)
+
+const isPhoneUS = helpers.regex(
+  'isPhoneUS',
+  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+)
+// Indiana and Michigan ZIP codes start at 46 and 49
+const isZIP = helpers.regex('isZIP', /^4[6-9]\d{3}(?:[- ]?\d{4})?$/)
+
+const isImage = (value: File) => {
+  if (value)
+    return (
+      value.type.includes('png') ||
+      value.type.includes('jpg') ||
+      value.type.includes('jpeg')
+    )
+  return true
+}
+
+type Image = null | File
 
 export default Vue.extend({
+  name: 'ProfilePage',
   layout: 'employee',
   async asyncData({ app }) {
     try {
       const res = await app.$axios.$get('/employee/profile')
+      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
       return {
         profile: res,
       }
@@ -275,36 +394,165 @@ export default Vue.extend({
       edit: false,
       saved: false,
       loading: false,
+      showSocial: false,
+      image: null as Image,
       profile: {
         name: '',
         lastName: '',
-        birthDate: null,
-        novelties: null,
-        state: null,
-        city: null,
-        phone: null,
+        birthDate: new Date(),
+        novelties: '',
+        state: '',
+        city: '',
+        phone: '',
         email: '',
-        zip: null,
-        linkedin: null,
+        zip: '',
+        linkedin: '',
+        profile_picture_URL: '',
       },
+      states: [
+        {
+          text: 'Indiana',
+          value: 'IN',
+        },
+        {
+          text: 'Michigan',
+          value: 'MI',
+        },
+      ],
     }
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('profile.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('profile.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
+  computed: {
+    laborAge(): Date {
+      const labor = new Date()
+      labor.setFullYear(labor.getFullYear() - 14)
+      return labor
+    },
+    stateAbbr(): String {
+      if (this.profile.state === 'IN') return 'Indiana'
+      if (this.profile.state === 'MI') return 'Michigan'
+      return '-'
+    },
+    cities(): String[] {
+      if (this.profile.state === 'IN')
+        return [
+          'Bremen',
+          'Bristol',
+          'Dunlap',
+          'Elkhart',
+          'Goshen',
+          'Granger',
+          'Jamestown',
+          'LaGrange',
+          'Ligonier',
+          'Middleburry',
+          'Milford',
+          'Mishawaka',
+          'Nappanee',
+          'New Paris',
+          'Osceola',
+          'Plymouth',
+          'South Bend',
+          'Syracuse',
+          'Wakarusa',
+          'Warsaw',
+        ]
+      if (this.profile.state === 'MI')
+        return [
+          'Allenton',
+          'Berrien Springs',
+          'Buchanan',
+          'Cassopolis',
+          'Constantine',
+          'Dowagiac',
+          'Eau Claire',
+          'Edwardsburg',
+          'Galien',
+          'Jones',
+          'Marcellus',
+          'Niles',
+          'Pokagon',
+          'Union',
+          'Vandalia',
+          'White Pigeon',
+        ]
+      return []
+    },
+    userImage(): Object {
+      if (this.profile.profile_picture_URL)
+        return {
+          'background-image': `url(${this.profile.profile_picture_URL})`,
+        }
+      return {}
+    },
+    statuses(): Object[] {
+      return [
+        {
+          text: this.$t('profile.statuses.available'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.statuses.busy'),
+          value: 0,
+        },
+      ]
+    },
+  },
+  watch: {
+    'profile.state': {
+      handler() {
+        this.profile.city = ''
+      },
+    },
+  },
   methods: {
-    async updateProfile() {
+    isLaborAge(d: Date): boolean {
+      return d > this.laborAge
+    },
+    async updateProfile(): Promise<void> {
       try {
         this.edit = false
         this.loading = true
-        await this.$axios.$post('/employee/profile/edit', {
-          name: this.profile.name,
-          last_name: this.profile.lastName,
-          birth_date: this.profile.birthDate,
-          novelties: this.profile.novelties,
-          state: this.profile.state,
-          city: this.profile.city,
-          phone: this.profile.phone,
-          zip: this.profile.zip,
-          linkedin: this.profile.linkedin,
-        })
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+        const data = new FormData()
+        if (this.image) data.append('profile_picture', this.image as any)
+        if (this.profile.birthDate)
+          data.append('birth_date', this.profile.birthDate.toJSON())
+        data.append('name', this.profile.name)
+        data.append('last_name', this.profile.lastName)
+        data.append(
+          'novelties',
+          this.profile.novelties === null ? '' : this.profile.novelties
+        )
+        data.append('state', this.profile.state || '')
+        data.append('phone', this.profile.phone || '')
+        data.append('city', this.profile.city || '')
+        data.append('zip', this.profile.zip || '')
+        data.append('linkedin', this.profile.linkedin || '')
+        await this.$axios.$post('/employee/profile/edit', data)
+        // re fetch user profile
+        const res = await this.$axios.$get('/employee/profile')
+        res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+        URL.revokeObjectURL(this.profile.profile_picture_URL)
+        this.profile = res
+        this.image = null
         this.saved = true
       } catch (error) {
         this.saved = false
@@ -312,6 +560,47 @@ export default Vue.extend({
         this.loading = false
       }
     },
+    showLinkedin(): void {
+      if (!this.edit && this.profile.linkedin)
+        window.open(this.profile.linkedin, '_blank')
+    },
+    setFile(e: any) {
+      const fileList: File[] = [...e.target.files]
+      this.image = fileList[0]
+      this.$v.image.$touch()
+      if (this.$v.image.isImage)
+        this.profile.profile_picture_URL = URL.createObjectURL(this.image)
+      else this.image = null
+    },
+    setFileDrop(e: any) {
+      const fileList: File[] = [...e.dataTransfer.files]
+      this.image = fileList[0]
+      this.$v.image.$touch()
+      if (this.$v.image.isImage)
+        this.profile.profile_picture_URL = URL.createObjectURL(this.image)
+      else this.image = null
+    },
+  },
+  validations() {
+    return {
+      image: {
+        isImage,
+      },
+      profile: {
+        phone: {
+          isPhoneUS,
+        },
+        email: {
+          email,
+        },
+        zip: {
+          isZIP,
+        },
+        linkedin: {
+          isLinkedin,
+        },
+      },
+    }
   },
 })
 </script>
@@ -326,11 +615,41 @@ export default Vue.extend({
 }
 
 .user-img-lg {
-  @apply flex-shrink-0 w-20 h-20 rounded-md bg-gray-darker animate-pulse;
+  @apply flex-shrink-0 w-20 h-20;
 }
 
-.social-btn {
-  @apply focus:outline-none rounded-lg;
+.add-img:hover {
+  @apply bg-opacity-50 transition duration-200;
+}
+
+.add-img {
+  @apply absolute flex items-center justify-center z-20 w-full h-full rounded-lg bg-opacity-20 bg-black shadow-md;
+}
+
+.img-wrapper {
+  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
+}
+
+.img-wrapper > .img,
+.add-img > .img {
+  @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
+}
+
+.img-input {
+  @apply absolute opacity-0 invisible;
+}
+
+.linkedin-btn {
+  @apply flex transition items-center justify-center cursor-default rounded-lg w-8 h-8 focus:outline-none bg-blue-light;
+}
+
+.linkedin-btn.active {
+  @apply cursor-pointer hover:bg-blue-kaizen;
+}
+
+.linkedin-btn:disabled,
+.linkedin-btn.active:disabled {
+  @apply bg-gray-darker hover:bg-gray-darker cursor-default;
 }
 
 .edit-profile-btn {
@@ -339,6 +658,18 @@ export default Vue.extend({
 
 .item-value {
   @apply text-gray-darker font-light py-1;
+}
+
+.fields {
+  @apply flex flex-col;
+}
+
+.field-row {
+  @apply flex flex-wrap w-full;
+}
+
+.field-col {
+  @apply flex items-center w-full lg:w-1/2 space-x-4 pb-4;
 }
 
 .edit-enter-active,

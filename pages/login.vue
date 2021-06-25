@@ -43,7 +43,7 @@
                 <iconly-icon
                   name="password"
                   fill="none"
-                  viewBox="0 0 24 27"
+                  view-box="0 0 24 27"
                   class="relative stroke-current left-1 text-blue-kaizen"
                 />
               </template>
@@ -118,6 +118,7 @@ import Vue from 'vue'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
+  name: 'LoginPage',
   auth: 'guest',
   data() {
     return {
@@ -143,19 +144,18 @@ export default Vue.extend({
         },
         ...i18nHead.meta,
       ],
-      link: [i18nHead.link],
     }
   },
   computed: {
     emailErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.email.$dirty) return errors
       if (!this.$v.email.required) errors.push(this.$t('forms.errors.required'))
       if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
       return errors
     },
     passwordErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.password.$dirty) return errors
       if (!this.$v.password.required)
         errors.push(this.$t('forms.errors.required'))

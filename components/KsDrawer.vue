@@ -1,5 +1,5 @@
 <template>
-  <div class="ks-drawer">
+  <div class="ks-drawer scroller">
     <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
       <img
         class="kaizen-img"
@@ -54,12 +54,6 @@ interface DrawerLink {
 
 export default Vue.extend({
   data() {
-    employeeIcons: [
-      {}
-    ]
-    employerIcons: [
-      {}
-    ]
     return {
       loading: false,
     }
@@ -153,7 +147,7 @@ export default Vue.extend({
 
 <style scoped>
 .kaizen-img {
-  @apply cursor-pointer rounded-lg w-4/5 mx-auto justify-start hover:bg-gray-lighter transition duration-200;
+  @apply cursor-pointer rounded-lg w-32 mx-auto justify-start hover:bg-gray-lighter transition duration-200;
 }
 
 .ks-drawer {
@@ -161,7 +155,7 @@ export default Vue.extend({
 }
 
 .ks-drawer-link {
-  @apply flex relative justify-center items-center p-4 rounded-lg w-28 h-28 outline-none select-none transition duration-200;
+  @apply flex relative justify-center items-center p-4 rounded-xl w-32 h-28 outline-none select-none transition duration-200;
 }
 
 .ks-drawer-link:not(.link-active) {
@@ -185,7 +179,7 @@ export default Vue.extend({
 }
 
 .job-badge {
-  @apply absolute z-10 top-7 right-11 h-2 w-2 rounded-full bg-red-500;
+  @apply absolute z-10 top-7 right-13 h-2 w-2 rounded-full bg-red-badge;
 }
 
 #logout {

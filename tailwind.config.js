@@ -14,7 +14,8 @@ module.exports = {
     extend: {
       colors: {
         red: {
-          kaizen: '#E93544',
+          badge: '#E93544',
+          kaizen: '#F2868F',
         },
         gray: {
           lightest: '#F3F3F3',
@@ -40,6 +41,9 @@ module.exports = {
         360: '90rem',
         480: '120rem',
       },
+      minHeight: {
+        4: '1rem',
+      },
       width: {
         120: '30rem',
         180: '45rem',
@@ -48,6 +52,8 @@ module.exports = {
         480: '120rem',
       },
       minWidth: {
+        4: '1rem',
+        6: '1.5rem',
         40: '10rem',
         48: '12rem',
         '1/5': '20%',
@@ -68,6 +74,7 @@ module.exports = {
         '4/5': '80%',
       },
       inset: {
+        13: '3.25rem',
         '-60': '-15rem',
         '-90': '-22.5rem',
         '-120': '-30rem',

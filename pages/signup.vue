@@ -65,7 +65,7 @@
                 <iconly-icon
                   name="password"
                   fill="none"
-                  viewBox="0 0 24 27"
+                  view-box="0 0 24 27"
                   class="relative stroke-current left-1 text-blue-kaizen"
                 />
               </template>
@@ -94,7 +94,7 @@
                 <iconly-icon
                   name="password"
                   fill="none"
-                  viewBox="0 0 24 27"
+                  view-box="0 0 24 27"
                   class="relative stroke-current left-1 text-blue-kaizen"
                 />
               </template>
@@ -183,6 +183,7 @@ import Vue from 'vue'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
+  name: 'SignupPage',
   auth: 'guest',
   data() {
     return {
@@ -212,32 +213,31 @@ export default Vue.extend({
         },
         ...i18nHead.meta,
       ],
-      link: [i18nHead.link],
     }
   },
   computed: {
     nameErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.name.$dirty) return errors
       if (!this.$v.name.required) errors.push(this.$t('forms.errors.required'))
       return errors
     },
     lastnameErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.lastname.$dirty) return errors
       if (!this.$v.lastname.required)
         errors.push(this.$t('forms.errors.required'))
       return errors
     },
     emailErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.email.$dirty) return errors
       if (!this.$v.email.required) errors.push(this.$t('forms.errors.required'))
       if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
       return errors
     },
     passwordErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.password.$dirty) return errors
       if (!this.$v.password.required)
         errors.push(this.$t('forms.errors.required'))
@@ -246,7 +246,7 @@ export default Vue.extend({
       return errors
     },
     confirmPasswordErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.confirmPassword.$dirty) return errors
       if (!this.$v.confirmPassword.required)
         errors.push(this.$t('forms.errors.required'))
@@ -255,7 +255,7 @@ export default Vue.extend({
       return errors
     },
     roleErrors(): String[] {
-      const errors: String[] = []
+      const errors: any[] = []
       if (!this.$v.role.$dirty) return errors
       if (!this.$v.role.required) errors.push(this.$t('forms.errors.required'))
       return errors
@@ -278,7 +278,7 @@ export default Vue.extend({
         })
         await this.$auth.setUserToken(res.token, res.token)
         this.error = false
-        this.$router.push(this.localePath('/profile'))
+        this.$router.push(this.localePath('/'))
       } catch (error) {
         this.error = true
       } finally {

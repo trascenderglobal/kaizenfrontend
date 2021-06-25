@@ -26,7 +26,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/Vuelidate'],
+  plugins: [
+    { src: '~/plugins/vuelidate' },
+    { src: '~/plugins/datepicker', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

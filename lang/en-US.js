@@ -1,4 +1,8 @@
 export default {
+  languages: {
+    en: 'English',
+    es: 'Spanish',
+  },
   login: {
     login: 'Login',
     subtitle: 'We are looking for you!',
@@ -56,14 +60,41 @@ export default {
     seeAll: 'See all',
     noAlerts: 'There are no alerts',
   },
-  approved:{
+  approved: {
     approved: 'Approved',
     alerts: 'The new talent of your company is waiting for you',
     seeAll: 'See all requests',
-    noApproved: 'There are no approved'
+    noApproved: 'There are no approved',
   },
   select: {
     noItems: 'No items',
+  },
+  datepicker: {
+    lang: {
+      formatLocale: {
+        // MMM
+        monthsShort: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ],
+        // dd
+        weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        // first day of week
+        firstDayOfWeek: 0,
+        // first week contains January 1st.
+        firstWeekContainsDate: 1,
+      },
+    },
   },
   forms: {
     errors: {
@@ -71,10 +102,12 @@ export default {
       required: 'Required',
       minLength: 'Must be at least {length} characters long',
       sameAsPassword: 'The passwords do not match',
+      url: 'Invalid URL',
     },
   },
   profile: {
     myProfile: 'My profile',
+    userImage: 'Profile picture',
     contactInfo: 'Contact Information',
     editProfile: 'Edit profile',
     novelties: 'Novelties',
@@ -94,15 +127,17 @@ export default {
     social: 'Social',
     noBirth: 'No birth date',
     noSkills: 'No skills associated',
-    noIndustry:'No industry associated',
+    noIndustry: 'No industry associated',
     notSet: 'Not set',
     edit: {
+      addImage: 'Add your profile picture',
       typeRole: 'Type your role',
       typeZip: 'Type your zip',
       birthDate: 'Birth date',
       select: 'Select',
       phone: 'Type a phone number',
       email: 'Your best e-mail',
+      linkedin: 'Your LinkedIn profile',
       save: 'Save',
       saved: {
         title: 'Changes Saved',
@@ -110,14 +145,34 @@ export default {
         btn: 'Amazing!',
       },
     },
+    meta: {
+      title: 'Profile',
+      description: 'Profile',
+    },
   },
   resume: {
     myResume: 'My resume',
     mainSkills: 'Main skills',
-    typeSkill: 'Type a skill',
+    selectSkill: 'Select a skill',
+    skills: {
+      0: 'Glueing',
+      1: 'Assembly',
+      2: 'Sewing',
+      3: 'Cutting',
+      4: 'Upholstery',
+      5: 'Packaging',
+      6: 'MIG Welding',
+      7: 'TIG Welding',
+      8: 'MIG & TIG Welding',
+      9: 'General Labor',
+    },
     yearsExperience: 'Years of experience',
+    years: 'Years',
+    year: '{count} year | {count} years',
     secondarySkills: 'Secondary skills',
     secondaryLanguage: 'Secondary language',
+    selectLanguage: 'Select a language',
+    level: 'Level',
     previousJob: 'Previous jobs',
     companyName: 'Company name',
     from: 'From',
@@ -126,12 +181,16 @@ export default {
     contactPerson: 'Contact person',
     phone: 'Phone',
     addMoreExperience: 'Add more experience',
+    meta: {
+      title: 'Resume',
+      description: 'Resume',
+    },
   },
   deals: {
     deals: 'Deals',
     header: 'Filter by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
-    table:{
+    table: {
       searched: 'Searched',
       date: 'Date',
       status: 'Status',
@@ -147,9 +206,10 @@ export default {
   },
   requests: {
     requests: 'Requests',
-    header: 'Filter you requests by recent, approved, in process, past or cancelled',
+    header:
+      'Filter you requests by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
-    table:{
+    table: {
       name: 'Name',
       position: 'Position',
       date: 'Date',
@@ -170,7 +230,8 @@ export default {
     renew: 'On january 8th, 2022, you ned to renew yur subscription.',
     changePayment: 'change the payment method that suits your preferences.',
     unsuscribe: 'Unsuscribe',
-    ifUnsuscribe: 'If you unsuscribe, all your data will be deleted. Are you sure?',
-    noDate: 'No date'
-  }
+    ifUnsuscribe:
+      'If you unsuscribe, all your data will be deleted. Are you sure?',
+    noDate: 'No date',
+  },
 }
