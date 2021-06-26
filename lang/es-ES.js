@@ -133,6 +133,7 @@ export default {
       addImage: 'Agrega tu foto de perfil',
       typeRole: 'Escribe tu rol',
       typeZip: 'Escribe tu zip',
+      typeIndustry: 'Escribe tu industria',
       birthDate: 'Fecha de nacimiento',
       select: 'Seleccionar',
       phone: 'Escribe un número de teléfono',

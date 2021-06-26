@@ -80,9 +80,9 @@
             }}</span>
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.skills }"
+              :class="{ 'select-none': !profile.industry }"
               >{{
-                profile.skills ? 'Data Scientist' : $t('profile.noSkills')
+                profile.industry ? 'Industry' : $t('profile.noIndustry')
               }}</span
             >
             <span
@@ -103,7 +103,7 @@
               border-color="border-blue-light"
               dense
               disable-hint
-              :label="$t('profile.edit.typeRole')"
+              :label="$t('profile.edit.typeIndustry')"
             />
             <ks-datepicker
               v-model="profile.birthDate"
@@ -347,7 +347,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end flex-grow">
+    <div class="flex justify-end flex-grow pt-4">
       <transition name="edit">
         <ks-btn
           v-if="edit"
@@ -452,6 +452,7 @@ export default Vue.extend({
         birthDate: new Date(),
         contactPerson: '',
         adress: '',
+        industry: '',
         position: '',
         state: '',
         city: '',
@@ -574,6 +575,7 @@ export default Vue.extend({
         data.append('last_name', this.profile.lastName)
         data.append('contact_person', this.profile.contactPerson || '')
         data.append('position', this.profile.position || '')
+        data.append('industry', this.profile.industry || '')
         data.append('adress', this.profile.adress || '')
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')
