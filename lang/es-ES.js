@@ -173,6 +173,12 @@ export default {
     secondaryLanguage: 'Idioma secundario',
     selectLanguage: 'Selecciona un idioma',
     level: 'Nivel',
+    levels: {
+      0: 'Principiante',
+      1: 'Intermedio',
+      2: 'Avanzado',
+      3: 'Experto',
+    },
     previousJob: 'Empleos previos',
     companyName: 'Nombre de la compañía',
     from: 'Desde',

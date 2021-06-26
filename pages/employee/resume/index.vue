@@ -1,11 +1,11 @@
 <template>
-  <ks-card class="h-full p-8" col>
+  <ks-card class="h-full p-6" col>
     <div class="resume-header">
       <h1 class="text-3xl font-medium">
         {{ $t('resume.myResume') }}
       </h1>
     </div>
-    <h1 class="pt-6 text-lg text-blue-kaizen">
+    <h1 class="title">
       {{ $t('resume.mainSkills') }}
     </h1>
     <div class="main-skills">
@@ -14,7 +14,7 @@
         :key="`main-skill-${i}`"
         class="field-row"
       >
-        <div class="field-col col-40">
+        <div class="field-col flex-1">
           <div class="flex-grow lg:flex-grow-0 xl:w-3/5">
             <ks-select
               v-model="mainSkill.skill"
@@ -36,7 +36,7 @@
             />
           </div>
         </div>
-        <div class="field-col col-60 flex-wrap justify-between">
+        <div class="field-col flex-1 flex-wrap justify-between">
           <div class="text-blue-kaizen pr-4">
             <span>{{ $t('resume.yearsExperience') }}</span>
           </div>
@@ -52,8 +52,8 @@
         </div>
       </div>
     </div>
-    <hr class="my-6 border-blue-light" />
-    <h1 class="text-lg text-blue-kaizen">
+    <hr />
+    <h1 class="title">
       {{ $t('resume.secondarySkills') }}
     </h1>
     <div class="secondary-skills">
@@ -81,12 +81,10 @@
         </div>
       </div>
       <div class="field-row">
-        <div class="field-col">
-          <h1 class="text-lg text-blue-kaizen">
+        <div class="field-col flex-auto flex-wrap">
+          <h1 class="text-lg text-blue-kaizen pr-4">
             {{ $t('resume.yearsExperience') }}:
           </h1>
-        </div>
-        <div class="field-col flex-grow">
           <div class="flex-grow lg:flex-grow-0 xl:w-1/5">
             <ks-select
               v-model="secondarySkill.years"
@@ -99,8 +97,8 @@
         </div>
       </div>
     </div>
-    <hr class="my-6 border-blue-light" />
-    <h1 class="text-lg text-blue-kaizen">
+    <hr />
+    <h1 class="title">
       {{ $t('resume.secondaryLanguage') }}
     </h1>
     <div class="secondary-language">
@@ -120,14 +118,51 @@
         </div>
         <div class="field-col flex-grow flex-wrap">
           <span class="text-blue-kaizen pr-4">{{ $t('resume.level') }}:</span>
-          <div class="flex-grow lg:flex-grow-0">
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
             <ks-select
               v-model="secondaryLanguage.level"
               :label="$t('resume.level')"
               bg-color="bg-blue-darker"
+              :items="languageLevels"
               clearable
             />
           </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <h1 class="title">
+      {{ $t('resume.previousJob') }}
+    </h1>
+    <div v-for="" class="previous-jobs">
+      <div class="field-row">
+        <div class="field-col flex-1">
+          <ks-input dense disable-hint :label="$t('resume.companyName')" />
+        </div>
+        <div class="field-col flex-1">
+          <ks-datepicker
+            :label="$t('resume.from')"
+            bg-color="bg-blue-darker"
+            clearable
+          />
+        </div>
+        <div class="field-col flex-1">
+          <ks-datepicker
+            :label="$t('resume.to')"
+            bg-color="bg-blue-darker"
+            clearable
+          />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col flex-1 min-w-1/4">
+          <ks-input dense disable-hint :label="$t('resume.typePosition')" />
+        </div>
+        <div class="field-col flex-1 min-w-1/4">
+          <ks-input dense disable-hint :label="$t('resume.contactPerson')" />
+        </div>
+        <div class="field-col flex-1 min-w-1/4">
+          <ks-input dense disable-hint :label="$t('resume.phone')" />
         </div>
       </div>
     </div>
@@ -166,16 +201,7 @@ export default Vue.extend({
           years: null,
         },
       ],
-      secondarySkills: [
-        {
-          skill: 6,
-          years: null,
-        },
-        {
-          skill: 2,
-          years: null,
-        },
-      ],
+      secondarySkills: [],
       secondarySkill: {
         skill: null,
         years: null,
@@ -236,17 +262,35 @@ export default Vue.extend({
         },
       ]
     },
+    languageLevels(): object[] {
+      const languageLevels: object[] = []
+      for (let i = 0; i <= 3; i++) {
+        languageLevels.push({
+          text: this.$t(`resume.levels.${i}`, i),
+          value: i,
+        })
+      }
+      return languageLevels
+    },
   },
 })
 </script>
 
 <style scoped>
+hr {
+  @apply mt-2 mb-6 border-blue-light mx-2;
+}
+
 .resume-header {
-  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+  @apply flex justify-between text-blue-kaizen px-2 flex-col lg:flex-row pb-6;
 }
 
 .resume-header > * {
   @apply pt-4;
+}
+
+.title {
+  @apply px-2 text-lg text-blue-kaizen;
 }
 
 .field-row {
@@ -254,27 +298,18 @@ export default Vue.extend({
 }
 
 .field-col {
-  @apply flex items-center pb-4 pr-4;
+  @apply flex items-center px-2 pb-6;
 }
 
-.field-col.col-40 {
-  @apply w-full lg:w-2/5;
-}
-
-.field-col.col-60 {
-  @apply w-full lg:w-3/5;
-}
-
-.main-skills {
-  @apply flex flex-col pt-8;
-}
-
-.secondary-skills {
-  @apply flex flex-col pt-4;
+.main-skills,
+.secondary-skills,
+.secondary-language,
+.previous-jobs {
+  @apply flex flex-col pt-6;
 }
 
 .item-chips {
-  @apply flex items-center flex-wrap pr-4;
+  @apply flex items-start flex-wrap px-2;
 }
 
 .item-chips > div:not(:last-child) {
@@ -283,9 +318,5 @@ export default Vue.extend({
 
 .item-chips > div {
   @apply mb-4;
-}
-
-.secondary-language {
-  @apply flex flex-col pt-4;
 }
 </style>

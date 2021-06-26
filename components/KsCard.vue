@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-white" :class="{ 'border-2 border-white': border }">
-    <div class="card-wrapper" :class="{ 'flex-col': !row }">
+    <div class="card-wrapper scroller" :class="{ 'flex-col': !row }">
       <slot />
     </div>
   </div>

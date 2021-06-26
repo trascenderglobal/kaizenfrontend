@@ -173,6 +173,12 @@ export default {
     secondaryLanguage: 'Secondary language',
     selectLanguage: 'Select a language',
     level: 'Level',
+    levels: {
+      0: 'Beginner',
+      1: 'Intermediate',
+      2: 'Advanced',
+      3: 'Proficient',
+    },
     previousJob: 'Previous jobs',
     companyName: 'Company name',
     from: 'From',

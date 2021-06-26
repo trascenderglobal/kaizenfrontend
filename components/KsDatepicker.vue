@@ -108,7 +108,7 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-20 left-0 top-10 flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-20 left-0 top-8 flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
 .items > div {

@@ -116,16 +116,16 @@
               <div class="flex justify-end flex-grow space-x-8">
                 <ks-radio
                   id="1"
-                  v-model="role"
+                  v-model.number="role"
                   class="hover:text-gray-600"
-                  item-value="1"
+                  :item-value="1"
                   :label="$t('signup.employee')"
                 />
                 <ks-radio
                   id="2"
-                  v-model="role"
+                  v-model.number="role"
                   class="hover:text-gray-600"
-                  item-value="0"
+                  :item-value="0"
                   :label="$t('signup.employer')"
                 />
               </div>
@@ -195,7 +195,7 @@ export default Vue.extend({
       password: '',
       confirmPassword: '',
       showPassword: false,
-      role: '',
+      role: null,
     }
   },
   head(): object {

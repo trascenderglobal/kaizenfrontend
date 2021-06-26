@@ -20,8 +20,8 @@ export default Vue.extend({
   inheritAttrs: false,
   props: {
     value: {
-      type: String,
-      default: '',
+      type: [String, Number],
+      default: null,
     },
     itemValue: {
       type: [String, Number],

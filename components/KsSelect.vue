@@ -203,7 +203,7 @@ export default Vue.extend({
 }
 
 .ks-select .items {
-  @apply absolute z-20 left-0 top-8 w-full max-h-48 overflow-y-auto flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
+  @apply absolute z-20 left-0 top-8 min-w-full max-h-48 overflow-y-auto flex flex-wrap bg-white rounded-lg border border-gray-light shadow-md;
 }
 
 .items div:first-child {
