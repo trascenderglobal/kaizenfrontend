@@ -52,7 +52,7 @@ export default Vue.extend({
   },
   async beforeMount() {
     try {
-      const res = await this.$axios.$get('/employee/profile_picture')
+      const res = await this.$axios.$get(`${this.role}/profile_picture`)
       this.profilePicture = res.profile_picture_URL
     } catch (error) {
       this.profilePicture = ''
