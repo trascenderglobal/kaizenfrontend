@@ -38,20 +38,38 @@
           <tr>
             <td>hola</td>
             <td>como estas</td>
-            <td>quiero mas</td>
-            <td>que chimba verte</td>
+            <td>esto es</td>
+            <td>una tabla</td>
           </tr>
           <tr>
             <td>hola</td>
             <td>como estas</td>
-            <td>quiero mas</td>
-            <td>que chimba verte</td>
+            <td>esto es</td>
+            <td>una tabla</td>
           </tr>
           <tr>
             <td>hola</td>
             <td>como estas</td>
-            <td>quiero mas</td>
-            <td>que chimba verte</td>
+            <td>esto es</td>
+            <td>una tabla</td>
+          </tr>
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>esto es</td>
+            <td>una tabla</td>
+          </tr>
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>esto es</td>
+            <td>una tabla</td>
+          </tr>
+          <tr>
+            <td>hola</td>
+            <td>como estas</td>
+            <td>esto es</td>
+            <td>una tabla</td>
           </tr>
         </tbody>
       </table>
