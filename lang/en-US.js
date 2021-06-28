@@ -133,6 +133,7 @@ export default {
       addImage: 'Add your profile picture',
       typeRole: 'Type your role',
       typeZip: 'Type your zip',
+      typeIndustry: 'Type your industry',
       birthDate: 'Birth date',
       select: 'Select',
       phone: 'Type a phone number',
