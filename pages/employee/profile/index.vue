@@ -527,10 +527,9 @@ export default Vue.extend({
     },
     async updateProfile(): Promise<void> {
       try {
-        this.edit = false
-        this.loading = true
         this.$v.$touch()
         if (this.$v.$invalid) return
+        this.loading = true
         const data = new FormData()
         if (this.image) data.append('profile_picture', this.image as any)
         if (this.profile.birthDate)
@@ -547,6 +546,7 @@ export default Vue.extend({
         data.append('zip', this.profile.zip || '')
         data.append('linkedin', this.profile.linkedin || '')
         await this.$axios.$post('/employee/profile/edit', data)
+        this.edit = false
         // re fetch user profile
         const res = await this.$axios.$get('/employee/profile')
         res.birthDate = res.birthDate ? new Date(res.birthDate) : null
