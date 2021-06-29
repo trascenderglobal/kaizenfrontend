@@ -17,19 +17,19 @@
         <div class="field-col flex-1">
           <div class="flex-grow lg:flex-grow-0 xl:w-3/5">
             <ks-select
-              v-model="mainSkill.skill"
+              v-model="mainSkill.skill_name"
               :label="$t('resume.selectSkill')"
               class="transition border"
               :class="
-                mainSkill.skill !== null
+                mainSkill.skill_name !== null
                   ? 'border-blue-light'
                   : 'border-gray-light'
               "
               :bg-color="
-                mainSkill.skill !== null ? 'bg-blue-light' : 'bg-white'
+                mainSkill.skill_name !== null ? 'bg-blue-light' : 'bg-white'
               "
               :color="
-                mainSkill.skill !== null ? 'text-white' : 'text-gray-dark'
+                mainSkill.skill_name !== null ? 'text-white' : 'text-gray-dark'
               "
               :items="skills"
               clearable
@@ -42,7 +42,7 @@
           </div>
           <div class="flex-grow lg:flex-grow-0 xl:w-2/5">
             <ks-select
-              v-model="mainSkill.years"
+              v-model="mainSkill.years_of_experience"
               :label="$t('resume.years')"
               bg-color="bg-blue-darker"
               :items="yearsExperience"
@@ -70,7 +70,7 @@
         </div>
         <div class="field-col flex-grow">
           <ks-select
-            v-model="secondarySkill.skill"
+            v-model="secondarySkill.skill_name"
             :label="$t('resume.selectSkill')"
             class="transition border border-gray-light"
             bg-color="bg-white"
@@ -87,7 +87,7 @@
           </h1>
           <div class="flex-grow lg:flex-grow-0 xl:w-1/5">
             <ks-select
-              v-model="secondarySkill.years"
+              v-model="secondarySkill.years_of_experience"
               :label="$t('resume.years')"
               bg-color="bg-blue-darker"
               :items="yearsExperience"
@@ -120,7 +120,7 @@
           <span class="text-blue-kaizen pr-4">{{ $t('resume.level') }}:</span>
           <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
             <ks-select
-              v-model="secondaryLanguage.level"
+              v-model="secondaryLanguage.language_level"
               :label="$t('resume.level')"
               bg-color="bg-blue-darker"
               :items="languageLevels"
@@ -134,13 +134,23 @@
     <h1 class="title">
       {{ $t('resume.previousJob') }}
     </h1>
-    <div v-for="" class="previous-jobs">
+    <div
+      v-for="(previousJob, i) in previousJobs"
+      :key="`previous-job-${i}`"
+      class="previous-jobs"
+    >
       <div class="field-row">
         <div class="field-col flex-1">
-          <ks-input dense disable-hint :label="$t('resume.companyName')" />
+          <ks-input
+            v-model="previousJob.company_name"
+            dense
+            disable-hint
+            :label="$t('resume.companyName')"
+          />
         </div>
         <div class="field-col flex-1">
           <ks-datepicker
+            v-model="previousJob.initial_date"
             :label="$t('resume.from')"
             bg-color="bg-blue-darker"
             clearable
@@ -148,6 +158,7 @@
         </div>
         <div class="field-col flex-1">
           <ks-datepicker
+            v-model="previousJob.end_date"
             :label="$t('resume.to')"
             bg-color="bg-blue-darker"
             clearable
@@ -156,21 +167,72 @@
       </div>
       <div class="field-row">
         <div class="field-col flex-1 min-w-1/4">
-          <ks-input dense disable-hint :label="$t('resume.typePosition')" />
+          <ks-input
+            v-model="previousJob.position"
+            dense
+            disable-hint
+            :label="$t('resume.typePosition')"
+          />
         </div>
         <div class="field-col flex-1 min-w-1/4">
-          <ks-input dense disable-hint :label="$t('resume.contactPerson')" />
+          <ks-input
+            v-model="previousJob.contact_person"
+            dense
+            disable-hint
+            :label="$t('resume.contactPerson')"
+          />
         </div>
         <div class="field-col flex-1 min-w-1/4">
-          <ks-input dense disable-hint :label="$t('resume.phone')" />
+          <ks-input
+            v-model="previousJob.phone"
+            dense
+            disable-hint
+            :label="$t('resume.phone')"
+          />
         </div>
       </div>
+    </div>
+    <div class="flex justify-start flex-grow px-2 pb-2">
+      <button type="button" class="text-link-blue font-light" @click="addJob">
+        {{ $t('resume.addMoreExperience') }}
+      </button>
+    </div>
+    <hr />
+    <div class="flex justify-end flex-grow px-2">
+      <ks-btn
+        class="self-end"
+        color="success"
+        dense
+        :loading="loading"
+        @click="updateResume"
+        >{{ $t('resume.save') }}</ks-btn
+      >
     </div>
   </ks-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { requiredIf, helpers } from 'vuelidate/lib/validators'
+
+interface Skill {
+  skill_name: Number | null
+  years_of_experience: Number | null
+}
+
+interface Job {
+  company_name: String | null
+  initial_date: Date | String | null
+  end_date: Date | String | null
+  position: String | null
+  contact_person: String | null
+  phone: String | null
+}
+
+const isPhoneUS = helpers.regex(
+  'isPhoneUS',
+  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+)
 
 export default Vue.extend({
   name: 'ResumePage',
@@ -185,6 +247,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      loading: false,
       resume: {
         main_skills: [],
         secondary_skills: [],
@@ -193,23 +256,33 @@ export default Vue.extend({
       },
       mainSkills: [
         {
-          skill: null,
-          years: null,
+          skill_name: null,
+          years_of_experience: null,
         },
         {
-          skill: null,
-          years: null,
+          skill_name: null,
+          years_of_experience: null,
         },
-      ],
-      secondarySkills: [],
+      ] as Skill[],
+      secondarySkills: [] as Skill[],
       secondarySkill: {
-        skill: null,
-        years: null,
-      },
+        skill_name: null,
+        years_of_experience: null,
+      } as Skill,
       secondaryLanguage: {
         language: null,
-        level: null,
+        language_level: null,
       },
+      previousJobs: [
+        {
+          company_name: null,
+          initial_date: null,
+          end_date: null,
+          position: null,
+          contact_person: null,
+          phone: null,
+        },
+      ] as Job[],
     }
   },
   head(): object {
@@ -254,11 +327,11 @@ export default Vue.extend({
       return [
         {
           text: this.$t('languages.en'),
-          value: 'en',
+          value: 0,
         },
         {
           text: this.$t('languages.es'),
-          value: 'es',
+          value: 1,
         },
       ]
     },
@@ -272,6 +345,107 @@ export default Vue.extend({
       }
       return languageLevels
     },
+    isSecondaryComplete(): boolean {
+      return (
+        this.secondarySkill.skill_name !== null &&
+        !!this.secondarySkill.years_of_experience
+      )
+    },
+  },
+  watch: {
+    isSecondaryComplete: {
+      handler(newVal: boolean) {
+        if (newVal) {
+          this.secondarySkills.push({
+            skill_name: this.secondarySkill.skill_name,
+            years_of_experience: this.secondarySkill.years_of_experience,
+          })
+        }
+        this.secondarySkill.skill_name = null
+        this.secondarySkill.years_of_experience = null
+      },
+    },
+  },
+  methods: {
+    addJob() {
+      this.previousJobs.push({
+        company_name: null,
+        initial_date: null,
+        end_date: null,
+        position: null,
+        contact_person: null,
+        phone: null,
+      })
+    },
+    async updateResume() {
+      try {
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+        this.loading = true
+        await this.$axios.$post('/employee/resume/update', {
+          main_skills: this.mainSkills.filter(
+            (skill) => skill.skill_name !== null && skill.years_of_experience
+          ),
+          secondary_skills: this.secondarySkills.filter(
+            (skill) => skill.skill_name !== null && skill.years_of_experience
+          ),
+          secondary_language:
+            this.secondaryLanguage.language !== null &&
+            this.secondaryLanguage.language_level !== null
+              ? [this.secondaryLanguage]
+              : [],
+          previous_jobs: this.previousJobs
+            .filter(
+              (job) =>
+                job.company_name &&
+                job.initial_date &&
+                job.end_date &&
+                job.position &&
+                job.contact_person &&
+                job.phone
+            )
+            .map((job) => {
+              return {
+                ...job,
+                initial_date: (job.initial_date as Date).toJSON(),
+                end_date: (job.end_date as Date).toJSON(),
+              }
+            }),
+        })
+      } catch (error) {
+      } finally {
+        this.loading = false
+      }
+    },
+  },
+  validations() {
+    return {
+      mainSkills: {
+        $each: {
+          skill_name: {
+            required: requiredIf('years'),
+          },
+          years_of_experience: {
+            required: requiredIf('skill'),
+          },
+        },
+      },
+      secondaryLanguage: {
+        language: {},
+        language_level: {
+          required: requiredIf('language'),
+        },
+      },
+      previousJobs: {
+        $each: {
+          phone: {
+            isPhoneUS,
+          },
+          initial_date: {},
+          end_date: {},
+        },
+      },
+    }
   },
 })
 </script>

@@ -188,6 +188,7 @@ export default {
     contactPerson: 'Contact person',
     phone: 'Phone',
     addMoreExperience: 'Add more experience',
+    save: 'Save',
     meta: {
       title: 'Resume',
       description: 'Resume',

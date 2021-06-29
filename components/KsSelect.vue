@@ -4,11 +4,9 @@
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
   >
     <div class="ks-select" tabindex="0" @click="showItems" @blur="show = false">
-      <span class="label">{{
-        selected.text === null ? label : selected.text
-      }}</span>
+      <span class="label">{{ value === null ? label : selected.text }}</span>
       <div
-        v-if="clearable && selected.text && !disabled"
+        v-if="clearable && value && !disabled"
         class="icon clear"
         @click.stop="clearValue"
       >
