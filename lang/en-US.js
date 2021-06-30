@@ -190,6 +190,11 @@ export default {
     removeJob: 'Remove job',
     addMoreExperience: 'Add more experience',
     save: 'Save',
+    saved: {
+      title: 'Changes Saved',
+      text: 'The changes to your resume have been saved correctly',
+      btn: 'Amazing!',
+    },
     meta: {
       title: 'Resume',
       description: 'Resume',

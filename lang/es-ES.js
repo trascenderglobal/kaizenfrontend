@@ -190,6 +190,11 @@ export default {
     removeJob: 'Remover empleo',
     addMoreExperience: 'Ingresa más experiencia',
     save: 'Guardar',
+    saved: {
+      title: 'Cambios guardados',
+      text: 'Los cambios en tu currículum se han guardado correctamente',
+      btn: '¡Asombroso!',
+    },
     meta: {
       title: 'Currículum',
       description: 'Currículum',

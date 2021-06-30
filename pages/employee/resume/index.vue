@@ -69,7 +69,8 @@
             clearable
             @click:clear="secondarySkills.splice(i, 1)"
           >
-            {{ skills[secSkill.skill_name].text }}
+            {{ skills[secSkill.skill_name - 1].text }}
+            ({{ secSkill.years_of_experience }})
           </ks-chip>
         </div>
         <div class="field-col flex-grow">
@@ -279,6 +280,31 @@
         >{{ $t('resume.save') }}</ks-btn
       >
     </div>
+    <transition name="edit">
+      <div v-if="saved" class="saved-modal">
+        <div class="w-3/5">
+          <ks-card class="p-8" col>
+            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                {{ $t('resume.saved.title') }}
+              </h1>
+              <hr class="border self-stretch" />
+              <p class="text-xl text-blue-kaizen text-center">
+                {{ $t('resume.saved.text') }}
+              </p>
+              <div class="flex pt-16 flex-grow items-end justify-center">
+                <ks-btn
+                  color="success"
+                  class="text-xl"
+                  @click="saved = false"
+                  >{{ $t('resume.saved.btn') }}</ks-btn
+                >
+              </div>
+            </div>
+          </ks-card>
+        </div>
+      </div>
+    </transition>
   </ks-card>
 </template>
 
@@ -311,30 +337,65 @@ export default Vue.extend({
   async asyncData({ app }) {
     try {
       const res = await app.$axios.$get('/employee/resume')
+
+      const mainSkills: Skill[] = res.main_skills.length
+        ? (res.main_skills as Skill[]).map((skill) => {
+            return {
+              skill_name: skill.skill_name,
+              years_of_experience: skill.years_of_experience,
+            }
+          })
+        : []
+      for (let i = 0; i < 2 - mainSkills.length; i++) {
+        mainSkills.push({
+          skill_name: null,
+          years_of_experience: null,
+        })
+      }
+      const secondarySkills: Skill[] = res.secondary_skills.length
+        ? (res.secondary_skills as Skill[]).map((skill) => {
+            return {
+              skill_name: skill.skill_name,
+              years_of_experience: skill.years_of_experience,
+            }
+          })
+        : []
+
+      const secondaryLanguage = res.languages.length
+        ? (res.languages as any[]).map((lang) => {
+            return {
+              language: lang.language,
+              language_level: lang.language_level,
+            }
+          })[0]
+        : { language: null, language_level: null }
+
+      const previousJobs: Job[] = res.previous_jobs.length
+        ? res.previous_jobs
+        : [
+            {
+              company_name: null,
+              initial_date: null,
+              end_date: null,
+              position: null,
+              contact_person: null,
+              phone: null,
+            },
+          ]
+
       return {
-        resume: res,
+        mainSkills,
+        secondarySkills,
+        secondaryLanguage,
+        previousJobs,
       }
     } catch (error) {}
   },
   data() {
     return {
       loading: false,
-      resume: {
-        main_skills: [],
-        secondary_skills: [],
-        languages: [],
-        previous_jobs: [],
-      },
-      mainSkills: [
-        {
-          skill_name: null,
-          years_of_experience: null,
-        },
-        {
-          skill_name: null,
-          years_of_experience: null,
-        },
-      ] as Skill[],
+      saved: false,
+      mainSkills: [] as Skill[],
       secondarySkills: [] as Skill[],
       secondarySkill: {
         skill_name: null,
@@ -344,16 +405,7 @@ export default Vue.extend({
         language: null,
         language_level: null,
       },
-      previousJobs: [
-        {
-          company_name: null,
-          initial_date: null,
-          end_date: null,
-          position: null,
-          contact_person: null,
-          phone: null,
-        },
-      ] as Job[],
+      previousJobs: [] as Job[],
     }
   },
   head(): object {
@@ -486,7 +538,9 @@ export default Vue.extend({
               }
             }),
         })
+        this.saved = true
       } catch (error) {
+        this.saved = false
       } finally {
         this.loading = false
       }
@@ -590,5 +644,18 @@ hr {
 
 .item-chips > div {
   @apply mb-4;
+}
+
+.edit-enter-active,
+.edit-leave-active {
+  transition: opacity 0.2s;
+}
+.edit-enter,
+.edit-leave-to {
+  opacity: 0;
+}
+
+.saved-modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
 }
 </style>
