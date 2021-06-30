@@ -10,29 +10,28 @@
     </h1>
     <div class="main-skills">
       <div
-        v-for="(mainSkill, i) in mainSkills"
+        v-for="(v, i) in $v.mainSkills.$each.$iter"
         :key="`main-skill-${i}`"
         class="field-row"
       >
         <div class="field-col flex-1">
           <div class="flex-grow lg:flex-grow-0 xl:w-3/5">
             <ks-select
-              v-model="mainSkill.skill_name"
+              v-model="v.skill_name.$model"
               :label="$t('resume.selectSkill')"
               class="transition border"
               :class="
-                mainSkill.skill_name !== null
+                v.skill_name.$error
+                  ? 'border-red-kaizen'
+                  : v.skill_name.$model
                   ? 'border-blue-light'
                   : 'border-gray-light'
               "
-              :bg-color="
-                mainSkill.skill_name !== null ? 'bg-blue-light' : 'bg-white'
-              "
-              :color="
-                mainSkill.skill_name !== null ? 'text-white' : 'text-gray-dark'
-              "
+              :bg-color="v.skill_name.$model ? 'bg-blue-light' : 'bg-white'"
+              :color="v.skill_name.$model ? 'text-white' : 'text-gray-dark'"
               :items="skills"
               clearable
+              @blur="v.skill_name.$touch"
             />
           </div>
         </div>
@@ -42,11 +41,16 @@
           </div>
           <div class="flex-grow lg:flex-grow-0 xl:w-2/5">
             <ks-select
-              v-model="mainSkill.years_of_experience"
+              v-model="v.years_of_experience.$model"
               :label="$t('resume.years')"
-              bg-color="bg-blue-darker"
+              :bg-color="
+                v.years_of_experience.$error
+                  ? 'bg-red-kaizen'
+                  : 'bg-blue-darker'
+              "
               :items="yearsExperience"
               clearable
+              @blur="v.years_of_experience.$touch"
             />
           </div>
         </div>
@@ -65,18 +69,24 @@
             clearable
             @click:clear="secondarySkills.splice(i, 1)"
           >
-            {{ skills[secSkill.skill].text }}
+            {{ skills[secSkill.skill_name].text }}
           </ks-chip>
         </div>
         <div class="field-col flex-grow">
           <ks-select
             v-model="secondarySkill.skill_name"
             :label="$t('resume.selectSkill')"
-            class="transition border border-gray-light"
+            class="transition border"
+            :class="
+              $v.secondarySkill.skill_name.$error
+                ? 'border-red-kaizen'
+                : 'border-gray-light'
+            "
             bg-color="bg-white"
             color="text-gray-dark"
             :items="skills"
             clearable
+            @blur="$v.secondarySkill.skill_name.$touch"
           />
         </div>
       </div>
@@ -89,9 +99,14 @@
             <ks-select
               v-model="secondarySkill.years_of_experience"
               :label="$t('resume.years')"
-              bg-color="bg-blue-darker"
+              :bg-color="
+                $v.secondarySkill.years_of_experience.$error
+                  ? 'bg-red-kaizen'
+                  : 'bg-blue-darker'
+              "
               :items="yearsExperience"
               clearable
+              @blur="$v.secondarySkill.years_of_experience.$touch"
             />
           </div>
         </div>
@@ -108,11 +123,17 @@
             <ks-select
               v-model="secondaryLanguage.language"
               :label="$t('resume.selectLanguage')"
-              class="transition border border-gray-light"
+              class="transition border"
+              :class="
+                $v.secondaryLanguage.language.$error
+                  ? 'border-red-kaizen'
+                  : 'border-gray-light'
+              "
               bg-color="bg-white"
               color="text-gray-dark"
               :items="languages"
               clearable
+              @blur="$v.secondaryLanguage.language.$touch"
             />
           </div>
         </div>
@@ -122,9 +143,14 @@
             <ks-select
               v-model="secondaryLanguage.language_level"
               :label="$t('resume.level')"
-              bg-color="bg-blue-darker"
+              :bg-color="
+                $v.secondaryLanguage.language_level.$error
+                  ? 'bg-red-kaizen'
+                  : 'bg-blue-darker'
+              "
               :items="languageLevels"
               clearable
+              @blur="$v.secondaryLanguage.language_level.$touch"
             />
           </div>
         </div>
@@ -135,65 +161,110 @@
       {{ $t('resume.previousJob') }}
     </h1>
     <div
-      v-for="(previousJob, i) in previousJobs"
+      v-for="(v, i) in $v.previousJobs.$each.$iter"
       :key="`previous-job-${i}`"
       class="previous-jobs"
     >
       <div class="field-row">
         <div class="field-col flex-1">
           <ks-input
-            v-model="previousJob.company_name"
+            v-model="v.company_name.$model"
+            :border-color="
+              v.company_name.$error ? 'border-red-kaizen' : 'border-gray-light'
+            "
             dense
             disable-hint
             :label="$t('resume.companyName')"
+            @blur="v.company_name.$touch"
           />
         </div>
         <div class="field-col flex-1">
           <ks-datepicker
-            v-model="previousJob.initial_date"
+            v-model="v.initial_date.$model"
             :label="$t('resume.from')"
-            bg-color="bg-blue-darker"
+            :bg-color="
+              v.initial_date.$error ? 'bg-red-kaizen' : 'bg-blue-darker'
+            "
             clearable
+            @blur="v.initial_date.$touch"
           />
         </div>
         <div class="field-col flex-1">
           <ks-datepicker
-            v-model="previousJob.end_date"
+            v-model="v.end_date.$model"
             :label="$t('resume.to')"
-            bg-color="bg-blue-darker"
+            :bg-color="v.end_date.$error ? 'bg-red-kaizen' : 'bg-blue-darker'"
             clearable
+            @blur="v.end_date.$touch"
           />
         </div>
       </div>
       <div class="field-row">
         <div class="field-col flex-1 min-w-1/4">
           <ks-input
-            v-model="previousJob.position"
+            v-model="v.position.$model"
+            :border-color="
+              v.position.$error ? 'border-red-kaizen' : 'border-gray-light'
+            "
             dense
             disable-hint
             :label="$t('resume.typePosition')"
+            @blur="v.position.$touch"
           />
         </div>
         <div class="field-col flex-1 min-w-1/4">
           <ks-input
-            v-model="previousJob.contact_person"
+            v-model="v.contact_person.$model"
+            :border-color="
+              v.contact_person.$error
+                ? 'border-red-kaizen'
+                : 'border-gray-light'
+            "
             dense
             disable-hint
             :label="$t('resume.contactPerson')"
+            @blur="v.contact_person.$touch"
           />
         </div>
         <div class="field-col flex-1 min-w-1/4">
           <ks-input
-            v-model="previousJob.phone"
+            v-model="v.phone.$model"
+            :border-color="
+              v.phone.$error ? 'border-red-kaizen' : 'border-gray-light'
+            "
             dense
             disable-hint
             :label="$t('resume.phone')"
+            @blur="v.phone.$touch"
           />
         </div>
       </div>
+      <div class="field-row justify-start">
+        <div class="field-col">
+          <button
+            type="button"
+            class="
+              text-red-kaizen
+              hover:text-red-500
+              font-light
+              focus:outline-none
+            "
+            @click="removeJob(i)"
+          >
+            {{ $t('resume.removeJob') }}
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="flex justify-start flex-grow px-2 pb-2">
-      <button type="button" class="text-link-blue font-light" @click="addJob">
+    <div
+      class="flex justify-start flex-grow px-2 pb-2"
+      :class="{ 'pt-2': !previousJobs.length }"
+    >
+      <button
+        type="button"
+        class="text-link-blue font-light focus:outline-none"
+        @click="addJob"
+      >
         {{ $t('resume.addMoreExperience') }}
       </button>
     </div>
@@ -213,7 +284,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { requiredIf, helpers } from 'vuelidate/lib/validators'
+import { required, requiredIf, helpers } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -318,7 +389,7 @@ export default Vue.extend({
       for (let i = 0; i <= 9; i++) {
         skills.push({
           text: this.$t(`resume.skills.${i}`, i),
-          value: i,
+          value: i + 1,
         })
       }
       return skills
@@ -327,11 +398,11 @@ export default Vue.extend({
       return [
         {
           text: this.$t('languages.en'),
-          value: 0,
+          value: 1,
         },
         {
           text: this.$t('languages.es'),
-          value: 1,
+          value: 2,
         },
       ]
     },
@@ -340,14 +411,14 @@ export default Vue.extend({
       for (let i = 0; i <= 3; i++) {
         languageLevels.push({
           text: this.$t(`resume.levels.${i}`, i),
-          value: i,
+          value: i + 1,
         })
       }
       return languageLevels
     },
     isSecondaryComplete(): boolean {
       return (
-        this.secondarySkill.skill_name !== null &&
+        !!this.secondarySkill.skill_name &&
         !!this.secondarySkill.years_of_experience
       )
     },
@@ -367,7 +438,10 @@ export default Vue.extend({
     },
   },
   methods: {
-    addJob() {
+    removeJob(i: number): void {
+      this.previousJobs.splice(i, 1)
+    },
+    addJob(): void {
       this.previousJobs.push({
         company_name: null,
         initial_date: null,
@@ -384,14 +458,14 @@ export default Vue.extend({
         this.loading = true
         await this.$axios.$post('/employee/resume/update', {
           main_skills: this.mainSkills.filter(
-            (skill) => skill.skill_name !== null && skill.years_of_experience
+            (skill) => skill.skill_name && skill.years_of_experience
           ),
           secondary_skills: this.secondarySkills.filter(
-            (skill) => skill.skill_name !== null && skill.years_of_experience
+            (skill) => skill.skill_name && skill.years_of_experience
           ),
           secondary_language:
-            this.secondaryLanguage.language !== null &&
-            this.secondaryLanguage.language_level !== null
+            this.secondaryLanguage.language &&
+            this.secondaryLanguage.language_level
               ? [this.secondaryLanguage]
               : [],
           previous_jobs: this.previousJobs
@@ -423,26 +497,50 @@ export default Vue.extend({
       mainSkills: {
         $each: {
           skill_name: {
-            required: requiredIf('years'),
+            required: requiredIf('years_of_experience'),
           },
           years_of_experience: {
-            required: requiredIf('skill'),
+            required: requiredIf('skill_name'),
           },
         },
       },
+      secondarySkill: {
+        skill_name: {
+          required: requiredIf('years_of_experience'),
+        },
+        years_of_experience: {
+          required: requiredIf('skill_name'),
+        },
+      },
       secondaryLanguage: {
-        language: {},
+        language: {
+          required: requiredIf('language_level'),
+        },
         language_level: {
           required: requiredIf('language'),
         },
       },
       previousJobs: {
         $each: {
+          company_name: {
+            required,
+          },
+          initial_date: {
+            required,
+          },
+          end_date: {
+            required,
+          },
+          position: {
+            required,
+          },
+          contact_person: {
+            required,
+          },
           phone: {
             isPhoneUS,
+            required,
           },
-          initial_date: {},
-          end_date: {},
         },
       },
     }

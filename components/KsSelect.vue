@@ -3,10 +3,10 @@
     class="field"
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
   >
-    <div class="ks-select" tabindex="0" @click="showItems" @blur="show = false">
+    <div class="ks-select" tabindex="0" @click="showItems" @blur="blur">
       <span class="label">{{ value === null ? label : selected.text }}</span>
       <div
-        v-if="clearable && value && !disabled"
+        v-if="clearable && value !== null && !disabled"
         class="icon clear"
         @click.stop="clearValue"
       >
@@ -173,7 +173,14 @@ export default Vue.extend({
       this.$emit('input', null)
     },
     showItems(): void {
-      if (!this.disabled) this.show = !this.show
+      if (!this.disabled) {
+        this.show = !this.show
+        if (!this.show) this.$emit('blur')
+      }
+    },
+    blur(): void {
+      this.show = false
+      this.$emit('blur')
     },
   },
 })

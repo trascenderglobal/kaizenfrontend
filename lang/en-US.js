@@ -187,6 +187,7 @@ export default {
     typePosition: 'Type a position',
     contactPerson: 'Contact person',
     phone: 'Phone',
+    removeJob: 'Remove job',
     addMoreExperience: 'Add more experience',
     save: 'Save',
     meta: {

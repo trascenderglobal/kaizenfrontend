@@ -99,12 +99,13 @@
             <span class="font-medium text-blue-kaizen">{{
               profile.name + ' ' + profile.lastName
             }}</span>
-            <ks-input
-              border-color="border-blue-light"
-              dense
-              disable-hint
-              :label="$t('profile.edit.typeRole')"
-            />
+            <span
+              class="font-light text-gray-dark"
+              :class="{ 'select-none': !profile.skills }"
+              >{{
+                profile.skills ? 'Data Scientist' : $t('profile.noSkills')
+              }}</span
+            >
             <ks-datepicker
               v-model="profile.birthDate"
               class="border border-blue-light"

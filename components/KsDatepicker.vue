@@ -4,6 +4,7 @@
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
     tabindex="0"
     @click="showItems"
+    @blur="$emit('blur')"
   >
     <span class="label">{{ date ? $d(date) : label }}</span>
     <div
@@ -83,8 +84,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    showItems() {
-      if (!this.disabled) this.show = !this.show
+    showItems(): void {
+      if (!this.disabled) {
+        this.show = !this.show
+        if (!this.show) this.$emit('blur')
+      }
     },
     clearValue(): void {
       this.date = null
