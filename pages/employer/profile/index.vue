@@ -435,15 +435,16 @@ type Image = null | File
 export default Vue.extend({
     name: 'ProfilePage',
     layout: 'employer',
-  async asyncData({ app }) {
-    try {
-      const res = await app.$axios.$get('/employer/profile')
-      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
-      return {
-        profile: res,
-      }
-    } catch (error) {}
-  },
+    //TODO: change fetch hook for asyncData when production target is server
+  // async asyncData({ app }) {
+  //   try {
+  //     const res = await app.$axios.$get('/employer/profile')
+  //     res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+  //     return {
+  //       profile: res,
+  //     }
+  //   } catch (error) {}
+  // },
   data() {
     return {
       edit: false,
@@ -479,6 +480,14 @@ export default Vue.extend({
       ],
     }
   },
+  async fetch(){
+    try {
+      const res = await this.$axios.$get('/employer/profile')
+      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+      this.profile = res
+    } catch (error) {}
+  },
+  fetchOnServer: false,
   computed: {
     laborAge(): Date {
       const labor = new Date()
