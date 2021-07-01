@@ -370,15 +370,16 @@ type NullableDate = null | Date
 export default Vue.extend({
   name: 'ProfilePage',
   layout: 'employee',
-  async asyncData({ app }) {
-    try {
-      const res = await app.$axios.$get('/employee/profile')
-      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
-      return {
-        profile: res,
-      }
-    } catch (error) {}
-  },
+  // TODO: change fetch hook for asyncData when production target is server
+  // async asyncData({ app }) {
+  //   try {
+  //     const res = await app.$axios.$get('/employee/profile')
+  //     res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+  //     return {
+  //       profile: res,
+  //     }
+  //   } catch (error) {}
+  // },
   data() {
     return {
       edit: false,
@@ -412,6 +413,15 @@ export default Vue.extend({
       ],
     }
   },
+  // TODO: Change fetch hook for asyncData when production target is server
+  async fetch() {
+    try {
+      const res = await this.$axios.$get('/employee/profile')
+      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+      this.profile = res
+    } catch (error) {}
+  },
+  fetchOnServer: false,
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {

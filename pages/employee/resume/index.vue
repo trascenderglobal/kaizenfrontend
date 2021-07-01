@@ -334,9 +334,85 @@ const isPhoneUS = helpers.regex(
 export default Vue.extend({
   name: 'ResumePage',
   layout: 'employee',
-  async asyncData({ app }) {
+  // TODO: change fetch hook for asyncData when production target is server
+  // async asyncData({ app }) {
+  //   try {
+  //     const res = await app.$axios.$get('/employee/resume')
+
+  //     const mainSkills: Skill[] = (res.main_skills as Skill[]).map((skill) => {
+  //       return {
+  //         skill_name: skill.skill_name,
+  //         years_of_experience: skill.years_of_experience,
+  //       }
+  //     })
+
+  //     while (mainSkills.length < 2) {
+  //       mainSkills.push({
+  //         skill_name: null,
+  //         years_of_experience: null,
+  //       })
+  //     }
+
+  //     const secondarySkills: Skill[] = (res.secondary_skills as Skill[]).map(
+  //       (skill) => {
+  //         return {
+  //           skill_name: skill.skill_name,
+  //           years_of_experience: skill.years_of_experience,
+  //         }
+  //       }
+  //     )
+
+  //     const secondaryLanguage = res.languages.length
+  //       ? (res.languages as any[]).map((lang) => {
+  //           return {
+  //             language: lang.language,
+  //             language_level: lang.language_level,
+  //           }
+  //         })[0]
+  //       : { language: null, language_level: null }
+
+  //     const previousJobs: Job[] = res.previous_jobs.length
+  //       ? res.previous_jobs
+  //       : [
+  //           {
+  //             company_name: null,
+  //             initial_date: null,
+  //             end_date: null,
+  //             position: null,
+  //             contact_person: null,
+  //             phone: null,
+  //           },
+  //         ]
+
+  //     return {
+  //       mainSkills,
+  //       secondarySkills,
+  //       secondaryLanguage,
+  //       previousJobs,
+  //     }
+  //   } catch (error) {}
+  // },
+  data() {
+    return {
+      loading: false,
+      saved: false,
+      mainSkills: [] as Skill[],
+      secondarySkills: [] as Skill[],
+      secondarySkill: {
+        skill_name: null,
+        years_of_experience: null,
+      } as Skill,
+      secondaryLanguage: {
+        language: null,
+        language_level: null,
+      },
+      previousJobs: [] as Job[],
+    }
+  },
+  // TODO: change fetch hook for asyncData when production target is server
+  async fetch() {
     try {
-      const res = await app.$axios.$get('/employee/resume')
+      const res = await this.$axios.$get('/employee/resume')
 
       const mainSkills: Skill[] = (res.main_skills as Skill[]).map((skill) => {
         return {
@@ -382,32 +458,13 @@ export default Vue.extend({
               phone: null,
             },
           ]
-
-      return {
-        mainSkills,
-        secondarySkills,
-        secondaryLanguage,
-        previousJobs,
-      }
+      this.mainSkills = mainSkills
+      this.secondarySkills = secondarySkills
+      this.secondaryLanguage = secondaryLanguage
+      this.previousJobs = previousJobs
     } catch (error) {}
   },
-  data() {
-    return {
-      loading: false,
-      saved: false,
-      mainSkills: [] as Skill[],
-      secondarySkills: [] as Skill[],
-      secondarySkill: {
-        skill_name: null,
-        years_of_experience: null,
-      } as Skill,
-      secondaryLanguage: {
-        language: null,
-        language_level: null,
-      },
-      previousJobs: [] as Job[],
-    }
-  },
+  fetchOnServer: false,
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
