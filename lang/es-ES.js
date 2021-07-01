@@ -170,7 +170,7 @@ export default {
     yearsExperience: 'Años de experiencia',
     years: 'Años',
     year: '{count} año | {count} años',
-    secondarySkills: 'Habilidades principales',
+    secondarySkills: 'Habilidades secundarias',
     secondaryLanguage: 'Idioma secundario',
     selectLanguage: 'Selecciona un idioma',
     level: 'Nivel',

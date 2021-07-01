@@ -310,7 +310,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { required, requiredIf, helpers } from 'vuelidate/lib/validators'
+import { required, requiredIf, helpers, and } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -577,23 +577,59 @@ export default Vue.extend({
       previousJobs: {
         $each: {
           company_name: {
-            required,
+            required: and(
+              requiredIf('initial_date'),
+              requiredIf('end_date'),
+              requiredIf('position'),
+              requiredIf('contact_person'),
+              requiredIf('phone')
+            ),
           },
           initial_date: {
-            required,
+            required: and(
+              requiredIf('company_name'),
+              requiredIf('end_date'),
+              requiredIf('position'),
+              requiredIf('contact_person'),
+              requiredIf('phone')
+            ),
           },
           end_date: {
-            required,
+            required: and(
+              requiredIf('initial_date'),
+              requiredIf('company_name'),
+              requiredIf('position'),
+              requiredIf('contact_person'),
+              requiredIf('phone')
+            ),
           },
           position: {
-            required,
+            required: and(
+              requiredIf('initial_date'),
+              requiredIf('end_date'),
+              requiredIf('company_name'),
+              requiredIf('contact_person'),
+              requiredIf('phone')
+            ),
           },
           contact_person: {
-            required,
+            required: and(
+              requiredIf('initial_date'),
+              requiredIf('end_date'),
+              requiredIf('position'),
+              requiredIf('company_name'),
+              requiredIf('phone')
+            ),
           },
           phone: {
             isPhoneUS,
-            required,
+            required: and(
+              requiredIf('initial_date'),
+              requiredIf('end_date'),
+              requiredIf('position'),
+              requiredIf('contact_person'),
+              requiredIf('company_name')
+            ),
           },
         },
       },

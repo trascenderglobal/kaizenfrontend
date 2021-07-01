@@ -80,9 +80,9 @@
             }}</span>
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.skills }"
+              :class="{ 'select-none': !profile.skill }"
               >{{
-                profile.skills ? 'Data Scientist' : $t('profile.noSkills')
+                profile.skill ? 'Data Scientist' : $t('profile.noSkills')
               }}</span
             >
             <span
@@ -228,15 +228,7 @@
           </div>
           <span v-if="!edit" class="item-value">{{ profile.email }}</span>
           <div v-else class="flex-grow">
-            <ks-input
-              v-model="profile.email"
-              border-color="border-blue-light"
-              :error="$v.profile.email.$error"
-              :label="$t('profile.edit.email')"
-              disable-hint
-              dense
-              @blur="$v.profile.email.$touch"
-            />
+            <span class="item-value">{{ profile.email }}</span>
           </div>
         </div>
       </div>
@@ -409,6 +401,7 @@ export default Vue.extend({
         zip: '',
         linkedin: '',
         profile_picture_URL: '',
+        skill: '',
       },
       states: [
         {
