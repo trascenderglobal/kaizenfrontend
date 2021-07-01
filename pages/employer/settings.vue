@@ -35,63 +35,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
     layout: 'employer',
-  async asyncData({ app }) {
-    try {
-      const res = await app.$axios.$get('/employer/profile')
-      return {
-        profile: res,
-      }
-    } catch (error) {}
-  },
-  data() {
-    return {
-      edit: false,
-      saved: false,
-      loading: false,
-      profile: {
-        name: '',
-        lastName: '',
-        birthDate: null,
-        novelties: null,
-        contactPerson: '',
-        adress: null,
-        position: '',
-        state: null,
-        city: null,
-        phone: null,
-        email: '',
-        zip: null,
-        linkedin: null,
-      },
-    }
-  },
-  methods: {
-    async updateProfile() {
-      try {
-        this.edit = false
-        this.loading = true
-        await this.$axios.$post('/employer/profile/settings', {
-          name: this.profile.name,
-          last_name: this.profile.lastName,
-          birth_date: this.profile.birthDate,
-          novelties: this.profile.novelties,
-          state: this.profile.state,
-          city: this.profile.city,
-          phone: this.profile.phone,
-          zip: this.profile.zip,
-          linkedin: this.profile.linkedin,
-          contactPerson: this.profile.contactPerson,
-          position: this.profile.position,
-          adress: this.profile.adress,
-        })
-        this.saved = true
-      } catch (error) {
-        this.saved = false
-      } finally {
-        this.loading = false
-      }
-    },
-  },
 })
 </script>
 

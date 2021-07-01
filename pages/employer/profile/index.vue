@@ -118,82 +118,88 @@
         </div>
       </div>
     </div>
-    <hr class="my-8 border" />
-    <div class="flex flex-col space-y-4">
-      <div class="flex items-center w-1/2 space-x-4">
-        <div class = 'min-w-1/5'>
-          <span class="font-medium text-blue-kaizen">
-          {{$t('profile.contactPerson')}}
-        </span>
-        </div>
-        <span
-            v-if="!edit"
-            class="item-value"
-            :class="{ 'select-none': !profile.contactPerson }"
-            >{{ profile.contactPerson ? profile.contactPerson : '-' }}</span
-          >
-          <div v-else class="w-1/2">
-            <ks-input
-              v-model="profile.contactPerson"
-              border-color="border-blue-light"
-              :label="$t('profile.contactPerson')"
-              disable-hint
-              dense
-            >
-            </ks-input>
+    <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
+    <div class="fields">
+      <div class="field-row">
+        <div class="field-col">
+          <div class = 'min-w-1/5'>
+            <span class="font-medium text-blue-kaizen">
+            {{$t('profile.contactPerson')}}
+          </span>
           </div>
+          <span
+              v-if="!edit"
+              class="item-value"
+              :class="{ 'select-none': !profile.contactPerson }"
+              >{{ profile.contactPerson ? profile.contactPerson : '-' }}</span
+            >
+            <div v-else class="w-1/2">
+              <ks-input
+                v-model="profile.contactPerson"
+                border-color="border-blue-light"
+                :label="$t('profile.contactPerson')"
+                disable-hint
+                dense
+              >
+              </ks-input>
+            </div>
+        </div>
       </div>
-      <div class="flex items-center w-1/2 space-x-4">
-        <div class = 'min-w-1/5'>
-          <span class="font-medium text-blue-kaizen">
-          {{$t('profile.position')}}
-        </span>
-        </div>
-        <span
-            v-if="!edit"
-            class="item-value"
-            :class="{ 'select-none': !profile.position }"
-            >{{ profile.position ? profile.position : '-' }}</span
-          >
-          <div v-else class="w-1/2">
-            <ks-input
-              v-model="profile.position"
-              border-color="border-blue-light"
-              :label="$t('profile.position')"
-              disable-hint
-              dense
-            >
-            </ks-input>
+      <div class="field-row">
+        <div class="field-col">
+          <div class = 'min-w-1/5'>
+            <span class="font-medium text-blue-kaizen">
+            {{$t('profile.position')}}
+          </span>
           </div>
+          <span
+              v-if="!edit"
+              class="item-value"
+              :class="{ 'select-none': !profile.position }"
+              >{{ profile.position ? profile.position : '-' }}</span
+            >
+            <div v-else class="w-1/2">
+              <ks-input
+                v-model="profile.position"
+                border-color="border-blue-light"
+                :label="$t('profile.position')"
+                disable-hint
+                dense
+              >
+              </ks-input>
+            </div>
+      </div>
       </div>
     </div>
-    <hr class="my-8 border" />
-    <div class="flex flex-col space-y-4">
-      <div class="flex items-center w-1/2 space-x-4">
-        <div class = 'min-w-1/5'>
-          <span class="font-medium text-blue-kaizen">
-          {{$t('profile.adress')}}
-        </span>
-        </div>
-        <span
-            v-if="!edit"
-            class="item-value"
-            :class="{ 'select-none': !profile.adress }"
-            >{{ profile.adress ? profile.adress : '-' }}</span
-          >
-          <div v-else class="w-1/2">
-            <ks-input
-              v-model="profile.adress"
-              border-color="border-blue-light"
-              :label="$t('profile.adress')"
-              disable-hint
-              dense
-            >
-            </ks-input>
+    <hr class="border mt-4 mb-8" />
+    <div class="fields">
+      <div class="field-row">
+        <div class="field-col">
+          <div class = 'min-w-1/5'>
+            <span class="font-medium text-blue-kaizen">
+              {{$t('profile.adress')}}
+            </span>
           </div>
+          <span
+              v-if="!edit"
+              class="item-value"
+              :class="{ 'select-none': !profile.adress }"
+              >{{ profile.adress ? profile.adress : '-' }}</span
+            >
+            <div v-else class="w-1/2">
+              <ks-input
+                v-model="profile.adress"
+                border-color="border-blue-light"
+                :label="$t('profile.adress')"
+                disable-hint
+                dense
+              >
+              </ks-input>
+            </div>
+        </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.state')
@@ -205,7 +211,7 @@
             :class="{ 'select-none': !profile.state }"
             >{{ stateAbbr }}</span
           >
-          <div v-else class="w-1/2">
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
               v-model="profile.state"
               :items="states"
@@ -214,10 +220,10 @@
               bg-color="bg-transparent"
               clearable
               color="text-gray-darker"
-            ></ks-select>
+            />
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.phone')
@@ -229,7 +235,7 @@
             :class="{ 'select-none': !profile.phone }"
             >{{ profile.phone ? profile.phone : '-' }}</span
           >
-          <div v-else class="w-full">
+          <div v-else class="flex-grow">
             <ks-input
               v-model="profile.phone"
               border-color="border-blue-light"
@@ -242,8 +248,8 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.city')
@@ -255,7 +261,7 @@
             :class="{ 'select-none': !profile.city }"
             >{{ profile.city ? profile.city : '-' }}</span
           >
-          <div v-else class="w-1/2">
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
               v-model="profile.city"
               class="border border-blue-light"
@@ -267,7 +273,7 @@
             />
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.email')
@@ -283,13 +289,12 @@
               disable-hint
               dense
               @blur="$v.profile.email.$touch"
-            >
-            </ks-input>
+            />
           </div>
         </div>
       </div>
-      <div class="flex flex-wrap w-full">
-        <div class="flex items-center w-1/2 space-x-4">
+      <div class="field-row">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.zip')
@@ -301,7 +306,7 @@
             :class="{ 'select-none': !profile.zip }"
             >{{ profile.zip ? profile.zip : '-' }}</span
           >
-          <div v-else class="w-1/2">
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-input
               v-model="profile.zip"
               border-color="border-blue-light"
@@ -314,7 +319,7 @@
             />
           </div>
         </div>
-        <div class="flex items-center w-1/2 space-x-4">
+        <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
               $t('profile.social')
@@ -347,7 +352,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end flex-grow pt-4">
+    <div class="flex justify-end flex-grow">
       <transition name="edit">
         <ks-btn
           v-if="edit"
@@ -378,7 +383,7 @@
                   <div class="img" :style="userImage"></div>
                 </div>
               </div>
-              <hr class="border self-stretch" />
+              <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}
               </p>
@@ -430,15 +435,16 @@ type Image = null | File
 export default Vue.extend({
     name: 'ProfilePage',
     layout: 'employer',
-  async asyncData({ app }) {
-    try {
-      const res = await app.$axios.$get('/employer/profile')
-      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
-      return {
-        profile: res,
-      }
-    } catch (error) {}
-  },
+    //TODO: change fetch hook for asyncData when production target is server
+  // async asyncData({ app }) {
+  //   try {
+  //     const res = await app.$axios.$get('/employer/profile')
+  //     res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+  //     return {
+  //       profile: res,
+  //     }
+  //   } catch (error) {}
+  // },
   data() {
     return {
       edit: false,
@@ -474,6 +480,14 @@ export default Vue.extend({
       ],
     }
   },
+  async fetch(){
+    try {
+      const res = await this.$axios.$get('/employer/profile')
+      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+      this.profile = res
+    } catch (error) {}
+  },
+  fetchOnServer: false,
   computed: {
     laborAge(): Date {
       const labor = new Date()
@@ -645,9 +659,11 @@ export default Vue.extend({
 .profile-header {
   @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
+
 .profile-header > * {
   @apply pt-4;
 }
+
 .user-img-lg {
   @apply flex-shrink-0 w-20 h-20;
 }
@@ -686,16 +702,24 @@ export default Vue.extend({
   @apply bg-gray-darker hover:bg-gray-darker cursor-default;
 }
 
-.social-btn {
-  @apply focus:outline-none rounded-lg;
-}
-
 .edit-profile-btn {
   @apply inline-flex items-center justify-between w-full space-x-4  focus:outline-none;
 }
 
 .item-value {
   @apply text-gray-darker font-light py-1;
+}
+
+.fields {
+  @apply flex flex-col;
+}
+
+.field-row {
+  @apply flex flex-wrap w-full;
+}
+
+.field-col {
+  @apply flex items-center w-full lg:w-1/2 space-x-4 pb-4;
 }
 
 .edit-enter-active,

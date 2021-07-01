@@ -83,31 +83,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
     layout: 'employer',
-  async asyncData({ app }) {
-    try {
-      const res = await app.$axios.$get('/employer/profile')
-      return {
-        profile: res,
-      }
-    } catch (error) {}
-  },
-  data() {
-    return {
-    }
-  },
-  methods: {
-    async updateProfile() {
-      try {
-        await this.$axios.$post('/employer/profile/edit', {
-        })
-        
-      } catch (error) {
-        
-      } finally {
-        
-      }
-    },
-  },
 })
 </script>
 
