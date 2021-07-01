@@ -80,10 +80,8 @@
             }}</span>
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.skill }"
-              >{{
-                profile.skill ? 'Data Scientist' : $t('profile.noSkills')
-              }}</span
+              :class="{ 'select-none': !mainSkill }"
+              >{{ mainSkill || $t('profile.noSkills') }}</span
             >
             <span
               class="font-light text-gray-dark"
@@ -101,10 +99,8 @@
             }}</span>
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.skills }"
-              >{{
-                profile.skills ? 'Data Scientist' : $t('profile.noSkills')
-              }}</span
+              :class="{ 'select-none': !mainSkill }"
+              >{{ mainSkill || $t('profile.noSkills') }}</span
             >
             <ks-datepicker
               v-model="profile.birthDate"
@@ -369,6 +365,7 @@ const isImage = (value: File) => {
 }
 
 type Image = null | File
+type NullableDate = null | Date
 
 export default Vue.extend({
   name: 'ProfilePage',
@@ -392,7 +389,7 @@ export default Vue.extend({
       profile: {
         name: '',
         lastName: '',
-        birthDate: new Date(),
+        birthDate: null as NullableDate,
         novelties: '',
         state: '',
         city: '',
@@ -401,7 +398,7 @@ export default Vue.extend({
         zip: '',
         linkedin: '',
         profile_picture_URL: '',
-        skill: '',
+        main_skill: 0,
       },
       states: [
         {
@@ -442,6 +439,14 @@ export default Vue.extend({
       if (this.profile.state === 'IN') return 'Indiana'
       if (this.profile.state === 'MI') return 'Michigan'
       return '-'
+    },
+    mainSkill(): String {
+      const skills: String[] = []
+      for (let i = 0; i <= 9; i++) {
+        skills.push(this.$t(`resume.skills.${i}`))
+      }
+      if (this.profile.main_skill) return skills[this.profile.main_skill - 1]
+      return ''
     },
     cities(): String[] {
       if (this.profile.state === 'IN')

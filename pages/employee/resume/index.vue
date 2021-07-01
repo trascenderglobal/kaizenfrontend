@@ -310,7 +310,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { required, requiredIf, helpers, and } from 'vuelidate/lib/validators'
+import { requiredIf, helpers, and } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -338,28 +338,28 @@ export default Vue.extend({
     try {
       const res = await app.$axios.$get('/employee/resume')
 
-      const mainSkills: Skill[] = res.main_skills.length
-        ? (res.main_skills as Skill[]).map((skill) => {
-            return {
-              skill_name: skill.skill_name,
-              years_of_experience: skill.years_of_experience,
-            }
-          })
-        : []
-      for (let i = 0; i < 2 - mainSkills.length; i++) {
+      const mainSkills: Skill[] = (res.main_skills as Skill[]).map((skill) => {
+        return {
+          skill_name: skill.skill_name,
+          years_of_experience: skill.years_of_experience,
+        }
+      })
+
+      while (mainSkills.length < 2) {
         mainSkills.push({
           skill_name: null,
           years_of_experience: null,
         })
       }
-      const secondarySkills: Skill[] = res.secondary_skills.length
-        ? (res.secondary_skills as Skill[]).map((skill) => {
-            return {
-              skill_name: skill.skill_name,
-              years_of_experience: skill.years_of_experience,
-            }
-          })
-        : []
+
+      const secondarySkills: Skill[] = (res.secondary_skills as Skill[]).map(
+        (skill) => {
+          return {
+            skill_name: skill.skill_name,
+            years_of_experience: skill.years_of_experience,
+          }
+        }
+      )
 
       const secondaryLanguage = res.languages.length
         ? (res.languages as any[]).map((lang) => {
@@ -440,7 +440,7 @@ export default Vue.extend({
       const skills: object[] = []
       for (let i = 0; i <= 9; i++) {
         skills.push({
-          text: this.$t(`resume.skills.${i}`, i),
+          text: this.$t(`resume.skills.${i}`),
           value: i + 1,
         })
       }
