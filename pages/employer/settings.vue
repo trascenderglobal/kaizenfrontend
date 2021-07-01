@@ -33,8 +33,38 @@
 <script lang="ts">
 import Vue from 'vue'
 
+type NullableDate = null | Date
+
 export default Vue.extend({
     layout: 'employer',
+    data(){
+      return {
+        profile: {
+        name: '',
+        lastName: '',
+        birthDate: null as NullableDate,
+        contactPerson: '',
+        adress: '',
+        industry: '',
+        position: '',
+        state: '',
+        city: '',
+        phone: '',
+        email: '',
+        zip: '',
+        linkedin: '',
+        profile_picture_URL: '',
+      }
+      }
+    },
+    async fetch(){
+    try {
+      const res = await this.$axios.$get('/employer/profile')
+      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
+      this.profile = res
+    } catch (error) {}
+  },
+  fetchOnServer: false,
 })
 </script>
 

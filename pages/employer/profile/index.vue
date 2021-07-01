@@ -431,6 +431,7 @@ const isImage = (value: File) => {
 }
 
 type Image = null | File
+type NullableDate = null | Date
 
 export default Vue.extend({
     name: 'ProfilePage',
@@ -455,7 +456,7 @@ export default Vue.extend({
       profile: {
         name: '',
         lastName: '',
-        birthDate: new Date(),
+        birthDate: null as NullableDate,
         contactPerson: '',
         adress: '',
         industry: '',
