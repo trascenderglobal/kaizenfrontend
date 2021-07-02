@@ -116,6 +116,9 @@ export default {
       available: 'Disponible',
       busy: 'Ocupado',
     },
+    industries: {
+      manufacturing: 'Manufactura'
+    },
     state: 'Estado',
     position: 'Cargo',
     contactPerson: 'Persona de contacto',
@@ -133,7 +136,7 @@ export default {
       addImage: 'Agrega tu foto de perfil',
       typeRole: 'Escribe tu rol',
       typeZip: 'Escribe tu zip',
-      typeIndustry: 'Escribe tu industria',
+      enterIndustry: 'Selecciona tu industria',
       birthDate: 'Fecha de nacimiento',
       select: 'Seleccionar',
       phone: 'Escribe un número de teléfono',
