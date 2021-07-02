@@ -81,9 +81,7 @@
             <span
               class="font-light text-gray-dark"
               :class="{ 'select-none': !profile.industry }"
-              >{{
-                profile.industry ? 'Industry' : $t('profile.noIndustry')
-              }}</span
+              >{{industryAbbr}}</span
             >
             <span
               class="font-light text-gray-dark"
@@ -99,11 +97,14 @@
             <span class="font-medium text-blue-kaizen">{{
               profile.name + ' ' + profile.lastName
             }}</span>
-            <ks-input
-              border-color="border-blue-light"
-              dense
-              disable-hint
-              :label="$t('profile.edit.typeIndustry')"
+            <ks-select
+              v-model="profile.industry"
+              :items="industries"
+              class="border border-blue-light"
+              :label="$t('profile.edit.enterIndustry')"
+              bg-color="bg-transparent"
+              clearable
+              color="text-gray-darker"
             />
             <ks-datepicker
               v-model="profile.birthDate"
@@ -177,20 +178,20 @@
         <div class="field-col">
           <div class = 'min-w-1/5'>
             <span class="font-medium text-blue-kaizen">
-              {{$t('profile.adress')}}
+              {{$t('profile.address')}}
             </span>
           </div>
           <span
               v-if="!edit"
               class="item-value"
-              :class="{ 'select-none': !profile.adress }"
-              >{{ profile.adress ? profile.adress : '-' }}</span
+              :class="{ 'select-none': !profile.address }"
+              >{{ profile.address ? profile.address : '-' }}</span
             >
             <div v-else class="w-1/2">
               <ks-input
-                v-model="profile.adress"
+                v-model="profile.address"
                 border-color="border-blue-light"
-                :label="$t('profile.adress')"
+                :label="$t('profile.address')"
                 disable-hint
                 dense
               >
@@ -280,16 +281,8 @@
             }}</span>
           </div>
           <span v-if="!edit" class="item-value">{{ profile.email }}</span>
-          <div v-else class="w-full">
-            <ks-input
-              v-model="profile.email"
-              border-color="border-blue-light"
-              :error="$v.profile.email.$error"
-              :label="$t('profile.edit.email')"
-              disable-hint
-              dense
-              @blur="$v.profile.email.$touch"
-            />
+          <div v-else class="flex-grow">
+            <span class="item-value">{{ profile.email }}</span>
           </div>
         </div>
       </div>
@@ -457,8 +450,8 @@ export default Vue.extend({
         name: '',
         lastName: '',
         birthDate: null as NullableDate,
-        contactPerson: '',
-        adress: '',
+        contact_person: '',
+        address: '',
         industry: '',
         position: '',
         state: '',
@@ -499,6 +492,19 @@ export default Vue.extend({
       if (this.profile.state === 'IN') return 'Indiana'
       if (this.profile.state === 'MI') return 'Michigan'
       return '-'
+    },
+    industries(): Object[]{
+      return [
+        {
+          text: this.$t('profile.industries.manufacturing'),
+          value: 'manufacturing'
+        },
+        
+      ]
+    },
+    industryAbbr(): String {
+      if (this.profile.industry === 'manufacturing') return this.$t('profile.industries.manufacturing')
+      return this.$t('profile.noIndustry')
     },
     cities(): String[] {
       if (this.profile.state === 'IN')
@@ -588,10 +594,10 @@ export default Vue.extend({
           data.append('birth_date', this.profile.birthDate.toJSON())
         data.append('name', this.profile.name)
         data.append('last_name', this.profile.lastName)
-        data.append('contact_person', this.profile.contactPerson || '')
+        data.append('contact_person', this.profile.contact_person || '')
         data.append('position', this.profile.position || '')
         data.append('industry', this.profile.industry || '')
-        data.append('adress', this.profile.adress || '')
+        data.append('address', this.profile.address || '')
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')
         data.append('city', this.profile.city || '')
