@@ -604,6 +604,7 @@ export default Vue.extend({
               }
             }),
         })
+        await this.$fetch()
         this.saved = true
       } catch (error) {
         this.saved = false
