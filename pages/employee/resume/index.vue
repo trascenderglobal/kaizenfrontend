@@ -462,7 +462,13 @@ export default Vue.extend({
         : { language: null, language_level: null }
 
       const previousJobs: Job[] = res.previous_jobs.length
-        ? res.previous_jobs
+        ? (res.previous_jobs as any[]).map((job) => {
+            return {
+              ...job,
+              initial_date: new Date(job.initial_date),
+              end_date: new Date(job.end_date),
+            }
+          })
         : [
             {
               company_name: null,
