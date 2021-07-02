@@ -83,9 +83,12 @@
                 ? 'border-red-kaizen'
                 : 'border-gray-light'
             "
-            bg-color="bg-white"
+            :bg-color="
+              secondarySkills.length >= 3 ? 'bg-gray-light' : 'bg-white'
+            "
             color="text-gray-dark"
             :items="skills"
+            :disabled="secondarySkills.length >= 3"
             clearable
             @blur="$v.secondarySkill.skill_name.$touch"
           />
@@ -101,11 +104,17 @@
               v-model="secondarySkill.years_of_experience"
               :label="$t('resume.years')"
               :bg-color="
-                $v.secondarySkill.years_of_experience.$error
+                secondarySkills.length >= 3
+                  ? 'bg-gray-light'
+                  : $v.secondarySkill.years_of_experience.$error
                   ? 'bg-red-kaizen'
                   : 'bg-blue-darker'
               "
+              :color="
+                secondarySkills.length >= 3 ? 'text-gray-dark' : 'text-white'
+              "
               :items="yearsExperience"
+              :disabled="secondarySkills.length >= 3"
               clearable
               @blur="$v.secondarySkill.years_of_experience.$touch"
             />
@@ -310,7 +319,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { requiredIf, helpers, and } from 'vuelidate/lib/validators'
+import { requiredIf, helpers, and, maxLength } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -421,7 +430,7 @@ export default Vue.extend({
         }
       })
 
-      while (mainSkills.length < 2) {
+      while (mainSkills.length < 3) {
         mainSkills.push({
           skill_name: null,
           years_of_experience: null,
@@ -614,6 +623,9 @@ export default Vue.extend({
             required: requiredIf('skill_name'),
           },
         },
+      },
+      secondarySkills: {
+        maxLength: maxLength(3),
       },
       secondarySkill: {
         skill_name: {
