@@ -63,10 +63,8 @@
             >
               <template #prepend-icon>
                 <iconly-icon
-                  name="password"
-                  fill="none"
-                  view-box="0 0 24 27"
-                  class="relative stroke-current left-1 text-blue-kaizen"
+                  name="lock"
+                  class="fill-current text-blue-kaizen"
                 />
               </template>
               <template #append-icon>
@@ -75,7 +73,6 @@
                   class="
                     cursor-pointer
                     fill-current
-                    stroke-current
                     text-gray-dark
                     hover:text-gray-600
                   "
@@ -92,10 +89,8 @@
             >
               <template #prepend-icon>
                 <iconly-icon
-                  name="password"
-                  fill="none"
-                  view-box="0 0 24 27"
-                  class="relative stroke-current left-1 text-blue-kaizen"
+                  name="lock"
+                  class="fill-current text-blue-kaizen"
                 />
               </template>
               <template #append-icon>
@@ -104,7 +99,6 @@
                   class="
                     cursor-pointer
                     fill-current
-                    stroke-current
                     text-gray-dark
                     hover:text-gray-600
                   "

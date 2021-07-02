@@ -55,7 +55,6 @@
                     right-2
                     cursor-pointer
                     fill-current
-                    stroke-current
                     text-gray-dark
                     hover:text-gray-600
                   "
