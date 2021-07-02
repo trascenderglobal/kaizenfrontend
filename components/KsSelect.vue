@@ -27,7 +27,7 @@
               :key="`opt-${i}`"
               class="w-full"
               :class="selected.index === i ? 'selected' : ''"
-              @click.stop="changeValue(item, i)"
+              @click.stop="changeValue(item)"
             >
               {{ simpleArray ? item : item[itemText] }}
             </div>
@@ -122,6 +122,11 @@ export default Vue.extend({
     },
   },
   watch: {
+    value: {
+      handler() {
+        this.syncValue()
+      },
+    },
     items: {
       handler() {
         this.clearValue()
@@ -130,38 +135,34 @@ export default Vue.extend({
     },
   },
   beforeMount() {
-    if (this.simpleArray) {
-      ;(this.items as any[]).forEach((item: any, i: number) => {
-        if (item === this.value) {
-          this.selected.text = item
-          this.selected.value = item
-          this.selected.index = i
-        }
-      })
-    } else {
-      ;(this.items as any[]).forEach((item: any, i: number) => {
-        if (item[this.itemValue] === this.value) {
-          this.selected.text = item[this.itemText]
-          this.selected.value = item[this.itemValue]
-          this.selected.index = i
-        }
-      })
-    }
+    this.syncValue()
   },
   methods: {
-    changeValue(item: any, i: number): void {
+    changeValue(item: any): void {
+      this.show = false
       if (this.simpleArray) {
-        this.selected.text = item
-        this.selected.value = item
-        this.selected.index = i
-        this.show = false
         this.$emit('input', item)
       } else {
-        this.selected.text = item[this.itemText]
-        this.selected.value = item[this.itemValue]
-        this.selected.index = i
-        this.show = false
         this.$emit('input', item[this.itemValue])
+      }
+    },
+    syncValue() {
+      if (this.simpleArray) {
+        ;(this.items as any[]).forEach((item: any, i: number) => {
+          if (item === this.value) {
+            this.selected.text = item
+            this.selected.value = item
+            this.selected.index = i
+          }
+        })
+      } else {
+        ;(this.items as any[]).forEach((item: any, i: number) => {
+          if (item[this.itemValue] === this.value) {
+            this.selected.text = item[this.itemText]
+            this.selected.value = item[this.itemValue]
+            this.selected.index = i
+          }
+        })
       }
     },
     clearValue(): void {
