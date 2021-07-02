@@ -88,5 +88,8 @@ sw.*
 
 # Vim swap files
 *.swp
+
 # vscode config folder
 /.vscode
+# jest snapshots
+/test/__snapshots__
