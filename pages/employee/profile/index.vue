@@ -163,6 +163,7 @@
               bg-color="bg-transparent"
               clearable
               color="text-gray-darker"
+              @input="profile.city = ''"
             />
           </div>
         </div>
@@ -176,7 +177,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.phone }"
-            >{{ profile.phone ? profile.phone : '-' }}</span
+            >{{ profile.phone || '-' }}</span
           >
           <div v-else class="flex-grow">
             <ks-input
@@ -202,7 +203,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.city }"
-            >{{ profile.city ? profile.city : '-' }}</span
+            >{{ profile.city || '-' }}</span
           >
           <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
@@ -239,7 +240,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.zip }"
-            >{{ profile.zip ? profile.zip : '-' }}</span
+            >{{ profile.zip || '-' }}</span
           >
           <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-input
@@ -521,13 +522,6 @@ export default Vue.extend({
           value: 0,
         },
       ]
-    },
-  },
-  watch: {
-    'profile.state': {
-      handler() {
-        this.profile.city = ''
-      },
     },
   },
   methods: {

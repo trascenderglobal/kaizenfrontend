@@ -81,16 +81,12 @@
             <span
               class="font-light text-gray-dark"
               :class="{ 'select-none': !profile.industry }"
-              >{{industryAbbr}}</span
+              >{{ industryAbbr }}</span
             >
             <span
               class="font-light text-gray-dark"
-              :class="{ 'select-none': !profile.birthDate }"
-              >{{
-                profile.birthDate
-                  ? $d(profile.birthDate, 'numeric')
-                  : $t('profile.noBirth')
-              }}</span
+              :class="{ 'select-none': !registerDate }"
+              >{{ registerDate ? $d(registerDate, 'numeric') : '-' }}</span
             >
           </template>
           <template v-else>
@@ -106,15 +102,11 @@
               clearable
               color="text-gray-darker"
             />
-            <ks-datepicker
-              v-model="profile.birthDate"
-              class="border border-blue-light"
-              :label="$t('profile.edit.birthDate')"
-              :disabled-date="isLaborAge"
-              bg-color="bg-transparent"
-              color="text-gray-darker"
-              clearable
-            />
+            <span
+              class="font-light text-gray-dark"
+              :class="{ 'select-none': !registerDate }"
+              >{{ $d(registerDate, 'numeric') }}</span
+            >
           </template>
         </div>
       </div>
@@ -123,80 +115,80 @@
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
-          <div class = 'min-w-1/5'>
+          <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">
-            {{$t('profile.contactPerson')}}
-          </span>
+              {{ $t('profile.contactPerson') }}
+            </span>
           </div>
           <span
-              v-if="!edit"
-              class="item-value"
-              :class="{ 'select-none': !profile.contactPerson }"
-              >{{ profile.contactPerson ? profile.contactPerson : '-' }}</span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.contact_person }"
+            >{{ profile.contact_person || '-' }}</span
+          >
+          <div v-else class="w-1/2">
+            <ks-input
+              v-model="profile.contact_person"
+              border-color="border-blue-light"
+              :label="$t('profile.contactPerson')"
+              disable-hint
+              dense
             >
-            <div v-else class="w-1/2">
-              <ks-input
-                v-model="profile.contactPerson"
-                border-color="border-blue-light"
-                :label="$t('profile.contactPerson')"
-                disable-hint
-                dense
-              >
-              </ks-input>
-            </div>
+            </ks-input>
+          </div>
         </div>
       </div>
       <div class="field-row">
         <div class="field-col">
-          <div class = 'min-w-1/5'>
+          <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">
-            {{$t('profile.position')}}
-          </span>
+              {{ $t('profile.position') }}
+            </span>
           </div>
           <span
-              v-if="!edit"
-              class="item-value"
-              :class="{ 'select-none': !profile.position }"
-              >{{ profile.position ? profile.position : '-' }}</span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.position }"
+            >{{ profile.position || '-' }}</span
+          >
+          <div v-else class="w-1/2">
+            <ks-input
+              v-model="profile.position"
+              border-color="border-blue-light"
+              :label="$t('profile.position')"
+              disable-hint
+              dense
             >
-            <div v-else class="w-1/2">
-              <ks-input
-                v-model="profile.position"
-                border-color="border-blue-light"
-                :label="$t('profile.position')"
-                disable-hint
-                dense
-              >
-              </ks-input>
-            </div>
-      </div>
+            </ks-input>
+          </div>
+        </div>
       </div>
     </div>
     <hr class="border mt-4 mb-8" />
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
-          <div class = 'min-w-1/5'>
+          <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">
-              {{$t('profile.address')}}
+              {{ $t('profile.address') }}
             </span>
           </div>
           <span
-              v-if="!edit"
-              class="item-value"
-              :class="{ 'select-none': !profile.address }"
-              >{{ profile.address ? profile.address : '-' }}</span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.adress }"
+            >{{ profile.adress || '-' }}</span
+          >
+          <div v-else class="w-1/2">
+            <ks-input
+              v-model="profile.adress"
+              border-color="border-blue-light"
+              :label="$t('profile.address')"
+              disable-hint
+              dense
             >
-            <div v-else class="w-1/2">
-              <ks-input
-                v-model="profile.address"
-                border-color="border-blue-light"
-                :label="$t('profile.address')"
-                disable-hint
-                dense
-              >
-              </ks-input>
-            </div>
+            </ks-input>
+          </div>
         </div>
       </div>
       <div class="field-row">
@@ -221,6 +213,7 @@
               bg-color="bg-transparent"
               clearable
               color="text-gray-darker"
+              @input="profile.city = ''"
             />
           </div>
         </div>
@@ -234,7 +227,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.phone }"
-            >{{ profile.phone ? profile.phone : '-' }}</span
+            >{{ profile.phone || '-' }}</span
           >
           <div v-else class="flex-grow">
             <ks-input
@@ -260,7 +253,7 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.city }"
-            >{{ profile.city ? profile.city : '-' }}</span
+            >{{ profile.city || '-' }}</span
           >
           <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
@@ -396,7 +389,6 @@
   </ks-card>
 </template>
 
-
 <script lang="ts">
 import Vue from 'vue'
 import { helpers, email } from 'vuelidate/lib/validators'
@@ -427,9 +419,9 @@ type Image = null | File
 type NullableDate = null | Date
 
 export default Vue.extend({
-    name: 'ProfilePage',
-    layout: 'employer',
-    //TODO: change fetch hook for asyncData when production target is server
+  name: 'ProfilePage',
+  layout: 'employer',
+  //TODO: change fetch hook for asyncData when production target is server
   // async asyncData({ app }) {
   //   try {
   //     const res = await app.$axios.$get('/employer/profile')
@@ -447,11 +439,12 @@ export default Vue.extend({
       showSocial: false,
       image: null as Image,
       profile: {
+        created_at: '',
         name: '',
         lastName: '',
         birthDate: null as NullableDate,
         contact_person: '',
-        address: '',
+        adress: '',
         industry: '',
         position: '',
         state: '',
@@ -474,36 +467,33 @@ export default Vue.extend({
       ],
     }
   },
-  async fetch(){
+  async fetch() {
     try {
       const res = await this.$axios.$get('/employer/profile')
-      res.birthDate = res.birthDate ? new Date(res.birthDate) : null
       this.profile = res
     } catch (error) {}
   },
   fetchOnServer: false,
   computed: {
-    laborAge(): Date {
-      const labor = new Date()
-      labor.setFullYear(labor.getFullYear() - 14)
-      return labor
+    registerDate(): Date | null {
+      return this.profile.created_at ? new Date(this.profile.created_at) : null
     },
     stateAbbr(): String {
       if (this.profile.state === 'IN') return 'Indiana'
       if (this.profile.state === 'MI') return 'Michigan'
       return '-'
     },
-    industries(): Object[]{
+    industries(): Object[] {
       return [
         {
           text: this.$t('profile.industries.manufacturing'),
-          value: 'manufacturing'
+          value: 'manufacturing',
         },
-        
       ]
     },
     industryAbbr(): String {
-      if (this.profile.industry === 'manufacturing') return this.$t('profile.industries.manufacturing')
+      if (this.profile.industry === 'manufacturing')
+        return this.$t('profile.industries.manufacturing')
       return this.$t('profile.noIndustry')
     },
     cities(): String[] {
@@ -571,17 +561,7 @@ export default Vue.extend({
       ]
     },
   },
-  watch: {
-    'profile.state': {
-      handler() {
-        this.profile.city = ''
-      },
-    },
-  },
   methods: {
-    isLaborAge(d: Date): boolean {
-      return d > this.laborAge
-    },
     async updateProfile() {
       try {
         this.edit = false
@@ -590,14 +570,12 @@ export default Vue.extend({
         if (this.$v.$invalid) return
         const data = new FormData()
         if (this.image) data.append('profile_picture', this.image as any)
-        if (this.profile.birthDate)
-          data.append('birth_date', this.profile.birthDate.toJSON())
         data.append('name', this.profile.name)
         data.append('last_name', this.profile.lastName)
         data.append('contact_person', this.profile.contact_person || '')
         data.append('position', this.profile.position || '')
         data.append('industry', this.profile.industry || '')
-        data.append('address', this.profile.address || '')
+        data.append('adress', this.profile.adress || '')
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')
         data.append('city', this.profile.city || '')
@@ -606,7 +584,6 @@ export default Vue.extend({
         await this.$axios.$post('/employer/profile/edit', data)
         // re fetch user profile
         const res = await this.$axios.$get('/employer/profile')
-        res.birthDate = res.birthDate ? new Date(res.birthDate) : null
         URL.revokeObjectURL(this.profile.profile_picture_URL)
         this.profile = res
         this.image = null

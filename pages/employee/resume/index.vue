@@ -319,7 +319,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { requiredIf, helpers, and, maxLength } from 'vuelidate/lib/validators'
+import {
+  requiredIf,
+  helpers,
+  and,
+  maxLength,
+  maxValue,
+} from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -672,6 +678,7 @@ export default Vue.extend({
               requiredIf('contact_person'),
               requiredIf('phone')
             ),
+            maxValue: maxValue(new Date()),
           },
           position: {
             required: and(
