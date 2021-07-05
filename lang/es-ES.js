@@ -40,6 +40,26 @@ export default {
       description: 'Regístrate',
     },
   },
+  forgotPassword: {
+    recover: 'Recuperar',
+    subtitle:
+      'Se enviará un enlace a tu dirección de correo electrónico para restablecer tu contraseña',
+    email: 'Tu e-mail',
+    backToLogin: 'Volver a Iniciar Sesión',
+    submit: 'Enviar',
+    sent: {
+      title: '¡E-mail enviado!',
+      text: 'Se ha enviado un correo electrónico con un enlace para restablecer tu contraseña.',
+    },
+    error: {
+      title: 'No se pudo enviar el correo electrónico',
+      text: 'Asegúrate de que el correo electrónico que ingresaste esté vinculado a una cuenta',
+    },
+    meta: {
+      title: '¿Olvidaste tu contraseña?',
+      description: '¿Olvidaste tu contraseña?',
+    },
+  },
   drawer: {
     profile: 'Perfil',
     resume: 'Currículum',
@@ -117,7 +137,7 @@ export default {
       busy: 'Ocupado',
     },
     industries: {
-      manufacturing: 'Manufactura'
+      manufacturing: 'Manufactura',
     },
     state: 'Estado',
     position: 'Cargo',

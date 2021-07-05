@@ -40,6 +40,26 @@ export default {
       description: 'Sign Up',
     },
   },
+  forgotPassword: {
+    recover: 'Recover',
+    subtitle:
+      'A link will be sent to your email address to reset your password',
+    email: 'Your e-mail',
+    backToLogin: 'Back to Login',
+    submit: 'Submit',
+    sent: {
+      title: 'E-mail sent!',
+      text: 'An e-mail has been sent with a link to reset your password',
+    },
+    error: {
+      title: 'Could not send the e-mail',
+      text: 'Make sure the e-mail you entered is linked to an account',
+    },
+    meta: {
+      title: 'Forgot your password?',
+      description: 'Forgot your password?',
+    },
+  },
   drawer: {
     profile: 'Profile',
     resume: 'Resume',
@@ -117,7 +137,7 @@ export default {
       busy: 'Busy',
     },
     industries: {
-      manufacturing: 'Manufacturing'
+      manufacturing: 'Manufacturing',
     },
     state: 'State',
     position: 'Position',
