@@ -80,6 +80,9 @@ export default {
     seeAll: 'Ver todo',
     noAlerts: 'No hay alertas',
   },
+  notifier: {
+    dismiss: 'Descartar',
+  },
   approved: {
     approved: 'Aprobado',
     alerts: 'El nuevo talento de tu empresa te está esperando',

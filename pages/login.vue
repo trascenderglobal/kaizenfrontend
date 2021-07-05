@@ -212,11 +212,6 @@ export default Vue.extend({
   @apply 2xl:px-16;
 }
 
-.alert-enter-to,
-.alert-leave {
-  @apply h-auto;
-}
-
 .alert-enter-active,
 .alert-leave-active {
   @apply transition duration-200;
