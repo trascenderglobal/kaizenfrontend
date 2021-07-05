@@ -11,8 +11,8 @@
         ></div>
       </div>
     </div>
-    <div class="user-name text-link-blue">
-      <div class="user-name-wrap">
+    <div class="user-name">
+      <div class="user-name-wrap text-link-blue">
         <nuxt-link
           v-if="$auth.user.role !== 2"
           :to="localePath(`${role}/profile`)"
@@ -27,21 +27,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
-  data() {
-    return {
-      profilePicture: '',
-    }
+  async fetch() {
+    try {
+      await this.$store.dispatch('user/fetchProfilePicture')
+    } catch (error) {}
   },
+  fetchOnServer: false,
   computed: {
-    role() {
-      if (this.$auth.user) {
-        if (this.$auth.user.role === 0) return '/employer'
-        else if (this.$auth.user.role === 1) return '/employee'
-      }
-      return '/'
-    },
     userImage(): Object {
       if (this.profilePicture)
         return {
@@ -49,14 +44,10 @@ export default Vue.extend({
         }
       return {}
     },
-  },
-  async beforeMount() {
-    try {
-      const res = await this.$axios.$get(`${this.role}/profile_picture`)
-      this.profilePicture = res.profile_picture_URL
-    } catch (error) {
-      this.profilePicture = ''
-    }
+    ...mapGetters({
+      profilePicture: 'user/getProfilePicture',
+      role: 'user/getRole',
+    }),
   },
 })
 </script>

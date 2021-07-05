@@ -555,6 +555,7 @@ export default Vue.extend({
         res.birthDate = res.birthDate ? new Date(res.birthDate) : null
         URL.revokeObjectURL(this.profile.profile_picture_URL)
         this.profile = res
+        this.$store.commit('user/SET_PROFILE_PICTURE', res.profile_picture_URL)
         this.image = null
         this.saved = true
       } catch (error) {

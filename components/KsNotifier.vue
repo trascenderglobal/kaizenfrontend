@@ -33,6 +33,13 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 
+interface Notification {
+  content: string
+  bgColor?: string
+  hoverColor?: string
+  textColor?: string
+}
+
 export default Vue.extend({
   props: {
     position: {
@@ -42,7 +49,8 @@ export default Vue.extend({
   },
   computed: {
     ...mapState({
-      notifications: (state) => (state as any).notifier.notifications,
+      notifications: (state: any): Notification[] =>
+        state.notifier.notifications,
     }),
   },
 })

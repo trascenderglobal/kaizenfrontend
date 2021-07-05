@@ -9,6 +9,7 @@
           <div class="top-content">
             <div class="breadcrumb">
               <ks-breadcrumb />
+              <ks-language />
             </div>
             <div class="user-info">
               <ks-user-info />
@@ -71,7 +72,7 @@ export default Vue.extend({
 }
 
 .breadcrumb {
-  @apply flex items-end min-w-3/4 max-w-3/4;
+  @apply flex justify-between items-end min-w-3/4 max-w-3/4;
 }
 
 .user-info {
