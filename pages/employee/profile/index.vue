@@ -139,7 +139,7 @@
         />
       </div>
     </div>
-    <hr class="border-blue-light" :class="edit ? 'my-6' : 'my-8'" />
+    <hr :class="edit ? 'my-6' : 'my-8'" />
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
@@ -319,7 +319,7 @@
                   <div class="img" :style="userImage"></div>
                 </div>
               </div>
-              <hr class="border self-stretch" />
+              <hr class="self-stretch" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}
               </p>
@@ -610,6 +610,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+hr {
+  @apply border-blue-light;
+}
+
 .profile-header {
   @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
