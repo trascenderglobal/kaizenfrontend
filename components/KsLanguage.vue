@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
   data() {
@@ -48,13 +48,13 @@ export default Vue.extend({
       else if (this.locale === 'es') return 'mexico'
       return 'united-states'
     },
-    ...mapGetters({
-      locale: 'user/getLocale',
+    ...mapState({
+      locale: (state: any): string => state.i18n.locale,
     }),
   },
   methods: {
-    changeLocale(locale: string): void {
-      this.$i18n.setLocale(locale)
+    async changeLocale(locale: string): Promise<void> {
+      await this.$i18n.setLocale(locale)
       this.show = false
     },
   },

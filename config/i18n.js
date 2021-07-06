@@ -20,6 +20,12 @@ export const I18N = {
   detectBrowserLanguage: {
     onlyOnRoot: true,
   },
+  vuex: {
+    moduleName: 'i18n',
+    syncLocale: true,
+    syncMessages: false,
+    syncRouteParams: false,
+  },
   vueI18n: {
     fallbackLocale: 'en',
     messages: { en, es },

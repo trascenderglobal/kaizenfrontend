@@ -1,6 +1,5 @@
 export const state = () => ({
   profilePicture: '',
-  locale: 'en',
 })
 
 export const getters = {
@@ -14,17 +13,11 @@ export const getters = {
     }
     return ''
   },
-  getLocale: (state) => {
-    return state.locale
-  },
 }
 
 export const mutations = {
   SET_PROFILE_PICTURE: (state, profilePicture) => {
     state.profilePicture = profilePicture
-  },
-  SET_LOCALE: (state, locale) => {
-    state.locale = locale
   },
 }
 

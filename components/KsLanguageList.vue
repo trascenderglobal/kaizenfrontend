@@ -21,17 +21,17 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
   computed: {
-    ...mapGetters({
-      locale: 'user/getLocale',
+    ...mapState({
+      locale: (state: any): string => state.i18n.locale,
     }),
   },
   methods: {
-    changeLocale(locale: string): void {
-      this.$i18n.setLocale(locale)
+    async changeLocale(locale: string): Promise<void> {
+      await this.$i18n.setLocale(locale)
     },
   },
 })
