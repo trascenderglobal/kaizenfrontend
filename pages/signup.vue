@@ -132,7 +132,7 @@
         <div class="flex flex-wrap justify-between pt-5">
           <div class="pb-2 space-x-2">
             <span class="text-gray-dark">{{ $t('signup.haveAccount') }}</span>
-            <nuxt-link :to="localePath('/login')" class="text-blue-kaizen">{{
+            <nuxt-link :to="localePath('/login')" class="text-link-blue">{{
               $t('signup.login')
             }}</nuxt-link>
           </div>

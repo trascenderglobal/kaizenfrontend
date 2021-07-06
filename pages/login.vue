@@ -65,14 +65,12 @@
         </div>
         <div class="flex flex-wrap justify-between pt-2">
           <div class="pb-2 space-x-2">
-            <nuxt-link
-              :to="localePath('/signup')"
-              class="text-gray-dark hover:text-gray-600"
-              >{{ $t('login.register') }}</nuxt-link
-            >
+            <nuxt-link :to="localePath('/signup')" class="text-link-blue">{{
+              $t('login.register')
+            }}</nuxt-link>
             <nuxt-link
               :to="localePath('/forgot-password')"
-              class="text-gray-dark hover:text-gray-600"
+              class="text-gray-dark hover:text-gray-600 transition duration-200"
               >{{ $t('login.forgot') }}</nuxt-link
             >
           </div>

@@ -16,7 +16,7 @@ export default {
     },
     meta: {
       title: 'Login',
-      description: 'Inicia Sesión',
+      description: 'Login',
     },
   },
   signup: {
@@ -36,8 +36,8 @@ export default {
       text: 'Please try again.',
     },
     meta: {
-      title: 'Regístrate',
-      description: 'Regístrate',
+      title: 'Sign up',
+      description: 'Sign up',
     },
   },
   forgotPassword: {
@@ -222,8 +222,8 @@ export default {
       btn: '¡Increíble!',
     },
     meta: {
-      title: 'Currículum',
-      description: 'Currículum',
+      title: 'Experiencia',
+      description: 'Experiencia',
     },
   },
   deals: {
@@ -258,6 +258,12 @@ export default {
     previous: 'Anterior',
     next: 'Siguiente',
   },
+  jobs: {
+    meta: {
+      title: 'Trabajos',
+      description: 'Trabajos',
+    },
+  },
   settings: {
     settings: 'Configuración',
     header: 'Información de la cuenta',
@@ -281,5 +287,9 @@ export default {
     deleteMyAccount: 'Darme de baja',
     cancel: 'Cancelar',
     delete: 'Confirmar',
+    meta: {
+      title: 'Configuración',
+      description: 'Configuración',
+    },
   },
 }

@@ -9,7 +9,12 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
     />
-    <label :for="`radio-${id}`" class="radio-label">{{ label }}</label>
+    <label :for="`radio-${id}`" class="radio-label">
+      <span class="radio-check">
+        <span class="checked"></span>
+      </span>
+      {{ label }}
+    </label>
   </div>
 </template>
 
@@ -46,23 +51,35 @@ export default Vue.extend({
 }
 
 .radio-label {
-  @apply flex items-center cursor-pointer;
+  @apply relative flex items-center cursor-pointer transition duration-200;
 }
 
-.radio input[type='radio'] + .radio-label::before {
+input[type='radio'] + .radio-label .checked {
+  @apply bg-transparent rounded inline-flex w-4 h-4 absolute z-10 justify-center items-center transition duration-200 transform scale-0;
+}
+
+input[type='radio'] + .radio-label > .radio-check {
+  @apply bg-transparent rounded border border-blue-kaizen inline-flex w-6 h-6 relative mr-2 justify-center items-center transition duration-200;
+}
+
+input[type='radio'] + .radio-label > .radio-check::before {
   content: '';
-  @apply bg-transparent rounded border border-gray-dark inline-flex w-5 h-5 relative mr-2 justify-center items-center transition duration-100;
+  @apply absolute inset-0 opacity-0 transition bg-current rounded;
 }
 
-.radio input[type='radio']:checked + .radio-label::before {
-  @apply bg-blue-kaizen rounded;
+input[type='radio']:not(:checked) + .radio-label:hover > .radio-check::before {
+  @apply opacity-10;
 }
 
-.radio input[type='radio']:focus + .radio-label::before {
+input[type='radio']:checked + .radio-label .checked {
+  @apply bg-blue-kaizen scale-100;
+}
+
+input[type='radio']:focus + .radio-label::before {
   @apply outline-none;
 }
 
-.radio input[type='radio']:disabled + .radio-label::before {
+input[type='radio']:disabled + .radio-label::before {
   @apply bg-gray-light;
 }
 </style>

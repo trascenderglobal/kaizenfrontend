@@ -258,6 +258,12 @@ export default {
     previous: 'Previous',
     next: 'Next',
   },
+  jobs: {
+    meta: {
+      title: 'Jobs',
+      description: 'Jobs',
+    },
+  },
   settings: {
     settings: 'Settings',
     header: 'Account information',
@@ -281,5 +287,9 @@ export default {
     deleteMyAccount: 'Delete my account',
     cancel: 'Cancel',
     delete: 'Delete',
+    meta: {
+      title: 'Settings',
+      description: 'Settings',
+    },
   },
 }
