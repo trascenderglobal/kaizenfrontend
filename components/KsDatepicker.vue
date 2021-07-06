@@ -22,11 +22,9 @@
       />
     </div>
     <transition name="items">
-      <div class="items" @click.stop>
+      <div v-if="!disabled" v-show="show" class="items" @click.stop>
         <client-only>
           <date-picker
-            v-if="!disabled"
-            v-show="show"
             v-model="date"
             :lang="$t('datepicker.lang')"
             inline
@@ -127,11 +125,12 @@ export default Vue.extend({
   @apply select-none cursor-default;
 }
 
+.items-enter-active,
 .items-leave-active {
-  transition: opacity 0.15s;
+  @apply transition origin-top-left duration-200;
 }
 .items-enter,
 .items-leave-to {
-  opacity: 0;
+  @apply transform scale-0;
 }
 </style>

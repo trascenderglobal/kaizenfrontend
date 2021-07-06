@@ -16,7 +16,7 @@
       </div>
       <div class="icon">
         <iconly-icon
-          class="transition"
+          class="transition duration-200"
           :class="{ 'transform rotate-180': show }"
           name="arrow-down-2"
         />
@@ -238,11 +238,13 @@ export default Vue.extend({
   @apply bg-gray-lighter;
 }
 
+.items-enter-active,
 .items-leave-active {
-  transition: opacity 0.15s;
+  @apply transition origin-top-left duration-200;
 }
+
 .items-enter,
 .items-leave-to {
-  opacity: 0;
+  @apply transform scale-0;
 }
 </style>
