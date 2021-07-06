@@ -35,7 +35,7 @@ export default Vue.extend({
       type: String,
       default: 'primary',
       validator(value) {
-        return ['primary', 'success', 'danger'].includes(value)
+        return ['primary', 'success', 'danger', 'transparent'].includes(value)
       },
     },
     font: {

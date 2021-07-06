@@ -94,7 +94,8 @@
                 <ks-btn
                   color="danger"
                   class="text-xl"
-                  @click="showDelete = false"
+                  :loading="deleting"
+                  @click="deleteProfile"
                   >{{ $t('settings.delete') }}</ks-btn
                 >
               </div>
@@ -124,6 +125,7 @@ export default Vue.extend({
         profile_picture_URL: '',
       },
       showDelete: false,
+      deleting: false,
     }
   },
   async fetch() {
@@ -140,6 +142,19 @@ export default Vue.extend({
           'background-image': `url(${this.profile.profile_picture_URL})`,
         }
       return {}
+    },
+  },
+  methods: {
+    async deleteProfile(): Promise<void> {
+      try {
+        this.deleting = true
+        await this.$axios.$delete('/user/delete')
+        await this.$auth.logout()
+      } catch (error) {
+      } finally {
+        this.deleting = false
+        this.showDelete = false
+      }
     },
   },
 })
@@ -159,7 +174,7 @@ hr {
 }
 
 .user-img-lg {
-  @apply flex-shrink-0 w-20 h-20 cursor-pointer;
+  @apply flex-shrink-0 w-20 h-20;
 }
 
 .img-wrapper {

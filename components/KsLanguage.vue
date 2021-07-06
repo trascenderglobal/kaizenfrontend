@@ -1,34 +1,35 @@
 <template>
   <div class="language" tabindex="-1" @blur="show = false">
-    <transition name="items">
-      <div v-if="show" class="items">
-        <img
-          role="button"
-          :src="require('@/assets/icons/united-states.svg')"
-          alt="en"
-          class="img-locale"
-          :class="{ 'selected-locale': locale === 'en' }"
-          @click="changeLocale('en')"
-        />
-        <img
-          role="button"
-          :src="require('@/assets/icons/mexico.svg')"
-          alt="es"
-          class="img-locale"
-          :class="{ 'selected-locale': locale === 'es' }"
-          @click="changeLocale('es')"
-        />
-      </div>
-      <div v-else class="language-wrapper">
-        <img
-          role="button"
-          class="img-locale"
-          :src="require(`@/assets/icons/${country || 'united-states'}.svg`)"
-          :alt="locale"
-          @click="show = !show"
-        />
-      </div>
-    </transition>
+    <div v-if="show" class="items">
+      <img
+        role="button"
+        :src="require('@/assets/icons/united-states.svg')"
+        alt="en"
+        title="English"
+        class="img-locale"
+        :class="{ 'selected-locale': locale === 'en' }"
+        @click="changeLocale('en')"
+      />
+      <img
+        role="button"
+        :src="require('@/assets/icons/mexico.svg')"
+        alt="es"
+        title="Español"
+        class="img-locale"
+        :class="{ 'selected-locale': locale === 'es' }"
+        @click="changeLocale('es')"
+      />
+    </div>
+    <div v-else class="language-wrapper">
+      <img
+        role="button"
+        class="img-locale"
+        :src="require(`@/assets/icons/${country || 'united-states'}.svg`)"
+        :alt="locale"
+        :title="$t('settings.language')"
+        @click="show = !show"
+      />
+    </div>
   </div>
 </template>
 
@@ -75,19 +76,10 @@ export default Vue.extend({
 }
 
 .img-locale.selected-locale {
-  @apply border-blue-kaizen;
+  @apply cursor-auto border-blue-kaizen;
 }
 
 .items {
   @apply flex justify-end items-center h-12 space-x-4 bg-white rounded-xl p-1;
-}
-
-.items-enter-active,
-.items-leave-active {
-  transition: opacity 0.2s;
-}
-.items-enter,
-.items-leave-to {
-  opacity: 0;
 }
 </style>

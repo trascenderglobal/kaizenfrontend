@@ -51,7 +51,7 @@ export default Vue.extend({
 }
 
 .radio-label {
-  @apply relative flex items-center cursor-pointer transition duration-200;
+  @apply relative flex items-center cursor-pointer select-none transition duration-200;
 }
 
 input[type='radio'] + .radio-label .checked {
@@ -67,7 +67,7 @@ input[type='radio'] + .radio-label > .radio-check::before {
   @apply absolute inset-0 opacity-0 transition bg-current rounded;
 }
 
-input[type='radio']:not(:checked) + .radio-label:hover > .radio-check::before {
+input[type='radio'] + .radio-label:hover > .radio-check::before {
   @apply opacity-10;
 }
 
@@ -75,11 +75,11 @@ input[type='radio']:checked + .radio-label .checked {
   @apply bg-blue-kaizen scale-100;
 }
 
-input[type='radio']:focus + .radio-label::before {
-  @apply outline-none;
+input[type='radio']:focus + .radio-label > .radio-check::before {
+  @apply outline-none opacity-10;
 }
 
-input[type='radio']:disabled + .radio-label::before {
+input[type='radio']:disabled + .radio-label > .radio-check::before {
   @apply bg-gray-light;
 }
 </style>
