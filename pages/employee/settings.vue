@@ -41,24 +41,7 @@
         <span class="font-medium text-blue-kaizen">{{
           $t('settings.language')
         }}</span>
-        <div class="language-list">
-          <img
-            role="button"
-            :src="require('@/assets/icons/united-states.svg')"
-            alt="en"
-            class="img-locale"
-            :class="{ 'selected-locale': locale === 'en' }"
-            @click="changeLocale('en')"
-          />
-          <img
-            role="button"
-            :src="require('@/assets/icons/mexico.svg')"
-            alt="es"
-            class="img-locale"
-            :class="{ 'selected-locale': locale === 'es' }"
-            @click="changeLocale('es')"
-          />
-        </div>
+        <ks-language-list />
       </div>
     </div>
     <hr />
@@ -125,7 +108,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
 
 type NullableDate = null | Date
 
@@ -159,14 +141,6 @@ export default Vue.extend({
         }
       return {}
     },
-    ...mapGetters({
-      locale: 'user/getLocale',
-    }),
-  },
-  methods: {
-    changeLocale(locale: string): void {
-      this.$i18n.setLocale(locale)
-    },
   },
 })
 </script>
@@ -194,18 +168,6 @@ hr {
 
 .img-wrapper > .img {
   @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
-}
-
-.language-list {
-  @apply flex space-x-2 h-11;
-}
-
-.img-locale {
-  @apply rounded-full cursor-pointer border-3 border-transparent h-11 w-11;
-}
-
-.img-locale.selected-locale {
-  @apply cursor-auto border-blue-kaizen;
 }
 
 .title {
