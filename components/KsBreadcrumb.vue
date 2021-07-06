@@ -2,7 +2,7 @@
   <ul class="flex space-x-2">
     <li v-for="(item, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
       <nuxt-link :to="item.path" class="text-link-blue">{{
-        item.name
+        item.name === 'Kaizen Squad' ? item.name : $t(`drawer.${item.name}`)
       }}</nuxt-link>
     </li>
   </ul>
