@@ -1,11 +1,34 @@
 <template>
-  <div class="language">
-    <div class="language-wrapper">
-      <img
-        :src="require(`@/assets/icons/${country || 'united-states'}.svg`)"
-        :alt="locale"
-      />
-    </div>
+  <div class="language" tabindex="-1" @blur="show = false">
+    <transition name="items">
+      <div v-if="show" class="items">
+        <img
+          role="button"
+          :src="require('@/assets/icons/united-states.svg')"
+          alt="en"
+          class="img-locale"
+          :class="{ 'selected-locale': locale === 'en' }"
+          @click="changeLocale('en')"
+        />
+        <img
+          role="button"
+          :src="require('@/assets/icons/mexico.svg')"
+          alt="es"
+          class="img-locale"
+          :class="{ 'selected-locale': locale === 'es' }"
+          @click="changeLocale('es')"
+        />
+      </div>
+      <div v-else class="language-wrapper">
+        <img
+          role="button"
+          class="img-locale"
+          :src="require(`@/assets/icons/${country || 'united-states'}.svg`)"
+          :alt="locale"
+          @click="show = !show"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -14,6 +37,11 @@ import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
 export default Vue.extend({
+  data() {
+    return {
+      show: false,
+    }
+  },
   computed: {
     country(): string {
       if (this.locale === 'en') return 'united-states'
@@ -24,15 +52,42 @@ export default Vue.extend({
       locale: 'user/getLocale',
     }),
   },
+  methods: {
+    changeLocale(locale: string): void {
+      this.$i18n.setLocale(locale)
+      this.show = false
+    },
+  },
 })
 </script>
 
 <style scoped>
 .language {
-  @apply bg-white rounded-xl w-12 h-12 p-1.5;
+  @apply relative h-12;
 }
 
 .language-wrapper {
-  @apply rounded-full cursor-pointer;
+  @apply cursor-pointer bg-white w-12 h-12 rounded-xl p-1;
+}
+
+.img-locale {
+  @apply rounded-full cursor-pointer border-3 border-transparent h-10 w-10;
+}
+
+.img-locale.selected-locale {
+  @apply border-blue-kaizen;
+}
+
+.items {
+  @apply flex justify-end items-center h-12 space-x-4 bg-white rounded-xl p-1;
+}
+
+.items-enter-active,
+.items-leave-active {
+  transition: opacity 0.2s;
+}
+.items-enter,
+.items-leave-to {
+  opacity: 0;
 }
 </style>
