@@ -1,5 +1,5 @@
 <template>
-  <ks-card class="h-full p-6" col>
+  <ks-card class="h-full py-8 px-6" col>
     <div class="resume-header">
       <h1 class="text-3xl font-medium">
         {{ $t('resume.myResume') }}
@@ -727,7 +727,7 @@ hr {
 }
 
 .resume-header {
-  @apply flex justify-between text-blue-kaizen px-2 flex-col lg:flex-row pb-6;
+  @apply flex justify-start text-blue-kaizen px-2 pb-6;
 }
 
 .resume-header > * {

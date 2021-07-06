@@ -12,20 +12,30 @@
       <div class="flex space-x-4">
         <div class="user-img-lg"></div>
         <div class="flex flex-col space-y-2">
-            <span class="font-medium text-blue-kaizen">{{
-              profile.name + ' ' + profile.lastName
-            }}</span>
-            <span class="font-light text-gray-dark">{{$t('settings.account')}}</span>
-            <span class="font-light text-gray-dark">{{profile.created_at ? $d(new Date(), 'numeric'): $t('settings.noDate')}}</span>
+          <span class="font-medium text-blue-kaizen">{{
+            profile.name + ' ' + profile.lastName
+          }}</span>
+          <span class="font-light text-gray-dark">{{
+            $t('settings.accountCreatedOn')
+          }}</span>
+          <span class="font-light text-gray-dark">{{
+            profile.created_at
+              ? $d(new Date(), 'numeric')
+              : $t('settings.noDate')
+          }}</span>
         </div>
       </div>
       <div class="flex flex-col space-y-2 min-w-40">
-        <span class="font-medium text-blue-kaizen">{{$t('settings.language')}}</span>
-        <span class="font-light text-gray-dark">{{ $t('settings.language') }}</span>
+        <span class="font-medium text-blue-kaizen">{{
+          $t('settings.language')
+        }}</span>
+        <span class="font-light text-gray-dark">{{
+          $t('settings.language')
+        }}</span>
       </div>
     </div>
     <hr class="my-8 border" />
-    
+
     <hr class="my-8 border" />
   </ks-card>
 </template>
@@ -36,10 +46,10 @@ import Vue from 'vue'
 type NullableDate = null | Date
 
 export default Vue.extend({
-    layout: 'employer',
-    data(){
-      return {
-        profile: {
+  layout: 'employer',
+  data() {
+    return {
+      profile: {
         name: '',
         lastName: '',
         birthDate: null as NullableDate,
@@ -54,10 +64,10 @@ export default Vue.extend({
         zip: '',
         linkedin: '',
         profile_picture_URL: '',
-      }
-      }
-    },
-    async fetch(){
+      },
+    }
+  },
+  async fetch() {
     try {
       const res = await this.$axios.$get('/employer/profile')
       res.birthDate = res.birthDate ? new Date(res.birthDate) : null

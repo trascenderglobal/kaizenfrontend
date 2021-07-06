@@ -139,7 +139,7 @@
         />
       </div>
     </div>
-    <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
+    <hr class="border-blue-light" :class="edit ? 'my-6' : 'my-8'" />
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
@@ -634,8 +634,7 @@ export default Vue.extend({
   @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
 }
 
-.img-wrapper > .img,
-.add-img > .img {
+.img-wrapper > .img {
   @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
 }
 

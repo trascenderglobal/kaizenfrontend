@@ -30,6 +30,7 @@ export default {
     { src: '~/plugins/Vuelidate' },
     { src: '~/plugins/datepicker', mode: 'client' },
     { src: '~/plugins/notifier' },
+    { src: '~/plugins/i18n' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -3,7 +3,7 @@
     <div class="language-wrapper">
       <img
         :src="require(`@/assets/icons/${country || 'united-states'}.svg`)"
-        alt="United States"
+        :alt="locale"
       />
     </div>
   </div>
@@ -11,14 +11,18 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
   computed: {
     country(): string {
-      if (this.$i18n.getLocaleCookie() === 'en') return 'united-states'
-      else if (this.$i18n.getLocaleCookie() === 'es') return 'mexico'
+      if (this.locale === 'en') return 'united-states'
+      else if (this.locale === 'es') return 'mexico'
       return 'united-states'
     },
+    ...mapGetters({
+      locale: 'user/getLocale',
+    }),
   },
 })
 </script>
