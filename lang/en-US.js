@@ -151,7 +151,7 @@ export default {
     phone: 'Phone',
     email: 'E-mail',
     social: 'Social',
-    noBirth: 'No birth date',
+    noBirth: 'No date of birth',
     noSkills: 'No skills associated',
     noIndustry: 'No industry associated',
     notSet: 'Not set',
