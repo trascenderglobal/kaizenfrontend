@@ -44,7 +44,10 @@ export default {
     recover: 'Recover',
     subtitle:
       'A link will be sent to your email address to reset your password',
+    fill: 'Please, fill the following fields',
     email: 'Your e-mail',
+    newPassword: 'Type a new password',
+    confirmPassword: 'Confirm your password',
     backToLogin: 'Back to Login',
     submit: 'Submit',
     sent: {
@@ -54,10 +57,11 @@ export default {
     error: {
       title: 'Could not send the e-mail',
       text: 'Make sure the e-mail you entered is linked to an account',
+      titleReset: 'Could not reset your password',
     },
     meta: {
-      title: 'Forgot your password?',
-      description: 'Forgot your password?',
+      title: 'Recover Password',
+      description: 'Recover Password',
     },
   },
   drawer: {

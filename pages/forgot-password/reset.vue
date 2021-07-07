@@ -9,17 +9,17 @@
         />
         <div class="pt-20">
           <h2 class="text-2xl font-medium text-blue-kaizen">
-            {{ $t('login.login') }}
+            {{ $t('forgotPassword.recover') }}
           </h2>
           <h3 class="pt-2 text-lg text-gray-dark">
-            {{ $t('login.subtitle') }}
+            {{ $t('forgotPassword.fill') }}.
           </h3>
         </div>
         <div class="pt-4 space-y-2">
-          <form id="login" @submit.prevent="login">
+          <form id="resetPassword" @submit.prevent="resetPassword">
             <ks-input
               v-model="email"
-              :label="$t('login.email')"
+              :label="$t('forgotPassword.email')"
               type="email"
               :error-messages="emailErrors"
               @blur="$v.email.$touch"
@@ -32,27 +32,51 @@
               </template>
             </ks-input>
             <ks-input
-              v-model="password"
-              :label="$t('login.password')"
+              v-model="newPassword"
+              :label="$t('forgotPassword.newPassword')"
               :type="showPassword ? 'text' : 'password'"
-              :error-messages="passwordErrors"
-              @blur="$v.password.$touch"
+              :error-messages="newPasswordErrors"
+              @blur="$v.newPassword.$touch"
               @click:append="showPassword = !showPassword"
             >
               <template #prepend-icon>
                 <iconly-icon
-                  name="password"
-                  fill="none"
-                  view-box="0 0 24 27"
-                  class="relative stroke-current left-1 text-blue-kaizen"
+                  name="lock"
+                  class="fill-current text-blue-kaizen"
                 />
               </template>
               <template #append-icon>
                 <iconly-icon
                   :name="showPassword ? 'hide' : 'show'"
                   class="
-                    relative
-                    right-2
+                    cursor-pointer
+                    fill-current
+                    text-gray-dark
+                    hover:text-gray-600
+                    transition
+                    duration-200
+                  "
+                />
+              </template>
+            </ks-input>
+            <ks-input
+              v-model="confirmPassword"
+              :label="$t('forgotPassword.confirmPassword')"
+              :type="showPassword ? 'text' : 'password'"
+              :error-messages="confirmPasswordErrors"
+              @blur="$v.confirmPassword.$touch"
+              @click:append="showPassword = !showPassword"
+            >
+              <template #prepend-icon>
+                <iconly-icon
+                  name="lock"
+                  class="fill-current text-blue-kaizen"
+                />
+              </template>
+              <template #append-icon>
+                <iconly-icon
+                  :name="showPassword ? 'hide' : 'show'"
+                  class="
                     cursor-pointer
                     fill-current
                     text-gray-dark
@@ -67,22 +91,15 @@
         </div>
         <div class="flex flex-wrap justify-between pt-2">
           <div class="pb-2 space-x-2">
-            <nuxt-link :to="localePath('/signup')" class="text-link-blue">{{
-              $t('login.register')
-            }}</nuxt-link>
             <nuxt-link
-              :to="localePath('/forgot-password')"
-              class="
-                text-gray-dark
-                hover:text-blue-darker
-                transition
-                duration-200
-              "
-              >{{ $t('login.forgot') }}</nuxt-link
+              :to="localePath('/login')"
+              class="text-gray-dark hover:text-gray-600 transition duration-200"
+              >{{ $t('forgotPassword.backToLogin') }}</nuxt-link
             >
           </div>
           <ks-btn
-            form="login"
+            v-if="!reset"
+            form="resetPassword"
             class="w-full 2xl:w-auto"
             :loading="loading"
             type="submit"
@@ -93,9 +110,9 @@
           <transition name="alert">
             <ks-alert
               v-show="error"
-              class="mt-4 bg-gray-lighter text-blue-kaizen"
-              :title="$t('login.error.title')"
-              :text="$t('login.error.text')"
+              class="mt-4 bg-red-kaizen text-white"
+              :title="$t('forgotPassword.error.title')"
+              :text="$t('forgotPassword.error.text')"
             >
               <template #icon>
                 <iconly-icon
@@ -119,24 +136,26 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
-  name: 'LoginPage',
+  name: 'ResetPasswordPage',
   auth: 'guest',
   data() {
     return {
       loading: false,
       error: false,
       email: '',
-      password: '',
+      newPassword: '',
+      confirmPassword: '',
       showPassword: false,
+      reset: false,
     }
   },
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
-      title: this.$t('login.meta.title'),
+      title: this.$t('forgotPassword.meta.title'),
       htmlAttrs: {
         ...i18nHead.htmlAttrs,
       },
@@ -144,7 +163,7 @@ export default Vue.extend({
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('login.meta.description'),
+          content: this.$t('forgotPassword.meta.description'),
         },
         ...i18nHead.meta,
       ],
@@ -158,26 +177,45 @@ export default Vue.extend({
       if (!this.$v.email.email) errors.push(this.$t('forms.errors.email'))
       return errors
     },
-    passwordErrors(): String[] {
+    newPasswordErrors(): String[] {
       const errors: any[] = []
-      if (!this.$v.password.$dirty) return errors
-      if (!this.$v.password.required)
+      if (!this.$v.newPassword.$dirty) return errors
+      if (!this.$v.newPassword.required)
         errors.push(this.$t('forms.errors.required'))
-      if (!this.$v.password.minLength)
+      if (!this.$v.newPassword.minLength)
         errors.push(this.$t('forms.errors.minLength', { length: 5 }))
       return errors
     },
+    confirmPasswordErrors(): String[] {
+      const errors: any[] = []
+      if (!this.$v.confirmPassword.$dirty) return errors
+      if (!this.$v.confirmPassword.required)
+        errors.push(this.$t('forms.errors.required'))
+      if (!this.$v.confirmPassword.sameAsPassword)
+        errors.push(this.$t('forms.errors.sameAsPassword'))
+      return errors
+    },
+  },
+  beforeMount() {
+    if (!this.$route.query.token) this.$router.push(this.localePath('/login'))
   },
   methods: {
-    async login(): Promise<void> {
+    async resetPassword() {
       try {
         this.$v.$touch()
         if (this.$v.$invalid) return
         this.loading = true
+        await this.$axios.$post('/password/reset', {
+          token: this.$route.query.token,
+          email: this.email,
+          password: this.newPassword,
+          password_confirmation: this.confirmPassword,
+        })
+        this.reset = true
         await this.$auth.loginWith('local', {
           data: {
             email: this.email,
-            password: this.password,
+            password: this.newPassword,
           },
         })
         this.error = false
@@ -194,9 +232,13 @@ export default Vue.extend({
         email,
         required,
       },
-      password: {
+      newPassword: {
         minLength: minLength(5),
         required,
+      },
+      confirmPassword: {
+        required,
+        sameAsPassword: sameAs('newPassword'),
       },
     }
   },
@@ -205,7 +247,7 @@ export default Vue.extend({
 
 <style scoped>
 .hero {
-  background-image: url('~/assets/img/auth.png');
+  background-image: url('~/assets/img/auth2.png');
   @apply w-full h-full bg-no-repeat bg-center bg-cover absolute bg-black top-0 left-0 right-0 bottom-0;
 }
 
@@ -217,8 +259,12 @@ export default Vue.extend({
   @apply 2xl:px-16;
 }
 
-.alert-enter-active,
-.alert-leave-active {
+.alert-enter-to,
+.alert-leave {
+  @apply h-auto;
+}
+
+.alert-enter-active {
   @apply transition duration-200;
 }
 .alert-enter,

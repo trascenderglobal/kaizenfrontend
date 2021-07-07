@@ -123,11 +123,11 @@ input:not(:placeholder-shown) + .label {
 }
 
 .label {
-  @apply transition transform max-w-full duration-200 absolute left-0 top-3 select-none z-0 text-gray-dark whitespace-nowrap overflow-hidden overflow-ellipsis;
+  @apply transition transform max-w-full duration-200 absolute left-1 top-3 select-none z-0 text-gray-dark whitespace-nowrap overflow-hidden overflow-ellipsis;
 }
 
 .dense .label {
-  @apply left-0 top-0.5;
+  @apply left-0.5 top-0.5;
 }
 
 .outlined {

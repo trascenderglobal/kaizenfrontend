@@ -75,6 +75,8 @@
                     fill-current
                     text-gray-dark
                     hover:text-gray-600
+                    transition
+                    duration-200
                   "
                 />
               </template>
@@ -101,6 +103,8 @@
                     fill-current
                     text-gray-dark
                     hover:text-gray-600
+                    transition
+                    duration-200
                   "
                 />
               </template>

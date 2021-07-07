@@ -44,7 +44,10 @@ export default {
     recover: 'Recuperar',
     subtitle:
       'Se enviará un enlace a tu dirección de correo electrónico para restablecer tu contraseña',
+    fill: 'Por favor, diligencia los siguientes campos',
     email: 'Tu e-mail',
+    newPassword: 'Ingresa una nueva contraseña',
+    confirmPassword: 'Confirma tu contraseña',
     backToLogin: 'Volver a Login',
     submit: 'Enviar',
     sent: {
@@ -54,6 +57,7 @@ export default {
     error: {
       title: 'No se pudo enviar el correo electrónico',
       text: 'Asegúrate de que el correo electrónico que ingresaste esté vinculado a una cuenta',
+      titleReset: 'No se pudo restaurar tu contraseña',
     },
     meta: {
       title: 'Recuperar contraseña',

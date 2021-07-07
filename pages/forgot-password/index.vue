@@ -53,7 +53,12 @@
           <div class="pb-2 space-x-2">
             <nuxt-link
               :to="localePath('/login')"
-              class="text-gray-dark hover:text-gray-600"
+              class="
+                text-gray-dark
+                transition
+                duration-200
+                hover:text-blue-darker
+              "
               >{{ $t('forgotPassword.backToLogin') }}</nuxt-link
             >
           </div>
@@ -99,7 +104,7 @@ import Vue from 'vue'
 import { required, email } from 'vuelidate/lib/validators'
 
 export default Vue.extend({
-  name: 'LoginPage',
+  name: 'ForgotPasswordPage',
   auth: 'guest',
   data() {
     return {
