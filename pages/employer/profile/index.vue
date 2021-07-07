@@ -467,6 +467,7 @@ export default Vue.extend({
       ],
     }
   },
+  // TODO: Change fetch hook for asyncData when production target is server
   async fetch() {
     try {
       const res = await this.$axios.$get('/employer/profile')
@@ -474,6 +475,23 @@ export default Vue.extend({
     } catch (error) {}
   },
   fetchOnServer: false,
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('profile.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('profile.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
     registerDate(): Date | null {
       return this.profile.created_at ? new Date(this.profile.created_at) : null
@@ -564,10 +582,9 @@ export default Vue.extend({
   methods: {
     async updateProfile() {
       try {
-        this.edit = false
-        this.loading = true
         this.$v.$touch()
         if (this.$v.$invalid) return
+        this.loading = true
         const data = new FormData()
         if (this.image) data.append('profile_picture', this.image as any)
         data.append('name', this.profile.name)
@@ -582,6 +599,7 @@ export default Vue.extend({
         data.append('zip', this.profile.zip || '')
         data.append('linkedin', this.profile.linkedin || '')
         await this.$axios.$post('/employer/profile/edit', data)
+        this.edit = false
         // re fetch user profile
         const res = await this.$axios.$get('/employer/profile')
         URL.revokeObjectURL(this.profile.profile_picture_URL)
