@@ -604,6 +604,7 @@ export default Vue.extend({
         const res = await this.$axios.$get('/employer/profile')
         URL.revokeObjectURL(this.profile.profile_picture_URL)
         this.profile = res
+        this.$store.commit('user/SET_PROFILE_PICTURE', res.profile_picture_URL)
         this.image = null
         this.saved = true
       } catch (error) {

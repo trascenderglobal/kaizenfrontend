@@ -151,7 +151,7 @@ export default {
     contactPerson: 'Persona de contacto',
     city: 'Ciudad',
     zip: 'Zip',
-    adress: 'Dirección',
+    address: 'Dirección',
     phone: 'Teléfono',
     email: 'E-mail',
     social: 'Social',
