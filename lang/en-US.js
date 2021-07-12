@@ -262,6 +262,31 @@ export default {
     previous: 'Previous',
     next: 'Next',
   },
+  search: {
+    title: 'Search',
+    subtitle: 'Fill your preferences to continue',
+    experience: {
+      experience: 'Years of experience',
+      option1: '1 year/less',
+      option2: '1 - 3 years',
+      option3: '3 years/more'
+    },
+    selectSkill: 'Select a skill',
+    addSkill: 'Add a new skill',
+    searchButton: 'Search',
+    addFilter: 'Add filter',
+    addFilterDescription: 'Add new filters to make your search more accurate',
+    city: 'City',
+    state: 'State',
+    languaje: {
+      language: 'Language',
+      beginner: 'Beginner',
+      intermediate: 'Intermediate',
+      advanced: 'Advanced',
+      proficient: 'Proficient'
+    },
+    apply: 'Apply',
+  },
   jobs: {
     meta: {
       title: 'Jobs',
