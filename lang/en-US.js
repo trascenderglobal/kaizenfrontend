@@ -231,6 +231,10 @@ export default {
     },
   },
   deals: {
+    meta: {
+      title: 'Deals',
+      description: 'Deals',
+    },
     deals: 'Deals',
     header: 'Filter by recent, approved, in process, past or cancelled',
     showBy: 'Show by: ',
@@ -249,6 +253,10 @@ export default {
     next: 'Next',
   },
   requests: {
+    meta: {
+      title: 'Requests',
+      description: 'Requests',
+    },
     requests: 'Requests',
     header:
       'Filter you requests by recent, approved, in process, past or cancelled',
@@ -263,6 +271,10 @@ export default {
     next: 'Next',
   },
   search: {
+    meta: {
+      title: 'Search',
+      description: 'Search',
+    },
     title: 'Search',
     subtitle: 'Fill your preferences to continue',
     experience: {
@@ -278,12 +290,14 @@ export default {
     addFilterDescription: 'Add new filters to make your search more accurate',
     city: 'City',
     state: 'State',
-    languaje: {
+    language: {
       language: 'Language',
-      beginner: 'Beginner',
-      intermediate: 'Intermediate',
-      advanced: 'Advanced',
-      proficient: 'Proficient'
+      levels: {
+        0: 'Beginner',
+        1: 'Intermediate',
+        2: 'Advanced',
+        3: 'Proficient',
+      },
     },
     apply: 'Apply',
   },

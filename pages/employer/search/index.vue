@@ -9,7 +9,25 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-    layout: 'employerSearch',
+  name: 'Search',
+  layout: 'employerSearch',
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('search.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('search.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
 })
 </script>
 

@@ -231,6 +231,10 @@ export default {
     },
   },
   deals: {
+    meta: {
+      title: 'Tratos',
+      description: 'Tratos',
+    },
     deals: 'Tratos',
     header: 'Filtrar por reciente, aprobado, en proceso, pasado o cancelado',
     showBy: 'Mostrar: ',
@@ -249,6 +253,10 @@ export default {
     next: 'Siguiente',
   },
   requests: {
+    meta: {
+      title: 'Solicitudes',
+      description: 'Solicitudes',
+    },
     requests: 'Solicitudes',
     header:
       'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
@@ -263,6 +271,10 @@ export default {
     next: 'Siguiente',
   },
   search: {
+    meta: {
+      title: 'Buscar',
+      description: 'Buscar',
+    },
     title: 'Búsqueda',
     subtitle: 'Selecciona tus preferencias para continuar',
     experience: {
@@ -278,12 +290,14 @@ export default {
     addFilterDescription: 'Agrega filtros para una búsqueda más precisa',
     city: 'Ciudad',
     state: 'Estado',
-    languaje: {
+    language: {
       language: 'Idiomma',
-      beginner: 'Principiante',
-      intermediate: 'Intermedio',
-      advanced: 'Advanzado',
-      proficient: 'Experto'
+      levels: {
+        0: 'Principiante',
+        1: 'Intermedio',
+        2: 'Advanzado',
+        3: 'Experto',
+      },
     },
     apply: 'Aplicar',
   },
