@@ -94,7 +94,7 @@
             <ks-alert
               v-show="error"
               class="mt-4 bg-gray-lighter text-blue-kaizen"
-              :title="$t('login.error.title')"
+              :title="$t(errorMessage)"
               :text="$t('login.error.text')"
             >
               <template #icon>
@@ -128,6 +128,7 @@ export default Vue.extend({
     return {
       loading: false,
       error: false,
+      errorMessage: '',
       email: '',
       password: '',
       showPassword: false,
@@ -183,10 +184,21 @@ export default Vue.extend({
         this.error = false
       } catch (error) {
         this.error = true
+        if (error.response?.status === 401)
+          this.errorMessage = 'login.error.title'
+        else if (error.response?.status === 403)
+          this.errorMessage = 'login.error.unverifiedEmail'
+        else if (error.response?.status >= 500)
+          this.errorMessage = 'login.error.serverError'
+        else this.errorMessage = 'login.error.unknownError'
       } finally {
         this.loading = false
       }
     },
+    // async verifyEmail(): Promise<void> {
+    //   try {
+    //   } catch (error) {}
+    // },
   },
   validations() {
     return {

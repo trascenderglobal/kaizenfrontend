@@ -10,9 +10,13 @@ export default {
     password: 'Password',
     register: 'Register',
     forgot: 'Forgot Password?',
+    verifyEmail: 'Verify your e-mail',
     error: {
       title: 'Could not log you in',
       text: 'Please try again.',
+      unverifiedEmail: 'Your e-mail has not been verified',
+      unknownError: 'Something went wrong',
+      serverError: 'There is an error on our side',
     },
     meta: {
       title: 'Login',
@@ -269,7 +273,7 @@ export default {
       experience: 'Years of experience',
       option1: '1 year/less',
       option2: '1 - 3 years',
-      option3: '3 years/more'
+      option3: '3 years/more',
     },
     selectSkill: 'Select a skill',
     addSkill: 'Add a new skill',

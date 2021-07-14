@@ -266,7 +266,7 @@ export default Vue.extend({
         if (this.$v.$invalid) return
         this.loading = true
 
-        const res = await this.$axios.$post('/register', {
+        await this.$axios.$post('/register', {
           name: this.name,
           last_name: this.lastname,
           email: this.email,
@@ -274,9 +274,11 @@ export default Vue.extend({
           password_confirmation: this.confirmPassword,
           role: this.role,
         })
-        await this.$auth.setUserToken(res.token, res.token)
         this.error = false
-        this.$router.push(this.localePath('/'))
+        this.$router.push(this.localePath('/login'))
+        this.$notifier.showNotification({
+          content: this.$t('login.verifyEmail'),
+        })
       } catch (error) {
         this.error = true
       } finally {
