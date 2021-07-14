@@ -3,6 +3,7 @@
     <div class="layout-circle"></div>
     <div class="layout-blur"></div>
     <Nuxt class="ks-app" />
+    <ks-notifier />
   </div>
 </template>
 

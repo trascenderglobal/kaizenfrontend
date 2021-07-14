@@ -76,10 +76,10 @@ export default Vue.extend({
 }
 
 .notification .notification-content {
-  @apply inline-block p-3;
+  @apply inline-block p-4;
 }
 
 .notification .notification-btn {
-  @apply p-3 h-full font-medium rounded-r-xl transition duration-200 focus:outline-none;
+  @apply p-4 h-full font-medium rounded-r-xl transition duration-200 focus:outline-none;
 }
 </style>

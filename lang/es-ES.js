@@ -10,9 +10,13 @@ export default {
     password: 'Contraseña',
     register: 'Registrarse',
     forgot: 'Recuperar contraseña',
+    verifyEmail: 'Verifica tu e-mail',
     error: {
       title: 'No se pudo iniciar sesión',
       text: 'Inténtalo de nuevo.',
+      unverifiedEmail: 'Tu e-mail no ha sido verificado',
+      unknownError: 'Algo salió mal',
+      serverError: 'Hay un error de nuestro lado',
     },
     meta: {
       title: 'Login',
@@ -281,7 +285,7 @@ export default {
       experience: 'Años de esperiencia',
       option1: '1 año/menos',
       option2: '1 - 3 años',
-      option3: '3 años/más'
+      option3: '3 años/más',
     },
     selectSkill: 'Selecciona una habilidad',
     addSkill: 'Añadir habilidad',

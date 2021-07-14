@@ -52,9 +52,13 @@
       $t('settings.deleteLeaveSure')
     }}</span>
     <div class="flex justify-start py-2">
-      <ks-btn large font="font-normal" @click="showDelete = true">{{
-        $t('settings.deleteMyAccount')
-      }}</ks-btn>
+      <ks-btn
+        class="bg-gray-lighter"
+        large
+        font="font-normal"
+        @click="showDelete = true"
+        >{{ $t('settings.deleteMyAccount') }}</ks-btn
+      >
     </div>
     <transition name="edit">
       <div v-if="showDelete" class="saved-modal">
