@@ -1,12 +1,46 @@
 <template>
   <ks-card class="h-full p-8" col>
-    
+    <div class="search-header">
+      <h1 class="text-3xl font-medium">
+        {{$t('search.title')}}
+      </h1>
+    </div>
+    <h1 class="subtitle">
+      {{$t('search.subtitle')}}
+    </h1>
+    <div class="skill-filters">
+      <div class="field-row">
+        <div class="field-col flex-1">
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
+            <ks-select
+              :label="$t('resume.selectSkill')"
+              class="border border-blue-light"
+              bg-color="bg-transparent"
+              color="text-gray-darker"
+              :items="skills"
+              clearable
+            />
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
+        <ks-radio-button
+          id= 1
+          :item-value="1"
+          :label="$t('Hola')"
+        />
+        </div>
+      </div>
+    </div>
+    <hr/>
   </ks-card>
 </template>
 
 
 <script lang="ts">
 import Vue from 'vue'
+
 
 export default Vue.extend({
   name: 'Search',
@@ -28,42 +62,46 @@ export default Vue.extend({
       ],
     }
   },
+  data () {
+    return{
+    }
+  },
+  computed: {
+    skills(): object[] {
+      const skills: object[] = []
+      for (let i = 0; i <= 9; i++) {
+        skills.push({
+          text: this.$t(`resume.skills.${i}`),
+          value: i + 1,
+        })
+      }
+      return skills
+    },
+  },
 })
 </script>
 
 <style scoped>
-.profile-header {
+.search-header {
   @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
-.profile-header > * {
+.search-header > * {
   @apply pt-4;
 }
-.user-img-lg {
-  @apply flex-shrink-0 w-20 h-20 rounded-md bg-gray-darker animate-pulse;
+
+hr {
+  @apply mt-2 mb-6 border-blue-light ;
 }
 
-.social-btn {
-  @apply focus:outline-none rounded-lg;
+.subtitle {
+  @apply text-lg font-extralight text-blue-kaizen;
 }
 
-.edit-profile-btn {
-  @apply inline-flex items-center justify-between w-full space-x-4  focus:outline-none;
+.field-row {
+  @apply flex flex-wrap w-full;
 }
 
-.item-value {
-  @apply text-gray-darker font-light py-1;
-}
-
-.edit-enter-active,
-.edit-leave-active {
-  transition: opacity 0.2s;
-}
-.edit-enter,
-.edit-leave-to {
-  opacity: 0;
-}
-
-.saved-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
+.field-col {
+  @apply flex items-center pb-6;
 }
 </style>

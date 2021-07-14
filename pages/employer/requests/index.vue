@@ -6,7 +6,7 @@
           {{ $t('requests.requests') }}
         </h1>
       </div>
-      <div class="flex items-center min-w-40 text-header">
+      <div class="flex items-center min-w-40 text-header font-extralight">
           <span>{{ $t('requests.header') }}</span>
       </div>
     </div>
@@ -22,10 +22,10 @@
       <table class="table-fixed">
         <thead class="text-thead">
           <tr>
-            <th class="w-2/5">{{ $t('requests.table.name') }}</th>
-            <th class="w-1/5">{{ $t('requests.table.position') }}</th>
-            <th class="w-1/5">{{ $t('requests.table.date') }}</th>
-            <th class="w-1/5">{{ $t('requests.table.status') }}</th>
+            <th class="w-2/5 font-normal">{{ $t('requests.table.name') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('requests.table.position') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('requests.table.date') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('requests.table.status') }}</th>
           </tr>
           <tr>
             <td colspan="4">

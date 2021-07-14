@@ -7,7 +7,7 @@
       <span>{{ $t('search.addFilterDescription') }}</span>
     </div>
     <div>
-      <span class="font-medium text-blue-kaizen">{{
+      <span class="font-extralight text-blue-kaizen">{{
         $t('search.state')}}
       </span>
       <ks-select
@@ -21,7 +21,7 @@
       />
     </div>
     <div>
-      <span class="font-medium text-blue-kaizen">{{
+      <span class="font-extralight text-blue-kaizen">{{
         $t('search.city')}}
       </span>
       <ks-select
@@ -35,7 +35,7 @@
       />
     </div>
     <div>
-      <span class="font-medium text-blue-kaizen">{{
+      <span class="font-extralight text-blue-kaizen">{{
         $t('search.language.language')}}
       </span>
       <ks-select
@@ -47,7 +47,23 @@
               bg-color="bg-transparent"
               color="text-gray-darker"
       />
+      <ks-select
+              v-model="search.level"
+              class="border border-blue-light"
+              :label="$t('profile.edit.select')"
+              :items="languagesLevel"
+              clearable
+              bg-color="bg-transparent"
+              color="text-gray-darker"
+      />
     </div>
+    <ks-btn
+        class="self-end apply"
+        color="success"
+        dense
+        @click="console"
+        >{{ $t('resume.save') }}</ks-btn
+      >
   </div>
 </template>
 
@@ -60,7 +76,8 @@ export default Vue.extend({
       search: {
       state: '',
       city: '',
-      language: ''
+      language: '',
+      level: '',
     },
     states: [
         {
@@ -120,15 +137,32 @@ export default Vue.extend({
         ]
       return []
     },
-    languages(): object[] {
-      const languages: object[] = []
+    languages(): Object[] {
+      return [
+        {
+          text: this.$t(`search.language.es`),
+          value: 1
+        },
+        {
+          text: this.$t(`search.language.en`),
+          value: 2
+        }
+      ]
+    },
+    languagesLevel(): object[] {
+      const languagesLevel: object[] = []
       for (let i = 0; i <= 3; i++){
-        languages.push({
+        languagesLevel.push({
           text: this.$t(`search.language.levels.${i}`),
           value: i+1,
         })
       }
-      return languages
+      return languagesLevel
+    }
+  },
+  methods: {
+    console () {
+      console.log(this.search.state, this.search.city, this.search.language, this.search.level)
     }
   }
 })
@@ -147,4 +181,7 @@ export default Vue.extend({
   @apply space-y-2 pt-4 text-gray-darker text-sm ;
 }
 
+div {
+  @apply space-y-2 ;
+}
 </style>

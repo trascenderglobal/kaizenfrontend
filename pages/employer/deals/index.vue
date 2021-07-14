@@ -6,7 +6,7 @@
           {{ $t('deals.deals') }}
         </h1>
       </div>
-      <div class="flex items-center min-w-40 text-header">
+      <div class="flex items-center min-w-40 text-header font-extralight">
           <span>{{ $t('deals.header') }}</span>
       </div>
     </div>
@@ -22,10 +22,10 @@
       <table class="table-fixed">
         <thead class="text-thead">
           <tr>
-            <th class="w-2/5">{{ $t('deals.table.searched') }}</th>
-            <th class="w-1/5">{{ $t('deals.table.date') }}</th>
-            <th class="w-1/5">{{ $t('deals.table.status') }}</th>
-            <th class="w-1/5">{{ $t('deals.table.details') }}</th>
+            <th class="w-2/5 font-normal">{{ $t('deals.table.searched') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('deals.table.date') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('deals.table.status') }}</th>
+            <th class="w-1/5 font-normal">{{ $t('deals.table.details') }}</th>
           </tr>
           <tr>
             <td colspan="4">

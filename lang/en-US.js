@@ -292,6 +292,8 @@ export default {
     state: 'State',
     language: {
       language: 'Language',
+      es: 'Spanish',
+      en: 'English',
       levels: {
         0: 'Beginner',
         1: 'Intermediate',

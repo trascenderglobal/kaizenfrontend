@@ -291,7 +291,9 @@ export default {
     city: 'Ciudad',
     state: 'Estado',
     language: {
-      language: 'Idiomma',
+      language: 'Idioma',
+      es: 'Español',
+      en: 'Inglés',
       levels: {
         0: 'Principiante',
         1: 'Intermedio',

@@ -244,7 +244,7 @@ hr {
 }
 
 .title {
-  @apply text-lg text-blue-kaizen;
+  @apply text-lg font-extralight text-blue-kaizen;
 }
 
 .edit-enter-active,
