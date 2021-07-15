@@ -16,7 +16,6 @@
       "@/*": ["./*"]
     },
     "types": [
-      "@/plugins",
       "@nuxt/types",
       "@nuxtjs/axios",
       "@nuxtjs/auth-next",
