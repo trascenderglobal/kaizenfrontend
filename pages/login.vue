@@ -197,7 +197,7 @@ export default Vue.extend({
         await this.$axios.$get(
           `/email/verify/${id}/${hash}?expires=${expires}&signature=${signature}`
         )
-        this.$notifier.showMessage({
+        this.$notifier.showNotification({
           content: this.$t('login.accountVerified'),
         })
       }
@@ -219,12 +219,9 @@ export default Vue.extend({
       } catch (error) {
         if (error.response?.status === 401)
           this.errorMessage = 'login.error.title'
-        else if (error.response?.status === 403) {
+        else if (error.response?.status === 403)
           this.errorMessage = 'login.error.unverifiedEmail'
-          this.$notifier.showNotification({
-            content: this.$t('login.verifyEmail'),
-          })
-        } else if (error.response?.status >= 500)
+        else if (error.response?.status >= 500)
           this.errorMessage = 'login.error.serverError'
         else this.errorMessage = 'login.error.unknownError'
         this.error = true
