@@ -10,7 +10,9 @@ export default {
     password: 'Password',
     register: 'Register',
     forgot: 'Forgot Password?',
-    verifyEmail: 'Verify your e-mail',
+    verifyEmail: 'An e-mail has been sent to verify your account',
+    resendEmail: 'Resend verification e-mail',
+    accountVerified: 'Your account has been verified!',
     error: {
       title: 'Could not log you in',
       text: 'Please try again.',
@@ -42,6 +44,25 @@ export default {
     meta: {
       title: 'Sign Up',
       description: 'Sign Up',
+    },
+  },
+  resendEmail: {
+    title: 'Resend verification e-mail',
+    subtitle: 'A link will be sent to your email address to verify it',
+    email: 'Your e-mail',
+    backToLogin: 'Back to Login',
+    submit: 'Resend',
+    sent: {
+      title: 'E-mail sent!',
+      text: 'An e-mail has been sent with a link to verify your account',
+    },
+    error: {
+      title: 'Could not send the e-mail',
+      text: 'Make sure the e-mail you entered is linked to an account',
+    },
+    meta: {
+      title: 'Resend e-mail',
+      description: 'Resend e-mail',
     },
   },
   forgotPassword: {

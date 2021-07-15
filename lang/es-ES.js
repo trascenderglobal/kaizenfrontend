@@ -10,7 +10,9 @@ export default {
     password: 'Contraseña',
     register: 'Registrarse',
     forgot: 'Recuperar contraseña',
-    verifyEmail: 'Verifica tu e-mail',
+    verifyEmail: 'Se ha enviado un e-mail para verifica tu cuenta',
+    resendEmail: 'Reenviar e-mail de verificación',
+    accountVerified: '¡Tu cuenta ha sido verificada!',
     error: {
       title: 'No se pudo iniciar sesión',
       text: 'Inténtalo de nuevo.',
@@ -42,6 +44,26 @@ export default {
     meta: {
       title: 'Sign up',
       description: 'Sign up',
+    },
+  },
+  resendEmail: {
+    title: 'Reenviar correo de verificación',
+    subtitle:
+      'Se enviará un enlace a tu dirección de correo electrónico para verificarlo',
+    email: 'Tu e-mail',
+    backToLogin: 'Volver a Login',
+    submit: 'Reenviar',
+    sent: {
+      title: '¡E-mail enviado!',
+      text: 'Se ha enviado un correo electrónico con un enlace para verificar tu cuenta',
+    },
+    error: {
+      title: 'No se pudo enviar el correo electrónico',
+      text: 'Asegúrate de que el correo electrónico que ingresaste esté vinculado a una cuenta',
+    },
+    meta: {
+      title: 'Reenviar e-mail',
+      description: 'Reenviar e-mail',
     },
   },
   forgotPassword: {

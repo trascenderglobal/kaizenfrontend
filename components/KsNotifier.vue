@@ -5,27 +5,12 @@
     class="notifier-group"
     :class="position"
   >
-    <div
+    <ks-notification
       v-for="(notif, i) in notifications"
       :key="`notification-${i}`"
-      class="notification"
-      :class="[notif.bgColor, notif.textColor]"
-      role="alert"
-    >
-      <span class="notification-content">{{ notif.content }}</span>
-      <button
-        v-if="!$slots['action']"
-        type="button"
-        class="notification-btn"
-        :class="notif.hoverColor"
-        @click="$notifier.removeNotification(i)"
-      >
-        {{ $t('notifier.dismiss') }}
-      </button>
-      <template v-else>
-        <slot name="action" />
-      </template>
-    </div>
+      :notification="notif"
+      @click:dismiss="$notifier.removeNotification(i)"
+    />
   </transition-group>
 </template>
 
@@ -69,17 +54,5 @@ export default Vue.extend({
 
 .notifier-group {
   @apply fixed z-50 flex flex-col space-y-1 w-full lg:m-2 lg:w-auto;
-}
-
-.notification {
-  @apply flex justify-between w-full lg:w-auto self-center lg:rounded-xl;
-}
-
-.notification .notification-content {
-  @apply inline-block p-4;
-}
-
-.notification .notification-btn {
-  @apply p-4 h-full font-medium rounded-r-xl transition duration-200 focus:outline-none;
 }
 </style>

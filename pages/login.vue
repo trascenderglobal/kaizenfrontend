@@ -104,6 +104,16 @@
                   :size="1.3"
                 />
               </template>
+              <template
+                v-if="errorMessage === 'login.error.unverifiedEmail'"
+                #subtitle
+              >
+                <nuxt-link
+                  :to="localePath('/resend-email')"
+                  class="text-sm text-link-blue"
+                  >{{ $t('login.resendEmail') }}</nuxt-link
+                >
+              </template>
             </ks-alert>
           </transition>
         </div>
@@ -132,6 +142,12 @@ export default Vue.extend({
       email: '',
       password: '',
       showPassword: false,
+      verification: {
+        id: this.$route.query.id || null,
+        hash: this.$route.query.hash || null,
+        expires: this.$route.query.expires || null,
+        signature: this.$route.query.signature || null,
+      },
     }
   },
   head(): object {
@@ -169,6 +185,24 @@ export default Vue.extend({
       return errors
     },
   },
+  async mounted() {
+    try {
+      if (
+        this.verification.id &&
+        this.verification.hash &&
+        this.verification.expires &&
+        this.verification.signature
+      ) {
+        const { id, hash, expires, signature } = this.verification
+        await this.$axios.$get(
+          `/email/verify/${id}/${hash}?expires=${expires}&signature=${signature}`
+        )
+        this.$notifier.showMessage({
+          content: this.$t('login.accountVerified'),
+        })
+      }
+    } catch (error) {}
+  },
   methods: {
     async login(): Promise<void> {
       try {
@@ -183,22 +217,21 @@ export default Vue.extend({
         })
         this.error = false
       } catch (error) {
-        this.error = true
         if (error.response?.status === 401)
           this.errorMessage = 'login.error.title'
-        else if (error.response?.status === 403)
+        else if (error.response?.status === 403) {
           this.errorMessage = 'login.error.unverifiedEmail'
-        else if (error.response?.status >= 500)
+          this.$notifier.showNotification({
+            content: this.$t('login.verifyEmail'),
+          })
+        } else if (error.response?.status >= 500)
           this.errorMessage = 'login.error.serverError'
         else this.errorMessage = 'login.error.unknownError'
+        this.error = true
       } finally {
         this.loading = false
       }
     },
-    // async verifyEmail(): Promise<void> {
-    //   try {
-    //   } catch (error) {}
-    // },
   },
   validations() {
     return {
