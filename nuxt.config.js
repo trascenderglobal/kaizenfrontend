@@ -1,7 +1,7 @@
 import { I18N } from './config/i18n'
 
 export default {
-  target: 'static',
+  target: 'server',
 
   router: {
     middleware: ['auth'],
