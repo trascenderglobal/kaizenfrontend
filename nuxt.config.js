@@ -1,7 +1,7 @@
 import { I18N } from './config/i18n'
 
 export default {
-  target: 'server',
+  target: 'static',
 
   router: {
     middleware: ['auth'],
@@ -54,7 +54,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     credentials: true,
-    baseURL: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/api',
   },
 
   auth: {
