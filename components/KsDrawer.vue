@@ -19,7 +19,7 @@
       >
         <div
           class="ks-drawer-link"
-          :class="{ 'link-active': $route.path === localePath(href) }"
+          :class="{ 'link-active': $route.path === href }"
           role="link"
           @click="navigate"
         >

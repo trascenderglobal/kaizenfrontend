@@ -58,6 +58,7 @@ export default {
   },
 
   auth: {
+    fullPathRedirect: false,
     strategies: {
       local: {
         token: {
@@ -81,6 +82,12 @@ export default {
           },
         },
       },
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      home: '/',
+      callback: false,
     },
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
