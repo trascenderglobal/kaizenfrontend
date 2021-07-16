@@ -1,6 +1,7 @@
 import { I18N } from './config/i18n'
 
 export default {
+  ssr: false,
   target: 'static',
 
   router: {
