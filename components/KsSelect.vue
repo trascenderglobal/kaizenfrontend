@@ -207,7 +207,7 @@ export default Vue.extend({
 }
 
 .ks-select .icon {
-  @apply flex items-center justify-center fill-current min-w-6;
+  @apply flex items-center justify-center fill-current min-w-6 text-blue-light;
 }
 
 .ks-select .items {

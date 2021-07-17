@@ -55,7 +55,7 @@ export default Vue.extend({
 }
 
 input[type='radio'] + .radio-label .checked {
-  @apply bg-transparent rounded inline-flex w-4 h-4 absolute z-10 justify-center items-center transition duration-200 transform scale-0;
+  @apply bg-transparent rounded w-4 h-4 absolute z-10 transition duration-200 transform scale-0;
 }
 
 input[type='radio'] + .radio-label > .radio-check {
