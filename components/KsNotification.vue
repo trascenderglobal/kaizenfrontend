@@ -45,4 +45,8 @@ export default Vue.extend({
 .notification .notification-btn {
   @apply p-4 h-full font-medium rounded-r-xl transition duration-200 focus:outline-none;
 }
+
+.notification-btn:hover {
+  @apply underline;
+}
 </style>
