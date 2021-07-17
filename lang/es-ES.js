@@ -313,6 +313,7 @@ export default {
     addSkill: 'Añadir habilidad',
     searchButton: 'Buscar',
     addFilter: 'Añadir filtros',
+    removeFilter: 'Remover filtro',
     addFilterDescription: 'Agrega filtros para una búsqueda más precisa',
     city: 'Ciudad',
     state: 'Estado',
