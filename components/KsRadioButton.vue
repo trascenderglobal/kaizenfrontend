@@ -1,8 +1,8 @@
 <template>
   
   <div class="radio">
-    <input 
-      :id="`radio-${id}`"
+    <label :for="`radio-${id}`" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
+      <input 
       v-bind="$attrs"
       type="radio"
       :value="itemValue"
@@ -12,7 +12,6 @@
       class="hidden"
       name="input"
     />
-    <label :for="`radio-${id}`" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
       {{ label }}
     </label>
   </div>
