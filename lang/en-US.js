@@ -312,6 +312,7 @@ export default {
     addSkill: 'Add a new skill',
     searchButton: 'Search',
     addFilter: 'Add filter',
+    removeFilter: 'Remove filter',
     addFilterDescription: 'Add new filters to make your search more accurate',
     city: 'City',
     state: 'State',

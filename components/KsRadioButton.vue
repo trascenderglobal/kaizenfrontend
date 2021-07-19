@@ -1,25 +1,29 @@
-import { required } from "vuelidate/lib/validators";
-
-import { required } from "vuelidate/lib/validators";
-
 <template>
-  <div class="boxed">
+  
+  <div class="radio">
     <input 
-    type="radio"
-    :id="`radio-${id}`"
-    :value="itemValue"
-    :checked="vale === itemValue"
+      :id="`radio-${id}`"
+      v-bind="$attrs"
+      type="radio"
+      :value="itemValue"
+      :checked="value === itemValue"
+      @input="$emit('input', $event.target.value)"
+      @blur="$emit('blur')"
+      class="hidden"
+      name="input"
     />
-    <label :for="`radio-${id}`">
-      {{label}}
+    <label :for="`radio-${id}`" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
+      {{ label }}
     </label>
-    </div>
-    
+  </div>
+  
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 
-export default ({
+export default Vue.extend({
+  inheritAttrs: false,
   props: {
     value: {
       type: [String, Number],
@@ -36,21 +40,14 @@ export default ({
     label: {
       type: String,
       default: '',
-    }
-  }
+    },
+  },
 })
 </script>
 
 <style scoped>
-.boxed label {
-  @apply inline-block w-48 p-2 border-2 transition-all ;
-}
-
-.boxed input[type="radio"] {
-  @apply hidden ;
-}
-
-.boxed input[type="radio"]:checked + label {
-  @apply focus:ring-2 focus:ring-red-500 ;
+input:checked + label {
+	border-color: black;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 </style>

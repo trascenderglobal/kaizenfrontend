@@ -2,11 +2,11 @@
   <ks-card class="h-full p-8" col>
     <div class="search-header">
       <h1 class="text-3xl font-medium">
-        {{$t('search.title')}}
+        {{ $t('search.title') }}
       </h1>
     </div>
     <h1 class="subtitle">
-      {{$t('search.subtitle')}}
+      {{ $t('search.subtitle') }}
     </h1>
     <div class="skill-filters">
       <div class="field-row">
@@ -23,17 +23,35 @@
           </div>
         </div>
       </div>
-      <div class="field-row">
-        <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
-        <ks-radio-button
-          id= 1
-          :item-value="1"
-          :label="$t('Hola')"
-        />
+      <form class="grid grid-cols-3 gap-2 w-full max-w-screen-sm">
+        <div>
+            <ks-radio-button
+              v-model="selected"
+              id="1"
+              :item-value="1"
+              :label="$t('search.experience.option1')"
+            />
         </div>
-      </div>
+        <div>
+            <ks-radio-button
+              v-model="selected"
+              id="2"
+              :item-value="2"
+              :label="$t('search.experience.option2')"
+            />
+        </div>
+        <div>
+            <ks-radio-button
+              v-model="selected"
+              id="3"
+              :item-value="3"
+              :label="$t('search.experience.option3')"
+            />
+        </div>
+      </form>
     </div>
-    <hr/>
+    <hr />
+    {{selected}}
   </ks-card>
 </template>
 
@@ -41,6 +59,11 @@
 <script lang="ts">
 import Vue from 'vue'
 
+
+interface Skill {
+  skill_name: Number | null
+  years_of_experience: Number | null
+}
 
 export default Vue.extend({
   name: 'Search',
@@ -62,8 +85,9 @@ export default Vue.extend({
       ],
     }
   },
-  data () {
-    return{
+  data() {
+    return {
+      selected: '',
     }
   },
   computed: {
@@ -90,7 +114,7 @@ export default Vue.extend({
 }
 
 hr {
-  @apply mt-2 mb-6 border-blue-light ;
+  @apply mt-2 mb-6 border-blue-light;
 }
 
 .subtitle {

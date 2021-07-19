@@ -62,7 +62,7 @@
         color="success"
         dense
         @click="console"
-        >{{ $t('resume.save') }}</ks-btn
+        >{{ $t('search.apply') }}</ks-btn
       >
   </div>
 </template>
