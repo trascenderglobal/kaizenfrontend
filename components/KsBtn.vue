@@ -4,6 +4,7 @@
     :class="[
       font,
       color,
+      icon && 'icon',
       dense && 'dense',
       large && 'large',
       outline && 'outline',
@@ -35,7 +36,13 @@ export default Vue.extend({
       type: String,
       default: 'primary',
       validator(value) {
-        return ['primary', 'success', 'danger', 'transparent'].includes(value)
+        return [
+          'primary',
+          'success',
+          'danger',
+          'warning',
+          'transparent',
+        ].includes(value)
       },
     },
     font: {
@@ -49,6 +56,7 @@ export default Vue.extend({
     dense: Boolean,
     large: Boolean,
     outline: Boolean,
+    icon: Boolean,
   },
 })
 </script>
@@ -59,7 +67,7 @@ export default Vue.extend({
   @apply absolute inset-0 opacity-0 transition bg-current rounded-lg;
 }
 
-.ks-btn:hover::before {
+.ks-btn:not(:disabled):hover::before {
   @apply opacity-10;
 }
 
@@ -68,7 +76,11 @@ export default Vue.extend({
 }
 
 .ks-btn {
-  @apply flex justify-center items-center relative px-8 border rounded-lg focus:outline-none disabled:opacity-75 disabled:cursor-not-allowed;
+  @apply flex justify-center items-center relative px-8 py-2 border rounded-lg focus:outline-none;
+}
+
+.ks-btn.icon {
+  @apply p-2;
 }
 
 .ks-btn.primary {
@@ -95,16 +107,20 @@ export default Vue.extend({
   @apply border-green-kaizen bg-transparent text-green-kaizen;
 }
 
+.ks-btn.warning {
+  @apply border-orange-pending bg-orange-pending text-white;
+}
+
+.ks-btn.warning.outline {
+  @apply border-orange-pending bg-transparent text-orange-pending;
+}
+
 .ks-btn.danger {
   @apply border-red-kaizen bg-red-kaizen text-white;
 }
 
 .ks-btn.danger.outline {
   @apply border-red-kaizen bg-transparent text-red-kaizen;
-}
-
-.ks-btn {
-  @apply py-2;
 }
 
 .ks-btn.large {
@@ -115,7 +131,19 @@ export default Vue.extend({
   @apply py-1;
 }
 
+.ks-btn.icon.dense {
+  @apply p-1;
+}
+
+.ks-btn.icon.large {
+  @apply p-3;
+}
+
 .btn-text {
   @apply flex items-center justify-center;
+}
+
+.ks-btn:disabled {
+  @apply border border-gray-light cursor-not-allowed bg-gray-light text-white;
 }
 </style>

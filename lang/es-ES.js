@@ -117,7 +117,7 @@ export default {
     approved: 'Aprobado',
     alerts: 'El nuevo talento de tu empresa te está esperando',
     seeAll: 'Ver todo',
-    noApproved: 'No hay aprobados',
+    noApproved: 'No hay solicitudes aprobadas',
   },
   select: {
     noItems: 'Sin artículos',
@@ -284,17 +284,23 @@ export default {
       description: 'Solicitudes',
     },
     requests: 'Solicitudes',
-    header:
-      'Filtrar tus solicitudes por reciente, aprobado, pasado o cancelado',
-    showBy: 'Mostrar: ',
+    header: 'Filtra tus solicitudes por reciente, pasado o cancelado',
+    showBy: 'Mostrar',
+    recent: 'Reciente',
+    past: 'Pasado',
+    canceled: 'Cancelado',
     table: {
-      name: 'Nombre',
-      position: 'Cargo',
+      position: 'Posición',
       date: 'Fecha',
-      status: 'Estado',
+      actions: 'Acciones',
+      details: 'Detalles',
     },
+    send: 'Enviar solicitud',
+    pending: 'Solicitud pendiente',
+    cancel: 'Cancelar solicitud',
     previous: 'Anterior',
     next: 'Siguiente',
+    page: 'Page {p} of {t}',
   },
   search: {
     meta: {
