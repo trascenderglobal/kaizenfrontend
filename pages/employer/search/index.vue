@@ -10,7 +10,7 @@
         {{ $t('search.subtitle') }}
       </h1>
       <div
-        v-for="i in skillsFilter"
+        v-for="i in skills"
         :key="`skills-filter-${i}`"
         class="skills-filter"
       >
@@ -19,11 +19,12 @@
             <div class="field-col flex-1">
               <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
                 <ks-select
+                  v-model="skill.skill_name"
                   :label="$t('resume.selectSkill')"
                   class="border border-blue-light"
                   bg-color="bg-transparent"
                   color="text-gray-darker"
-                  :items="skills"
+                  :items="skillsCat"
                   clearable
                 />
               </div>
@@ -32,24 +33,24 @@
           <form class="grid grid-cols-3 gap-2 w-full max-w-screen-sm">
             <div>
               <ks-radio-button
-                v-model="selected"
-                id="1"
+                v-model="skill.years_of_experience"
+                :id="radioId"
                 :item-value="1"
                 :label="$t('search.experience.option1')"
               />
             </div>
             <div>
               <ks-radio-button
-                v-model="selected"
-                id="2"
+                v-model="skill.years_of_experience"
+                :id="radioId+1"
                 :item-value="2"
                 :label="$t('search.experience.option2')"
               />
             </div>
             <div>
               <ks-radio-button
-                v-model="selected"
-                id="3"
+                v-model="skill.years_of_experience"
+                :id="radioId+2"
                 :item-value="3"
                 :label="$t('search.experience.option3')"
               />
@@ -76,7 +77,7 @@
       </div>
       <div
         class="flex justify-end flex-grow px-2 pb-2"
-        :class="{ 'pt-2': !skillsFilter.length }"
+        :class="{ 'pt-2': !skills.length }"
       >
         <button
           type="button"
@@ -121,44 +122,57 @@ export default Vue.extend({
   },
   data() {
     return {
-      skillsFilter: [] as Skill[],
+      skills: [] as Skill[],
+      skill: {
+        skill_name:null,
+        years_of_experience:null,
+      } as Skill,
+      selected: '',
+      radioId: 0
     }
   },
   async fetch() {
     try {
       const res = await this.$axios.$get('/employer/search')
 
-      const skillsFilter: Skill[] = (res.skills_filter as Skill[]).map(
-        (skill) => {
-          return {
-            skill_name: skill.skill_name,
-            years_of_experience: skill.years_of_experience,
-          }
+      const skills: Skill[] = (res.skills as Skill[]).map((skill) => {
+        return {
+          skill_name: skill.skill_name,
+          years_of_experience: skill.years_of_experience,
         }
-      )
-    } catch (error) {}
-  },
-  computed: {
-    skills(): object[] {
-      const skills: object[] = []
-      for (let i = 0; i <= 9; i++) {
+      })
+
+      while (skills.length === 0) {
         skills.push({
+          skill_name: null,
+          years_of_experience: null,
+        })
+      }
+} catch (error) {}
+},
+  fetchOnServer: false,
+  computed: {
+    skillsCat(): object[] {
+      const skillsCat: object[] = []
+      for (let i = 0; i <= 9; i++) {
+        skillsCat.push({
           text: this.$t(`resume.skills.${i}`),
           value: i + 1,
         })
       }
-      return skills
+      return skillsCat
     },
   },
   methods: {
     removeFilter(i: number): void {
-      this.skillsFilter.splice(i, 1)
+      this.skills.splice(i, 1)
     },
     addFilter(): void {
-      this.skillsFilter.push({
+      this.skills.push({
         skill_name: null,
         years_of_experience: null,
       })
+      
     },
   },
 })
