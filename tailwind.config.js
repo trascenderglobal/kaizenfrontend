@@ -33,6 +33,9 @@ module.exports = {
         green: {
           kaizen: '#94D989',
         },
+        orange: {
+          pending: '#FFB45B',
+        },
       },
       height: {
         120: '30rem',
@@ -92,6 +95,9 @@ module.exports = {
       },
       zIndex: {
         '-1': '-1',
+      },
+      strokeWidth: {
+        1.5: '1.5',
       },
     },
   },

@@ -116,7 +116,7 @@ export default {
     approved: 'Approved',
     alerts: 'The new talent of your company is waiting for you',
     seeAll: 'See all requests',
-    noApproved: 'There are no approved',
+    noApproved: 'There are no approved requests',
   },
   select: {
     noItems: 'No items',
@@ -283,17 +283,23 @@ export default {
       description: 'Requests',
     },
     requests: 'Requests',
-    header:
-      'Filter you requests by recent, approved, in process, past or cancelled',
-    showBy: 'Show by: ',
+    header: 'Filter your requests by recent, in process, past or canceled',
+    showBy: 'Show by',
+    recent: 'Recent',
+    past: 'Past',
+    canceled: 'Canceled',
     table: {
-      name: 'Name',
       position: 'Position',
       date: 'Date',
-      status: 'Status',
+      actions: 'Actions',
+      details: 'Details',
     },
+    send: 'Send request',
+    pending: 'Pending request',
+    cancel: 'Cancel request',
     previous: 'Previous',
     next: 'Next',
+    page: 'Page {p} of {t}',
   },
   search: {
     meta: {
