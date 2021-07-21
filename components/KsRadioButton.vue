@@ -2,7 +2,7 @@
   
   <div class="radio">
     <input 
-      :id="`radio-${id}`"
+      :id="id"
       v-bind="$attrs"
       type="radio"
       :value="itemValue"
@@ -10,9 +10,9 @@
       @input="$emit('input', $event.target.value)"
       @blur="$emit('blur')"
       class="hidden"
-      name="input"
+      name="radio"
     />
-    <label :for="`radio-${id}`" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
+    <label :for="id" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
       {{ label }}
     </label>
   </div>
@@ -34,7 +34,7 @@ export default Vue.extend({
       default: '',
     },
     id: {
-      type: Number,
+      type: [String, Number],
       required: true,
     },
     label: {
@@ -46,8 +46,25 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+input + label {
+  
+  border-radius: 10px;
+  border: 1px solid #A4DEE0;
+  font-family: Orkney;
+  font-size: 15px;
+  color: #969696;
+  align-items: center;
+  text-align: center;
+}
+
 input:checked + label {
-	border-color: black;
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+	background: #3E7CA3;
+  border-radius: 10px;
+  font-family: Orkney;
+  font-size: 15px;
+  text-align: center;
+  color: #FFFFFF;
+  align-items: center;
 }
 </style>

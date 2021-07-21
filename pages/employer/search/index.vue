@@ -10,7 +10,7 @@
         {{ $t('search.subtitle') }}
       </h1>
       <div
-        v-for="i in skills"
+        v-for="(skill,i) in skills"
         :key="`skills-filter-${i}`"
         class="skills-filter"
       >
@@ -34,7 +34,7 @@
             <div>
               <ks-radio-button
                 v-model="skill.years_of_experience"
-                :id="radioId"
+                :id="`radio-${i}-1`"
                 :item-value="1"
                 :label="$t('search.experience.option1')"
               />
@@ -42,7 +42,7 @@
             <div>
               <ks-radio-button
                 v-model="skill.years_of_experience"
-                :id="radioId+1"
+                :id="`radio-${i}-2`"
                 :item-value="2"
                 :label="$t('search.experience.option2')"
               />
@@ -50,7 +50,7 @@
             <div>
               <ks-radio-button
                 v-model="skill.years_of_experience"
-                :id="radioId+2"
+                :id="`radio-${i}-3`"
                 :item-value="3"
                 :label="$t('search.experience.option3')"
               />
@@ -122,35 +122,12 @@ export default Vue.extend({
   },
   data() {
     return {
-      skills: [] as Skill[],
-      skill: {
+      skills: [{
         skill_name:null,
         years_of_experience:null,
-      } as Skill,
-      selected: '',
-      radioId: 0
+      }] as Skill[],
     }
   },
-  async fetch() {
-    try {
-      const res = await this.$axios.$get('/employer/search')
-
-      const skills: Skill[] = (res.skills as Skill[]).map((skill) => {
-        return {
-          skill_name: skill.skill_name,
-          years_of_experience: skill.years_of_experience,
-        }
-      })
-
-      while (skills.length === 0) {
-        skills.push({
-          skill_name: null,
-          years_of_experience: null,
-        })
-      }
-} catch (error) {}
-},
-  fetchOnServer: false,
   computed: {
     skillsCat(): object[] {
       const skillsCat: object[] = []
@@ -201,4 +178,5 @@ hr {
 .field-col {
   @apply flex items-center pb-6;
 }
+
 </style>
