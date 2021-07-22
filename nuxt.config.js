@@ -1,6 +1,10 @@
 import { I18N } from './config/i18n'
 
 export default {
+  publicRuntimeConfig: {
+    axios: { baseURL: process.env.BASE_URL },
+  },
+
   ssr: false,
   target: 'static',
 
@@ -55,7 +59,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     credentials: false,
-    baseURL: process.env.BASE_URL || 'http://localhost:8000/api',
+    baseURL: 'http://localhost:8000/api', // replaced with runtimeConfig variable
   },
 
   auth: {

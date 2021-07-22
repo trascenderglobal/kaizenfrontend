@@ -55,7 +55,7 @@
       </div>
       <div class="filter-input">
         <ks-select
-          v-model="search.language"
+          v-model="search.lang.language"
           class="border border-blue-light"
           :label="$t('profile.edit.select')"
           :items="languages"
@@ -66,7 +66,7 @@
       </div>
       <div class="filter-input">
         <ks-select
-          v-model="search.level"
+          v-model="search.lang.level"
           class="border border-blue-light"
           :label="$t('profile.edit.select')"
           :items="languagesLevel"
@@ -87,24 +87,28 @@
 <script lang="ts">
 import Vue from 'vue'
 
+interface Language {
+  language: number | null
+  level: number | null
+}
+
 interface Filter {
-  state: string
-  city: string
-  language: {
-    language: number | null
-    level: number | null
-  }
+  state: string | null
+  city: string | null
+  lang: Language
 }
 
 export default Vue.extend({
   data() {
     return {
       search: {
-        state: '',
-        city: '',
-        language: null as number | null,
-        level: null as number | null,
-      },
+        state: null,
+        city: null,
+        lang: {
+          language: null,
+          level: null,
+        },
+      } as Filter,
       states: [
         {
           text: 'Indiana',
@@ -185,20 +189,10 @@ export default Vue.extend({
       }
       return languagesLevel
     },
-    appliedFilters(): Filter {
-      return {
-        state: this.search.state,
-        city: this.search.city,
-        language: {
-          language: this.search.language,
-          level: this.search.level,
-        },
-      }
-    },
   },
   methods: {
     applyFilters() {
-      this.$store.dispatch('employer/updateSearchFilters', this.appliedFilters)
+      this.$store.dispatch('employer/updateSearchFilters', this.search)
     },
   },
 })

@@ -80,6 +80,7 @@
         <button
           type="button"
           class="add-filter-btn text-link-blue"
+          :disabled="skills.length === 3"
           @click="addFilter"
         >
           <span>{{ $t('search.addSkill') }}</span>
@@ -88,7 +89,7 @@
       </div>
     </div>
     <div class="flex justify-end flex-grow px-2">
-      <ks-btn class="self-end" color="primary" dense>{{
+      <ks-btn class="self-end" color="primary" dense @click="search">{{
         $t('search.searchButton')
       }}</ks-btn>
     </div>
@@ -154,10 +155,26 @@ export default Vue.extend({
       this.skills.splice(i, 1)
     },
     addFilter(): void {
-      this.skills.push({
-        skill_name: null,
-        years_of_experience: null,
-      })
+      if (this.skills.length < 3)
+        this.skills.push({
+          skill_name: null,
+          years_of_experience: null,
+        })
+    },
+    async search() {
+      try {
+        const res = await this.$axios.$post('/employer/search', {
+          skills: this.skills.filter(
+            (skill) => skill.skill_name && skill.years_of_experience
+          ),
+          language: this.filters.language
+            ? [this.filters.language].filter((lang) => lang.language)
+            : [], // TODO: decirle a Carlos que añada soporte para language level, no lo veo en el back
+          city: this.filters.city ? [{ city: this.filters.city }] : [],
+          state: this.filters.state ? [{ state: this.filters.state }] : [],
+        })
+        console.log(res)
+      } catch (error) {}
     },
   },
 })

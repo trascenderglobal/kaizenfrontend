@@ -228,7 +228,7 @@ export default Vue.extend({
 }
 
 .items div {
-  @apply py-1 px-2 text-current;
+  @apply py-1 px-2 text-gray-darker;
 }
 
 .items .no-items {
