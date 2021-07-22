@@ -336,6 +336,30 @@ export default {
     },
     apply: 'Aplicar',
   },
+  negotiation: {
+    negotiation: 'Negociación',
+    typeOfN: 'Tipo de negociación',
+    from: 'Desde',
+    to: 'Hasta',
+    position: 'Cargo',
+    typeOfC: 'Tipo de contrato',
+    selectContract: 'Selecciona el tipo de contrato',
+    salaryRate: 'Rango salarial',
+    usd: 'USD',
+    perHour: 'por hora',
+    jobDescription: 'Descripción del trabajo',
+    observation: 'Observaciones',
+    buttons: {
+      cancel: 'Cancelar',
+      next: 'Siguiente',
+      seeDeals: 'Ver tus ofertas'
+    },
+    requestsCompleted: {
+      title: 'Solicitud completa',
+      paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
+      paragraph2: 'Nuestro equipo te contactará muy pronto.'
+    }
+  },
   jobs: {
     meta: {
       title: 'Trabajos',

@@ -335,6 +335,30 @@ export default {
     },
     apply: 'Apply',
   },
+  negotiation: {
+    negotiation: 'Negotiation',
+    typeOfN: 'Type of negotiation',
+    from: 'From',
+    to: 'To',
+    position: 'Position',
+    typeOfC: 'Type of contract',
+    selectContract: 'Select a type of contract',
+    salaryRate: 'Salary rate',
+    usd: 'USD',
+    perHour: 'per hour',
+    jobDescription: 'Job description',
+    observation: 'Observation',
+    buttons: {
+      cancel: 'Cancel',
+      next: 'Next',
+      seeDeals: 'See your deals'
+    },
+    requestsCompleted: {
+      title: 'Requests completed',
+      paragraph1: 'HR has been notified you requested some talent for your company,',
+      paragraph2: 'Our team will be contact you soon.'
+    }
+  },
   jobs: {
     meta: {
       title: 'Jobs',
