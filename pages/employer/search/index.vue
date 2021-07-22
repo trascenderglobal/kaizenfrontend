@@ -2,7 +2,7 @@
   <ks-card class="h-full p-8" col>
     <div>
       <div class="search-header">
-        <h1 class="text-3xl font-medium">
+        <h1 class="title">
           {{ $t('search.title') }}
         </h1>
       </div>
@@ -10,7 +10,7 @@
         {{ $t('search.subtitle') }}
       </h1>
       <div
-        v-for="(skill,i) in skills"
+        v-for="(skill, i) in skills"
         :key="`skills-filter-${i}`"
         class="skills-filter"
       >
@@ -19,38 +19,41 @@
             <div class="field-col flex-1">
               <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
                 <ks-select
-                  v-model="skill.skill_name"
+                  v-model.number="skill.skill_name"
                   :label="$t('resume.selectSkill')"
                   class="border border-blue-light"
                   bg-color="bg-transparent"
-                  color="text-gray-darker"
+                  color="text-blue-kaizen"
                   :items="skillsCat"
                   clearable
                 />
               </div>
             </div>
           </div>
-          <form class="grid grid-cols-3 gap-2 w-full max-w-screen-sm">
-            <div>
+          <form class="flex w-full space-x-4" @submit.prevent>
+            <span class="flex items-center text-blue-kaizen pr-4"
+              >{{ $t('search.experience.experience') }}:</span
+            >
+            <div class="">
               <ks-radio-button
-                v-model="skill.years_of_experience"
-                :id="`radio-${i}-1`"
+                :id="`${i}-1`"
+                v-model.number="skill.years_of_experience"
                 :item-value="1"
                 :label="$t('search.experience.option1')"
               />
             </div>
             <div>
               <ks-radio-button
-                v-model="skill.years_of_experience"
-                :id="`radio-${i}-2`"
+                :id="`${i}-2`"
+                v-model.number="skill.years_of_experience"
                 :item-value="2"
                 :label="$t('search.experience.option2')"
               />
             </div>
             <div>
               <ks-radio-button
+                :id="`${i}-3`"
                 v-model="skill.years_of_experience"
-                :id="`radio-${i}-3`"
                 :item-value="3"
                 :label="$t('search.experience.option3')"
               />
@@ -61,12 +64,7 @@
           <div class="field-col">
             <button
               type="button"
-              class="
-                text-red-kaizen
-                hover:text-red-500
-                font-light
-                focus:outline-none
-              "
+              class="text-red-kaizen hover:text-red-500 focus:outline-none"
               @click="removeFilter(i)"
             >
               {{ $t('search.removeFilter') }}
@@ -76,24 +74,30 @@
         <hr />
       </div>
       <div
-        class="flex justify-end flex-grow px-2 pb-2"
+        class="flex justify-end flex-grow pb-2"
         :class="{ 'pt-2': !skills.length }"
       >
         <button
           type="button"
-          class="text-link-blue font-light focus:outline-none"
+          class="add-filter-btn text-link-blue"
           @click="addFilter"
         >
-          {{ $t('resume.addMoreExperience') }}
+          <span>{{ $t('search.addSkill') }}</span>
+          <iconly-icon name="plus" class="fill-current" :size="1.3" />
         </button>
       </div>
+    </div>
+    <div class="flex justify-end flex-grow px-2">
+      <ks-btn class="self-end" color="primary" dense>{{
+        $t('search.searchButton')
+      }}</ks-btn>
     </div>
   </ks-card>
 </template>
 
-
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 interface Skill {
   skill_name: Number | null
@@ -103,6 +107,16 @@ interface Skill {
 export default Vue.extend({
   name: 'Search',
   layout: 'employerSearch',
+  data() {
+    return {
+      skills: [
+        {
+          skill_name: null,
+          years_of_experience: null,
+        },
+      ] as Skill[],
+    }
+  },
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
@@ -120,14 +134,6 @@ export default Vue.extend({
       ],
     }
   },
-  data() {
-    return {
-      skills: [{
-        skill_name:null,
-        years_of_experience:null,
-      }] as Skill[],
-    }
-  },
   computed: {
     skillsCat(): object[] {
       const skillsCat: object[] = []
@@ -139,6 +145,9 @@ export default Vue.extend({
       }
       return skillsCat
     },
+    ...mapState({
+      filters: (state: any) => state.employer.searchFilters,
+    }),
   },
   methods: {
     removeFilter(i: number): void {
@@ -149,18 +158,18 @@ export default Vue.extend({
         skill_name: null,
         years_of_experience: null,
       })
-      
     },
   },
 })
 </script>
 
 <style scoped>
-.search-header {
-  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
-}
 .search-header > * {
-  @apply pt-4;
+  @apply pt-4 text-blue-kaizen text-3xl font-medium;
+}
+
+.subtitle {
+  @apply pt-6 text-lg text-blue-kaizen;
 }
 
 hr {
@@ -168,7 +177,7 @@ hr {
 }
 
 .subtitle {
-  @apply text-lg font-extralight text-blue-kaizen;
+  @apply text-lg text-blue-kaizen;
 }
 
 .field-row {
@@ -179,4 +188,7 @@ hr {
   @apply flex items-center pb-6;
 }
 
+.add-filter-btn {
+  @apply flex items-center justify-center space-x-4 focus:outline-none;
+}
 </style>

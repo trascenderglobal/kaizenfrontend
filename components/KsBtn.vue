@@ -39,6 +39,7 @@ export default Vue.extend({
         return [
           'primary',
           'success',
+          'light',
           'danger',
           'warning',
           'transparent',
@@ -89,6 +90,14 @@ export default Vue.extend({
 
 .ks-btn.primary.outline {
   @apply border-blue-kaizen bg-transparent text-blue-kaizen;
+}
+
+.ks-btn.light {
+  @apply border-gray-lighter bg-gray-lighter text-blue-kaizen;
+}
+
+.ks-btn.light.outline {
+  @apply border-gray-lighter bg-transparent text-blue-kaizen;
 }
 
 .ks-btn.transparent {

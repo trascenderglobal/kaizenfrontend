@@ -53,7 +53,7 @@
     }}</span>
     <div class="flex justify-start py-2">
       <ks-btn
-        class="bg-gray-lighter"
+        color="light"
         large
         font="font-normal"
         @click="showDelete = true"

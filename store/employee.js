@@ -3,7 +3,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  getterAlerts: (state) => {
+  getAlerts: (state) => {
     return state.alerts
   },
 }
@@ -15,8 +15,7 @@ export const mutations = {
 }
 
 export const actions = {
-  updateActionValue({ commit }) {
-    const alerts = []
+  updateAlerts({ commit }, alerts = []) {
     commit('SET_ALERTS', alerts)
   },
 }

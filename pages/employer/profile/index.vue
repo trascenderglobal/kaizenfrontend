@@ -111,7 +111,7 @@
         </div>
       </div>
     </div>
-    <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
+    <hr :class="edit ? 'my-6' : 'my-8'" />
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-    <hr class="border mt-4 mb-8" />
+    <hr class="mt-4 mb-8" />
     <div class="fields">
       <div class="field-row">
         <div class="field-col">
@@ -369,7 +369,7 @@
                   <div class="img" :style="userImage"></div>
                 </div>
               </div>
-              <hr class="border" :class="edit ? 'my-6' : 'my-8'" />
+              <hr class="my-8" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}
               </p>
@@ -659,6 +659,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+hr {
+  @apply border-blue-light;
+}
+
 .profile-header {
   @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }

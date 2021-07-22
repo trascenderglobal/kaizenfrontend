@@ -1,22 +1,21 @@
 <template>
-  
-  <div class="radio">
-    <input 
-      :id="id"
+  <div class="radio" tabindex="0" @blur="$emit('blur')">
+    <input
+      :for="`radio-${id}`"
       v-bind="$attrs"
       type="radio"
       :value="itemValue"
       :checked="value === itemValue"
-      @input="$emit('input', $event.target.value)"
-      @blur="$emit('blur')"
       class="hidden"
-      name="radio"
     />
-    <label :for="id" class="flex flex-col p-4 border-2 border-gray-400 cursor-pointer">
+    <label
+      :for="`radio-${id}`"
+      class="radio-label"
+      @click="$emit('input', itemValue)"
+    >
       {{ label }}
     </label>
   </div>
-  
 </template>
 
 <script lang="ts">
@@ -34,7 +33,7 @@ export default Vue.extend({
       default: '',
     },
     id: {
-      type: [String, Number],
+      type: String,
       required: true,
     },
     label: {
@@ -46,25 +45,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-input + label {
-  
-  border-radius: 10px;
-  border: 1px solid #A4DEE0;
-  font-family: Orkney;
-  font-size: 15px;
-  color: #969696;
-  align-items: center;
-  text-align: center;
+.radio {
+  @apply flex items-center justify-center;
 }
 
-input:checked + label {
-  
-	background: #3E7CA3;
-  border-radius: 10px;
-  font-family: Orkney;
-  font-size: 15px;
-  text-align: center;
-  color: #FFFFFF;
-  align-items: center;
+input + .radio-label {
+  @apply py-1 px-2 cursor-pointer select-none border border-blue-light rounded-lg text-gray-darker;
+}
+
+input:checked + .radio-label {
+  @apply transition duration-200 bg-blue-kaizen text-white border-blue-kaizen;
 }
 </style>

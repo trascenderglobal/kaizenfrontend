@@ -167,7 +167,7 @@
       </div>
     </div>
     <hr />
-    <h1 class="title">
+    <h1 class="title pb-6">
       {{ $t('resume.previousJob') }}
     </h1>
     <div
@@ -253,32 +253,28 @@
         <div class="field-col">
           <button
             type="button"
-            class="
-              text-red-kaizen
-              hover:text-red-500
-              font-light
-              focus:outline-none
-            "
+            class="text-red-kaizen hover:text-red-500 focus:outline-none"
             @click="removeJob(i)"
           >
             {{ $t('resume.removeJob') }}
           </button>
         </div>
       </div>
+      <hr />
     </div>
     <div
-      class="flex justify-start flex-grow px-2 pb-2"
-      :class="{ 'pt-2': !previousJobs.length }"
+      class="field-row pb-2 px-2"
+      :class="previousJobs.length ? 'justify-start' : 'pt-2 justify-center'"
     >
       <button
         type="button"
-        class="text-link-blue font-light focus:outline-none"
+        class="add-experience-btn text-link-blue"
         @click="addJob"
       >
-        {{ $t('resume.addMoreExperience') }}
+        <span>{{ $t('resume.addMoreExperience') }}</span>
+        <iconly-icon name="plus" class="fill-current" :size="1.3" />
       </button>
     </div>
-    <hr />
     <div class="flex justify-end flex-grow px-2">
       <ks-btn
         class="self-end"
@@ -748,9 +744,12 @@ hr {
 
 .main-skills,
 .secondary-skills,
-.secondary-language,
-.previous-jobs {
+.secondary-language {
   @apply flex flex-col pt-6;
+}
+
+.previous-jobs {
+  @apply flex flex-col;
 }
 
 .item-chips {
@@ -763,6 +762,10 @@ hr {
 
 .item-chips > div {
   @apply mb-4;
+}
+
+.add-experience-btn {
+  @apply flex items-center justify-center space-x-4 focus:outline-none;
 }
 
 .edit-enter-active,

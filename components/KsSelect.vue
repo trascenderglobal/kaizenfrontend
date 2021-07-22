@@ -1,5 +1,6 @@
 <template>
   <div
+    role="listbox"
     class="field"
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
   >
@@ -227,7 +228,7 @@ export default Vue.extend({
 }
 
 .items div {
-  @apply py-1 px-2 text-gray-darker;
+  @apply py-1 px-2 text-current;
 }
 
 .items .no-items {
