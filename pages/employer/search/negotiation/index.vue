@@ -4,6 +4,11 @@
       <h1 class="text-3xl font-medium">
         {{ $t('negotiation.negotiation') }}
       </h1>
+      <div class="flex items-center min-w-40 space-x-2">
+        <span>{{
+          $t('negotiation.page', { p: 1, t: this.negotiationIds.length })
+        }}</span>
+      </div>
     </div>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
@@ -119,6 +124,16 @@
         </div>
       </div>
     </div>
+    <div class="negotiation-footer">
+      <div class="flex justify-end flex-auto space-x-2">
+        <ks-btn color="danger" dense :disabled="false">{{
+          $t('negotiation.buttons.cancel')
+        }}</ks-btn>
+        <ks-btn color="success" dense :disabled="false">{{
+          $t('negotiation.buttons.next')
+        }}</ks-btn>
+      </div>
+    </div>
   </ks-card>
 </template>
 
@@ -208,7 +223,7 @@ hr {
 }
 
 .negotiation-header {
-  @apply flex justify-start text-blue-kaizen pb-6;
+  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
 }
 
 .negotiation-header > * {
@@ -237,5 +252,9 @@ hr {
 
 .field-col {
   @apply p-1;
+}
+
+.negotiation-footer {
+  @apply flex justify-end items-end flex-grow pt-4;
 }
 </style>

@@ -402,7 +402,7 @@ export default {
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
       paragraph2: 'Nuestro equipo te contactará muy pronto.'
     },
-    page: 'Página {p} de {t}',
+    page: 'Perfil {p} de {t}',
   },
   detail: {
     meta: {

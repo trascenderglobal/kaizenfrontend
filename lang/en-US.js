@@ -401,7 +401,7 @@ export default {
       paragraph1: 'HR has been notified you requested some talent for your company,',
       paragraph2: 'Our team will be contact you soon.'
     },
-    page: 'Page {p} of {t}',
+    page: '{p} of {t} profiles',
   },
   detail: {
     meta: {
