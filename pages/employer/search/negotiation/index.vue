@@ -18,7 +18,6 @@
               role="img"
               :aria-label="$t('profile.userImage')"
               class="img"
-              :style="userImage"
             ></div>
           </div>
         </div>
@@ -68,6 +67,7 @@
         </div>
         <div class="field-col w-full">
           <ks-select
+            :items="typeContract"
             :label="$t('negotiation.selectContract')"
             class="transition border"
             :class="'border-gray-light'"
@@ -82,13 +82,8 @@
           <span class="text-blue-kaizen pr-4">{{ $t('negotiation.salaryRate') }}</span>
         </div>
         <div class="field-col w-full">
-          <ks-select
-            :label="$t('aqui va el slider')"
-            class="transition border"
-            :class="'border-gray-light'"
-            :bg-color="'bg-white'"
-            color="text-gray-dark"
-            clearable
+          <ks-range 
+            v-model="salary"
           />
         </div>
       </div>
@@ -126,15 +121,33 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import KsInput from '~/components/KsInput.vue'
-import KsTextArea from '~/components/KsTextArea.vue'
+import KsRange from '~/components/KsRange.vue'
 
 type NullableDate = null | Date
 
 export default Vue.extend({
-  components: { KsInput, KsTextArea },
-  name: 'NegotiationPage',
+  components: { KsRange },
+  name: 'Negotiation',
   layout: 'employerNegotiation',
+
+  data() {
+    return{
+      salary: 7.25,
+    }
+  },
+
+  computed: {
+    typeContract(): object[] {
+      const typeContract: object[] = []
+      for (let i =0; i<2; i++) {
+        typeContract.push({
+          text: this.$t(`negotiation.contracts.${i}`),
+          value: i + 1,
+        })
+      }
+      return typeContract
+    },
+  }
 })
 </script>
 

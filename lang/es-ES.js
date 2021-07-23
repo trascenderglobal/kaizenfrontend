@@ -100,6 +100,7 @@ export default {
     deals: 'Tratos',
     personnel: 'Personal',
     logout: 'Cerrar sesión',
+    negotiation: 'Negociación'
   },
   breadcrumb: {
     profile: 'Perfil',
@@ -363,10 +364,13 @@ export default {
     to: 'Hasta',
     position: 'Cargo',
     typeOfC: 'Tipo de contrato',
+    contracts: {
+      0: 'Contract labor',
+      1: 'Direct hired',
+    },
     selectContract: 'Selecciona el tipo de contrato',
     salaryRate: 'Rango salarial',
-    usd: 'USD',
-    perHour: 'por hora',
+    perHour: '{value} USD por hora',
     jobDescription: 'Descripción del trabajo',
     observation: 'Observaciones',
     buttons: {

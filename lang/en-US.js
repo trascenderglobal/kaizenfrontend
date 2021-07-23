@@ -99,6 +99,7 @@ export default {
     deals: 'Deals',
     personnel: 'Personnel',
     logout: 'Log out',
+    negotiation: 'Negotiation',
   },
   breadcrumb: {
     profile: 'Profile',
@@ -362,10 +363,13 @@ export default {
     to: 'To',
     position: 'Position',
     typeOfC: 'Type of contract',
+    contracts: {
+      0: 'Contract labor',
+      1: 'Direct hired',
+    },
     selectContract: 'Select a type of contract',
     salaryRate: 'Salary rate',
-    usd: 'USD',
-    perHour: 'per hour',
+    perHour: 'USD {value} per hour',
     jobDescription: 'Job description',
     observation: 'Observation',
     buttons: {
