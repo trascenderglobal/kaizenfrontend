@@ -32,7 +32,9 @@
             profile.name + ' ' + profile.last_name
           }}</span>
           <span class="text-gray-dark" :class="{ 'select-none': !mainSkill }">{{
-            mainSkill ? skills[mainSkill.skill_id] : $t('profile.noSkills')
+            mainSkill
+              ? skills[mainSkill.skill_name - 1]
+              : $t('profile.noSkills')
           }}</span>
           <span
             class="text-gray-dark"
@@ -154,7 +156,7 @@
               :class="{ 'select-none': !mainSkill }"
               font="font-medium"
               >{{
-                mainSkill ? skills[mainSkill.skill_id] : $t('detail.none')
+                mainSkill ? skills[mainSkill.skill_name - 1] : $t('detail.none')
               }}</ks-chip
             >
           </div>
@@ -191,7 +193,7 @@
               font="font-medium"
               >{{
                 secondarySkill
-                  ? skills[secondarySkill.skill_id]
+                  ? skills[secondarySkill.skill_name - 1]
                   : $t('detail.none')
               }}</ks-chip
             >
@@ -343,7 +345,7 @@ export default Vue.extend({
         id: null,
         name: '',
         last_name: '',
-        birthate: null as Date | null,
+        birth_date: null as Date | null,
         novelties: null,
         state: '',
         city: '',

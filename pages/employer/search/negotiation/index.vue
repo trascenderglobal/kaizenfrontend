@@ -7,28 +7,25 @@
     </div>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <div class="user-img-lg">
-          <div class="img-wrapper">
-            <iconly-icon
-              name="camera"
-              :size="1.2"
-              class="fill-current text-white"
-            />
-            <div
-              role="img"
-              :aria-label="$t('profile.userImage')"
-              class="img"
-            ></div>
-          </div>
-        </div>
+        <ks-user-img :initials="currentUser.name" large></ks-user-img>
         <div class="flex flex-col space-y-2">
           <span class="font-medium text-blue-kaizen">{{
-            $t('settings.account')
+            currentUser.name + ' ' + currentUser.last_name
           }}</span>
-          <span class="font-light text-gray-dark">{{
-            $t('settings.accountCreatedOn')
+          <span class="text-gray-dark">{{
+            mainSkill
+              ? skills[mainSkill.skill_name - 1]
+              : $t('profile.noSkills')
           }}</span>
-          <span class="font-light text-gray-dark"></span>
+          <span
+            class="text-gray-dark"
+            :class="{ 'select-none': !currentUser.birth_date }"
+            >{{
+              currentUser.birth_date
+                ? $d(new Date(currentUser.birth_date), 'numeric')
+                : $t('profile.noBirth')
+            }}</span
+          >
         </div>
       </div>
     </div>
@@ -63,7 +60,9 @@
       </div>
       <div class="field-row w-full">
         <div class="field-col w-1/6">
-          <span class="text-blue-kaizen pr-4">{{ $t('negotiation.typeOfC') }}</span>
+          <span class="text-blue-kaizen pr-4">{{
+            $t('negotiation.typeOfC')
+          }}</span>
         </div>
         <div class="field-col w-full">
           <ks-select
@@ -79,12 +78,12 @@
       </div>
       <div class="field-row w-full">
         <div class="field-col w-1/6">
-          <span class="text-blue-kaizen pr-4">{{ $t('negotiation.salaryRate') }}</span>
+          <span class="text-blue-kaizen pr-4">{{
+            $t('negotiation.salaryRate')
+          }}</span>
         </div>
         <div class="field-col w-full">
-          <ks-range 
-            v-model="salary"
-          />
+          <ks-range v-model="salary" />
         </div>
       </div>
     </div>
@@ -92,10 +91,13 @@
     <div class="fields">
       <div class="field-row w-full">
         <div class="field-col w-1/6">
-          <span class="text-blue-kaizen pr-4">{{ $t('negotiation.jobDescription') }}</span>
+          <span class="text-blue-kaizen pr-4">{{
+            $t('negotiation.jobDescription')
+          }}</span>
         </div>
         <div class="field-col w-full">
           <ks-text-area
+            label="Hola"
             :border-color="'border-gray-light'"
             dense
             disable-hint
@@ -104,14 +106,15 @@
       </div>
       <div class="field-row w-full">
         <div class="field-col w-1/6">
-          <span class="text-blue-kaizen pr-4">{{ $t('negotiation.observation') }}</span>
+          <span class="text-blue-kaizen pr-4">{{
+            $t('negotiation.observation')
+          }}</span>
         </div>
         <div class="field-col w-full">
           <ks-text-area
             :border-color="'border-gray-light'"
             dense
             disable-hint
-            
           />
         </div>
       </div>
@@ -121,25 +124,60 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import KsRange from '~/components/KsRange.vue'
 
-type NullableDate = null | Date
+interface Skill {
+  skill_id: number
+  user_id: number
+  skill_name: number
+  years_of_experience: number
+  is_main_skill: number
+  created_at: Date
+  updated_at: Date
+}
 
 export default Vue.extend({
-  components: { KsRange },
   name: 'Negotiation',
   layout: 'employerNegotiation',
-
+  middleware({ app, redirect, query }) {
+    if (!query.ids) return redirect(app.localePath('/employer/search'))
+  },
   data() {
-    return{
+    return {
       salary: 7.25,
+      negotiationIds: [] as Number[],
+      currentId: 0,
+      currentUser: {
+        id: null,
+        name: '',
+        last_name: '',
+        birth_date: null as Date | null,
+        novelties: null,
+        state: '',
+        city: '',
+        phone: '',
+        email: '',
+        profile_picture_URL: '',
+        skills: [] as Skill[],
+      },
     }
   },
-
+  async fetch() {
+    try {
+      const queryIds = (this.$route.query.ids as string).split(',')
+      this.negotiationIds = queryIds
+        .filter((id) => Number.isSafeInteger(Number.parseInt(id)))
+        .map((val) => Number.parseInt(val))
+      this.negotiationIds.push()
+      const res = await this.$axios.$get(
+        `/employer/employee_profile/${this.negotiationIds[this.currentId]}`
+      )
+      this.currentUser = res
+    } catch (error) {}
+  },
   computed: {
     typeContract(): object[] {
       const typeContract: object[] = []
-      for (let i =0; i<2; i++) {
+      for (let i = 0; i < 2; i++) {
         typeContract.push({
           text: this.$t(`negotiation.contracts.${i}`),
           value: i + 1,
@@ -147,7 +185,20 @@ export default Vue.extend({
       }
       return typeContract
     },
-  }
+    skills() {
+      const skills: String[] = []
+      for (let i = 0; i <= 9; i++) {
+        skills.push(this.$t(`resume.skills.${i}`) as string)
+      }
+      return skills
+    },
+    mainSkill(): Skill | undefined {
+      const skill = this.currentUser.skills.find(
+        (skill) => skill.is_main_skill === 1
+      )
+      return skill
+    },
+  },
 })
 </script>
 

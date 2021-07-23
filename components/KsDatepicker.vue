@@ -12,7 +12,7 @@
       class="icon clear"
       @click.stop="clearValue"
     >
-      <iconly-icon name="close" view-box="0 0 329.26933 329" :size="0.45" />
+      <iconly-icon name="clear" class="stroke-current" />
     </div>
     <div class="icon">
       <iconly-icon
@@ -106,7 +106,7 @@ export default Vue.extend({
 }
 
 .ks-select .icon {
-  @apply flex items-center justify-center fill-current min-w-6 text-blue-light;
+  @apply flex items-center justify-center fill-current min-w-6;
 }
 
 .ks-select .items {

@@ -12,7 +12,8 @@
         <slot name="prepend-icon" />
       </div>
       <div class="input-wrapper" :class="{ dense: dense }">
-        <textarea class="w-full h-full"
+        <textarea
+          class="ks-textarea"
           v-bind="$attrs"
           :value="value"
           :title="label"
@@ -104,21 +105,12 @@ export default Vue.extend({
   @apply p-0.5;
 }
 
-.input input {
-  @apply relative min-w-6 w-full z-10 bg-transparent text-gray-darker;
+.ks-textarea {
+  @apply relative z-10 w-full h-full text-gray-darker focus:outline-none;
 }
 
-input:focus {
-  @apply outline-none;
-}
-
-input:focus + .label,
-input:not(:placeholder-shown) + .label {
-  @apply -translate-y-6 scale-90 bg-white;
-}
-
-.dense input:focus + .label,
-.dense input:not(:placeholder-shown) + .label {
+.dense textarea:focus + .label,
+.dense textarea:not(:placeholder-shown) + .label {
   @apply -translate-y-4 scale-80 bg-white;
 }
 
@@ -152,9 +144,5 @@ input:not(:placeholder-shown) + .label {
 
 .append-icon {
   @apply pr-2;
-}
-
-textarea {
-  @apply border-none outline-none;
 }
 </style>
