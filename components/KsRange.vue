@@ -7,7 +7,7 @@
     :value="value" 
     step="0.25"  
     class="slider"
-    @input="$emit('input', $event.target.value)"
+    @input="$emit('input', Number.parseFloat($event.target.value))"
     @blur="$emit('blur')" 
     />
     <span class="text-blue-kaizen flex w-1/3 pl-4 ">{{ $t('negotiation.perHour', {value}) }}</span>
