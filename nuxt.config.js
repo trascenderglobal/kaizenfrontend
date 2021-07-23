@@ -5,8 +5,7 @@ export default {
     axios: { baseURL: process.env.BASE_URL },
   },
 
-  ssr: false,
-  target: 'static',
+  target: 'server',
 
   router: {
     middleware: ['auth'],
