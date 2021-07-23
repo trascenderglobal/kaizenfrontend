@@ -12,7 +12,7 @@
           @click="requestProfile"
           >{{ $t('detail.request') }}</ks-btn
         >
-        <ks-btn color="danger" dense icon :to="localePath('/employer/search')"
+        <ks-btn color="danger" dense icon :to="localePath(backLink)"
           ><i><iconly-icon name="close" class="stroke-current" /></i
         ></ks-btn>
       </div>
@@ -371,6 +371,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    backLink(): string {
+      return this.$nuxt.context.from?.fullPath || '/employer/search'
+    },
     novelties(): String {
       const statuses = [
         {
