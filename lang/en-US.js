@@ -360,6 +360,21 @@ export default {
     },
     apply: 'Apply',
   },
+  results: {
+    results: 'Results',
+    subtitle: 'The search has found {resultsLength} profiles that meet the required specifications',
+    previous: 'Previous',
+    next: 'Next',
+    request: 'Request',
+    table: {
+      name: 'Name',
+      position: 'Position',
+      profile: 'Profile',
+      request: 'Request',
+      view: 'View',
+    },
+    page: 'Page {p} of {t}',
+  },
   negotiation: {
     negotiation: 'Negotiation',
     typeOfN: 'Type of negotiation',
@@ -383,10 +398,10 @@ export default {
     },
     requestsCompleted: {
       title: 'Requests completed',
-      paragraph1:
-        'HR has been notified you requested some talent for your company,',
-      paragraph2: 'Our team will be contact you soon.',
+      paragraph1: 'HR has been notified you requested some talent for your company,',
+      paragraph2: 'Our team will be contact you soon.'
     },
+    page: 'Page {p} of {t}',
   },
   detail: {
     meta: {

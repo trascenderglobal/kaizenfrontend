@@ -361,6 +361,21 @@ export default {
     },
     apply: 'Aplicar',
   },
+  results: {
+    results: 'Resultados',
+    subtitle: 'La búsqueda ha encontrado {resultsLength} perfiles que cumplen tus criterios',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    request: 'Solicitar',
+    table: {
+      name: 'Nombre',
+      position: 'Cargo',
+      profile: 'Perfil',
+      request: 'Solicitar',
+      view: 'Ver',
+    },
+    page: 'Página {p} de {t}',
+  },
   negotiation: {
     negotiation: 'Negociación',
     typeOfN: 'Tipo de negociación',
@@ -385,8 +400,9 @@ export default {
     requestsCompleted: {
       title: 'Solicitud completa',
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
-      paragraph2: 'Nuestro equipo te contactará muy pronto.',
+      paragraph2: 'Nuestro equipo te contactará muy pronto.'
     },
+    page: 'Página {p} de {t}',
   },
   detail: {
     meta: {

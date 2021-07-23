@@ -61,6 +61,8 @@ export default Vue.extend({
           'danger',
           'warning',
           'transparent',
+          'light-blue',
+          'light-gray',
         ].includes(value)
       },
     },
@@ -176,5 +178,24 @@ export default Vue.extend({
 
 .ks-btn:disabled {
   @apply border-gray-light cursor-not-allowed bg-gray-light text-white;
+}
+
+.ks-btn.light-blue {
+  @apply border-blue-light bg-blue-light text-white;
+}
+
+.ks-btn.ks-btn.light-blue:disabled {
+  @apply border  cursor-not-allowed border-green-kaizen bg-green-kaizen text-white;
+}
+
+.ks-btn.light-blue.outline {
+  @apply border-blue-light bg-transparent text-blue-light;
+}
+.ks-btn.light-gray {
+  @apply border-gray-light bg-gray-light text-white;
+}
+
+.ks-btn.light-gray.outline {
+  @apply border-gray-light bg-transparent text-gray-light;
 }
 </style>
