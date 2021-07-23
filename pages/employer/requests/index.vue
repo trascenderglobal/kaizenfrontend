@@ -31,6 +31,7 @@
               ? 'bg-red-kaizen'
               : 'bg-gray-darker'
           "
+          clearable
         ></ks-select>
       </div>
     </div>
@@ -54,37 +55,56 @@
           </tr>
         </thead>
         <tbody class="text-tbody">
-          <template v-for="(request, i) in requests">
+          <tr v-if="!paginatedRequests.length">
+            <td id="noItemsCell" colspan="4">
+              <i v-if="loading"
+                ><iconly-icon
+                  name="loading"
+                  type="outline"
+                  class="stroke-current"
+                  view-box="0 0 38 38"
+              /></i>
+              <span v-else>{{ $t('requests.table.noItems') }}</span>
+            </td>
+          </tr>
+          <template v-for="(request, i) in paginatedRequests">
             <tr
               :key="`request-${i}`"
               class="request-row"
-              :class="{ expanded: request.expand }"
+              :class="{ expanded: expanded === i }"
             >
               <td>{{ request.position }}</td>
-              <td>{{ $d(request.from) }}</td>
+              <td>{{ $d(new Date(request.petition_date)) }}</td>
               <td>
                 <div class="flex space-x-2">
-                  <ks-status-icon
-                    v-if="request.status === 'open'"
+                  <ks-btn
+                    v-if="request.status === 1 || request.status === 2"
                     :title="$t('requests.send')"
                     color="success"
+                    :disabled="updatingStatus"
                     dense
-                    outline
-                    icon="send"
-                  />
+                    icon
+                    @click="sendRequest(request)"
+                    ><i><iconly-icon name="send" class="fill-current" /></i
+                  ></ks-btn>
                   <ks-status-icon
-                    v-if="request.status === 'pending'"
+                    v-if="request.status === 3"
                     :title="$t('requests.pending')"
                     color="warning"
                     dense
-                    outline
                     icon="time-circle"
                   />
                   <ks-btn
-                    :title="$t('requests.cancel')"
+                    :title="
+                      request.status === 2
+                        ? $t('requests.canceled')
+                        : $t('requests.cancel')
+                    "
                     color="danger"
+                    :disabled="updatingStatus || request.status === 2"
                     dense
                     icon
+                    @click="cancelRequest(request)"
                     ><i><iconly-icon name="close" class="stroke-current" /></i
                   ></ks-btn>
                 </div>
@@ -94,52 +114,77 @@
                   <button
                     type="button"
                     class="expand-btn text-link-blue"
-                    @click="request.expand = !request.expand"
+                    @click="toggleExpand(i)"
                   >
                     <i
                       ><iconly-icon
                         name="arrow-down-2"
                         class="transition duration-200"
-                        :class="{ 'transform rotate-180': request.expand }"
+                        :class="{ 'transform rotate-180': expanded === i }"
                     /></i>
                   </button>
                 </div>
               </td>
             </tr>
             <transition :key="`expanded-request-${i}`" name="expand">
-              <div v-show="request.expand" class="request-detail">
-                <td class="expanded-cell" colspan="2">
-                  <div class="expanded-row">
-                    <span>{{ $t('requests.table.from') }}:</span>
-                    <span>{{ $d(new Date()) }}</span>
-                  </div>
-                  <div class="expanded-row">
-                    <span>{{ $t('requests.table.to') }}:</span>
-                    <span>{{ $d(new Date()) }}</span>
-                  </div>
-                  <div class="expanded-row">
-                    <span>{{ $t('requests.table.talent') }}:</span>
-                    <span class="space-x-2"
-                      ><ks-user-img
-                        v-for="(emp, j) in request.talent"
-                        :key="`talent-${i}-${j}`"
-                        :initials="emp.name"
-                        :to="`/employer/search/detail?id=${emp.id}`"
-                    /></span>
-                  </div>
+              <div v-if="expanded === i" class="request-detail">
+                <td v-if="loadingDetails" colspan="4" class="text-center">
+                  <i
+                    ><iconly-icon
+                      name="loading"
+                      type="outline"
+                      class="stroke-current"
+                      view-box="0 0 38 38"
+                  /></i>
                 </td>
-                <td class="expanded-cell" colspan="2">
-                  <div class="expanded-row">
-                    <span>{{ $t('requests.table.typeOfContract') }}:</span>
-                    <span>Type Of Contract</span>
-                  </div>
-                  <div class="expanded-row">
-                    <span>{{ $t('requests.table.salaryRate') }}:</span>
-                    <span>{{
-                      $t('requests.table.rate', { salary: 300 })
-                    }}</span>
-                  </div>
-                </td>
+                <template v-else>
+                  <td colspan="4">
+                    <table>
+                      <tr
+                        v-for="(detail, j) in requestDetails"
+                        :key="`expanded-${i}-${j}-1`"
+                      >
+                        <td class="expanded-cell" colspan="2">
+                          <div class="expanded-row">
+                            <span>{{ $t('requests.table.from') }}:</span>
+                            <span>{{ $d(new Date(detail.start_date)) }}</span>
+                          </div>
+                          <div class="expanded-row">
+                            <span>{{ $t('requests.table.to') }}:</span>
+                            <span>{{ $d(new Date(detail.end_date)) }}</span>
+                          </div>
+                          <div class="expanded-row">
+                            <span>{{ $t('requests.table.talent') }}:</span>
+                            <span class="space-x-2"
+                              ><ks-user-img
+                                :to="`/employer/search/detail?id=${detail.user_id}`"
+                            /></span>
+                          </div>
+                        </td>
+                        <td
+                          :key="`expanded-${i}-${j}-2`"
+                          class="expanded-cell"
+                          colspan="2"
+                        >
+                          <div class="expanded-row">
+                            <span
+                              >{{ $t('requests.table.typeOfContract') }}:</span
+                            >
+                            <span>{{ typeOfContract }}</span>
+                          </div>
+                          <div class="expanded-row">
+                            <span>{{ $t('requests.table.salaryRate') }}:</span>
+                            <span>{{
+                              $t('requests.table.rate', {
+                                salary: detail.salary_rate,
+                              })
+                            }}</span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </template>
               </div>
             </transition>
           </template>
@@ -148,15 +193,23 @@
     </div>
     <div class="request-footer">
       <div class="flex-auto text-blue-kaizen">
-        <span>{{ $t('requests.page', { p: 1, t: 1 }) }}</span>
+        <span>{{ $t('requests.page', { p: page, t: totalPages }) }}</span>
       </div>
       <div class="flex justify-center flex-auto space-x-2">
-        <ks-btn color="primary" dense :disabled="true">{{
-          $t('requests.previous')
-        }}</ks-btn>
-        <ks-btn color="primary" dense :disabled="false">{{
-          $t('requests.next')
-        }}</ks-btn>
+        <ks-btn
+          color="primary"
+          dense
+          :disabled="page === 1"
+          @click="previousPage"
+          >{{ $t('requests.previous') }}</ks-btn
+        >
+        <ks-btn
+          color="primary"
+          dense
+          :disabled="page === totalPages"
+          @click="nextPage"
+          >{{ $t('requests.next') }}</ks-btn
+        >
       </div>
       <div class="flex-auto"></div>
     </div>
@@ -165,98 +218,58 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import KsUserImg from '~/components/KsUserImg.vue'
 
 interface Request {
+  id: number
+  company_id: number
   position: string
-  from: Date
-  to: Date
-  typeOfContract: number
-  salaryRate: number
-  talent: Object[]
-  status: string
-  expand: boolean
+  petition_date: string | Date
+  status: number
+}
+
+interface RequestDetail {
+  id: number
+  user_id: number
+  petition_id: number
+  negotiation_type: string
+  position: string
+  contract_type: string
+  salary_rate: number
+  start_date: string | Date
+  end_date: string | Date
+  job_description: string | null
+  observations: string | null
+  petition_status: number
+  created_at: string
+  updated_at: string
 }
 
 export default Vue.extend({
+  components: { KsUserImg },
   layout: 'employer',
   data() {
     return {
-      showBy: '',
+      expanded: null as Number | null,
+      showBy: null,
+      loading: false,
+      updatingStatus: false,
+      loadingDetails: false,
       page: 1,
       size: 5,
-      requests: [
-        {
-          position: 'Glueing',
-          from: new Date(),
-          to: new Date(),
-          typeOfContract: 1,
-          salaryRate: 200,
-          talent: [
-            { id: 2, name: 'Sarah' },
-            { id: 2, name: 'Charlie' },
-          ],
-          status: 'pending',
-          expand: false,
-        },
-        {
-          position: 'Assembly',
-          from: new Date(),
-          to: new Date(),
-          typeOfContract: 1,
-          salaryRate: 530,
-          talent: [
-            { id: 2, name: 'Linda' },
-            { id: 2, name: 'Chloe' },
-          ],
-          status: 'open',
-          expand: false,
-        },
-        {
-          position: 'Upholstery',
-          from: new Date(),
-          to: new Date(),
-          typeOfContract: 1,
-          salaryRate: 250,
-          talent: [
-            { id: 2, name: 'Maze' },
-            { id: 2, name: 'Luci' },
-          ],
-          status: 'open',
-          expand: false,
-        },
-        {
-          position: 'Sewing',
-          from: new Date(),
-          to: new Date(),
-          typeOfContract: 1,
-          salaryRate: 90,
-          talent: [
-            { id: 2, name: 'Michael' },
-            { id: 2, name: 'Pierce' },
-          ],
-          status: 'pending',
-          expand: false,
-        },
-        {
-          position: 'TIG Welding',
-          from: new Date(),
-          to: new Date(),
-          typeOfContract: 1,
-          salaryRate: 90,
-          talent: [
-            { id: 2, name: 'Sarah' },
-            { id: 2, name: 'Charlie' },
-          ],
-          status: 'pending',
-          expand: false,
-        },
-      ] as Request[],
+      requests: [] as Request[],
+      requestDetails: [] as RequestDetail[],
     }
   },
   async fetch() {
     try {
-      await this.$axios.$get('/employer/petition/view')
-    } catch (error) {}
+      this.loading = true
+      const res = await this.$axios.$get('/employer/petition/view')
+      this.requests = res.result as Request[]
+    } catch (error) {
+    } finally {
+      this.loading = false
+    }
   },
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
@@ -283,14 +296,81 @@ export default Vue.extend({
           value: 1,
         },
         {
-          text: this.$t('requests.past'),
-          value: 2,
+          text: this.$t('requests.inProcess'),
+          value: 3,
         },
         {
           text: this.$t('requests.canceled'),
-          value: 3,
+          value: 2,
         },
       ]
+    },
+    totalPages(): number {
+      return Math.ceil(this.requests.length / this.size) || 1
+    },
+    paginatedRequests(): Request[] {
+      const showBy = this.showBy
+      return this.requests
+        .filter((req) => (showBy ? req.status === showBy : true))
+        .slice(this.size * this.page - this.size, this.size * this.page)
+    },
+    typeOfContract(): string {
+      return '-'
+    },
+  },
+  methods: {
+    previousPage() {
+      if (this.page > 1) this.page--
+    },
+    nextPage() {
+      if (this.page < this.totalPages) this.page++
+    },
+    async toggleExpand(i: number) {
+      try {
+        if (this.expanded === i) {
+          this.expanded = null
+        } else {
+          this.expanded = i
+          this.loadingDetails = true
+          const res = await this.$axios.$get(
+            `/employer/petition/details/${this.paginatedRequests[i].id}`
+          )
+          this.requestDetails = res.elements as RequestDetail[]
+        }
+      } catch (error) {
+      } finally {
+        this.loadingDetails = false
+      }
+    },
+    async sendRequest(request: Request) {
+      try {
+        this.updatingStatus = true
+        await this.$axios.$post('/employer/petition/send', {
+          petitionID: request.id,
+        })
+        request.status = 3
+        this.$notifier.showNotification({
+          content: this.$t('requests.requestSent'),
+        })
+      } catch (error) {
+      } finally {
+        this.updatingStatus = false
+      }
+    },
+    async cancelRequest(request: Request) {
+      try {
+        this.updatingStatus = true
+        await this.$axios.$post('/employer/petition/cancel', {
+          petitionID: request.id,
+        })
+        request.status = 2
+        this.$notifier.showNotification({
+          content: this.$t('requests.requestCanceled'),
+        })
+      } catch (error) {
+      } finally {
+        this.updatingStatus = false
+      }
     },
   },
 })
@@ -316,6 +396,7 @@ export default Vue.extend({
 }
 
 table {
+  table-layout: fixed;
   border-spacing: 0;
   @apply border-separate w-full;
 }
@@ -333,11 +414,15 @@ table {
 }
 
 .text-tbody {
-  @apply font-light text-gray-dark relative;
+  @apply text-gray-dark relative;
 }
 
 tbody td {
   @apply p-4;
+}
+
+#noItemsCell {
+  @apply text-center select-none bg-gray-lighter rounded-b-xl rounded-t-none;
 }
 
 tbody > tr > td:first-child {
@@ -352,11 +437,8 @@ tbody .expand-btn {
   @apply fill-current stroke-current;
 }
 
-tbody > tr:nth-of-type(even) {
-  @apply bg-gray-lighter;
-}
-
-tbody > div:nth-of-type(even) {
+tbody > tr:nth-of-type(even),
+tbody > tr:nth-of-type(even) + div.request-detail {
   @apply bg-gray-lighter;
 }
 
@@ -364,11 +446,15 @@ tbody .request-detail {
   @apply table-row;
 }
 
-tbody > .request-detail > td:first-child {
+tbody > div.request-detail:nth-of-type(even) {
+  @apply bg-gray-lighter;
+}
+
+tbody > .request-detail td:first-child {
   @apply rounded-bl-xl;
 }
 
-tbody > .request-detail > td:last-child {
+tbody > .request-detail td:last-child {
   @apply rounded-br-xl;
 }
 

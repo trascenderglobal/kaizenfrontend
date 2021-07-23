@@ -44,3 +44,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.iconly {
+  @apply inline-block;
+}
+</style>

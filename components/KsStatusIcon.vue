@@ -10,7 +10,11 @@
     ]"
   >
     <i class="icon-wrapper">
-      <iconly-icon :name="icon" :type="type" class="fill-current" />
+      <iconly-icon
+        :name="icon"
+        :type="type"
+        class="fill-current stroke-current stroke-0"
+      />
     </i>
   </span>
 </template>

@@ -175,6 +175,6 @@ export default Vue.extend({
 }
 
 .ks-btn:disabled {
-  @apply border border-gray-light cursor-not-allowed bg-gray-light text-white;
+  @apply border-gray-light cursor-not-allowed bg-gray-light text-white;
 }
 </style>

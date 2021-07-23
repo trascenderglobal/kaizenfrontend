@@ -297,12 +297,16 @@ export default {
       description: 'Requests',
     },
     requests: 'Requests',
-    header: 'Filter your requests by recent, in process, past or canceled',
+    header: 'Filter your requests by recent, in process or canceled',
     showBy: 'Show by',
     recent: 'Recent',
-    past: 'Past',
+    inProcess: 'In process',
     canceled: 'Canceled',
+    requestSent: 'Request sent!',
+    requestCanceled: 'Request canceled!',
     table: {
+      loading: 'Loading',
+      noItems: 'There are no requests',
       position: 'Position',
       date: 'Date',
       actions: 'Actions',
@@ -375,13 +379,14 @@ export default {
     buttons: {
       cancel: 'Cancel',
       next: 'Next',
-      seeDeals: 'See your deals'
+      seeDeals: 'See your deals',
     },
     requestsCompleted: {
       title: 'Requests completed',
-      paragraph1: 'HR has been notified you requested some talent for your company,',
-      paragraph2: 'Our team will be contact you soon.'
-    }
+      paragraph1:
+        'HR has been notified you requested some talent for your company,',
+      paragraph2: 'Our team will be contact you soon.',
+    },
   },
   detail: {
     meta: {

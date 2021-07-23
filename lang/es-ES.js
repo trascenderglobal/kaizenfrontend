@@ -100,7 +100,7 @@ export default {
     deals: 'Tratos',
     personnel: 'Personal',
     logout: 'Cerrar sesión',
-    negotiation: 'Negociación'
+    negotiation: 'Negociación',
   },
   breadcrumb: {
     profile: 'Perfil',
@@ -298,12 +298,16 @@ export default {
       description: 'Solicitudes',
     },
     requests: 'Solicitudes',
-    header: 'Filtra tus solicitudes por reciente, pasado o cancelado',
+    header: 'Filtra tus solicitudes por reciente, en proceso o cancelado',
     showBy: 'Mostrar',
     recent: 'Reciente',
-    past: 'Pasado',
+    inProcess: 'En proceso',
     canceled: 'Cancelado',
+    requestSent: '¡Solicitud enviada!',
+    requestCanceled: '¡Solicitud cancelada!',
     table: {
+      loading: 'Cargando',
+      noItems: 'No hay solicitudes',
       position: 'Posición',
       date: 'Fecha',
       actions: 'Acciones',
@@ -376,13 +380,13 @@ export default {
     buttons: {
       cancel: 'Cancelar',
       next: 'Siguiente',
-      seeDeals: 'Ver tus ofertas'
+      seeDeals: 'Ver tus ofertas',
     },
     requestsCompleted: {
       title: 'Solicitud completa',
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
-      paragraph2: 'Nuestro equipo te contactará muy pronto.'
-    }
+      paragraph2: 'Nuestro equipo te contactará muy pronto.',
+    },
   },
   detail: {
     meta: {
