@@ -164,7 +164,7 @@
                     dense
                     icon
                     :disabled="!requestIds.includes(result.id)"
-                    @click="removeRequest(i)"
+                    @click="removeRequest(result.id)"
                     ><i><iconly-icon name="minus" class="stroke-current" /></i
                   ></ks-btn>
                 </div>
@@ -173,13 +173,26 @@
           </template>
         </tbody>
       </table>
-      <div class="flex justify-end flex-grow items-end">
-        <ks-btn
-          color="success"
-          dense
-          :to="`/employer/search/negotiation?ids=${queryId}`"
-          >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
-        >
+      <div class="result-footer">
+        <div class="flex-auto text-blue-kaizen justify-items-start">
+          <span>{{ $t('results.page', { p: 1, t: 1 }) }}</span>
+        </div>
+        <div class="flex justify-center flex-auto space-x-2">
+          <ks-btn color="primary" dense :disabled="true">{{
+            $t('results.previous')
+          }}</ks-btn>
+          <ks-btn color="primary" dense :disabled="true">{{
+            $t('results.next')
+          }}</ks-btn>
+        </div>
+        <div class="flex justify-end flex-grow items-end">
+          <ks-btn
+            color="success"
+            dense
+            :to="`/employer/search/negotiation?ids=${queryId}`"
+            >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
+          >
+        </div>
       </div>
     </div>
   </ks-card>
@@ -291,7 +304,8 @@ export default Vue.extend({
       if (!this.requestIds.includes(i)) this.requestIds.push(i)
     },
     removeRequest(i: number): void {
-      if (this.requestIds.includes(i)) this.requestIds.splice(i, 1)
+      const index = this.requestIds.indexOf(i)
+      if (this.requestIds.includes(i)) this.requestIds.splice(index, 1)
     },
   },
 })
@@ -335,6 +349,11 @@ hr {
 .result-header > * {
   @apply pt-4;
 }
+
+.result-footer {
+  @apply flex justify-center items-end flex-grow pt-4;
+}
+
 table {
   border-spacing: 0;
   @apply border-separate w-full;

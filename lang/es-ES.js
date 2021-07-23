@@ -369,7 +369,8 @@ export default {
       profile: 'Perfil',
       request: 'Solicitar',
       view: 'Ver',
-    }
+    },
+    page: 'Página {p} de {t}',
   },
   negotiation: {
     negotiation: 'Negociación',
@@ -396,7 +397,8 @@ export default {
       title: 'Solicitud completa',
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
       paragraph2: 'Nuestro equipo te contactará muy pronto.'
-    }
+    },
+    page: 'Página {p} de {t}',
   },
   detail: {
     meta: {

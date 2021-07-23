@@ -62,7 +62,7 @@ export default Vue.extend({
           'warning',
           'transparent',
           'light-blue',
-          'light-gray'
+          'light-gray',
         ].includes(value)
       },
     },
@@ -182,6 +182,10 @@ export default Vue.extend({
 
 .ks-btn.light-blue {
   @apply border-blue-light bg-blue-light text-white;
+}
+
+.ks-btn.ks-btn.light-blue:disabled {
+  @apply border  cursor-not-allowed border-green-kaizen bg-green-kaizen text-white;
 }
 
 .ks-btn.light-blue.outline {

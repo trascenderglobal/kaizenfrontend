@@ -368,7 +368,8 @@ export default {
       profile: 'Profile',
       request: 'Request',
       view: 'View',
-    }
+    },
+    page: 'Page {p} of {t}',
   },
   negotiation: {
     negotiation: 'Negotiation',
@@ -395,7 +396,8 @@ export default {
       title: 'Requests completed',
       paragraph1: 'HR has been notified you requested some talent for your company,',
       paragraph2: 'Our team will be contact you soon.'
-    }
+    },
+    page: 'Page {p} of {t}',
   },
   detail: {
     meta: {
