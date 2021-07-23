@@ -357,6 +357,20 @@ export default {
     },
     apply: 'Aplicar',
   },
+  results: {
+    results: 'Resultados',
+    subtitle: 'La búsqueda ha encontrado {resultsLength} perfiles que cumplen tus criterios',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    request: 'Solicitar',
+    table: {
+      name: 'Nombre',
+      position: 'Cargo',
+      profile: 'Perfil',
+      request: 'Solicitar',
+      view: 'Ver',
+    }
+  },
   negotiation: {
     negotiation: 'Negociación',
     typeOfN: 'Tipo de negociación',

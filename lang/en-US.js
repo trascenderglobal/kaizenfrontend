@@ -356,6 +356,20 @@ export default {
     },
     apply: 'Apply',
   },
+  results: {
+    results: 'Results',
+    subtitle: 'The search has found {resultsLength} profiles that meet the required specifications',
+    previous: 'Previous',
+    next: 'Next',
+    request: 'Request',
+    table: {
+      name: 'Name',
+      position: 'Position',
+      profile: 'Profile',
+      request: 'Request',
+      view: 'View',
+    }
+  },
   negotiation: {
     negotiation: 'Negotiation',
     typeOfN: 'Type of negotiation',
