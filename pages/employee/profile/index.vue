@@ -79,12 +79,12 @@
               profile.name + ' ' + profile.lastName
             }}</span>
             <span
-              class="font-light text-gray-dark"
+              class="text-gray-dark"
               :class="{ 'select-none': !mainSkill }"
               >{{ mainSkill || $t('profile.noSkills') }}</span
             >
             <span
-              class="font-light text-gray-dark"
+              class="text-gray-dark"
               :class="{ 'select-none': !profile.birthDate }"
               >{{
                 profile.birthDate
@@ -98,7 +98,7 @@
               profile.name + ' ' + profile.lastName
             }}</span>
             <span
-              class="font-light text-gray-dark"
+              class="text-gray-dark"
               :class="{ 'select-none': !mainSkill }"
               >{{ mainSkill || $t('profile.noSkills') }}</span
             >
@@ -118,11 +118,9 @@
         <span class="font-medium text-blue-kaizen">{{
           $t('profile.novelties')
         }}</span>
-        <span class="font-light text-gray-dark"
-          >{{ $t('profile.status') }}:</span
-        >
+        <span class="text-gray-dark">{{ $t('profile.status') }}:</span>
         <ks-select
-          v-model="profile.novelties"
+          v-model.number="profile.novelties"
           :label="$t('profile.status')"
           :bg-color="
             edit
@@ -371,16 +369,6 @@ type NullableDate = null | Date
 export default Vue.extend({
   name: 'ProfilePage',
   layout: 'employee',
-  // TODO: change fetch hook for asyncData when production target is server
-  // async asyncData({ app }) {
-  //   try {
-  //     const res = await app.$axios.$get('/employee/profile')
-  //     res.birthDate = res.birthDate ? new Date(res.birthDate) : null
-  //     return {
-  //       profile: res,
-  //     }
-  //   } catch (error) {}
-  // },
   data() {
     return {
       edit: false,
@@ -392,7 +380,7 @@ export default Vue.extend({
         name: '',
         lastName: '',
         birthDate: null as NullableDate,
-        novelties: '',
+        novelties: 0,
         state: '',
         city: '',
         phone: '',
@@ -414,7 +402,6 @@ export default Vue.extend({
       ],
     }
   },
-  // TODO: Change fetch hook for asyncData when production target is server
   async fetch() {
     try {
       const res = await this.$axios.$get('/employee/profile')
@@ -422,7 +409,6 @@ export default Vue.extend({
       this.profile = res
     } catch (error) {}
   },
-  fetchOnServer: false,
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
@@ -541,7 +527,9 @@ export default Vue.extend({
         data.append('last_name', this.profile.lastName)
         data.append(
           'novelties',
-          this.profile.novelties === null ? '' : this.profile.novelties
+          this.profile.novelties === null
+            ? ''
+            : this.profile.novelties.toString()
         )
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')

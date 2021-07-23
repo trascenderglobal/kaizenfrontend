@@ -13,7 +13,7 @@
         class="clear-icon"
         @click.stop="clearValue"
       >
-        <iconly-icon name="close" class="stroke-current" />
+        <iconly-icon name="clear" class="stroke-current" />
       </div>
       <div class="icon">
         <iconly-icon
