@@ -60,7 +60,11 @@
             </div>
           </div>
           <div v-else class="img-wrapper">
+            <span v-if="profile.name" class="text-white select-none text-3xl">{{
+              profile.name.charAt(0)
+            }}</span>
             <iconly-icon
+              v-else
               name="camera"
               :size="1.2"
               class="fill-current text-white"
@@ -623,7 +627,7 @@ hr {
 }
 
 .img-wrapper {
-  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
+  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b shadow-md backdrop-filter backdrop-blur-md;
 }
 
 .img-wrapper > .img {

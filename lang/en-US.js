@@ -396,6 +396,12 @@ export default {
     skills: 'Skills',
     primary: 'Primary',
     secondary: 'Secondary',
+    company: 'Company',
+    position: 'Position',
+    activeFrom: 'Active from',
+    to: 'To',
+    contactPerson: 'Contact person',
+    phone: 'Phone',
   },
   jobs: {
     meta: {

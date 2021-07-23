@@ -22,7 +22,11 @@
     </h1>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <ks-user-img :initials="profile.name || ''" large />
+        <ks-user-img
+          :initials="profile.name || ''"
+          :image-url="profile.profile_picture_URL"
+          large
+        />
         <div class="flex flex-col space-y-2">
           <span class="font-medium text-blue-kaizen">{{
             profile.name + ' ' + profile.last_name
@@ -218,17 +222,92 @@
     <h1 class="pb-6 text-lg text-blue-kaizen">
       {{ $t('resume.secondaryLanguage') }}
     </h1>
-    <div class="field-row">
-      <div class="field-col flex-grow lg:flex-grow-0">
-        <span class="text-blue-kaizen pr-4">{{ $t('resume.language') }}</span>
-        <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
-          <ks-chip>{{ language }}</ks-chip>
+    <div class="fields">
+      <div class="field-row">
+        <div class="field-col flex-grow lg:flex-grow-0">
+          <span class="text-blue-kaizen pr-4">{{ $t('resume.language') }}</span>
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
+            <ks-chip>{{ language }}</ks-chip>
+          </div>
+        </div>
+        <div class="field-col flex-grow flex-wrap">
+          <span class="text-blue-kaizen pr-4">{{ $t('resume.level') }}</span>
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
+            <ks-chip bg-color="bg-blue-darker">{{ level }}</ks-chip>
+          </div>
         </div>
       </div>
-      <div class="field-col flex-grow flex-wrap">
-        <span class="text-blue-kaizen pr-4">{{ $t('resume.level') }}</span>
-        <div class="flex-grow lg:flex-grow-0 xl:w-1/4">
-          <ks-chip bg-color="bg-blue-darker">{{ level }}</ks-chip>
+    </div>
+    <hr />
+    <h1 class="pb-6 text-lg text-blue-kaizen">
+      {{ $t('resume.previousJob') }}
+    </h1>
+    <div
+      v-for="(job, i) in profile.previous_jobs"
+      :key="`previous-job-${i}`"
+      class="fields"
+    >
+      <hr v-if="i !== 0" />
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.company')
+            }}</span>
+          </div>
+          <span class="item-value">{{ job.company }}</span>
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.position')
+            }}</span>
+          </div>
+          <span class="item-value">{{ job.position }}</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.activeFrom')
+            }}</span>
+          </div>
+          <span class="item-value">
+            <ks-chip bg-color="bg-blue-darker" font="font-medium">{{
+              $d(new Date(job.initial_date))
+            }}</ks-chip>
+          </span>
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.to')
+            }}</span>
+          </div>
+          <span class="item-value"
+            ><ks-chip bg-color="bg-blue-darker" font="font-medium">{{
+              $d(new Date(job.end_date))
+            }}</ks-chip></span
+          >
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.company')
+            }}</span>
+          </div>
+          <span class="item-value">{{ job.contact_person }}</span>
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('detail.position')
+            }}</span>
+          </div>
+          <span class="item-value">{{ job.phone }}</span>
         </div>
       </div>
     </div>
@@ -261,6 +340,7 @@ export default Vue.extend({
   data() {
     return {
       profile: {
+        id: null,
         name: '',
         last_name: '',
         birthate: null as Date | null,
@@ -274,6 +354,7 @@ export default Vue.extend({
         profile_picture_URL: '',
         skills: [] as Skill[],
         languages: [] as Language[],
+        previous_jobs: [],
       },
     }
   },
@@ -358,7 +439,7 @@ export default Vue.extend({
     requestProfile() {
       try {
         if (this.profile.novelties === 0) return
-        this.$router.push('/employer/request')
+        this.$router.push(`/employer/search/negotiation?ids=${this.profile.id}`)
       } catch (error) {}
     },
     showLinkedin(): void {
