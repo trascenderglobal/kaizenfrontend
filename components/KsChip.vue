@@ -1,5 +1,5 @@
 <template>
-  <div class="ks-chip" :class="[bgColor, borderColor, color]">
+  <div class="ks-chip" :class="[bgColor, borderColor, color, font]">
     <span><slot /></span>
     <div v-if="clearable" class="icon clear" @click.stop="$emit('click:clear')">
       <iconly-icon name="close" view-box="0 0 329.26933 329" :size="0.4" />
@@ -24,6 +24,10 @@ export default Vue.extend({
       type: String,
       default: 'text-white',
     },
+    font: {
+      type: String,
+      default: 'font-bold',
+    },
     clearable: Boolean,
   },
 })
@@ -31,7 +35,7 @@ export default Vue.extend({
 
 <style scoped>
 .ks-chip {
-  @apply flex items-center justify-center rounded-lg py-0.5 px-1.5 font-bold;
+  @apply flex items-center justify-center rounded-lg py-0.5 px-1.5;
 }
 
 .ks-chip .icon {

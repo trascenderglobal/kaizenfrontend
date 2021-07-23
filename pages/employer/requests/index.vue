@@ -40,7 +40,11 @@
           <tr>
             <th>{{ $t('requests.table.position') }}</th>
             <th>{{ $t('requests.table.date') }}</th>
-            <th>{{ $t('requests.table.actions') }}</th>
+            <th>
+              {{ $t('requests.table.status') }}/{{
+                $t('requests.table.actions')
+              }}
+            </th>
             <th>{{ $t('requests.table.details') }}</th>
           </tr>
           <tr>
@@ -57,29 +61,25 @@
               :class="{ expanded: request.expand }"
             >
               <td>{{ request.position }}</td>
-              <td>{{ $d(request.date) }}</td>
+              <td>{{ $d(request.from) }}</td>
               <td>
                 <div class="flex space-x-2">
-                  <ks-btn
+                  <ks-status-icon
+                    v-if="request.status === 'open'"
+                    :title="$t('requests.send')"
+                    color="success"
+                    dense
+                    outline
+                    icon="send"
+                  />
+                  <ks-status-icon
                     v-if="request.status === 'pending'"
                     :title="$t('requests.pending')"
                     color="warning"
                     dense
-                    icon
-                    disabled
-                    ><i
-                      ><iconly-icon
-                        name="time-circle"
-                        class="fill-current" /></i
-                  ></ks-btn>
-                  <ks-btn
-                    v-else
-                    :title="$t('requests.send')"
-                    color="success"
-                    dense
-                    icon
-                    ><i><iconly-icon name="send" class="fill-current" /></i
-                  ></ks-btn>
+                    outline
+                    icon="time-circle"
+                  />
                   <ks-btn
                     :title="$t('requests.cancel')"
                     color="danger"
@@ -108,8 +108,37 @@
             </tr>
             <transition :key="`expanded-request-${i}`" name="expand">
               <div v-show="request.expand" class="request-detail">
-                <td colspan="4" class="text-center">
-                  {{ $t('requests.table.details') }}
+                <td class="expanded-cell" colspan="2">
+                  <div class="expanded-row">
+                    <span>{{ $t('requests.table.from') }}:</span>
+                    <span>{{ $d(new Date()) }}</span>
+                  </div>
+                  <div class="expanded-row">
+                    <span>{{ $t('requests.table.to') }}:</span>
+                    <span>{{ $d(new Date()) }}</span>
+                  </div>
+                  <div class="expanded-row">
+                    <span>{{ $t('requests.table.talent') }}:</span>
+                    <span class="space-x-2"
+                      ><ks-user-img
+                        v-for="(emp, j) in request.talent"
+                        :key="`talent-${i}-${j}`"
+                        :initials="emp.name"
+                        :to="`/employer/search/detail?id=${emp.id}`"
+                    /></span>
+                  </div>
+                </td>
+                <td class="expanded-cell" colspan="2">
+                  <div class="expanded-row">
+                    <span>{{ $t('requests.table.typeOfContract') }}:</span>
+                    <span>Type Of Contract</span>
+                  </div>
+                  <div class="expanded-row">
+                    <span>{{ $t('requests.table.salaryRate') }}:</span>
+                    <span>{{
+                      $t('requests.table.rate', { salary: 300 })
+                    }}</span>
+                  </div>
                 </td>
               </div>
             </transition>
@@ -137,50 +166,115 @@
 <script lang="ts">
 import Vue from 'vue'
 
+interface Request {
+  position: string
+  from: Date
+  to: Date
+  typeOfContract: number
+  salaryRate: number
+  talent: Object[]
+  status: string
+  expand: boolean
+}
+
 export default Vue.extend({
   layout: 'employer',
   data() {
     return {
       showBy: '',
+      page: 1,
+      size: 5,
       requests: [
         {
           position: 'Glueing',
-          date: new Date(),
+          from: new Date(),
+          to: new Date(),
+          typeOfContract: 1,
+          salaryRate: 200,
+          talent: [
+            { id: 2, name: 'Sarah' },
+            { id: 2, name: 'Charlie' },
+          ],
           status: 'pending',
-          details: {},
           expand: false,
         },
         {
           position: 'Assembly',
-          date: new Date(),
+          from: new Date(),
+          to: new Date(),
+          typeOfContract: 1,
+          salaryRate: 530,
+          talent: [
+            { id: 2, name: 'Linda' },
+            { id: 2, name: 'Chloe' },
+          ],
           status: 'open',
-          details: {},
           expand: false,
         },
         {
           position: 'Upholstery',
-          date: new Date(),
-          status: 'canceled',
-          details: {},
+          from: new Date(),
+          to: new Date(),
+          typeOfContract: 1,
+          salaryRate: 250,
+          talent: [
+            { id: 2, name: 'Maze' },
+            { id: 2, name: 'Luci' },
+          ],
+          status: 'open',
           expand: false,
         },
         {
           position: 'Sewing',
-          date: new Date(),
-          status: 'open',
-          details: {},
+          from: new Date(),
+          to: new Date(),
+          typeOfContract: 1,
+          salaryRate: 90,
+          talent: [
+            { id: 2, name: 'Michael' },
+            { id: 2, name: 'Pierce' },
+          ],
+          status: 'pending',
           expand: false,
         },
-      ],
+        {
+          position: 'TIG Welding',
+          from: new Date(),
+          to: new Date(),
+          typeOfContract: 1,
+          salaryRate: 90,
+          talent: [
+            { id: 2, name: 'Sarah' },
+            { id: 2, name: 'Charlie' },
+          ],
+          status: 'pending',
+          expand: false,
+        },
+      ] as Request[],
     }
   },
   async fetch() {
     try {
-      const res = await this.$axios.$get('/employer/petition/view')
-      console.log(res)
+      await this.$axios.$get('/employer/petition/view')
     } catch (error) {}
   },
-  fetchOnServer: false,
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('requests.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('requests.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
     showByItems(): object[] {
       return [
@@ -286,5 +380,17 @@ tbody > .request-detail > td:last-child {
 .expand-enter,
 .expand-leave-to {
   @apply transform scale-y-0;
+}
+
+.expanded-cell {
+  @apply space-y-3 border-t border-blue-light;
+}
+
+.expanded-cell .expanded-row {
+  @apply flex space-x-1;
+}
+
+.expanded-cell .expanded-row > span {
+  @apply flex-1;
 }
 </style>

@@ -101,6 +101,18 @@ export default {
     personnel: 'Personal',
     logout: 'Cerrar sesión',
   },
+  breadcrumb: {
+    profile: 'Perfil',
+    resume: 'Experiencia',
+    jobs: 'Trabajos',
+    settings: 'Configuración',
+    search: 'Buscar',
+    detail: 'Detalles del perfil',
+    negotiation: 'Negociación',
+    requests: 'Solicitudes',
+    deals: 'Tratos',
+    personnel: 'Personal',
+  },
   userInfo: {
     admin: 'Administrador',
   },
@@ -229,6 +241,7 @@ export default {
     secondarySkills: 'Habilidades secundarias',
     secondaryLanguage: 'Segundo idioma',
     selectLanguage: 'Selecciona un idioma',
+    language: 'Idioma',
     level: 'Nivel',
     levels: {
       0: 'Principiante',
@@ -293,7 +306,14 @@ export default {
       position: 'Posición',
       date: 'Fecha',
       actions: 'Acciones',
+      status: 'Estado',
       details: 'Detalles',
+      from: 'Desde',
+      to: 'Hasta',
+      typeOfContract: 'Tipo de contrato',
+      salaryRate: 'Salario',
+      rate: '{salary} USD por hora',
+      talent: 'Talento',
     },
     send: 'Enviar solicitud',
     pending: 'Solicitud pendiente',
@@ -359,6 +379,20 @@ export default {
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
       paragraph2: 'Nuestro equipo te contactará muy pronto.'
     }
+  },
+  detail: {
+    meta: {
+      title: 'Detalles del perfil',
+      description: 'Detalles del perfil',
+    },
+    title: 'Detalles del perfil',
+    subtitle: 'Verifica que el perfil se ajuste a tus necesidades',
+    request: 'Solicitar',
+    unknownStatus: 'Desconocido',
+    none: 'Ninguna',
+    skills: 'Habilidades',
+    primary: 'Principal',
+    secondary: 'Secundaria',
   },
   jobs: {
     meta: {

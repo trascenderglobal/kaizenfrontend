@@ -1,5 +1,6 @@
 <template>
   <button
+    v-if="!to"
     class="ks-btn"
     :class="[
       font,
@@ -18,13 +19,30 @@
         name="loading"
         type="outline"
         class="stroke-current"
-        viewBox="0 0 38 38"
+        view-box="0 0 38 38"
       />
     </i>
     <span class="btn-text" :class="{ 'opacity-0': loading }">
       <slot />
     </span>
   </button>
+  <nuxt-link
+    v-else
+    class="ks-btn"
+    :class="[
+      font,
+      color,
+      icon && 'icon',
+      dense && 'dense',
+      large && 'large',
+      outline && 'outline',
+    ]"
+    :to="to"
+  >
+    <span class="btn-text">
+      <slot />
+    </span>
+  </nuxt-link>
 </template>
 
 <script lang="ts">
@@ -53,6 +71,10 @@ export default Vue.extend({
     loading: {
       type: Boolean,
       default: false,
+    },
+    to: {
+      type: String,
+      default: null,
     },
     dense: Boolean,
     large: Boolean,

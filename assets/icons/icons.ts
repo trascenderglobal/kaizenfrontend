@@ -107,7 +107,11 @@ const icons: Icons = {
   },
   close: {
     outline:
-      '<path d="M17 17L7 7M16.9969 7.00438L7.00521 16.994L16.9969 7.00438Z" stroke-linecap="round" stroke-linejoin="round"/>',
+      '<path d="M17 17L7 7M16.9969 7.00438L7.00521 16.994L16.9969 7.00438Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+  },
+  clear: {
+    outline:
+      '<path d="M17 17L7 7M16.9969 7.00438L7.00521 16.994L16.9969 7.00438Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>',
   },
   send: {
     outline:
