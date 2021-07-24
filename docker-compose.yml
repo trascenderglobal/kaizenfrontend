@@ -5,3 +5,7 @@ services:
     restart: always
     ports:
       - '3000:3000'
+    image: kaizen-frontend-dev
+    container_name: kaizen-frontend-dev
+    env_file:
+      - production.env
