@@ -335,6 +335,7 @@ interface Language {
 }
 
 export default Vue.extend({
+  name: 'RequestDetailPage',
   layout: 'employer',
   middleware({ app, redirect, query }) {
     if (!query.id) return redirect(app.localePath('/employer/search'))
@@ -423,13 +424,13 @@ export default Vue.extend({
       return skills
     },
     mainSkill(): Skill | undefined {
-      const skill = this.profile.skills.find(
+      const skill = this.profile.skills?.find(
         (skill) => skill.is_main_skill === 1
       )
       return skill
     },
     secondarySkill(): Skill | undefined {
-      const skill = this.profile.skills.find(
+      const skill = this.profile.skills?.find(
         (skill) => skill.is_main_skill !== 1
       )
       return skill

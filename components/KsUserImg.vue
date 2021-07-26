@@ -57,26 +57,9 @@ export default Vue.extend({
       default: '',
     },
   },
-  head(): object {
-    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      title: this.$t('detail.meta.title'),
-      htmlAttrs: {
-        ...i18nHead.htmlAttrs,
-      },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('detail.meta.description'),
-        },
-        ...i18nHead.meta,
-      ],
-    }
-  },
   computed: {
     firstLetter() {
-      return this.initials.charAt(0)
+      return this.initials.charAt(0).toUpperCase()
     },
     userImage(): Object {
       if (this.imageUrl)

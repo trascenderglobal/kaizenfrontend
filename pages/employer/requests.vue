@@ -214,7 +214,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import KsUserImg from '~/components/KsUserImg.vue'
 
 interface Request {
   id: number
@@ -242,7 +241,7 @@ interface RequestDetail {
 }
 
 export default Vue.extend({
-  components: { KsUserImg },
+  name: 'RequestsPage',
   layout: 'employer',
   data() {
     return {

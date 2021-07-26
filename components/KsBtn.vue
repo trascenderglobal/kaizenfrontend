@@ -63,6 +63,7 @@ export default Vue.extend({
           'transparent',
           'light-blue',
           'light-gray',
+          'darker-gray',
         ].includes(value)
       },
     },
@@ -154,6 +155,14 @@ export default Vue.extend({
 
 .ks-btn.danger.outline {
   @apply border-red-kaizen bg-transparent text-red-kaizen;
+}
+
+.ks-btn.darker-gray {
+  @apply border-gray-darker bg-gray-darker text-white;
+}
+
+.ks-btn.darker-gray.outline {
+  @apply border-gray-darker bg-transparent text-gray-darker;
 }
 
 .ks-btn.large {
