@@ -396,6 +396,8 @@ export default {
     buttons: {
       cancel: 'Cancelar',
       next: 'Siguiente',
+      previous: 'Anterior',
+      save: 'Guardar',
       seeDeals: 'Ver tus ofertas',
     },
     requestsCompleted: {

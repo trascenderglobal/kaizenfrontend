@@ -45,6 +45,8 @@
             :label="$t('negotiation.from')"
             :bg-color="'bg-blue-darker'"
             clearable
+            v-model="from"
+            @blur="$v.from.$touch"
           />
         </div>
         <div class="field-col w-1/6">
@@ -52,12 +54,16 @@
             :label="$t('negotiation.to')"
             :bg-color="'bg-blue-darker'"
             clearable
+            v-model="to"
+            @blur="$v.to.$touch"
           />
         </div>
         <div class="field-col w-full">
           <ks-input
             :border-color="'border-gray-light'"
             dense
+            v-model="position"
+            @blur="$v.position$touch"
             disable-hint
             :label="$t('negotiation.position')"
           />
@@ -69,6 +75,7 @@
             $t('negotiation.typeOfC')
           }}</span>
         </div>
+
         <div class="field-col w-full">
           <ks-select
             :items="typeContract"
@@ -77,6 +84,8 @@
             :class="'border-gray-light'"
             :bg-color="'bg-white'"
             color="text-gray-dark"
+            v-model="typeContract"
+            @blur="$v.typeContract.$touch"
             clearable
           />
         </div>
@@ -88,7 +97,7 @@
           }}</span>
         </div>
         <div class="field-col w-full">
-          <ks-range v-model="salary" />
+          <ks-range v-model="salaryRate" @blur="$v.salaryRate.$touch" />
         </div>
       </div>
     </div>
@@ -102,10 +111,12 @@
         </div>
         <div class="field-col w-full">
           <ks-text-area
-            label="Hola"
+            label=""
             :border-color="'border-gray-light'"
             dense
             disable-hint
+            v-model="jobDescription"
+            @blur="$v.jobDescription.$touch"
           />
         </div>
       </div>
@@ -117,6 +128,7 @@
         </div>
         <div class="field-col w-full">
           <ks-text-area
+            label=""
             :border-color="'border-gray-light'"
             dense
             disable-hint
@@ -125,7 +137,7 @@
       </div>
     </div>
     <div class="negotiation-footer">
-      <div class="flex justify-end flex-auto space-x-2">
+      <div class="flex justify-end flex-auto space-x-2" v-if="page === 1">
         <ks-btn
           color="danger"
           dense
@@ -137,12 +149,40 @@
           $t('negotiation.buttons.next')
         }}</ks-btn>
       </div>
+      <div
+        class="flex justify-end flex-auto space-x-2"
+        v-else-if="page > 1 && page < negotiationIds.length"
+      >
+        <ks-btn
+          color="danger"
+          dense
+          :disabled="false"
+          @click="previousPage()"
+          >{{ $t('negotiation.buttons.previous') }}</ks-btn
+        >
+        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
+          $t('negotiation.buttons.next')
+        }}</ks-btn>
+      </div>
+      <div class="flex justify-end flex-auto space-x-2" v-else>
+        <ks-btn
+          color="danger"
+          dense
+          :disabled="false"
+          @click="previousPage()"
+          >{{ $t('negotiation.buttons.previous') }}</ks-btn
+        >
+        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
+          $t('negotiation.buttons.save')
+        }}</ks-btn>
+      </div>
     </div>
   </ks-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { required } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_id: number
@@ -154,6 +194,16 @@ interface Skill {
   updated_at: Date
 }
 
+interface Negotiation {
+  from: Date | null
+  to: Date | null
+  position: String
+  typeContract: Number | String
+  salaryRate: Number | String
+  jobDescription: String
+  observation: String
+}
+
 export default Vue.extend({
   name: 'Negotiation',
   layout: 'employerNegotiation',
@@ -162,7 +212,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      salary: 7.25,
+      loading: false,
+      errors: false,
       negotiationIds: [] as Number[],
       currentId: 0,
       page: 1,
@@ -179,6 +230,16 @@ export default Vue.extend({
         profile_picture_URL: '',
         skills: [] as Skill[],
       },
+      negotiations: [] as Negotiation[],
+      negotiation: {
+        from: null as Date | null,
+        to: null as Date | null,
+        position: '',
+        typeContract: '',
+        salaryRate: 7.25,
+        jobDescription: '',
+        observation: '',
+      } as Negotiation,
     }
   },
   async fetch() {
@@ -223,16 +284,35 @@ export default Vue.extend({
     },
   },
   methods: {
-    nextPage(): any {
+    nextPage() {
       if (this.currentId < this.negotiationIds.length - 1)
-        this.currentId++,
-          this.page++,
-          this.$axios.$get(
-            `/employer/employee_profile/ids=${
-              this.negotiationIds[this.currentId]
-            }`
-          )
+        this.currentId++, this.page++, this.$fetch()
     },
+    previousPage() {
+      if (this.page > 1) this.currentId--, this.page--, this.$fetch()
+    },
+  },
+  validations() {
+    return {
+      from: {
+        required,
+      },
+      to: {
+        required,
+      },
+      position: {
+        required,
+      },
+      typeContract: {
+        required,
+      },
+      salaryRate: {
+        required,
+      },
+      jobDescription: {
+        required,
+      },
+    }
   },
 })
 </script>
