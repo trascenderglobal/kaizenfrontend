@@ -400,6 +400,8 @@ export default {
     buttons: {
       cancel: 'Cancelar',
       next: 'Siguiente',
+      previous: 'Anterior',
+      request: 'Solicitar',
       seeDeals: 'Ver tus ofertas',
     },
     requestsCompleted: {

@@ -399,6 +399,8 @@ export default {
     buttons: {
       cancel: 'Cancel',
       next: 'Next',
+      previous: 'Previous',
+      request: 'Request',
       seeDeals: 'See your deals',
     },
     requestsCompleted: {
