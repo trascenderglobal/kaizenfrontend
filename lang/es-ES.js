@@ -508,6 +508,7 @@ export default {
     page: '{p} de {t} perfiles',
     previous: 'Anterior',
     next: 'Siguiente',
+    dealUpdated: 'Trato actualizado!',
     meta: {
       title: 'Detalles del trato',
       description: 'Detalles del trato',

@@ -26,6 +26,7 @@
         </div>
       </ks-card>
     </div>
+    <ks-notifier />
   </div>
 </template>
 

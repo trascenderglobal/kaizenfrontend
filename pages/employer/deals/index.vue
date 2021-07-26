@@ -110,7 +110,7 @@
                 </div>
               </td>
             </tr>
-            <transition :key="`expanded-request-${i}`" name="expand">
+            <transition :key="`expanded-deal-${i}`" name="expand">
               <div v-if="expanded === i" class="request-detail">
                 <td v-if="loadingDetails" colspan="4" class="text-center">
                   <i
@@ -129,15 +129,17 @@
                     >
                       <td class="expanded-cell" colspan="2">
                         <div class="expanded-row">
-                          <span>{{ $t('requests.table.from') }}:</span>
+                          <span>{{ $t('deals.table.from') }}:</span>
                           <span>{{ $d(new Date(detail.start_date)) }}</span>
                         </div>
                         <div class="expanded-row">
-                          <span>{{ $t('requests.table.to') }}:</span>
+                          <span>{{ $t('deals.table.to') }}:</span>
                           <span>{{ $d(new Date(detail.end_date)) }}</span>
                         </div>
                         <div class="expanded-row">
-                          <span>{{ $t('requests.table.talent') }}:</span>
+                          <span class="flex items-center"
+                            >{{ $t('deals.table.talent') }}:</span
+                          >
                           <span class="space-x-2"
                             ><ks-user-img
                               :to="`/employer/search/detail?id=${detail.user_id}`"
@@ -150,20 +152,40 @@
                         colspan="2"
                       >
                         <div class="expanded-row">
-                          <span
-                            >{{ $t('requests.table.typeOfContract') }}:</span
-                          >
+                          <span>{{ $t('deals.table.typeContract') }}:</span>
                           <span>{{
                             typeOfContract(detail.contract_type)
                           }}</span>
                         </div>
                         <div class="expanded-row">
-                          <span>{{ $t('requests.table.salaryRate') }}:</span>
+                          <span>{{ $t('deals.table.salaryRate') }}:</span>
                           <span>{{
                             $t('requests.table.rate', {
                               salary: detail.salary_rate,
                             })
                           }}</span>
+                        </div>
+                        <div class="expanded-row">
+                          <span class="flex items-center"
+                            >{{ $t('requests.table.status') }}:</span
+                          >
+                          <span class="flex"
+                            ><ks-status-icon
+                              :title="
+                                detail.petition_status === 1
+                                  ? $t('deals.approved')
+                                  : $t('deals.rejected')
+                              "
+                              :color="
+                                detail.petition_status === 1
+                                  ? 'success'
+                                  : 'danger'
+                              "
+                              :icon="
+                                detail.petition_status === 1 ? 'tick' : 'close'
+                              "
+                              dense
+                          /></span>
                         </div>
                       </td>
                     </tr>
@@ -270,10 +292,18 @@ export default Vue.extend({
       return Math.ceil(this.deals.length / this.size) || 1
     },
     paginatedDeals(): any[] {
-      const showBy = this.showBy
-      return this.deals
-        .filter((req: any) => (showBy ? req.status === showBy : true))
-        .slice(this.size * this.page - this.size, this.size * this.page)
+      return this.deals.slice(
+        this.size * this.page - this.size,
+        this.size * this.page
+      )
+    },
+  },
+  watch: {
+    showBy: {
+      async handler() {
+        this.expanded = null
+        await this.$fetch()
+      },
     },
   },
   methods: {
@@ -281,7 +311,7 @@ export default Vue.extend({
       if (contract === 'contract labor')
         return this.$t('negotiation.contracts.0') as string
       if (contract === 'direct hired')
-        return this.$t('negotiaton.contracts.1') as string
+        return this.$t('negotiation.contracts.1') as string
       return '-'
     },
     previousPage() {
@@ -406,7 +436,7 @@ tbody > .request-detail td:last-child {
   @apply flex space-x-1;
 }
 
-.expanded-cell .expanded-row > span {
+.expanded-cell .expanded-row {
   @apply flex-1;
 }
 </style>

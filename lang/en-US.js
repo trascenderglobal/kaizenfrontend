@@ -508,6 +508,7 @@ export default {
     page: '{p} of {t} profiles',
     previous: 'Previous',
     next: 'Next',
+    dealUpdated: 'Deal updated!',
     meta: {
       title: 'Deal detail',
       description: 'Deal detail',

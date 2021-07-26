@@ -167,7 +167,9 @@
                           <span
                             >{{ $t('requests.table.typeOfContract') }}:</span
                           >
-                          <span>{{ typeOfContract }}</span>
+                          <span>{{
+                            typeOfContract(detail.contract_type)
+                          }}</span>
                         </div>
                         <div class="expanded-row">
                           <span>{{ $t('requests.table.salaryRate') }}:</span>
@@ -309,11 +311,15 @@ export default Vue.extend({
         .filter((req) => (showBy ? req.status === showBy : true))
         .slice(this.size * this.page - this.size, this.size * this.page)
     },
-    typeOfContract(): string {
-      return '-'
-    },
   },
   methods: {
+    typeOfContract(contract: string): string {
+      if (contract === 'contract labor')
+        return this.$t('negotiation.contracts.0') as string
+      if (contract === 'direct hired')
+        return this.$t('negotiation.contracts.1') as string
+      return '-'
+    },
     previousPage() {
       if (this.page > 1) this.page--
     },

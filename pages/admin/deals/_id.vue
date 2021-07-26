@@ -228,7 +228,11 @@ export default Vue.extend({
       return this.dealDetail.length
     },
     typeOfContract(): string {
-      return this.currentDeal.contract_type
+      if (this.currentDeal.contract_type === 'contract labor')
+        return this.$t('negotiation.contracts.0') as string
+      if (this.currentDeal.contract_type === 'direct hired')
+        return this.$t('negotiation.contracts.1') as string
+      return '-'
     },
   },
   watch: {
@@ -263,6 +267,9 @@ export default Vue.extend({
             requested_employees: response,
           })
           this.$router.push(this.localePath('/admin/deals'))
+          this.$notifier.showNotification({
+            content: this.$t('adminDetail.dealUpdated'),
+          })
         }
       } catch (error) {}
     },
@@ -280,6 +287,9 @@ export default Vue.extend({
             requested_employees: response,
           })
           this.$router.push(this.localePath('/admin/deals'))
+          this.$notifier.showNotification({
+            content: this.$t('adminDetail.dealUpdated'),
+          })
         }
       } catch (error) {}
     },
