@@ -396,7 +396,7 @@ export default {
       cancel: 'Cancel',
       next: 'Next',
       previous: 'Previous',
-      save: 'Save',
+      request: 'Request',
       seeDeals: 'See your deals',
     },
     requestsCompleted: {

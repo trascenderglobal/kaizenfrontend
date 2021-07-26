@@ -45,8 +45,8 @@
             :label="$t('negotiation.from')"
             :bg-color="'bg-blue-darker'"
             clearable
-            v-model="from"
-            @blur="$v.from.$touch"
+            v-model="negotiation.from"
+            @blur="$v.negotiation.from.$touch"
           />
         </div>
         <div class="field-col w-1/6">
@@ -54,16 +54,16 @@
             :label="$t('negotiation.to')"
             :bg-color="'bg-blue-darker'"
             clearable
-            v-model="to"
-            @blur="$v.to.$touch"
+            v-model="negotiation.to"
+            @blur="$v.negotiation.to.$touch"
           />
         </div>
         <div class="field-col w-full">
           <ks-input
             :border-color="'border-gray-light'"
             dense
-            v-model="position"
-            @blur="$v.position$touch"
+            v-model="negotiation.position"
+            @blur="$v.negotiation.position.$touch"
             disable-hint
             :label="$t('negotiation.position')"
           />
@@ -84,8 +84,8 @@
             :class="'border-gray-light'"
             :bg-color="'bg-white'"
             color="text-gray-dark"
-            v-model="typeContract"
-            @blur="$v.typeContract.$touch"
+            v-model="negotiation.typeContract"
+            @blur="$v.negotiation.typeContract.$touch"
             clearable
           />
         </div>
@@ -97,7 +97,7 @@
           }}</span>
         </div>
         <div class="field-col w-full">
-          <ks-range v-model="salaryRate" @blur="$v.salaryRate.$touch" />
+          <ks-range v-model="negotiation.salaryRate" />
         </div>
       </div>
     </div>
@@ -115,8 +115,8 @@
             :border-color="'border-gray-light'"
             dense
             disable-hint
-            v-model="jobDescription"
-            @blur="$v.jobDescription.$touch"
+            v-model="negotiation.jobDescription"
+            @blur="$v.negotiation.jobDescription.$touch"
           />
         </div>
       </div>
@@ -132,6 +132,7 @@
             :border-color="'border-gray-light'"
             dense
             disable-hint
+            v-model="negotiation.observation"
           />
         </div>
       </div>
@@ -172,8 +173,8 @@
           @click="previousPage()"
           >{{ $t('negotiation.buttons.previous') }}</ks-btn
         >
-        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
-          $t('negotiation.buttons.save')
+        <ks-btn color="success" dense :disabled="false" @click="sendRequest">{{
+          $t('negotiation.buttons.request')
         }}</ks-btn>
       </div>
     </div>
@@ -213,7 +214,7 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      errors: false,
+      error: false,
       negotiationIds: [] as Number[],
       currentId: 0,
       page: 1,
@@ -240,6 +241,16 @@ export default Vue.extend({
         jobDescription: '',
         observation: '',
       } as Negotiation,
+      typeContract: [
+        {
+          text: this.$t('negotiation.contracts.0'),
+          value: 'contact labor',
+        },
+        {
+          text: this.$t('negotiation.contracts.1'),
+          value: 'direct hired',
+        },
+      ],
     }
   },
   async fetch() {
@@ -259,16 +270,7 @@ export default Vue.extend({
     backLink(): string {
       return this.$nuxt.context.from?.fullPath || '/employer/search'
     },
-    typeContract(): object[] {
-      const typeContract: object[] = []
-      for (let i = 0; i < 2; i++) {
-        typeContract.push({
-          text: this.$t(`negotiation.contracts.${i}`),
-          value: i + 1,
-        })
-      }
-      return typeContract
-    },
+
     skills() {
       const skills: String[] = []
       for (let i = 0; i <= 9; i++) {
@@ -284,33 +286,60 @@ export default Vue.extend({
     },
   },
   methods: {
+    sendRequest() {
+      this.negotiations.push(this.negotiation)
+
+      try {
+        this.$axios.$post('employer/petition/create', {
+          requested_employees: this.negotiations,
+        })
+        this.error = false
+      } catch (error) {
+        this.error = true
+      } finally {
+        this.loading = false
+      }
+    },
     nextPage() {
       if (this.currentId < this.negotiationIds.length - 1)
-        this.currentId++, this.page++, this.$fetch()
+        this.currentId++,
+          this.page++,
+          this.$fetch(),
+          this.negotiations.push(this.negotiation)
+      this.negotiation = {
+        from: null as Date | null,
+        to: null as Date | null,
+        position: '',
+        typeContract: '',
+        salaryRate: 7.25,
+        jobDescription: '',
+        observation: '',
+      }
     },
     previousPage() {
-      if (this.page > 1) this.currentId--, this.page--, this.$fetch()
+      if (this.page > 1)
+        this.currentId--, this.page--, this.$fetch(), this.negotiationIds.pop()
+      this.negotiation = this.negotiations[this.negotiations.length - 1]
     },
   },
   validations() {
     return {
-      from: {
-        required,
-      },
-      to: {
-        required,
-      },
-      position: {
-        required,
-      },
-      typeContract: {
-        required,
-      },
-      salaryRate: {
-        required,
-      },
-      jobDescription: {
-        required,
+      negotiation: {
+        from: {
+          required,
+        },
+        to: {
+          required,
+        },
+        position: {
+          required,
+        },
+        typeContract: {
+          required,
+        },
+        jobDescription: {
+          required,
+        },
       },
     }
   },

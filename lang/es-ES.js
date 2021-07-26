@@ -397,7 +397,7 @@ export default {
       cancel: 'Cancelar',
       next: 'Siguiente',
       previous: 'Anterior',
-      save: 'Guardar',
+      request: 'Solicitar',
       seeDeals: 'Ver tus ofertas',
     },
     requestsCompleted: {
