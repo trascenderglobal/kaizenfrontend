@@ -153,7 +153,7 @@ interface Skill {
 
 interface DealResponse {
   petitionElementID: number
-  status: number
+  response: number
 }
 
 export default Vue.extend({
@@ -256,7 +256,7 @@ export default Vue.extend({
         if (!next && this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {
-            response.push({ status, petitionElementID })
+            response.push({ response: status, petitionElementID })
           })
           await this.$axios.$post('/admin/deals/response', {
             petitionID: Number.parseInt(this.dealId),
@@ -273,7 +273,7 @@ export default Vue.extend({
         if (!next && this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {
-            response.push({ status, petitionElementID })
+            response.push({ response: status, petitionElementID })
           })
           await this.$axios.$post('/admin/deals/response', {
             petitionID: Number.parseInt(this.dealId),
