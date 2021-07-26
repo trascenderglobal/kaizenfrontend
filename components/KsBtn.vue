@@ -176,16 +176,8 @@ export default Vue.extend({
   @apply flex items-center justify-center;
 }
 
-.ks-btn:disabled {
-  @apply border-gray-light cursor-not-allowed bg-gray-light text-white;
-}
-
 .ks-btn.light-blue {
   @apply border-blue-light bg-blue-light text-white;
-}
-
-.ks-btn.ks-btn.light-blue:disabled {
-  @apply border  cursor-not-allowed border-green-kaizen bg-green-kaizen text-white;
 }
 
 .ks-btn.light-blue.outline {
@@ -197,5 +189,9 @@ export default Vue.extend({
 
 .ks-btn.light-gray.outline {
   @apply border-gray-light bg-transparent text-gray-light;
+}
+
+.ks-btn:disabled {
+  @apply border-gray-light cursor-not-allowed bg-gray-light text-white;
 }
 </style>

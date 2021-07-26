@@ -89,13 +89,13 @@
           </button>
         </div>
       </div>
-      <div class="flex justify-end flex-grow px-2">
+      <div class="flex justify-end flex-grow">
         <ks-btn class="self-end" color="primary" dense @click="search">{{
           $t('search.searchButton')
         }}</ks-btn>
       </div>
     </div>
-    <div class="flex flex-col flex-grow" v-else>
+    <div v-else class="flex flex-col flex-grow">
       <div class="result-header">
         <h1 class="text-3xl font-medium">
           {{ $t('results.results') }}
@@ -107,7 +107,7 @@
         </div>
       </div>
       <h1 class="py-6 text-lg text-blue-kaizen">
-        {{ $t('results.subtitle', { resultsLength }) }}
+        {{ $t('results.subtitle', { resultsLength: results.length }) }}
       </h1>
       <table>
         <thead class="text-thead">
@@ -175,15 +175,23 @@
       </table>
       <div class="result-footer">
         <div class="flex-auto text-blue-kaizen justify-items-start">
-          <span>{{ $t('results.page', { p: 1, t: 1 }) }}</span>
+          <span>{{ $t('results.page', { p: page, t: totalPages }) }}</span>
         </div>
         <div class="flex justify-center flex-auto space-x-2">
-          <ks-btn color="primary" dense :disabled="true">{{
-            $t('results.previous')
-          }}</ks-btn>
-          <ks-btn color="primary" dense :disabled="true">{{
-            $t('results.next')
-          }}</ks-btn>
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === 1"
+            @click="previousPage"
+            >{{ $t('results.previous') }}</ks-btn
+          >
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === totalPages"
+            @click="nextPage"
+            >{{ $t('results.next') }}</ks-btn
+          >
         </div>
         <div class="flex justify-end flex-grow items-end">
           <ks-btn
@@ -209,8 +217,8 @@ interface Skill {
 }
 
 export default Vue.extend({
+  name: 'SearchPage',
   components: { KsUserImg },
-  name: 'Search',
   layout: 'employerSearch',
   data() {
     return {
@@ -220,10 +228,10 @@ export default Vue.extend({
           years_of_experience: null,
         },
       ] as Skill[],
-
       results: [],
-      resultsLength: 0,
       requestIds: [] as Number[],
+      page: 1,
+      size: 5,
     }
   },
   head(): object {
@@ -258,6 +266,9 @@ export default Vue.extend({
       }
       return skillsCat
     },
+    totalPages(): number {
+      return Math.ceil(this.results.length / this.size) || 1
+    },
     ...mapState({
       filters: (state: any) => state.employer.searchFilters,
     }),
@@ -281,14 +292,11 @@ export default Vue.extend({
           ),
           language: this.filters.language
             ? [this.filters.language].filter((lang) => lang.language)
-            : [], // TODO: decirle a Carlos que añada soporte para language level, no lo veo en el back
+            : [],
           city: this.filters.city ? [{ city: this.filters.city }] : [],
           state: this.filters.state ? [{ state: this.filters.state }] : [],
         })
         this.results = res.result
-        this.resultsLength = res.result.length
-        console.log(res)
-        console.log(res.result)
       } catch (error) {}
     },
     resetResults(): void {
@@ -306,6 +314,12 @@ export default Vue.extend({
     removeRequest(i: number): void {
       const index = this.requestIds.indexOf(i)
       if (this.requestIds.includes(i)) this.requestIds.splice(index, 1)
+    },
+    previousPage() {
+      if (this.page > 1) this.page--
+    },
+    nextPage() {
+      if (this.page < this.totalPages) this.page++
     },
   },
 })

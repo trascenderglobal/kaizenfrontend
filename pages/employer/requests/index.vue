@@ -26,9 +26,9 @@
             showBy === 1
               ? 'bg-blue-light'
               : showBy === 2
-              ? 'bg-orange-pending'
-              : showBy === 3
               ? 'bg-red-kaizen'
+              : showBy === 3
+              ? 'bg-orange-pending'
               : 'bg-gray-darker'
           "
           clearable
@@ -137,54 +137,52 @@
                       view-box="0 0 38 38"
                   /></i>
                 </td>
-                <template v-else>
-                  <td colspan="4">
-                    <table>
-                      <tr
-                        v-for="(detail, j) in requestDetails"
-                        :key="`expanded-${i}-${j}-1`"
+                <td v-else colspan="4">
+                  <table>
+                    <tr
+                      v-for="(detail, j) in requestDetails"
+                      :key="`expanded-${i}-${j}-1`"
+                    >
+                      <td class="expanded-cell" colspan="2">
+                        <div class="expanded-row">
+                          <span>{{ $t('requests.table.from') }}:</span>
+                          <span>{{ $d(new Date(detail.start_date)) }}</span>
+                        </div>
+                        <div class="expanded-row">
+                          <span>{{ $t('requests.table.to') }}:</span>
+                          <span>{{ $d(new Date(detail.end_date)) }}</span>
+                        </div>
+                        <div class="expanded-row">
+                          <span>{{ $t('requests.table.talent') }}:</span>
+                          <span class="space-x-2"
+                            ><ks-user-img
+                              :to="`/employer/search/detail?id=${detail.user_id}`"
+                          /></span>
+                        </div>
+                      </td>
+                      <td
+                        :key="`expanded-${i}-${j}-2`"
+                        class="expanded-cell"
+                        colspan="2"
                       >
-                        <td class="expanded-cell" colspan="2">
-                          <div class="expanded-row">
-                            <span>{{ $t('requests.table.from') }}:</span>
-                            <span>{{ $d(new Date(detail.start_date)) }}</span>
-                          </div>
-                          <div class="expanded-row">
-                            <span>{{ $t('requests.table.to') }}:</span>
-                            <span>{{ $d(new Date(detail.end_date)) }}</span>
-                          </div>
-                          <div class="expanded-row">
-                            <span>{{ $t('requests.table.talent') }}:</span>
-                            <span class="space-x-2"
-                              ><ks-user-img
-                                :to="`/employer/search/detail?id=${detail.user_id}`"
-                            /></span>
-                          </div>
-                        </td>
-                        <td
-                          :key="`expanded-${i}-${j}-2`"
-                          class="expanded-cell"
-                          colspan="2"
-                        >
-                          <div class="expanded-row">
-                            <span
-                              >{{ $t('requests.table.typeOfContract') }}:</span
-                            >
-                            <span>{{ typeOfContract }}</span>
-                          </div>
-                          <div class="expanded-row">
-                            <span>{{ $t('requests.table.salaryRate') }}:</span>
-                            <span>{{
-                              $t('requests.table.rate', {
-                                salary: detail.salary_rate,
-                              })
-                            }}</span>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </template>
+                        <div class="expanded-row">
+                          <span
+                            >{{ $t('requests.table.typeOfContract') }}:</span
+                          >
+                          <span>{{ typeOfContract }}</span>
+                        </div>
+                        <div class="expanded-row">
+                          <span>{{ $t('requests.table.salaryRate') }}:</span>
+                          <span>{{
+                            $t('requests.table.rate', {
+                              salary: detail.salary_rate,
+                            })
+                          }}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
               </div>
             </transition>
           </template>
