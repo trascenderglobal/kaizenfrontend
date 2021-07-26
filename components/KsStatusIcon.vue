@@ -133,19 +133,28 @@ export default Vue.extend({
   @apply border-transparent bg-transparent text-red-kaizen;
 }
 
-.ks-btn.light-blue {
+.ks-status-icon.light-blue {
   @apply border-blue-light bg-blue-light text-white;
 }
 
-.ks-btn.light-blue.outline {
+.ks-status-icon.light-blue.outline {
   @apply border-blue-light bg-transparent text-blue-light;
 }
-.ks-btn.light-gray {
+
+.ks-status-icon.light-blue.text {
+  @apply border-transparent bg-transparent text-blue-light;
+}
+
+.ks-status-icon.light-gray {
   @apply border-gray-light bg-gray-light text-white;
 }
 
-.ks-btn.light-gray.outline {
+.ks-status-icon.light-gray.outline {
   @apply border-gray-light bg-transparent text-gray-light;
+}
+
+.ks-status-icon.light-gray.text {
+  @apply border-transparent bg-transparent text-gray-light;
 }
 
 .ks-status-icon.large {

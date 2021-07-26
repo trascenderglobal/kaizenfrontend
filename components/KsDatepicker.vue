@@ -6,7 +6,7 @@
     @click="showItems"
     @blur="$emit('blur')"
   >
-    <span class="label">{{ date ? $d(date) : label }}</span>
+    <span class="label">{{ value ? $d(value) : label }}</span>
     <button
       v-if="clearable && date && !disabled"
       type="button"
