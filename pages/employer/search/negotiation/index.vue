@@ -6,7 +6,7 @@
       </h1>
       <div class="flex items-center min-w-40 space-x-2">
         <span>{{
-          $t('negotiation.page', { p: 1, t: this.negotiationIds.length })
+          $t('negotiation.page', { p: page, t: this.negotiationIds.length })
         }}</span>
       </div>
     </div>
@@ -126,10 +126,14 @@
     </div>
     <div class="negotiation-footer">
       <div class="flex justify-end flex-auto space-x-2">
-        <ks-btn color="danger" dense :disabled="false">{{
-          $t('negotiation.buttons.cancel')
-        }}</ks-btn>
-        <ks-btn color="success" dense :disabled="false">{{
+        <ks-btn
+          color="danger"
+          dense
+          :disabled="false"
+          :to="localePath(backLink)"
+          >{{ $t('negotiation.buttons.cancel') }}</ks-btn
+        >
+        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
           $t('negotiation.buttons.next')
         }}</ks-btn>
       </div>
@@ -161,6 +165,7 @@ export default Vue.extend({
       salary: 7.25,
       negotiationIds: [] as Number[],
       currentId: 0,
+      page: 1,
       currentUser: {
         id: null,
         name: '',
@@ -190,6 +195,9 @@ export default Vue.extend({
     } catch (error) {}
   },
   computed: {
+    backLink(): string {
+      return this.$nuxt.context.from?.fullPath || '/employer/search'
+    },
     typeContract(): object[] {
       const typeContract: object[] = []
       for (let i = 0; i < 2; i++) {
@@ -212,6 +220,18 @@ export default Vue.extend({
         (skill) => skill.is_main_skill === 1
       )
       return skill
+    },
+  },
+  methods: {
+    nextPage(): any {
+      if (this.currentId < this.negotiationIds.length - 1)
+        this.currentId++,
+          this.page++,
+          this.$axios.$get(
+            `/employer/employee_profile/ids=${
+              this.negotiationIds[this.currentId]
+            }`
+          )
     },
   },
 })
