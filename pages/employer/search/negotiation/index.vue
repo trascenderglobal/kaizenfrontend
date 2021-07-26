@@ -138,28 +138,16 @@
       </div>
     </div>
     <div class="negotiation-footer">
-      <div class="flex justify-end flex-auto space-x-2" v-if="page === 1">
+      <div
+        class="flex justify-end flex-auto space-x-2"
+        v-if="page != negotiationIds.length"
+      >
         <ks-btn
           color="danger"
           dense
           :disabled="false"
           :to="localePath(backLink)"
           >{{ $t('negotiation.buttons.cancel') }}</ks-btn
-        >
-        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
-          $t('negotiation.buttons.next')
-        }}</ks-btn>
-      </div>
-      <div
-        class="flex justify-end flex-auto space-x-2"
-        v-else-if="page > 1 && page < negotiationIds.length"
-      >
-        <ks-btn
-          color="danger"
-          dense
-          :disabled="false"
-          @click="previousPage()"
-          >{{ $t('negotiation.buttons.previous') }}</ks-btn
         >
         <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
           $t('negotiation.buttons.next')
