@@ -1,19 +1,20 @@
-import en from '../lang/en-US'
-import es from '../lang/es-ES'
-
 export const I18N = {
+  langDir: '~/lang/',
   locales: [
     {
       code: 'en',
       iso: 'en-US',
       name: 'English',
+      file: 'en-US',
     },
     {
       code: 'es',
       iso: 'es-ES',
       name: 'Español',
+      file: 'es-ES',
     },
   ],
+  lazy: true,
   strategy: 'no_prefix',
   defaultLocale: 'en',
   seo: false,
@@ -28,7 +29,6 @@ export const I18N = {
   },
   vueI18n: {
     fallbackLocale: 'en',
-    messages: { en, es },
     dateTimeFormats: {
       en: {
         numeric: {

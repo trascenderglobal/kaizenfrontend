@@ -286,7 +286,7 @@
       >
     </div>
     <transition name="edit">
-      <div v-if="saved" class="saved-modal">
+      <div v-if="saved" class="saved-modal" role="dialog">
         <div class="w-3/5">
           <ks-card class="p-8" col>
             <div class="flex flex-col pt-16 flex-grow items-center space-y-8">

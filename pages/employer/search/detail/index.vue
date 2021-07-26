@@ -370,6 +370,23 @@ export default Vue.extend({
       this.$router.push(this.localePath('/employer/search'))
     }
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('detail.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('detail.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
     backLink(): string {
       return this.$nuxt.context.from?.fullPath || '/employer/search'

@@ -12,9 +12,7 @@
     </div>
     <div class="flex justify pt-6">
       <div class="flex flex-col space-y-2 min-w-40">
-        <span class="font-light text-gray-dark">{{
-          $t('requests.showBy')
-        }}</span>
+        <span class="text-gray-dark">{{ $t('requests.showBy') }}</span>
       </div>
       <div class="flex flex-col space-y-2 min-w-40">
         <ks-select
@@ -35,7 +33,7 @@
         ></ks-select>
       </div>
     </div>
-    <div class="flex flex-col space-y-2 min-w-40 mt-8">
+    <div class="mt-8 overflow-x-auto">
       <table>
         <thead class="text-thead">
           <tr>
@@ -375,9 +373,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.request-header {
-  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+.title {
+  @apply text-blue-kaizen;
 }
+
 .request-header > * {
   @apply pt-4;
 }
@@ -387,10 +386,7 @@ export default Vue.extend({
 }
 
 .text-header {
-  @apply pt-6 text-lg text-blue-kaizen;
-}
-.title {
-  @apply flex-row;
+  @apply pt-6 text-lg;
 }
 
 table {

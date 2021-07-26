@@ -35,6 +35,8 @@ export default Vue.extend({
           'danger',
           'warning',
           'transparent',
+          'light-blue',
+          'light-gray',
         ].includes(value)
       },
     },
@@ -129,6 +131,21 @@ export default Vue.extend({
 
 .ks-status-icon.danger.text {
   @apply border-transparent bg-transparent text-red-kaizen;
+}
+
+.ks-btn.light-blue {
+  @apply border-blue-light bg-blue-light text-white;
+}
+
+.ks-btn.light-blue.outline {
+  @apply border-blue-light bg-transparent text-blue-light;
+}
+.ks-btn.light-gray {
+  @apply border-gray-light bg-gray-light text-white;
+}
+
+.ks-btn.light-gray.outline {
+  @apply border-gray-light bg-transparent text-gray-light;
 }
 
 .ks-status-icon.large {

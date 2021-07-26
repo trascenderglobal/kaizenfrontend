@@ -139,6 +139,23 @@ export default Vue.extend({
       this.profile = res
     } catch (error) {}
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('settings.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('settings.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
     userImage(): object {
       if (this.profile.profile_picture_URL)

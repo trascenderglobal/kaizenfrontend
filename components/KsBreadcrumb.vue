@@ -2,7 +2,7 @@
   <ul class="flex space-x-2">
     <li v-for="(item, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
       <nuxt-link :to="item.path" class="text-link-blue">{{
-        item.name === 'Kaizen Squad' ? item.name : $t(`breadcrumb.${item.name}`)
+        isGlobal(item.name) ? item.name : $t(`breadcrumb.${item.name}`)
       }}</nuxt-link>
     </li>
   </ul>
@@ -31,6 +31,13 @@ export default Vue.extend({
       })
       breadcrumb.splice(1, 1)
       return breadcrumb
+    },
+  },
+  methods: {
+    isGlobal(name: string): boolean {
+      if (name === 'Kaizen Squad') return true
+      if (!Number.isNaN(Number.parseInt(name))) return true
+      return false
     },
   },
 })

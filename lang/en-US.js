@@ -362,7 +362,8 @@ export default {
   },
   results: {
     results: 'Results',
-    subtitle: 'The search has found {resultsLength} profiles that meet the required specifications',
+    subtitle:
+      'The search has found {resultsLength} profiles that meet the required specifications',
     previous: 'Previous',
     next: 'Next',
     request: 'Request',
@@ -398,8 +399,9 @@ export default {
     },
     requestsCompleted: {
       title: 'Requests completed',
-      paragraph1: 'HR has been notified you requested some talent for your company,',
-      paragraph2: 'Our team will be contact you soon.'
+      paragraph1:
+        'HR has been notified you requested some talent for your company,',
+      paragraph2: 'Our team will be contact you soon.',
     },
     page: '{p} of {t} profiles',
   },
@@ -455,6 +457,35 @@ export default {
     meta: {
       title: 'Settings',
       description: 'Settings',
+    },
+  },
+  adminDeals: {
+    title: 'Deals',
+    subtitle: 'Filter by approved, active or rejected',
+    showBy: 'Show by',
+    approved: 'Approved',
+    active: 'Active',
+    rejected: 'Rejected',
+    table: {
+      company: 'Company',
+      date: 'Date',
+      talent: 'Talent',
+      deal: 'Deal',
+      status: 'Status',
+      view: 'View',
+      actions: 'Actions',
+      noItems: 'There are no deals',
+      approved: 'Approved request',
+      partiallyApproved: 'Partially approved request',
+      pending: 'Pending request',
+      rejected: 'Rejected request',
+    },
+    previous: 'Previous',
+    next: 'Next',
+    page: 'Page {p} of {t}',
+    meta: {
+      title: 'Deals',
+      description: 'Deals',
     },
   },
 }

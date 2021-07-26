@@ -7,20 +7,21 @@
     @blur="$emit('blur')"
   >
     <span class="label">{{ date ? $d(date) : label }}</span>
-    <div
+    <button
       v-if="clearable && date && !disabled"
+      type="button"
       class="icon clear"
       @click.stop="clearValue"
     >
       <iconly-icon name="clear" class="stroke-current" />
-    </div>
-    <div class="icon">
+    </button>
+    <button type="button" class="icon">
       <iconly-icon
         class="transition"
         :class="{ 'transform rotate-180': show }"
         name="arrow-down-2"
       />
-    </div>
+    </button>
     <transition name="items">
       <div v-if="!disabled" v-show="show" class="items" @click.stop>
         <client-only>
@@ -106,7 +107,7 @@ export default Vue.extend({
 }
 
 .ks-select .icon {
-  @apply flex items-center justify-center fill-current min-w-6;
+  @apply flex items-center justify-center fill-current min-w-6 focus:outline-none;
 }
 
 .ks-select .items {

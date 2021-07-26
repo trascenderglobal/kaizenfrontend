@@ -1,6 +1,5 @@
 <template>
   <div
-    role="listbox"
     class="field"
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
   >
@@ -8,22 +7,28 @@
       <span class="label">{{
         value === null || value === '' ? label : selected.text
       }}</span>
-      <div
+      <button
         v-if="clearable && !(value === null || value === '') && !disabled"
+        type="button"
         class="clear-icon"
         @click.stop="clearValue"
       >
         <iconly-icon name="clear" class="stroke-current" />
-      </div>
-      <div class="icon">
+      </button>
+      <button type="button" class="show-icon">
         <iconly-icon
           class="transition duration-200"
           :class="{ 'transform rotate-180': show }"
           name="arrow-down-2"
         />
-      </div>
+      </button>
       <transition name="items">
-        <div v-if="!disabled" v-show="show" class="items scroller">
+        <div
+          v-if="!disabled"
+          v-show="show"
+          class="items scroller"
+          role="listbox"
+        >
           <template v-if="items.length">
             <div
               v-for="(item, i) in items"
@@ -207,12 +212,12 @@ export default Vue.extend({
   @apply flex-grow pl-1 pr-2 select-none whitespace-nowrap overflow-hidden overflow-ellipsis;
 }
 
-.ks-select .icon {
-  @apply flex items-center justify-center fill-current min-w-6;
+.ks-select .show-icon {
+  @apply flex items-center justify-center fill-current min-w-6 focus:outline-none;
 }
 
 .ks-select .clear-icon {
-  @apply flex items-center justify-center stroke-current min-w-6 stroke-1.5;
+  @apply flex items-center justify-center stroke-current min-w-6 stroke-1.5 focus:outline-none;
 }
 
 .ks-select .items {

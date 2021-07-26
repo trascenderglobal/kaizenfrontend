@@ -276,7 +276,7 @@ export default {
       description: 'Tratos',
     },
     deals: 'Tratos',
-    header: 'Filtrar por reciente, aprobado, en proceso, pasado o cancelado',
+    header: 'Filtra por reciente, aprobado, en proceso, pasado o cancelado',
     showBy: 'Mostrar: ',
     table: {
       searched: 'Buscado',
@@ -363,7 +363,8 @@ export default {
   },
   results: {
     results: 'Resultados',
-    subtitle: 'La búsqueda ha encontrado {resultsLength} perfiles que cumplen tus criterios',
+    subtitle:
+      'La búsqueda ha encontrado {resultsLength} perfiles que cumplen tus criterios',
     previous: 'Anterior',
     next: 'Siguiente',
     request: 'Solicitar',
@@ -400,7 +401,7 @@ export default {
     requestsCompleted: {
       title: 'Solicitud completa',
       paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
-      paragraph2: 'Nuestro equipo te contactará muy pronto.'
+      paragraph2: 'Nuestro equipo te contactará muy pronto.',
     },
     page: 'Perfil {p} de {t}',
   },
@@ -456,6 +457,35 @@ export default {
     meta: {
       title: 'Configuración',
       description: 'Configuración',
+    },
+  },
+  adminDeals: {
+    title: 'Tratos',
+    subtitle: 'Filtra por aprobado, activo or rechazado',
+    showBy: 'Mostrar',
+    approved: 'Aprobados',
+    active: 'Activos',
+    rejected: 'Rechazados',
+    table: {
+      company: 'Compañía',
+      date: 'Fecha',
+      talent: 'Talento',
+      deal: 'Trato',
+      status: 'Estado',
+      view: 'Ver',
+      actions: 'Acciones',
+      noItems: 'No hay tratos',
+      approved: 'Trato aprobado',
+      partiallyApproved: 'Trato aprobado parcialmente',
+      pending: 'Trato pendiente',
+      rejected: 'Trato rechazado',
+    },
+    previous: 'Anterior',
+    next: 'Siguiente',
+    page: 'Página {p} de {t}',
+    meta: {
+      title: 'Tratos',
+      description: 'Tratos',
     },
   },
 }

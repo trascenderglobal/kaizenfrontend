@@ -1,16 +1,16 @@
 <template>
-  <ks-card class="h-full p-8"></ks-card>
+  <ks-card class="h-full p-8" col></ks-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
 export default Vue.extend({
-  layout: 'employee',
+  layout: 'admin',
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
-      title: this.$t('jobs.meta.title'),
+      title: 'Kaizen Squad',
       htmlAttrs: {
         ...i18nHead.htmlAttrs,
       },
@@ -18,7 +18,7 @@ export default Vue.extend({
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('jobs.meta.description'),
+          content: 'Kaizen Squad',
         },
         ...i18nHead.meta,
       ],
