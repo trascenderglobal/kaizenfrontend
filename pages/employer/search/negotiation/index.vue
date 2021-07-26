@@ -286,13 +286,25 @@ export default Vue.extend({
     },
   },
   methods: {
-    sendRequest() {
+    async sendRequest() {
       this.negotiations.push(this.negotiation)
-
       try {
-        this.$axios.$post('employer/petition/create', {
-          requested_employees: this.negotiations,
+        const userId = this.currentUser.id
+        await this.$axios.$post('employer/petition/create', {
+          requested_employees: this.negotiations.map((negotiation, index) => {
+            return {
+              employee_id: userId,
+              start_date: negotiation.from?.toJSON(),
+              end_date: negotiation.to?.toJSON(),
+              position: negotiation.position,
+              contract_type: negotiation.typeContract,
+              salary_rate: negotiation.salaryRate,
+              job_description: negotiation.jobDescription,
+              observations: negotiation.observation,
+            }
+          }),
         })
+        this.$router.push(this.localePath('/employer/requests'))
         this.error = false
       } catch (error) {
         this.error = true
