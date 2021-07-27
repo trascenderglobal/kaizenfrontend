@@ -339,7 +339,7 @@ export default {
     title: 'Búsqueda',
     subtitle: 'Selecciona tus preferencias para continuar',
     experience: {
-      experience: 'Años de esperiencia',
+      experience: 'Años de experiencia',
       option1: '1 año/menos',
       option2: '1 - 3 años',
       option3: '3 años/más',

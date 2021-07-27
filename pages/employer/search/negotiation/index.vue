@@ -277,7 +277,10 @@ export default Vue.extend({
     async sendRequest() {
       this.negotiations.push(this.negotiation)
       try {
-        const userId = this.currentUser.id
+        const userId = this.currentUser.id /* 
+        El error se encuentra aquí, ya que sólo se está enviando el último ID,
+        se debe encontrar la manera de enviar todos los id, no sé si con el .map de abajo se podría.
+        */
         await this.$axios.$post('employer/petition/create', {
           requested_employees: this.negotiations.map((negotiation, index) => {
             return {
