@@ -321,8 +321,10 @@ export default Vue.extend({
     },
     previousPage() {
       if (this.page > 1)
-        this.currentId--, this.page--, this.$fetch(), this.negotiationIds.pop()
-      this.negotiation = this.negotiations[this.negotiations.length - 1]
+        this.currentId--,
+          this.page--,
+          this.$fetch(),
+          (this.negotiation = this.negotiations[this.negotiations.length - 1])
     },
   },
   validations() {
