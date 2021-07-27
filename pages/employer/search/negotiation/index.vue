@@ -325,6 +325,9 @@ export default Vue.extend({
           this.page--,
           this.$fetch(),
           (this.negotiation = this.negotiations[this.negotiations.length - 1])
+      //Se quitó el .pop ya que al dar previoous se borraba incluso el request
+      //Se debe encontrar otra manera para que se borren dichos datos
+      //O ver si así funciona
     },
   },
   validations() {
