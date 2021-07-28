@@ -184,6 +184,7 @@ interface Skill {
 }
 
 interface Negotiation {
+  id: number | null
   from: Date | null
   to: Date | null
   position: String
@@ -206,6 +207,7 @@ export default Vue.extend({
       negotiationIds: [] as Number[],
       currentId: 0,
       page: 1,
+      usersId: [] as any[],
       currentUser: {
         id: null,
         name: '',
@@ -221,6 +223,7 @@ export default Vue.extend({
       },
       negotiations: [] as Negotiation[],
       negotiation: {
+        id: null,
         from: null as Date | null,
         to: null as Date | null,
         position: '',
@@ -274,17 +277,21 @@ export default Vue.extend({
     },
   },
   methods: {
+    getId() {
+      this.negotiation.id = this.currentUser.id
+    },
     async sendRequest() {
+      this.getId()
       this.negotiations.push(this.negotiation)
       try {
-        const userId = this.currentUser.id /* 
+        const userId = this.usersId /* 
         El error se encuentra aquí, ya que sólo se está enviando el último ID,
         se debe encontrar la manera de enviar todos los id, no sé si con el .map de abajo se podría.
         */
         await this.$axios.$post('employer/petition/create', {
           requested_employees: this.negotiations.map((negotiation, index) => {
             return {
-              employee_id: userId,
+              employee_id: negotiation.id,
               start_date: negotiation.from?.toJSON(),
               end_date: negotiation.to?.toJSON(),
               position: negotiation.position,
@@ -305,11 +312,11 @@ export default Vue.extend({
     },
     nextPage() {
       if (this.currentId < this.negotiationIds.length - 1)
-        this.currentId++,
-          this.page++,
-          this.$fetch(),
-          this.negotiations.push(this.negotiation)
+        this.currentId++, this.page++, this.usersId.push(this.currentUser.id)
+      this.getId()
+      this.$fetch(), this.negotiations.push(this.negotiation)
       this.negotiation = {
+        id: 0,
         from: null as Date | null,
         to: null as Date | null,
         position: '',
@@ -325,6 +332,7 @@ export default Vue.extend({
           this.page--,
           this.$fetch(),
           (this.negotiation = this.negotiations[this.negotiations.length - 1])
+      this.usersId.pop()
       //Se quitó el .pop ya que al dar previoous se borraba incluso el request
       //Se debe encontrar otra manera para que se borren dichos datos
       //O ver si así funciona
