@@ -1,50 +1,66 @@
 <template>
   <ks-card class="h-full p-8" col>
     <div class="title">
-      <div class="deals-header">
+      <div class="users-header">
         <h1 class="text-3xl font-medium">
-          {{ $t('adminDeals.title') }}
+          {{ $t('adminUsers.title') }}
         </h1>
       </div>
       <div class="text-header">
-        <span>{{ $t('adminDeals.subtitle') }}</span>
+        <span>{{ $t('adminUsers.subtitle') }}</span>
       </div>
     </div>
-    <div class="flex pt-6">
-      <div class="min-w-40">
-        <span class="text-gray-dark">{{ $t('adminDeals.showBy') }}</span>
+    <div class="flex">
+      <div class="flex flex-auto pt-6">
+        <div class="min-w-40">
+          <span class="text-gray-dark">{{ $t('adminUsers.searchBy') }}</span>
+        </div>
+        <div class="min-w-40">
+          <ks-select
+            v-model="searchBy"
+            class="transition border border-blue-light"
+            :class="searchBy !== null ? 'text-white' : 'text-gray-darker'"
+            :label="$t('adminUsers.searchBy')"
+            :items="searchByItems"
+            :bg-color="searchBy !== null ? 'bg-blue-light' : 'bg-transparent'"
+            clearable
+          ></ks-select>
+        </div>
       </div>
-      <div class="min-w-40">
-        <ks-select
-          v-model="showBy"
-          class="transition"
-          :label="$t('adminDeals.showBy')"
-          :items="showByItems"
-          :bg-color="
-            showBy === 4
-              ? 'bg-green-kaizen'
-              : showBy === 3
-              ? 'bg-blue-light'
-              : showBy === 5
-              ? 'bg-red-kaizen'
-              : 'bg-gray-darker'
-          "
-          clearable
-        ></ks-select>
+      <div class="flex flex-auto pt-6">
+        <div class="min-w-40">
+          <span class="text-gray-dark">{{ $t('adminUsers.status') }}</span>
+        </div>
+        <div class="min-w-40">
+          <ks-select
+            v-model="status"
+            class="transition"
+            :label="$t('adminUsers.status')"
+            :items="statusItems"
+            :bg-color="
+              status === 1
+                ? 'bg-green-kaizen'
+                : status === 2
+                ? 'bg-red-kaizen'
+                : 'bg-gray-darker'
+            "
+            clearable
+          ></ks-select>
+        </div>
       </div>
     </div>
     <div class="mt-8 overflow-x-auto">
       <table>
         <thead class="text-thead">
           <tr>
-            <th>{{ $t('adminDeals.table.company') }}</th>
-            <th>{{ $t('adminDeals.table.date') }}</th>
+            <th>{{ $t('adminUsers.table.company') }}</th>
+            <th>{{ $t('adminUsers.table.date') }}</th>
             <th>
-              <span><iconly-icon name="add-user" class="fill-current" /></span>
+              <span>{{ $t('adminUsers.table.plan') }}</span>
             </th>
-            <th>{{ $t('adminDeals.table.deal') }}</th>
+            <th>{{ $t('adminUsers.table.profile') }}</th>
             <th>
-              {{ $t('adminDeals.table.status') }}
+              {{ $t('adminUsers.table.status') }}
             </th>
           </tr>
           <tr>
@@ -54,7 +70,7 @@
           </tr>
         </thead>
         <tbody class="text-tbody">
-          <tr v-if="!paginatedDeals.length">
+          <tr v-if="!paginatedUsers.length">
             <td id="noItemsCell" colspan="5">
               <i v-if="loading"
                 ><iconly-icon
@@ -63,21 +79,23 @@
                   class="stroke-current"
                   view-box="0 0 38 38"
               /></i>
-              <span v-else>{{ $t('adminDeals.table.noItems') }}</span>
+              <span v-else>{{ $t('adminUsers.table.noItems') }}</span>
             </td>
           </tr>
           <template v-else>
-            <tr v-for="(deal, i) in deals" :key="`deal-${i}`">
+            <tr v-for="(user, i) in paginatedUsers" :key="`user-${i}`">
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-user-img
-                    :initials="deal.name"
-                    :image-url="deal.profile_picture_URL"
-                  /><span>{{ deal.name + ' ' + deal.last_name }}</span>
+                    :initials="user.name"
+                    :image-url="user.profile_picture_URL"
+                  /><span>{{ user.name + ' ' + user.last_name }}</span>
                 </div>
               </td>
-              <td>{{ $d(new Date(deal.petition_date)) }}</td>
-              <td>{{ deal.number_elements }}</td>
+              <td>
+                {{ user.created_at ? $d(new Date(user.created_at)) : '-' }}
+              </td>
+              <td>{{ '-' }}</td>
               <td>
                 <div class="flex items-center space-x-2">
                   <span>{{ $t('adminDeals.table.view') }}</span>
@@ -85,7 +103,7 @@
                     color="light-blue"
                     dense
                     icon
-                    :to="localePath(`/admin/deals/${deal.id}`)"
+                    :to="user.id ? localePath(`/admin/users/${user.id}`) : '#'"
                     ><iconly-icon name="show" class="fill-current"
                   /></ks-btn>
                 </div>
@@ -93,32 +111,16 @@
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-status-icon
-                    :title="
-                      deal.status === 4
-                        ? $t('adminDeals.table.approved')
-                        : deal.status === 5
-                        ? $t('adminDeals.table.rejected')
-                        : deal.status === 3
-                        ? $t('adminDeals.table.pending')
-                        : deal.status === 6
-                        ? $t('adminDeals.table.partiallyApproved')
-                        : ''
-                    "
-                    :color="
-                      deal.status === 4
-                        ? 'success'
-                        : deal.status === 5
-                        ? 'danger'
-                        : 'warning'
-                    "
+                    color="success"
                     dense
-                    :icon="
-                      deals.status === 4
-                        ? 'tick'
-                        : deal.status === 5
-                        ? 'close'
-                        : 'time-circle'
-                    "
+                    icon="circle"
+                    type="bold"
+                  ></ks-status-icon>
+                  <ks-status-icon
+                    color="light-gray"
+                    dense
+                    icon="circle"
+                    icon-class="stroke-current"
                   ></ks-status-icon>
                 </div>
               </td>
@@ -127,9 +129,9 @@
         </tbody>
       </table>
     </div>
-    <div class="deals-footer">
+    <div class="users-footer">
       <div class="flex-auto text-blue-kaizen">
-        <span>{{ $t('adminDeals.page', { p: page, t: totalPages }) }}</span>
+        <span>{{ $t('adminUsers.page', { p: page, t: totalPages }) }}</span>
       </div>
       <div class="flex justify-center flex-auto space-x-2">
         <ks-btn
@@ -160,19 +162,18 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      showBy: 3,
-      deals: [] as any[],
+      searchBy: null,
+      status: null,
       page: 1,
       size: 5,
+      users: [],
     }
   },
   async fetch() {
     try {
       this.loading = true
-      const res = await this.$axios.$get(
-        `/admin/deals/view/${this.showBy || 3}`
-      )
-      this.deals = res.deals
+      const res = await this.$axios.$get('/admin/users/view')
+      this.users = res.Users
     } catch (error) {
     } finally {
       this.loading = false
@@ -181,7 +182,7 @@ export default Vue.extend({
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
-      title: this.$t('adminDeals.meta.title'),
+      title: this.$t('adminUsers.meta.title'),
       htmlAttrs: {
         ...i18nHead.htmlAttrs,
       },
@@ -189,44 +190,46 @@ export default Vue.extend({
         {
           hid: 'description',
           name: 'description',
-          content: this.$t('adminDeals.meta.description'),
+          content: this.$t('adminUsers.meta.description'),
         },
         ...i18nHead.meta,
       ],
     }
   },
   computed: {
-    showByItems(): object[] {
+    searchByItems(): object[] {
       return [
         {
-          text: this.$t('adminDeals.approved'),
-          value: 4,
+          text: this.$t('adminUsers.employer'),
+          value: 0,
         },
         {
-          text: this.$t('adminDeals.active'),
-          value: 3,
+          text: this.$t('adminUsers.employee'),
+          value: 1,
+        },
+      ]
+    },
+    statusItems(): object[] {
+      return [
+        {
+          text: this.$t('adminUsers.active'),
+          value: 1,
         },
         {
-          text: this.$t('adminDeals.rejected'),
-          value: 5,
+          text: this.$t('adminUsers.inactive'),
+          value: 2,
         },
       ]
     },
     totalPages(): number {
-      return Math.ceil(this.deals.length / this.size) || 1
+      return Math.ceil(this.users.length / this.size) || 1
     },
-    paginatedDeals(): any[] {
-      return this.deals.slice(
-        this.size * this.page - this.size,
-        this.size * this.page
-      )
-    },
-  },
-  watch: {
-    showBy: {
-      async handler() {
-        await this.$fetch()
-      },
+    paginatedUsers(): any[] {
+      return this.users
+        .filter((user: any) =>
+          this.searchBy !== null ? user.role === this.searchBy : true
+        )
+        .slice(this.size * this.page - this.size, this.size * this.page)
     },
   },
   methods: {
@@ -245,7 +248,7 @@ export default Vue.extend({
   @apply text-blue-kaizen;
 }
 
-.deals-header > * {
+.users-header > * {
   @apply pt-4;
 }
 
@@ -294,7 +297,7 @@ tbody > tr:nth-of-type(even) {
   @apply bg-gray-lighter;
 }
 
-.deals-footer {
+.users-footer {
   @apply flex justify-center items-end flex-grow pt-4;
 }
 </style>

@@ -10,11 +10,7 @@
     ]"
   >
     <i class="icon-wrapper">
-      <iconly-icon
-        :name="icon"
-        :type="type"
-        class="fill-current stroke-current stroke-0"
-      />
+      <iconly-icon :name="icon" :type="type" :class="iconClass" />
     </i>
   </span>
 </template>
@@ -37,6 +33,7 @@ export default Vue.extend({
           'transparent',
           'light-blue',
           'light-gray',
+          'darker-gray',
         ].includes(value)
       },
     },
@@ -51,6 +48,10 @@ export default Vue.extend({
     type: {
       type: String,
       default: 'outline',
+    },
+    iconClass: {
+      type: String,
+      default: 'fill-current stroke-current stroke-0',
     },
   },
 })
@@ -155,6 +156,18 @@ export default Vue.extend({
 
 .ks-status-icon.light-gray.text {
   @apply border-transparent bg-transparent text-gray-light;
+}
+
+.ks-status-icon.darker-gray {
+  @apply border-gray-darker bg-gray-darker text-white;
+}
+
+.ks-status-icon.darker-gray.outline {
+  @apply border-gray-darker bg-transparent text-gray-darker;
+}
+
+.ks-status-icon.darker-gray.text {
+  @apply border-transparent bg-transparent text-gray-darker;
 }
 
 .ks-status-icon.large {

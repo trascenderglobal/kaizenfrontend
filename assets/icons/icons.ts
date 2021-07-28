@@ -133,6 +133,11 @@ const icons: Icons = {
     outline:
       '<path d="M4 12.3326L9.33483 17.6652L20 7" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
   },
+  circle: {
+    bold: '<g stroke-width="2"><path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z"/></g>',
+    outline:
+      '<g fill="none" stroke-width="2"><path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z"/></g>',
+  },
 }
 
 export default icons

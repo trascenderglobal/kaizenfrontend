@@ -122,8 +122,8 @@ export default Vue.extend({
             icon: 'bag',
           },
           {
-            text: 'drawer.personnel',
-            path: '/admin/personnel',
+            text: 'drawer.users',
+            path: '/admin/users',
             icon: '3-user',
           }
         )

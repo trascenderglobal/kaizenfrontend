@@ -2,14 +2,17 @@
   <div class="user-wrap">
     <ks-user-img :initials="initials" :image-url="profilePicture" />
     <div class="user-name">
-      <div class="user-name-wrap text-link-blue">
+      <div class="user-name-wrap">
         <nuxt-link
           v-if="$auth.user.role !== 2"
+          class="text-link-blue"
           :to="localePath(`${role}/profile`)"
         >
           {{ $auth.user.name + ' ' + $auth.user.lastName }}
         </nuxt-link>
-        <span v-else>{{ $t('userInfo.admin') }}</span>
+        <span v-else class="cursor-default text-blue-kaizen">{{
+          $auth.user.name + ' ' + $auth.user.lastName
+        }}</span>
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@
         <span>{{ $t('requests.header') }}</span>
       </div>
     </div>
-    <div class="flex justify pt-6">
+    <div class="flex pt-6">
       <div class="flex flex-col space-y-2 min-w-40">
         <span class="text-gray-dark">{{ $t('requests.showBy') }}</span>
       </div>
