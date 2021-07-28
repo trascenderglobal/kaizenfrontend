@@ -389,7 +389,7 @@ export default {
     typeOfC: 'Type of contract',
     contracts: {
       0: 'Contract labor',
-      1: 'Direct hired',
+      1: 'Direct hire',
     },
     selectContract: 'Select a type of contract',
     salaryRate: 'Salary rate',
