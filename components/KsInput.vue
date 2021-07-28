@@ -130,6 +130,10 @@ input:not(:placeholder-shown) + .label {
   @apply left-0.5 top-0.5;
 }
 
+.error .label {
+  @apply text-red-kaizen;
+}
+
 .outlined {
   @apply border rounded-lg transition;
 }

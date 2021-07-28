@@ -257,7 +257,7 @@
               $t('detail.company')
             }}</span>
           </div>
-          <span class="item-value">{{ job.company }}</span>
+          <span class="item-value">{{ job.company_name }}</span>
         </div>
         <div class="field-col">
           <div class="min-w-1/5">
@@ -298,7 +298,7 @@
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
-              $t('detail.company')
+              $t('detail.contactPerson')
             }}</span>
           </div>
           <span class="item-value">{{ job.contact_person }}</span>
@@ -306,7 +306,7 @@
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
-              $t('detail.position')
+              $t('detail.phone')
             }}</span>
           </div>
           <span class="item-value">{{ job.phone }}</span>

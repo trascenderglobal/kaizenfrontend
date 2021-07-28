@@ -28,15 +28,14 @@
         </div>
       </ks-card>
     </div>
+    <ks-notifier />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 
-
-export default Vue.extend({
-  })
+export default Vue.extend({})
 </script>
 
 <style scoped>
@@ -86,4 +85,3 @@ export default Vue.extend({
   @apply h-full flex-grow;
 }
 </style>
-

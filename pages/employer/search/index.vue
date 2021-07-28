@@ -11,7 +11,7 @@
           {{ $t('search.subtitle') }}
         </h1>
         <div
-          v-for="(skill, i) in skills"
+          v-for="(v, i) in $v.skills.$each.$iter"
           :key="`skills-filter-${i}`"
           class="skills-filter"
         >
@@ -20,11 +20,26 @@
               <div class="field-col flex-1">
                 <div class="flex-grow lg:flex-grow-0 xl:w-1/4 pt-4">
                   <ks-select
-                    v-model.number="skill.skill_name"
+                    v-model.number="v.skill_name.$model"
                     :label="$t('resume.selectSkill')"
-                    class="border border-blue-light"
-                    bg-color="bg-transparent"
-                    color="text-blue-kaizen"
+                    class="border"
+                    :class="
+                      v.skill_name.$error
+                        ? 'border-red-kaizen'
+                        : v.skill_name.$model
+                        ? 'border-blue-kaizen'
+                        : 'border-blue-light'
+                    "
+                    :bg-color="
+                      v.skill_name.$model ? 'bg-blue-kaizen' : 'bg-transparent'
+                    "
+                    :color="
+                      v.skill_name.$error
+                        ? 'text-red-kaizen'
+                        : v.skill_name.$model
+                        ? 'text-white'
+                        : 'text-gray-darker'
+                    "
                     :items="skillsCat"
                     clearable
                   />
@@ -35,10 +50,20 @@
               <span class="flex items-center text-blue-kaizen pr-4"
                 >{{ $t('search.experience.experience') }}:</span
               >
-              <div class="">
+              <div>
                 <ks-radio-button
                   :id="`${i}-1`"
-                  v-model.number="skill.years_of_experience"
+                  v-model.number="v.years_of_experience.$model"
+                  :color="
+                    v.years_of_experience.$error
+                      ? 'text-red-kaizen'
+                      : 'text-gray-darker'
+                  "
+                  :border-color="
+                    v.years_of_experience.$error
+                      ? 'border-red-kaizen'
+                      : 'border-blue-light'
+                  "
                   :item-value="1"
                   :label="$t('search.experience.option1')"
                 />
@@ -46,7 +71,17 @@
               <div>
                 <ks-radio-button
                   :id="`${i}-2`"
-                  v-model.number="skill.years_of_experience"
+                  v-model.number="v.years_of_experience.$model"
+                  :color="
+                    v.years_of_experience.$error
+                      ? 'text-red-kaizen'
+                      : 'text-gray-darker'
+                  "
+                  :border-color="
+                    v.years_of_experience.$error
+                      ? 'border-red-kaizen'
+                      : 'border-blue-light'
+                  "
                   :item-value="2"
                   :label="$t('search.experience.option2')"
                 />
@@ -54,7 +89,17 @@
               <div>
                 <ks-radio-button
                   :id="`${i}-3`"
-                  v-model="skill.years_of_experience"
+                  v-model.number="v.years_of_experience.$model"
+                  :color="
+                    v.years_of_experience.$error
+                      ? 'text-red-kaizen'
+                      : 'text-gray-darker'
+                  "
+                  :border-color="
+                    v.years_of_experience.$error
+                      ? 'border-red-kaizen'
+                      : 'border-blue-light'
+                  "
                   :item-value="3"
                   :label="$t('search.experience.option3')"
                 />
@@ -64,6 +109,7 @@
           <div class="field-row justify-end">
             <div class="field-col">
               <button
+                v-if="skills.length > 1"
                 type="button"
                 class="text-red-kaizen hover:text-red-500 focus:outline-none"
                 @click="removeFilter(i)"
@@ -95,114 +141,118 @@
         }}</ks-btn>
       </div>
     </div>
-    <div v-else class="flex flex-col flex-grow">
-      <div class="result-header">
-        <h1 class="text-3xl font-medium">
-          {{ $t('results.results') }}
-        </h1>
-        <div class="flex items-center justify-end">
-          <ks-btn color="danger" dense icon @click="resetResults"
-            ><i><iconly-icon name="close" class="stroke-current" /></i
-          ></ks-btn>
+    <transition name="results">
+      <div v-if="results.length" class="flex flex-col flex-grow">
+        <div class="result-header">
+          <h1 class="text-3xl font-medium">
+            {{ $t('results.results') }}
+          </h1>
+          <div class="flex items-center justify-end">
+            <ks-btn color="danger" dense icon @click="resetResults"
+              ><i><iconly-icon name="close" class="stroke-current" /></i
+            ></ks-btn>
+          </div>
         </div>
-      </div>
-      <h1 class="py-6 text-lg text-blue-kaizen">
-        {{ $t('results.subtitle', { resultsLength: results.length }) }}
-      </h1>
-      <table>
-        <thead class="text-thead">
-          <tr>
-            <th>{{ $t('results.table.name') }}</th>
-            <th>{{ $t('results.table.position') }}</th>
-            <th>{{ $t('results.table.profile') }}</th>
-            <th>{{ $t('results.table.request') }}</th>
-          </tr>
-          <tr>
-            <td colspan="4">
-              <hr class="border-blue-light" />
-            </td>
-          </tr>
-        </thead>
-        <tbody class="text-tbody">
-          <template v-for="(result, i) in results">
-            <tr :key="`result-${i}`" class="result-row">
-              <td>
-                <div class="flex items-center space-x-2">
-                  <ks-user-img /><span
-                    >{{ result.name }} {{ result.last_name }}</span
-                  >
-                </div>
-              </td>
-              <td>{{ result.position }}</td>
-              <td>
-                <div class="flex items-center space-x-2">
-                  <span class="font-light text-gray-dark">{{
-                    $t('results.table.view')
-                  }}</span>
-                  <ks-btn
-                    color="light-blue"
-                    dense
-                    icon
-                    :to="`/employer/search/detail?id=${result.id}`"
-                    ><i><iconly-icon name="show" class="fill-current" /></i
-                  ></ks-btn>
-                </div>
-              </td>
-              <td>
-                <div class="flex items-center space-x-2">
-                  <ks-btn
-                    color="light-blue"
-                    dense
-                    icon
-                    :disabled="requestIds.includes(result.id)"
-                    @click="addRequest(result.id)"
-                    ><i
-                      ><iconly-icon name="plus-alt" class="stroke-current" /></i
-                  ></ks-btn>
-                  <ks-btn
-                    color="danger"
-                    dense
-                    icon
-                    :disabled="!requestIds.includes(result.id)"
-                    @click="removeRequest(result.id)"
-                    ><i><iconly-icon name="minus" class="stroke-current" /></i
-                  ></ks-btn>
-                </div>
+        <h1 class="py-6 text-lg text-blue-kaizen">
+          {{ $t('results.subtitle', { resultsLength: results.length }) }}
+        </h1>
+        <table>
+          <thead class="text-thead">
+            <tr>
+              <th>{{ $t('results.table.name') }}</th>
+              <th>{{ $t('results.table.position') }}</th>
+              <th>{{ $t('results.table.profile') }}</th>
+              <th>{{ $t('results.table.request') }}</th>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <hr class="border-blue-light" />
               </td>
             </tr>
-          </template>
-        </tbody>
-      </table>
-      <div class="result-footer">
-        <div class="flex-auto text-blue-kaizen justify-items-start">
-          <span>{{ $t('results.page', { p: page, t: totalPages }) }}</span>
-        </div>
-        <div class="flex justify-center flex-auto space-x-2">
-          <ks-btn
-            color="primary"
-            dense
-            :disabled="page === 1"
-            @click="previousPage"
-            >{{ $t('results.previous') }}</ks-btn
-          >
-          <ks-btn
-            color="primary"
-            dense
-            :disabled="page === totalPages"
-            @click="nextPage"
-            >{{ $t('results.next') }}</ks-btn
-          >
-        </div>
-        <div class="flex justify-end flex-grow items-end">
-          <ks-btn
-            color="success"
-            dense
-            :to="`/employer/search/negotiation?ids=${queryId}`"
-            >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
-          >
+          </thead>
+          <tbody class="text-tbody">
+            <template v-for="(result, i) in results">
+              <tr :key="`result-${i}`" class="result-row">
+                <td>
+                  <div class="flex items-center space-x-2">
+                    <ks-user-img /><span
+                      >{{ result.name }} {{ result.last_name }}</span
+                    >
+                  </div>
+                </td>
+                <td>{{ result.position }}</td>
+                <td>
+                  <div class="flex items-center space-x-2">
+                    <span class="font-light text-gray-dark">{{
+                      $t('results.table.view')
+                    }}</span>
+                    <ks-btn
+                      color="light-blue"
+                      dense
+                      icon
+                      :to="`/employer/search/detail?id=${result.id}`"
+                      ><i><iconly-icon name="show" class="fill-current" /></i
+                    ></ks-btn>
+                  </div>
+                </td>
+                <td>
+                  <div class="flex items-center space-x-2">
+                    <ks-btn
+                      color="light-blue"
+                      dense
+                      icon
+                      :disabled="requestIds.includes(result.id)"
+                      @click="addRequest(result.id)"
+                      ><i
+                        ><iconly-icon
+                          name="plus-alt"
+                          class="stroke-current" /></i
+                    ></ks-btn>
+                    <ks-btn
+                      color="danger"
+                      dense
+                      icon
+                      :disabled="!requestIds.includes(result.id)"
+                      @click="removeRequest(result.id)"
+                      ><i><iconly-icon name="minus" class="stroke-current" /></i
+                    ></ks-btn>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <div class="result-footer">
+          <div class="flex-auto text-blue-kaizen justify-items-start">
+            <span>{{ $t('results.page', { p: page, t: totalPages }) }}</span>
+          </div>
+          <div class="flex justify-center flex-auto space-x-2">
+            <ks-btn
+              color="primary"
+              dense
+              :disabled="page === 1"
+              @click="previousPage"
+              >{{ $t('results.previous') }}</ks-btn
+            >
+            <ks-btn
+              color="primary"
+              dense
+              :disabled="page === totalPages"
+              @click="nextPage"
+              >{{ $t('results.next') }}</ks-btn
+            >
+          </div>
+          <div class="flex justify-end flex-grow items-end">
+            <ks-btn
+              color="success"
+              dense
+              :to="`/employer/search/negotiation?ids=${queryId}`"
+              >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
+            >
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </ks-card>
 </template>
 
@@ -210,6 +260,7 @@
 import Vue from 'vue'
 import { mapState } from 'vuex'
 import KsUserImg from '~/components/KsUserImg.vue'
+import { required } from 'vuelidate/lib/validators'
 
 interface Skill {
   skill_name: Number | null
@@ -286,6 +337,9 @@ export default Vue.extend({
     },
     async search() {
       try {
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+
         const res = await this.$axios.$post('/employer/search', {
           skills: this.skills.filter(
             (skill) => skill.skill_name && skill.years_of_experience
@@ -297,6 +351,11 @@ export default Vue.extend({
           state: this.filters.state ? [{ state: this.filters.state }] : [],
         })
         this.results = res.result
+        if (!this.results.length)
+          this.$notifier.showNotification({
+            content: this.$t('search.noResults'),
+            bgColor: 'bg-red-kaizen',
+          })
       } catch (error) {}
     },
     resetResults(): void {
@@ -307,6 +366,7 @@ export default Vue.extend({
           years_of_experience: null,
         },
       ] as Skill[]
+      this.$v.$reset()
     },
     addRequest(i: number): void {
       if (!this.requestIds.includes(i)) this.requestIds.push(i)
@@ -321,6 +381,20 @@ export default Vue.extend({
     nextPage() {
       if (this.page < this.totalPages) this.page++
     },
+  },
+  validations() {
+    return {
+      skills: {
+        $each: {
+          skill_name: {
+            required,
+          },
+          years_of_experience: {
+            required,
+          },
+        },
+      },
+    }
   },
 })
 </script>
@@ -423,5 +497,14 @@ tbody > .request-detail > td:first-child {
 
 tbody > .request-detail > td:last-child {
   @apply rounded-br-xl;
+}
+
+.results-enter-active,
+.results-leave-active {
+  transition: opacity 0.2s;
+}
+.results-enter,
+.results-leave-to {
+  opacity: 0;
 }
 </style>

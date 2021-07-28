@@ -11,6 +11,7 @@
     <label
       :for="`radio-${id}`"
       class="radio-label"
+      :class="value === itemValue ? checkedStyle : uncheckedStyle"
       @click="$emit('input', itemValue)"
     >
       {{ label }}
@@ -40,6 +41,44 @@ export default Vue.extend({
       type: String,
       default: '',
     },
+    color: {
+      type: String,
+      default: 'text-gray-darker',
+    },
+    borderColor: {
+      type: String,
+      default: 'border-blue-light',
+    },
+    bgColor: {
+      type: String,
+      default: 'bg-transparent',
+    },
+    checkedColor: {
+      type: String,
+      default: 'text-white',
+    },
+    checkedBorderColor: {
+      type: String,
+      default: 'border-blue-kaizen',
+    },
+    checkedBgColor: {
+      type: String,
+      default: 'bg-blue-kaizen',
+    },
+  },
+  computed: {
+    uncheckedStyle(): string {
+      return this.color + ' ' + this.borderColor + ' ' + this.bgColor
+    },
+    checkedStyle(): string {
+      return (
+        this.checkedColor +
+        ' ' +
+        this.checkedBorderColor +
+        ' ' +
+        this.checkedBgColor
+      )
+    },
   },
 })
 </script>
@@ -50,10 +89,10 @@ export default Vue.extend({
 }
 
 input + .radio-label {
-  @apply py-1 px-2 cursor-pointer select-none border border-blue-light rounded-lg text-gray-darker;
+  @apply py-1 px-2 cursor-pointer select-none border rounded-lg;
 }
 
 input:checked + .radio-label {
-  @apply transition duration-200 bg-blue-kaizen text-white border-blue-kaizen;
+  @apply transition duration-200;
 }
 </style>

@@ -363,6 +363,7 @@ export default {
       },
     },
     apply: 'Apply',
+    noResults: 'Your search returned no results',
   },
   results: {
     results: 'Results',

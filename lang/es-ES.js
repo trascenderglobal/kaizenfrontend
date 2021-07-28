@@ -364,6 +364,7 @@ export default {
       },
     },
     apply: 'Aplicar',
+    noResults: 'Tu búsqueda no arrojó resultados',
   },
   results: {
     results: 'Resultados',

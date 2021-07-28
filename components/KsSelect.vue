@@ -197,7 +197,7 @@ export default Vue.extend({
 
 <style scoped>
 .field {
-  @apply w-full rounded-lg;
+  @apply w-full rounded-lg transition;
 }
 
 .hint {
