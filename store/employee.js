@@ -15,7 +15,12 @@ export const mutations = {
 }
 
 export const actions = {
-  updateAlerts({ commit }, alerts = []) {
-    commit('SET_ALERTS', alerts)
+  async fetchAlerts({ commit }) {
+    try {
+      const res = await this.$axios.$get('/employee/notifications')
+      commit('SET_ALERTS', res.results)
+    } catch (error) {
+      commit('SET_ALERTS', [])
+    }
   },
 }

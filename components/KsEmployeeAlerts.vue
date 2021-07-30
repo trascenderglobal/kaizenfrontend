@@ -7,18 +7,56 @@
       <span>{{ $t('alerts.noAlerts') }}</span>
       <iconly-icon name="notification" class="fill-current" :size="1.5" />
     </div>
+    <div v-else class="pt-4 space-y-4">
+      <p class="text-gray-dark">{{ $t('alerts.newAlerts') }}</p>
+      <div v-for="(alert, i) in alerts" :key="`alert-${i}`" class="job-alert">
+        <ks-user-img
+          :title="alert.company"
+          :initials="alert.company"
+          :image-url="images[i]"
+        />
+        <div class="flex-auto">
+          <p class="text-blue-kaizen">{{ alert.position }}</p>
+          <p class="text-sm text-gray-dark">
+            {{ $d(new Date(alert.start_date)) }}
+          </p>
+        </div>
+        <ks-btn
+          color="primary"
+          dense
+          icon
+          text
+          :to="localePath('/employee/jobs')"
+          ><iconly-icon name="arrow-right-2" class="fill-current" />
+        </ks-btn>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
-  props: {
-    alerts: {
-      type: Array,
-      default: () => [],
-    },
+  data() {
+    return {
+      images: [] as string[],
+    }
+  },
+  computed: {
+    ...mapState({
+      alerts: (state: any) => state.employee.alerts as any[],
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch('employee/fetchAlerts')
+    this.alerts.forEach(async (alert) => {
+      const res = await this.$axios.$get(
+        `/employee/employer/profile_picture/${alert.company_id}`
+      )
+      this.images.push(res.profile_picture_URL)
+    })
   },
 })
 </script>
@@ -38,5 +76,9 @@ export default Vue.extend({
 
 .no-alerts * {
   @apply text-center;
+}
+
+.job-alert {
+  @apply flex rounded-xl bg-gray-lighter text-blue-kaizen p-3 space-x-3 items-center;
 }
 </style>

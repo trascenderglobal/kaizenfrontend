@@ -126,7 +126,7 @@ export default {
     dismiss: 'Dismiss',
   },
   approved: {
-    approved: 'Approved',
+    approved: 'Approved deals',
     alerts: 'The new talent of your company is waiting for you',
     seeAll: 'See all requests',
     noApproved: 'There are no approved requests',
@@ -559,5 +559,10 @@ export default {
       title: 'Users',
       description: 'Users',
     },
+  },
+  adminAlerts: {
+    title: 'Deals made',
+    subtitle: 'These are the deals that have been closed successfully',
+    noDeals: 'No deals have been closed',
   },
 }

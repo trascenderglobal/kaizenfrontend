@@ -9,6 +9,7 @@
       dense && 'dense',
       large && 'large',
       outline && 'outline',
+      text && 'text',
     ]"
     :disabled="loading"
     type="button"
@@ -36,6 +37,7 @@
       dense && 'dense',
       large && 'large',
       outline && 'outline',
+      text && 'text',
     ]"
     :to="to"
   >
@@ -82,6 +84,7 @@ export default Vue.extend({
     dense: Boolean,
     large: Boolean,
     outline: Boolean,
+    text: Boolean,
     icon: Boolean,
   },
 })
@@ -97,7 +100,7 @@ export default Vue.extend({
   @apply opacity-10;
 }
 
-.ks-btn:focus::before {
+.ks-btn:not(:disabled):active::before {
   @apply opacity-20;
 }
 
@@ -117,12 +120,20 @@ export default Vue.extend({
   @apply border-blue-kaizen bg-transparent text-blue-kaizen;
 }
 
+.ks-btn.primary.text {
+  @apply border-transparent bg-transparent text-blue-kaizen;
+}
+
 .ks-btn.light {
   @apply border-gray-lighter bg-gray-lighter text-blue-kaizen;
 }
 
 .ks-btn.light.outline {
   @apply border-gray-lighter bg-transparent text-blue-kaizen;
+}
+
+.ks-btn.light.text {
+  @apply border-transparent bg-transparent text-blue-kaizen;
 }
 
 .ks-btn.transparent {
@@ -133,12 +144,20 @@ export default Vue.extend({
   @apply border-gray-darker bg-transparent text-gray-darker;
 }
 
+.ks-btn.transparent.text {
+  @apply border-transparent bg-transparent text-gray-darker;
+}
+
 .ks-btn.success {
   @apply border-green-kaizen bg-green-kaizen text-white;
 }
 
 .ks-btn.success.outline {
   @apply border-green-kaizen bg-transparent text-green-kaizen;
+}
+
+.ks-btn.success.transparent {
+  @apply border-transparent bg-transparent text-green-kaizen;
 }
 
 .ks-btn.warning {
@@ -149,6 +168,10 @@ export default Vue.extend({
   @apply border-orange-pending bg-transparent text-orange-pending;
 }
 
+.ks-btn.warning.text {
+  @apply border-transparent bg-transparent text-orange-pending;
+}
+
 .ks-btn.danger {
   @apply border-red-kaizen bg-red-kaizen text-white;
 }
@@ -157,12 +180,20 @@ export default Vue.extend({
   @apply border-red-kaizen bg-transparent text-red-kaizen;
 }
 
+.ks-btn.danger.transparent {
+  @apply border-transparent bg-transparent text-red-kaizen;
+}
+
 .ks-btn.darker-gray {
   @apply border-gray-darker bg-gray-darker text-white;
 }
 
 .ks-btn.darker-gray.outline {
   @apply border-gray-darker bg-transparent text-gray-darker;
+}
+
+.ks-btn.darker-gray.text {
+  @apply border-transparent bg-transparent text-gray-darker;
 }
 
 .ks-btn.large {
@@ -192,12 +223,21 @@ export default Vue.extend({
 .ks-btn.light-blue.outline {
   @apply border-blue-light bg-transparent text-blue-light;
 }
+
+.ks-btn.light-blue.text {
+  @apply border-transparent bg-transparent text-blue-light;
+}
+
 .ks-btn.light-gray {
   @apply border-gray-light bg-gray-light text-white;
 }
 
 .ks-btn.light-gray.outline {
   @apply border-gray-light bg-transparent text-gray-light;
+}
+
+.ks-btn.light-gray.text {
+  @apply border-transparent bg-transparent text-gray-light;
 }
 
 .ks-btn:disabled {

@@ -127,7 +127,7 @@ export default {
     dismiss: 'Descartar',
   },
   approved: {
-    approved: 'Aprobado',
+    approved: 'Tratos aprobados',
     alerts: 'El nuevo talento de tu empresa te está esperando',
     seeAll: 'Ver todo',
     noApproved: 'No hay solicitudes aprobadas',
@@ -560,5 +560,10 @@ export default {
       title: 'Usuarios',
       description: 'Usuarios',
     },
+  },
+  adminAlerts: {
+    title: 'Tratos hechos',
+    subtitle: 'Estos son los tratos que han sido cerrados exitosamente',
+    noDeals: 'No se han cerrado tratos',
   },
 }

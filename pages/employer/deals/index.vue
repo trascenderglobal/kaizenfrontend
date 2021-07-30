@@ -95,18 +95,20 @@
               </td>
               <td>
                 <div class="flex items-center justify-start">
-                  <button
-                    type="button"
-                    class="expand-btn text-link-blue"
+                  <ks-btn
+                    color="primary"
+                    class="fill-current"
+                    icon
+                    dense
+                    text
                     @click="toggleExpand(i)"
                   >
-                    <i
-                      ><iconly-icon
-                        name="arrow-down-2"
-                        class="transition duration-200"
-                        :class="{ 'transform rotate-180': expanded === i }"
-                    /></i>
-                  </button>
+                    <iconly-icon
+                      name="arrow-down-2"
+                      class="transition duration-200"
+                      :class="{ 'transform rotate-180': expanded === i }"
+                    />
+                  </ks-btn>
                 </div>
               </td>
             </tr>
@@ -404,10 +406,6 @@ tbody > tr > td:first-child {
 
 tbody > tr > td:last-child {
   @apply rounded-tr-xl;
-}
-
-tbody .expand-btn {
-  @apply fill-current stroke-current;
 }
 
 tbody > tr:nth-of-type(even),

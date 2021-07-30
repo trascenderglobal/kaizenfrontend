@@ -20,7 +20,9 @@
               <Nuxt />
             </div>
             <div class="alerts">
-              <ks-card class="h-full p-8"></ks-card>
+              <ks-card class="h-full p-8">
+                <ks-admin-deals />
+              </ks-card>
             </div>
           </div>
         </div>
