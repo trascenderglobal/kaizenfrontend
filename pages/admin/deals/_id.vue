@@ -19,7 +19,7 @@
     <div class="flex flex-grow lg:flex-grow-0 space-x-4 pt-6">
       <ks-user-img
         :initials="currentDeal.name || ''"
-        :image-url="currentDeal.profile_picture_url"
+        :image-url="images.get(currentDeal.user_id)"
         large
       />
       <div class="flex flex-col space-y-2">
@@ -181,6 +181,7 @@ export default Vue.extend({
         salary_rate: null,
       },
       response: new Map() as Map<number, number>,
+      images: new Map() as Map<number, string>,
     }
   },
   async fetch() {
@@ -193,9 +194,12 @@ export default Vue.extend({
         this.dealDetail = res.elements
         this.currentDeal = this.dealDetail[0]
         const dealPicture = await this.$axios.$get(
-          `/admin/employee_picture/${this.currentDeal.user_id}`
+          `/admin/user/profile_picture/${this.currentDeal.user_id}`
         )
-        this.currentDeal.profile_picture_url = dealPicture.profile_picture_URL
+        this.images.set(
+          this.currentDeal.user_id as any,
+          dealPicture.profile_picture_URL
+        )
       }
     } catch (error) {}
   },
@@ -237,8 +241,19 @@ export default Vue.extend({
   },
   watch: {
     page: {
-      handler(val) {
-        this.currentDeal = this.dealDetail[val - 1]
+      async handler(val) {
+        try {
+          this.currentDeal = this.dealDetail[val - 1]
+          if (!this.images.get(this.currentDeal.user_id as any)) {
+            const dealPicture = await this.$axios.$get(
+              `/admin/user/profile_picture/${this.currentDeal.user_id}`
+            )
+            this.images.set(
+              this.currentDeal.user_id as any,
+              dealPicture.profile_picture_URL
+            )
+          }
+        } catch (error) {}
       },
     },
   },
