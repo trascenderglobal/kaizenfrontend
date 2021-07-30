@@ -23,15 +23,16 @@
         </div>
       </ks-card>
     </div>
+    <ks-notifier />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import KsEmployerApproved from '~/components/KsEmployerApproved.vue'
 
 export default Vue.extend({
-  components: { KsEmployerApproved },})
+  name: 'EmployerNegotiationLayout',
+})
 </script>
 
 <style scoped>
@@ -81,4 +82,3 @@ export default Vue.extend({
   @apply h-full flex-grow;
 }
 </style>
-

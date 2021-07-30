@@ -6,16 +6,22 @@
       </h1>
       <div class="flex items-center min-w-40 space-x-2">
         <span>{{
-          $t('negotiation.page', { p: page, t: this.negotiationIds.length })
+          $t('negotiation.page', { p: page, t: negotiations.length })
         }}</span>
       </div>
     </div>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <ks-user-img :initials="currentUser.name" large></ks-user-img>
+        <ks-user-img
+          :initials="negotiations[currentIndex].name"
+          :image-url="negotiations[currentIndex].profileImage"
+          large
+        ></ks-user-img>
         <div class="flex flex-col space-y-2">
           <span class="font-medium text-blue-kaizen">{{
-            currentUser.name + ' ' + currentUser.last_name
+            negotiations[currentIndex].name +
+            ' ' +
+            negotiations[currentIndex].lastName
           }}</span>
           <span class="text-gray-dark">{{
             mainSkill
@@ -24,10 +30,10 @@
           }}</span>
           <span
             class="text-gray-dark"
-            :class="{ 'select-none': !currentUser.birth_date }"
+            :class="{ 'select-none': !negotiations[currentIndex].birthDate }"
             >{{
-              currentUser.birth_date
-                ? $d(new Date(currentUser.birth_date), 'numeric')
+              negotiations[currentIndex].birthDate
+                ? $d(new Date(negotiations[currentIndex].birthDate), 'numeric')
                 : $t('profile.noBirth')
             }}</span
           >
@@ -42,30 +48,41 @@
       <div class="field-row w-full">
         <div class="field-col w-1/6">
           <ks-datepicker
+            v-model="negotiations[currentIndex].from"
             :label="$t('negotiation.from')"
-            :bg-color="'bg-blue-darker'"
+            :bg-color="
+              $v.negotiations.$each.$iter[currentIndex].from.$error
+                ? 'bg-red-kaizen'
+                : 'bg-blue-darker'
+            "
+            :disabled-date="isPast"
             clearable
-            v-model="negotiation.from"
-            @blur="$v.negotiation.from.$touch"
+            @blur="$v.negotiations.$each.$iter[currentIndex].from.$touch"
           />
         </div>
         <div class="field-col w-1/6">
           <ks-datepicker
+            v-model="negotiations[currentIndex].to"
             :label="$t('negotiation.to')"
-            :bg-color="'bg-blue-darker'"
+            :bg-color="
+              $v.negotiations.$each.$iter[currentIndex].to.$error
+                ? 'bg-red-kaizen'
+                : 'bg-blue-darker'
+            "
+            :disabled-date="isPast"
             clearable
-            v-model="negotiation.to"
-            @blur="$v.negotiation.to.$touch"
+            @blur="$v.negotiations.$each.$iter[currentIndex].to.$touch"
           />
         </div>
         <div class="field-col w-full">
           <ks-input
-            :border-color="'border-gray-light'"
+            v-model="negotiations[currentIndex].position"
+            :error="$v.negotiations.$each.$iter[currentIndex].position.$error"
+            border-color="border-gray-light"
             dense
-            v-model="negotiation.position"
-            @blur="$v.negotiation.position.$touch"
             disable-hint
             :label="$t('negotiation.position')"
+            @blur="$v.negotiations.$each.$iter[currentIndex].position.$touch"
           />
         </div>
       </div>
@@ -78,15 +95,21 @@
 
         <div class="field-col w-full">
           <ks-select
+            v-model="negotiations[currentIndex].typeContract"
             :items="typeContract"
             :label="$t('negotiation.selectContract')"
             class="transition border"
-            :class="'border-gray-light'"
-            :bg-color="'bg-white'"
+            :class="
+              $v.negotiations.$each.$iter[currentIndex].typeContract.$error
+                ? 'border-red-kaizen text-red-kaizen'
+                : 'border-gray-light'
+            "
+            bg-color="bg-transparent"
             color="text-gray-dark"
-            v-model="negotiation.typeContract"
-            @blur="$v.negotiation.typeContract.$touch"
             clearable
+            @blur="
+              $v.negotiations.$each.$iter[currentIndex].typeContract.$touch
+            "
           />
         </div>
       </div>
@@ -97,7 +120,11 @@
           }}</span>
         </div>
         <div class="field-col w-full">
-          <ks-range v-model="negotiation.salaryRate" />
+          <ks-range
+            v-model.number="negotiations[currentIndex].salaryRate"
+            :error="$v.negotiations.$each.$iter[currentIndex].salaryRate.$error"
+            @blur="$v.negotiations.$each.$iter[currentIndex].salaryRate.$touch"
+          />
         </div>
       </div>
     </div>
@@ -111,12 +138,16 @@
         </div>
         <div class="field-col w-full">
           <ks-text-area
-            label=""
-            :border-color="'border-gray-light'"
+            v-model="negotiations[currentIndex].jobDescription"
             dense
             disable-hint
-            v-model="negotiation.jobDescription"
-            @blur="$v.negotiation.jobDescription.$touch"
+            :label="$t('negotiation.jobDescription')"
+            :error="
+              $v.negotiations.$each.$iter[currentIndex].jobDescription.$error
+            "
+            @blur="
+              $v.negotiations.$each.$iter[currentIndex].jobDescription.$touch
+            "
           />
         </div>
       </div>
@@ -128,50 +159,100 @@
         </div>
         <div class="field-col w-full">
           <ks-text-area
-            label=""
-            :border-color="'border-gray-light'"
+            v-model="negotiations[currentIndex].observation"
             dense
+            :label="$t('negotiation.observation')"
             disable-hint
-            v-model="negotiation.observation"
+            @blur="$v.negotiations.$each.$iter[currentIndex].observation.$touch"
           />
         </div>
       </div>
     </div>
     <div class="negotiation-footer">
-      <div
-        class="flex justify-end flex-auto space-x-2"
-        v-if="page != negotiationIds.length"
-      >
+      <div class="flex justify-end flex-auto space-x-2">
         <ks-btn
+          v-if="page === 1"
           color="danger"
           dense
-          :disabled="false"
           :to="localePath(backLink)"
           >{{ $t('negotiation.buttons.cancel') }}</ks-btn
         >
-        <ks-btn color="success" dense :disabled="false" @click="nextPage()">{{
+        <ks-btn v-else color="danger" dense @click="previousPage">{{
+          $t('negotiation.buttons.previous')
+        }}</ks-btn>
+        <ks-btn
+          v-if="page === negotiations.length"
+          color="success"
+          dense
+          :disabled="sending"
+          :loading="sending"
+          @click="sendRequest"
+          >{{ $t('negotiation.buttons.request') }}</ks-btn
+        >
+        <ks-btn v-else color="success" dense @click="nextPage">{{
           $t('negotiation.buttons.next')
         }}</ks-btn>
       </div>
-      <div class="flex justify-end flex-auto space-x-2" v-else>
-        <ks-btn
-          color="danger"
-          dense
-          :disabled="false"
-          @click="previousPage()"
-          >{{ $t('negotiation.buttons.previous') }}</ks-btn
-        >
-        <ks-btn color="success" dense :disabled="false" @click="sendRequest">{{
-          $t('negotiation.buttons.request')
-        }}</ks-btn>
-      </div>
     </div>
+    <transition name="sent">
+      <div v-if="sent" class="sent-modal">
+        <div class="w-3/5">
+          <ks-card class="p-8" col>
+            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                {{ $t('negotiation.requestsCompleted.title') }}
+              </h1>
+              <div class="flex space-x-2">
+                <ks-user-img
+                  v-for="(neg, i) in negotiations"
+                  :key="`user-img-${i}`"
+                  :initials="neg.name"
+                  :image-url="neg.profileImage"
+                  large
+                />
+              </div>
+              <hr class="my-8 self-stretch" />
+              <p class="text-xl text-blue-kaizen text-center">
+                {{ $t('negotiation.requestsCompleted.paragraph1') }}
+              </p>
+              <p class="pt-6 text-xl text-blue-kaizen text-center">
+                {{ $t('negotiation.requestsCompleted.paragraph2') }}
+              </p>
+              <div class="flex pt-16 flex-grow items-end justify-center">
+                <ks-btn
+                  color="success"
+                  class="text-xl"
+                  :to="localePath('/employer/requests')"
+                  >{{ $t('negotiation.requestsCompleted.btn') }}</ks-btn
+                >
+              </div>
+            </div>
+          </ks-card>
+        </div>
+      </div>
+    </transition>
   </ks-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { required } from 'vuelidate/lib/validators'
+import { required, minValue, helpers } from 'vuelidate/lib/validators'
+
+const maxDate = (maxVal: string) =>
+  helpers.withParams(
+    { type: 'maxDate', maxVal },
+    function (value: Date | null, parentVm: Vue) {
+      return value ? value <= helpers.ref(maxVal, undefined, parentVm) : true
+    }
+  )
+
+const minDate = (maxVal: string) =>
+  helpers.withParams(
+    { type: 'minDate', maxVal },
+    function (value: Date | null, parentVm: Vue) {
+      return value ? value >= helpers.ref(maxVal, undefined, parentVm) : true
+    }
+  )
 
 interface Skill {
   skill_id: number
@@ -185,13 +266,18 @@ interface Skill {
 
 interface Negotiation {
   id: number | null
+  name: string | null
+  lastName: string
+  birthDate: Date | null
+  skills: Skill[]
+  profileImage: string
   from: Date | null
   to: Date | null
-  position: String
-  typeContract: Number | String
-  salaryRate: Number | String
-  jobDescription: String
-  observation: String
+  position: string
+  typeContract: string
+  salaryRate: number
+  jobDescription: string
+  observation: string
 }
 
 export default Vue.extend({
@@ -201,37 +287,33 @@ export default Vue.extend({
     if (!query.ids) return redirect(app.localePath('/employer/search'))
   },
   data() {
+    const queryIds = (this.$route.query.ids as string).split(',')
+    const negotiations = queryIds
+      .filter((id) => Number.isSafeInteger(Number.parseInt(id)))
+      .map((id) => {
+        return {
+          id: Number.parseInt(id),
+          name: '',
+          lastName: '',
+          profileImage: '',
+          birthDate: null,
+          from: null,
+          to: null,
+          position: '',
+          typeContract: '',
+          salaryRate: 12,
+          jobDescription: '',
+          observation: '',
+          skills: [] as Skill[],
+        }
+      }) as Negotiation[]
     return {
       loading: false,
+      sending: false,
+      sent: false,
       error: false,
-      negotiationIds: [] as Number[],
-      currentId: 0,
       page: 1,
-      usersId: [] as any[],
-      currentUser: {
-        id: null,
-        name: '',
-        last_name: '',
-        birth_date: null as Date | null,
-        novelties: null,
-        state: '',
-        city: '',
-        phone: '',
-        email: '',
-        profile_picture_URL: '',
-        skills: [] as Skill[],
-      },
-      negotiations: [] as Negotiation[],
-      negotiation: {
-        id: null,
-        from: null as Date | null,
-        to: null as Date | null,
-        position: '',
-        typeContract: '',
-        salaryRate: 7.25,
-        jobDescription: '',
-        observation: '',
-      } as Negotiation,
+      negotiations,
       typeContract: [
         {
           text: this.$t('negotiation.contracts.0'),
@@ -246,22 +328,45 @@ export default Vue.extend({
   },
   async fetch() {
     try {
-      const queryIds = (this.$route.query.ids as string).split(',')
-      this.negotiationIds = queryIds
-        .filter((id) => Number.isSafeInteger(Number.parseInt(id)))
-        .map((val) => Number.parseInt(val))
-      this.negotiationIds.push()
+      this.loading = true
       const res = await this.$axios.$get(
-        `/employer/employee_profile/${this.negotiationIds[this.currentId]}`
+        `/employer/employee_profile/${this.negotiations[this.currentIndex].id}`
       )
-      this.currentUser = res
-    } catch (error) {}
+      this.negotiations[this.currentIndex].profileImage =
+        res.profile_picture_URL
+      this.negotiations[this.currentIndex].name = res.name
+      this.negotiations[this.currentIndex].lastName = res.last_name
+      this.negotiations[this.currentIndex].birthDate = res.birth_date
+      this.negotiations[this.currentIndex].skills = res.skills
+    } catch (error) {
+    } finally {
+      this.loading = false
+    }
+  },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('negotiation.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('negotiation.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
   },
   computed: {
+    currentIndex(): number {
+      return this.page - 1
+    },
     backLink(): string {
       return this.$nuxt.context.from?.fullPath || '/employer/search'
     },
-
     skills() {
       const skills: String[] = []
       for (let i = 0; i <= 9; i++) {
@@ -270,91 +375,94 @@ export default Vue.extend({
       return skills
     },
     mainSkill(): Skill | undefined {
-      const skill = this.currentUser.skills.find(
+      const skill = this.negotiations[this.currentIndex].skills.find(
         (skill) => skill.is_main_skill === 1
       )
       return skill
     },
   },
+  watch: {
+    currentIndex: {
+      handler() {
+        this.$fetch()
+      },
+    },
+  },
   methods: {
-    getId() {
-      this.negotiation.id = this.currentUser.id
+    isPast(d: Date): boolean {
+      const today = new Date()
+      return d <= today
     },
     async sendRequest() {
-      this.getId()
-      this.negotiations.push(this.negotiation)
       try {
-        const userId = this.usersId /* 
-        El error se encuentra aquí, ya que sólo se está enviando el último ID,
-        se debe encontrar la manera de enviar todos los id, no sé si con el .map de abajo se podría.
-        */
-        await this.$axios.$post('employer/petition/create', {
-          requested_employees: this.negotiations.map((negotiation, index) => {
-            return {
-              employee_id: negotiation.id,
-              start_date: negotiation.from?.toJSON(),
-              end_date: negotiation.to?.toJSON(),
-              position: negotiation.position,
-              contract_type: negotiation.typeContract,
-              salary_rate: negotiation.salaryRate,
-              job_description: negotiation.jobDescription,
-              observations: negotiation.observation,
-            }
-          }),
-        })
-        this.$router.push(this.localePath('/employer/requests'))
-        this.error = false
+        this.$v.$touch()
+        if (this.$v.$invalid) {
+          this.$notifier.showNotification({
+            content: 'There are invalid fields',
+            bgColor: 'bg-red-kaizen',
+          })
+        } else {
+          this.sending = true
+          await this.$axios.$post('/employer/petition/create', {
+            requested_employees: this.negotiations.map((neg) => {
+              return {
+                employee_id: neg.id,
+                start_date: neg.from?.toJSON(),
+                end_date: neg.to?.toJSON(),
+                position: neg.position,
+                contract_type: neg.typeContract,
+                salary_rate: neg.salaryRate,
+                job_description: neg.jobDescription,
+                observations: neg.observation,
+              }
+            }),
+          })
+          this.sent = true
+        }
       } catch (error) {
-        this.error = true
+        this.sent = false
       } finally {
-        this.loading = false
-      }
-    },
-    nextPage() {
-      if (this.currentId < this.negotiationIds.length - 1)
-        this.currentId++, this.page++, this.usersId.push(this.currentUser.id)
-      this.getId()
-      this.$fetch(), this.negotiations.push(this.negotiation)
-      this.negotiation = {
-        id: 0,
-        from: null as Date | null,
-        to: null as Date | null,
-        position: '',
-        typeContract: '',
-        salaryRate: 7.25,
-        jobDescription: '',
-        observation: '',
+        this.sending = false
       }
     },
     previousPage() {
-      if (this.page > 1)
-        this.currentId--,
-          this.page--,
-          this.$fetch(),
-          (this.negotiation = this.negotiations[this.negotiations.length - 1])
-      this.usersId.pop()
-      //Se quitó el .pop ya que al dar previoous se borraba incluso el request
-      //Se debe encontrar otra manera para que se borren dichos datos
-      //O ver si así funciona
+      if (this.page > 1) this.page--
+    },
+    nextPage() {
+      if (this.page < this.negotiations.length) this.page++
     },
   },
   validations() {
     return {
-      negotiation: {
-        from: {
-          required,
-        },
-        to: {
-          required,
-        },
-        position: {
-          required,
-        },
-        typeContract: {
-          required,
-        },
-        jobDescription: {
-          required,
+      negotiations: {
+        $each: {
+          id: {
+            required,
+          },
+          from: {
+            required,
+            minValue: minValue(new Date()),
+            maxDate: maxDate('to'),
+          },
+          to: {
+            required,
+            minValue: minValue(new Date()),
+            minDate: minDate('from'),
+          },
+          position: {
+            required,
+          },
+          typeContract: {
+            required,
+          },
+          salaryRate: {
+            required,
+            minValue: minValue(7.25),
+          },
+          jobDescription: {
+            required,
+          },
+          observation: {},
         },
       },
     }
@@ -388,7 +496,7 @@ hr {
 }
 
 .title {
-  @apply text-lg font-extralight text-blue-kaizen;
+  @apply text-lg text-blue-kaizen;
 }
 
 .field-row {
@@ -401,5 +509,18 @@ hr {
 
 .negotiation-footer {
   @apply flex justify-end items-end flex-grow pt-4;
+}
+
+.sent-enter-active,
+.sent-leave-active {
+  transition: opacity 0.2s;
+}
+.sent-enter,
+.sent-leave-to {
+  opacity: 0;
+}
+
+.sent-modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
 }
 </style>

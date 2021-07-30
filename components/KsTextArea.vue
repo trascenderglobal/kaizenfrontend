@@ -17,6 +17,7 @@
           v-bind="$attrs"
           :value="value"
           :title="label"
+          spellcheck="false"
           placeholder=" "
           @input="$emit('input', $event.target.value)"
           @blur="$emit('blur')"
@@ -106,7 +107,7 @@ export default Vue.extend({
 }
 
 .ks-textarea {
-  @apply relative z-10 w-full h-full text-gray-darker focus:outline-none;
+  @apply relative z-10 w-full h-full bg-transparent text-gray-darker focus:outline-none;
 }
 
 .dense textarea:focus + .label,
@@ -120,6 +121,10 @@ export default Vue.extend({
 
 .dense .label {
   @apply left-0.5 top-0.5;
+}
+
+.error .label {
+  @apply text-red-kaizen;
 }
 
 .outlined {

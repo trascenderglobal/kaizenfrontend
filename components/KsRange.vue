@@ -1,32 +1,38 @@
 <template>
   <div class="flex">
-    <input 
-    type="range" 
-    min="7.25" 
-    max="300" 
-    :value="value" 
-    step="0.25"  
-    class="slider"
-    @input="$emit('input', Number.parseFloat($event.target.value))"
-    @blur="$emit('blur')" 
+    <input
+      type="range"
+      min="7.25"
+      max="300"
+      :value="value"
+      step="0.25"
+      class="slider"
+      :class="{ error: error }"
+      @input="$emit('input', Number.parseFloat($event.target.value))"
+      @blur="$emit('blur')"
     />
-    <span class="text-blue-kaizen flex w-1/3 pl-4 ">{{ $t('negotiation.perHour', {value}) }}</span>
+    <span
+      class="flex w-1/3 pl-4"
+      :class="error ? 'text-red-kaizen' : 'text-blue-kaizen'"
+      >{{ $t('negotiation.perHour', { value }) }}</span
+    >
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    value:{
+    value: {
       type: Number,
-      default: 7.25
-    }
-  }
+      default: 7.25,
+    },
+    error: Boolean,
+  },
 }
 </script>
 
 <style scoped>
-input{
+input {
   @apply flex w-full h-1 align-middle;
 }
 
@@ -35,14 +41,15 @@ input{
 }
 
 .slider {
-  @apply cursor-pointer bg-blue-kaizen;
+  @apply cursor-pointer bg-gray-light;
 }
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-.slider::-webkit-slider-thumb {
-  @apply bg-blue-kaizen;
+.slider::-webkit-slider-thumb,
+.slider::-moz-range-thumb {
+  @apply bg-blue-kaizen border-blue-light rounded-full transition;
 }
 
-.slider::-moz-range-thumb {
-  @apply bg-blue-kaizen;
+.slider.error::-webkit-slider-thumb,
+.slider.error::-moz-range-thumb {
+  @apply bg-red-kaizen border-red-kaizen;
 }
 </style>

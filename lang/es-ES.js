@@ -290,7 +290,7 @@ export default {
       to: 'Hasta',
       talent: 'Talent',
       typeContract: 'Tipo de contrato',
-      salaryRate: 'Rango salarial',
+      salaryRate: 'Tasa de salario',
       noItems: 'No hay tratos',
     },
     previous: 'Anterior',
@@ -320,7 +320,7 @@ export default {
       from: 'Desde',
       to: 'Hasta',
       typeOfContract: 'Tipo de contrato',
-      salaryRate: 'Rango salarial',
+      salaryRate: 'Tasa de salario',
       rate: '{salary} USD por hora',
       talent: 'Talento',
     },
@@ -369,7 +369,7 @@ export default {
   results: {
     results: 'Resultados',
     subtitle:
-      'La búsqueda ha encontrado {resultsLength} perfiles que cumplen tus criterios',
+      'La búsqueda ha encontrado {resultsLength} perfiles que cumplen con tus criterios',
     previous: 'Anterior',
     next: 'Siguiente',
     request: 'Solicitar',
@@ -394,7 +394,7 @@ export default {
       1: 'Direct hired',
     },
     selectContract: 'Selecciona el tipo de contrato',
-    salaryRate: 'Rango salarial',
+    salaryRate: 'Tasa de salario',
     perHour: '{value} USD por hora',
     jobDescription: 'Descripción del trabajo',
     observation: 'Observaciones',
@@ -407,10 +407,17 @@ export default {
     },
     requestsCompleted: {
       title: 'Solicitud completa',
-      paragraph1: 'RR.HH. ha sido notificado con su solicitud,',
-      paragraph2: 'Nuestro equipo te contactará muy pronto.',
+      paragraph1:
+        'Kaizen ha sido notificado que has solicitado talento para tu empresa.',
+      paragraph2: 'Nuestro equipo te contactará pronto.',
+      btn: 'Revisa tus solicitudes',
     },
     page: 'Perfil {p} de {t}',
+    invalidFields: 'Hay campos inválidos',
+    meta: {
+      title: 'Negociación',
+      description: 'Negociación',
+    },
   },
   detail: {
     meta: {
@@ -504,7 +511,7 @@ export default {
     from: 'Desde',
     to: 'Hasta',
     typeOfContract: 'Tipo de contrato',
-    salaryRate: 'Rango salarial',
+    salaryRate: 'Tasa de salario',
     perHour: '{rate} USD por hora',
     jobDescription: 'Descripción del trabajo',
     observation: 'Observación',

@@ -359,16 +359,11 @@
               <h1 class="text-3xl font-medium text-center text-blue-kaizen">
                 {{ $t('profile.edit.saved.title') }}
               </h1>
-              <div class="user-img-lg">
-                <div class="img-wrapper">
-                  <iconly-icon
-                    name="camera"
-                    :size="1.2"
-                    class="fill-current text-white"
-                  />
-                  <div class="img" :style="userImage"></div>
-                </div>
-              </div>
+              <ks-user-img
+                :initials="profile.name"
+                :image-url="profile.profile_picture_URL"
+                large
+              />
               <hr class="my-8" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('profile.edit.saved.text') }}

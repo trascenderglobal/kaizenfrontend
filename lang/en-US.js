@@ -405,12 +405,18 @@ export default {
       seeDeals: 'See your deals',
     },
     requestsCompleted: {
-      title: 'Requests completed',
+      title: 'Request completed',
       paragraph1:
-        'HR has been notified you requested some talent for your company,',
-      paragraph2: 'Our team will be contact you soon.',
+        'Kaizen has been notified you requested some talent for your company.',
+      paragraph2: 'Our team will contact you soon.',
+      btn: 'See your requests',
     },
     page: '{p} of {t} profiles',
+    invalidFields: 'There are invalid fields',
+    meta: {
+      title: 'Negotiation',
+      description: 'Negotiation',
+    },
   },
   detail: {
     meta: {
