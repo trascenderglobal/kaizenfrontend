@@ -439,6 +439,18 @@ export default {
     phone: 'Phone',
   },
   jobs: {
+    title: "Who's asking?",
+    subtitle: 'The following companies are looking for you',
+    showBy: 'Show by',
+    page: 'Page {p} of {t}',
+    previous: 'Previous',
+    next: 'Next',
+    table: {
+      company: 'Company',
+      position: 'Position',
+      date: 'Date',
+      noItems: 'There are no jobs',
+    },
     meta: {
       title: 'Jobs',
       description: 'Jobs',

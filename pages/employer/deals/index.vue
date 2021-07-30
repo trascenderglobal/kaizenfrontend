@@ -142,7 +142,9 @@
                           >
                           <span class="space-x-2"
                             ><ks-user-img
-                              :to="`/employer/search/detail?id=${detail.user_id}`"
+                              :initials="detail.name"
+                              :image-url="detail.profileImage"
+                              :to="`/employer/search/detail/${detail.user_id}`"
                           /></span>
                         </div>
                       </td>
@@ -226,6 +228,8 @@ interface RequestDetail {
   petition_status: number
   created_at: string
   updated_at: string
+  name?: string
+  profileImage?: string
 }
 
 export default Vue.extend({
@@ -331,6 +335,15 @@ export default Vue.extend({
             `/employer/petition/details/${this.paginatedDeals[i].id}`
           )
           this.dealDetails = res.elements as RequestDetail[]
+          const profileImages: any = await Promise.all(
+            res.elements.map((req: any) =>
+              this.$axios.$get(`/employer/employee_picture/${req.user_id}`)
+            )
+          )
+          this.dealDetails.forEach((req, i) => {
+            req.name = profileImages[i].name
+            req.profileImage = profileImages[i].profile_picture_URL
+          })
         }
       } catch (error) {
       } finally {

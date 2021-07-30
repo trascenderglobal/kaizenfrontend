@@ -23,7 +23,6 @@
             :label="$t('adminUsers.searchBy')"
             :items="searchByItems"
             :bg-color="searchBy !== null ? 'bg-blue-light' : 'bg-transparent'"
-            clearable
           ></ks-select>
         </div>
       </div>
@@ -40,11 +39,10 @@
             :bg-color="
               status === 1
                 ? 'bg-green-kaizen'
-                : status === 2
+                : status === 0
                 ? 'bg-red-kaizen'
                 : 'bg-gray-darker'
             "
-            clearable
           ></ks-select>
         </div>
       </div>
@@ -55,9 +53,7 @@
           <tr>
             <th>{{ $t('adminUsers.table.company') }}</th>
             <th>{{ $t('adminUsers.table.date') }}</th>
-            <th>
-              <span>{{ $t('adminUsers.table.plan') }}</span>
-            </th>
+            <th>{{ $t('adminUsers.table.plan') }}</th>
             <th>{{ $t('adminUsers.table.profile') }}</th>
             <th>
               {{ $t('adminUsers.table.status') }}
@@ -111,13 +107,13 @@
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-status-icon
-                    color="success"
+                    :color="user.status ? 'success' : 'light-gray'"
                     dense
                     icon="circle"
                     type="bold"
                   ></ks-status-icon>
                   <ks-status-icon
-                    color="light-gray"
+                    :color="user.status ? 'light-gray' : 'danger'"
                     dense
                     icon="circle"
                     icon-class="stroke-current"
@@ -162,8 +158,8 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      searchBy: null,
-      status: null,
+      searchBy: 0,
+      status: 1,
       page: 1,
       size: 5,
       users: [],
@@ -172,7 +168,9 @@ export default Vue.extend({
   async fetch() {
     try {
       this.loading = true
-      const res = await this.$axios.$get('/admin/users/view')
+      const res = await this.$axios.$get(
+        `/admin/users/view?status=${this.status}&role=${this.searchBy}`
+      )
       this.users = res.Users
     } catch (error) {
     } finally {
@@ -217,7 +215,7 @@ export default Vue.extend({
         },
         {
           text: this.$t('adminUsers.inactive'),
-          value: 2,
+          value: 0,
         },
       ]
     },
@@ -225,11 +223,22 @@ export default Vue.extend({
       return Math.ceil(this.users.length / this.size) || 1
     },
     paginatedUsers(): any[] {
-      return this.users
-        .filter((user: any) =>
-          this.searchBy !== null ? user.role === this.searchBy : true
-        )
-        .slice(this.size * this.page - this.size, this.size * this.page)
+      return this.users.slice(
+        this.size * this.page - this.size,
+        this.size * this.page
+      )
+    },
+  },
+  watch: {
+    status: {
+      handler() {
+        this.$fetch()
+      },
+    },
+    searchBy: {
+      handler() {
+        this.$fetch()
+      },
     },
   },
   methods: {

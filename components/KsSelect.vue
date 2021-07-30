@@ -4,11 +4,9 @@
     :class="[bgColor, color, disabled ? '' : 'cursor-pointer']"
   >
     <div class="ks-select" tabindex="0" @click="showItems" @blur="blur">
-      <span class="label">{{
-        value === null || value === '' ? label : selected.text
-      }}</span>
+      <span class="label">{{ isEmpty ? label : selected.text }}</span>
       <button
-        v-if="clearable && !(value === null || value === '') && !disabled"
+        v-if="clearable && !isEmpty && !disabled"
         type="button"
         class="clear-icon"
         @click.stop="clearValue"
@@ -119,7 +117,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    simpleArray(): Boolean {
+    simpleArray(): boolean {
       if (!this.items.length) return false
       else if (
         typeof this.items[0] === 'string' ||
@@ -127,6 +125,9 @@ export default Vue.extend({
       )
         return true
       return false
+    },
+    isEmpty(): boolean {
+      return this.value === null || this.value === '' || !this.items.length
     },
   },
   watch: {

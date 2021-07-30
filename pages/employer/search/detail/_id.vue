@@ -337,8 +337,8 @@ interface Language {
 export default Vue.extend({
   name: 'RequestDetailPage',
   layout: 'employer',
-  middleware({ app, redirect, query }) {
-    if (!query.id) return redirect(app.localePath('/employer/search'))
+  middleware({ app, redirect, params }) {
+    if (!params.id) return redirect(app.localePath('/employer/search'))
   },
   data() {
     return {
@@ -363,7 +363,7 @@ export default Vue.extend({
   },
   async fetch() {
     try {
-      const id = this.$route.query.id
+      const id = this.$route.params.id
       const res = await this.$axios.$get(`/employer/employee_profile/${id}`)
       res.birth_date = new Date(res.birth_date)
       this.profile = res

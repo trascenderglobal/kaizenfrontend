@@ -280,7 +280,7 @@ export default {
     approved: 'Aprobado',
     rejected: 'Rechazado',
     partiallyApproved: 'Aprobado parcialmente',
-    showBy: 'Mostrar',
+    showBy: 'Filtrar por',
     table: {
       position: 'Posición',
       date: 'Fecha',
@@ -303,7 +303,7 @@ export default {
     },
     requests: 'Solicitudes',
     header: 'Filtra tus solicitudes por reciente, en proceso o cancelado',
-    showBy: 'Mostrar',
+    showBy: 'Filtrar por',
     recent: 'Reciente',
     inProcess: 'En proceso',
     canceled: 'Cancelado',
@@ -440,6 +440,18 @@ export default {
     phone: 'Teléfono',
   },
   jobs: {
+    title: '¿Quién te busca?',
+    subtitle: 'Estas empresas te están buscando',
+    showBy: 'Filtrar por',
+    page: 'Página {p} de {t}',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    table: {
+      company: 'Compañía',
+      position: 'Posición',
+      date: 'Fecha',
+      noItems: 'No hay trabajos',
+    },
     meta: {
       title: 'Trabajos',
       description: 'Trabajos',
@@ -476,7 +488,7 @@ export default {
   adminDeals: {
     title: 'Tratos',
     subtitle: 'Filtra por aprobado, activo or rechazado',
-    showBy: 'Mostrar',
+    showBy: 'Filtrar por',
     approved: 'Aprobados',
     active: 'Activos',
     rejected: 'Rechazados',

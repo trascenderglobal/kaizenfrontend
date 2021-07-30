@@ -175,9 +175,10 @@
               <tr :key="`result-${i}`" class="result-row">
                 <td>
                   <div class="flex items-center space-x-2">
-                    <ks-user-img /><span
-                      >{{ result.name }} {{ result.last_name }}</span
-                    >
+                    <ks-user-img
+                      :initials="result.name"
+                      :image-url="result.profileImage"
+                    /><span>{{ result.name }} {{ result.last_name }}</span>
                   </div>
                 </td>
                 <td>{{ result.position }}</td>
@@ -190,7 +191,7 @@
                       color="light-blue"
                       dense
                       icon
-                      :to="`/employer/search/detail?id=${result.id}`"
+                      :to="`/employer/search/detail/${result.id}`"
                       ><i><iconly-icon name="show" class="fill-current" /></i
                     ></ks-btn>
                   </div>
@@ -259,7 +260,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapState } from 'vuex'
-import KsUserImg from '~/components/KsUserImg.vue'
 import { required } from 'vuelidate/lib/validators'
 
 interface Skill {
@@ -269,7 +269,6 @@ interface Skill {
 
 export default Vue.extend({
   name: 'SearchPage',
-  components: { KsUserImg },
   layout: 'employerSearch',
   data() {
     return {
@@ -279,7 +278,7 @@ export default Vue.extend({
           years_of_experience: null,
         },
       ] as Skill[],
-      results: [],
+      results: [] as any[],
       requestIds: [] as Number[],
       page: 1,
       size: 5,
@@ -351,6 +350,14 @@ export default Vue.extend({
           state: this.filters.state ? [{ state: this.filters.state }] : [],
         })
         this.results = res.result
+        const profileImages: any = await Promise.all(
+          res.result.map((res: any) =>
+            this.$axios.$get(`/employer/employee_picture/${res.id}`)
+          )
+        )
+        this.results.forEach((res, i) => {
+          res.profileImage = profileImages[i].profile_picture_URL
+        })
         if (!this.results.length)
           this.$notifier.showNotification({
             content: this.$t('search.noResults'),
