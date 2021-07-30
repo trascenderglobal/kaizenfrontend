@@ -13,6 +13,7 @@
         <ks-user-img
           :title="deal.name + ' ' + deal.last_name"
           :initials="deal.name"
+          :image-url="images[i]"
         />
         <div class="flex-auto">
           <p class="text-blue-kaizen">{{ deal.name + ' ' + deal.last_name }}</p>
@@ -45,6 +46,12 @@ export default Vue.extend({
   },
   async mounted() {
     await this.$store.dispatch('admin/fetchDealsMade')
+    this.deals.forEach(async (deal) => {
+      const res = await this.$axios.$get(
+        `/admin/user/profile_picture/${deal.company_id}`
+      )
+      this.images.push(res.profile_picture_URL)
+    })
   },
 })
 </script>
