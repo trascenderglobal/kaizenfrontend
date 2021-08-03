@@ -524,6 +524,8 @@ export default {
     title: 'Detalles del trato',
     approve: 'Aprobar',
     reject: 'Rechazar',
+    approved: 'Aprobado',
+    rejected: 'Rechazado',
     typeOfNegotiation: 'Tipo de negociación',
     position: 'Posición',
     from: 'Desde',

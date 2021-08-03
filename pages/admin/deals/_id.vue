@@ -7,17 +7,25 @@
       <div class="flex items-center space-x-2 min-w-40">
         <ks-btn
           color="success"
-          :disabled="response.get(currentDeal.user_id)"
+          :disabled="currentResponse === 2"
           dense
           @click="approveDeal(currentDeal.id)"
-          >{{ $t('adminDetail.approve') }}</ks-btn
+          >{{
+            currentResponse === 1
+              ? $t('adminDetail.approved')
+              : $t('adminDetail.approve')
+          }}</ks-btn
         >
         <ks-btn
           color="darker-gray"
-          :disabled="response.get(currentDeal.user_id)"
+          :disabled="currentResponse === 1"
           dense
           @click="rejectDeal(currentDeal.id)"
-          >{{ $t('adminDetail.reject') }}</ks-btn
+          >{{
+            currentResponse === 2
+              ? $t('adminDetail.rejected')
+              : $t('adminDetail.reject')
+          }}</ks-btn
         >
         <ks-btn color="danger" dense icon :to="localePath('/admin/deals')"
           ><iconly-icon name="close" class="stroke-current"
@@ -27,7 +35,7 @@
     <div class="flex flex-grow lg:flex-grow-0 space-x-4 pt-6">
       <ks-user-img
         :initials="currentDeal.name || ''"
-        :image-url="images.get(currentDeal.user_id)"
+        :image-url="currentDeal.user_id ? currentImage : ''"
         large
       />
       <div class="flex flex-col space-y-2">
@@ -170,6 +178,47 @@ export default Vue.extend({
   middleware({ app, redirect, params }) {
     if (!params.id) return redirect(app.localePath('/employer/search'))
   },
+  async asyncData({ app, params, redirect, $axios }) {
+    try {
+      let dealDetail = []
+      let currentDeal = {
+        id: null,
+        user_id: null,
+        name: '',
+        last_name: '',
+        birth_date: null,
+        start_date: null,
+        end_date: null,
+        skill: null,
+        profile_picture_url: '',
+        contract_type: '',
+        salary_rate: null,
+        job_descriptions: '',
+        observations: '',
+      }
+      const images = new Map() as Map<number, string>
+      let currentImage = ''
+      const id = params.id
+      const res = await $axios.$get(`/admin/deals/details/${id}`)
+      if (!res.elements.length) {
+        redirect(app.localePath('/admin/deals'))
+      } else {
+        dealDetail = res.elements
+        currentDeal = dealDetail[0]
+        const dealPicture = await $axios.$get(
+          `/admin/user/profile_picture/${currentDeal.user_id}`
+        )
+        images.set(currentDeal.user_id as any, dealPicture.profile_picture_URL)
+        currentImage = dealPicture.profile_picture_URL
+      }
+      return {
+        dealDetail,
+        currentDeal,
+        images,
+        currentImage,
+      }
+    } catch (error) {}
+  },
   data() {
     return {
       dealId: this.$route.params.id,
@@ -192,26 +241,9 @@ export default Vue.extend({
       },
       response: new Map() as Map<number, number>,
       images: new Map() as Map<number, string>,
+      currentImage: '',
+      currentResponse: 0,
     }
-  },
-  async fetch() {
-    try {
-      const id = this.$route.params.id
-      const res = await this.$axios.$get(`/admin/deals/details/${id}`)
-      if (!res.elements.length) {
-        this.$router.push(this.localePath('/admin/deals'))
-      } else {
-        this.dealDetail = res.elements
-        this.currentDeal = this.dealDetail[0]
-        const dealPicture = await this.$axios.$get(
-          `/admin/user/profile_picture/${this.currentDeal.user_id}`
-        )
-        this.images.set(
-          this.currentDeal.user_id as any,
-          dealPicture.profile_picture_URL
-        )
-      }
-    } catch (error) {}
   },
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
@@ -253,7 +285,10 @@ export default Vue.extend({
     page: {
       async handler(val) {
         try {
+          this.currentImage = ''
           this.currentDeal = this.dealDetail[val - 1]
+          this.currentResponse =
+            this.response.get(this.currentDeal.id as any) || 0
           if (!this.images.get(this.currentDeal.user_id as any)) {
             const dealPicture = await this.$axios.$get(
               `/admin/user/profile_picture/${this.currentDeal.user_id}`
@@ -263,6 +298,8 @@ export default Vue.extend({
               dealPicture.profile_picture_URL
             )
           }
+          this.currentImage =
+            this.images.get(this.currentDeal.user_id as any) || ''
         } catch (error) {}
       },
     },
@@ -282,8 +319,8 @@ export default Vue.extend({
       try {
         if (this.response.get(id)) return
         this.response.set(id, 1)
-        const next = this.nextPage()
-        if (!next && this.response.size === this.dealDetail.length) {
+        this.currentResponse = this.response.get(id) || 0
+        if (this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {
             response.push({ response: status, petitionElementID })
@@ -303,8 +340,8 @@ export default Vue.extend({
       try {
         if (this.response.get(id)) return
         this.response.set(id, 2)
-        const next = this.nextPage()
-        if (!next && this.response.size === this.dealDetail.length) {
+        this.currentResponse = this.response.get(id) || 0
+        if (this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {
             response.push({ response: status, petitionElementID })

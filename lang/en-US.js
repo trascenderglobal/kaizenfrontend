@@ -523,6 +523,8 @@ export default {
     title: 'Deal detail',
     approve: 'Approve',
     reject: 'Reject',
+    approved: 'Approved',
+    rejected: 'Rejected',
     typeOfNegotiation: 'Type of negotiation',
     position: 'Position',
     from: 'From',
