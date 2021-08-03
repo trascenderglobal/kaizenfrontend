@@ -209,6 +209,10 @@ export default Vue.extend({
           text: this.$t('adminDeals.rejected'),
           value: 5,
         },
+        {
+          text: this.$t('adminDeals.partiallyApproved'),
+          value: 6,
+        },
       ]
     },
     totalPages(): number {

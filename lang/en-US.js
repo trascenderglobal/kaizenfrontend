@@ -500,6 +500,7 @@ export default {
     approved: 'Approved',
     active: 'Active',
     rejected: 'Rejected',
+    partiallyApproved: 'Partially approved',
     table: {
       company: 'Company',
       date: 'Date',
