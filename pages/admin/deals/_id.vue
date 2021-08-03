@@ -320,6 +320,7 @@ export default Vue.extend({
         if (this.response.get(id)) return
         this.response.set(id, 1)
         this.currentResponse = this.response.get(id) || 0
+        this.nextPage()
         if (this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {
@@ -340,6 +341,7 @@ export default Vue.extend({
       try {
         if (this.response.get(id)) return
         this.response.set(id, 2)
+        this.nextPage()
         this.currentResponse = this.response.get(id) || 0
         if (this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []

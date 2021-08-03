@@ -319,7 +319,7 @@ export default Vue.extend({
         },
         {
           text: this.$t('negotiation.contracts.1'),
-          value: 'direct hired',
+          value: 'direct hire',
         },
       ],
     }

@@ -177,7 +177,7 @@
                   <div class="flex items-center space-x-2">
                     <ks-user-img
                       :initials="result.name"
-                      :image-url="result.profileImage"
+                      :image-url="images[i]"
                     /><span>{{ result.name }} {{ result.last_name }}</span>
                   </div>
                 </td>
@@ -284,6 +284,7 @@ export default Vue.extend({
       requestIds: [] as Number[],
       page: 1,
       size: 5,
+      images: [] as string[],
     }
   },
   async fetch() {
@@ -399,9 +400,7 @@ export default Vue.extend({
             this.$axios.$get(`/employer/employee_picture/${res.id}`)
           )
         )
-        this.results.forEach((res, i) => {
-          res.profileImage = profileImages[i].profile_picture_URL
-        })
+        this.images = profileImages.map((res: any) => res.profile_picture_URL)
         if (!this.results.length)
           this.$notifier.showNotification({
             content: this.$t('search.noResults'),

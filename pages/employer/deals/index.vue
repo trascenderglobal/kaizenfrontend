@@ -316,7 +316,7 @@ export default Vue.extend({
     typeOfContract(contract: string): string {
       if (contract === 'contract labor')
         return this.$t('negotiation.contracts.0') as string
-      if (contract === 'direct hired')
+      if (contract === 'direct hire')
         return this.$t('negotiation.contracts.1') as string
       return '-'
     },
