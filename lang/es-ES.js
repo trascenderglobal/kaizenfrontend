@@ -397,8 +397,8 @@ export default {
     position: 'Cargo',
     typeOfC: 'Tipo de contrato',
     contracts: {
-      0: 'Contract labor',
-      1: 'Direct hired',
+      0: 'Contrato laboral',
+      1: 'Contratación directa',
     },
     selectContract: 'Selecciona el tipo de contrato',
     salaryRate: 'Tasa de salario',
