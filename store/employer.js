@@ -1,5 +1,12 @@
 export const state = () => ({
-  searchFilters: {},
+  searchFilters: {
+    state: null,
+    city: null,
+    lang: {
+      language: null,
+      level: null,
+    },
+  },
   approvedDeals: [],
 })
 
@@ -7,7 +14,10 @@ export const getters = {}
 
 export const mutations = {
   SET_SEARCH_FILTERS: (state, searchFilters) => {
-    state.searchFilters = searchFilters
+    state.searchFilters.state = searchFilters.state
+    state.searchFilters.city = searchFilters.city
+    state.searchFilters.lang.language = searchFilters.lang.language
+    state.searchFilters.lang.level = searchFilters.lang.level
   },
   SET_APPROVED_DEALS: (state, approvedDeals) => {
     state.approvedDeals = approvedDeals

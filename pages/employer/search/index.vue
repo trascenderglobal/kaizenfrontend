@@ -191,7 +191,9 @@
                       color="light-blue"
                       dense
                       icon
-                      :to="`/employer/search/detail/${result.id}`"
+                      :to="`/employer/search/detail/${
+                        result.id
+                      }?q=${JSON.stringify(searchParams)}`"
                       ><i><iconly-icon name="show" class="fill-current" /></i
                     ></ks-btn>
                   </div>
@@ -284,6 +286,24 @@ export default Vue.extend({
       size: 5,
     }
   },
+  async fetch() {
+    try {
+      if (this.$route.query.q) {
+        const query = JSON.parse(this.$route.query.q as string)
+        this.skills = query.skills
+        this.$store.dispatch('employer/updateSearchFilters', {
+          lang: {
+            language: query.language[0]?.language,
+            level: null,
+          },
+          state: query.state[0]?.state,
+          city: query.city[0]?.city,
+        })
+        await this.search()
+        this.$router.push({ query: { q: undefined } })
+      }
+    } catch (error) {}
+  },
   head(): object {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
     return {
@@ -319,6 +339,18 @@ export default Vue.extend({
     totalPages(): number {
       return Math.ceil(this.results.length / this.size) || 1
     },
+    searchParams(): Object {
+      return {
+        skills: this.skills.filter(
+          (skill) => skill.skill_name && skill.years_of_experience
+        ),
+        language: this.filters.lang
+          ? [this.filters.lang].filter((lang) => !!lang.language)
+          : [],
+        city: this.filters.city ? [{ city: this.filters.city }] : [],
+        state: this.filters.state ? [{ state: this.filters.state }] : [],
+      }
+    },
     ...mapState({
       filters: (state: any) => state.employer.searchFilters,
     }),
@@ -326,9 +358,20 @@ export default Vue.extend({
   watch: {
     filters: {
       async handler() {
-        await this.search()
+        if (this.results.length) await this.search()
       },
+      deep: true,
     },
+  },
+  beforeDestroy() {
+    this.$store.dispatch('employer/updateSearchFilters', {
+      lang: {
+        language: null,
+        level: null,
+      },
+      state: null,
+      city: null,
+    })
   },
   methods: {
     removeFilter(i: number): void {
@@ -346,16 +389,10 @@ export default Vue.extend({
         this.$v.$touch()
         if (this.$v.$invalid) return
 
-        const res = await this.$axios.$post('/employer/search', {
-          skills: this.skills.filter(
-            (skill) => skill.skill_name && skill.years_of_experience
-          ),
-          language: this.filters.language
-            ? [this.filters.language].filter((lang) => lang.language)
-            : [],
-          city: this.filters.city ? [{ city: this.filters.city }] : [],
-          state: this.filters.state ? [{ state: this.filters.state }] : [],
-        })
+        const res = await this.$axios.$post(
+          '/employer/search',
+          this.searchParams
+        )
         this.results = res.result
         const profileImages: any = await Promise.all(
           res.result.map((res: any) =>

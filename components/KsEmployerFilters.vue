@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
 
 interface Language {
   language: number | null
@@ -189,6 +190,17 @@ export default Vue.extend({
       }
       return languagesLevel
     },
+    ...mapState({
+      filters: (state: any): Filter => state.employer.searchFilters,
+    }),
+  },
+  mounted() {
+    if (this.filters.state) this.search.state = this.filters.state
+    if (this.filters.city) this.search.city = this.filters.city
+    if (this.filters.lang) {
+      this.search.lang.language = this.filters.lang.language
+      this.search.lang.level = this.filters.lang.level
+    }
   },
   methods: {
     applyFilters() {

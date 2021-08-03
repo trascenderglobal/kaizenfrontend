@@ -78,7 +78,7 @@ export default Vue.extend({
       default: false,
     },
     to: {
-      type: String,
+      type: [String, Object],
       default: null,
     },
     dense: Boolean,

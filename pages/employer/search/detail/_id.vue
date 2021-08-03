@@ -12,7 +12,14 @@
           @click="requestProfile"
           >{{ $t('detail.request') }}</ks-btn
         >
-        <ks-btn color="danger" dense icon :to="localePath(backLink)"
+        <ks-btn
+          color="danger"
+          dense
+          icon
+          :to="{
+            path: localePath(backLink),
+            query: { q: searchParams },
+          }"
           ><i><iconly-icon name="close" class="stroke-current" /></i
         ></ks-btn>
       </div>
@@ -337,11 +344,19 @@ interface Language {
 export default Vue.extend({
   name: 'RequestDetailPage',
   layout: 'employer',
-  middleware({ app, redirect, params }) {
+  middleware({ app, redirect, params, query }) {
     if (!params.id) return redirect(app.localePath('/employer/search'))
+    try {
+      if (query.q) {
+        JSON.parse(query.q as string)
+      }
+    } catch (error) {
+      redirect(app.localePath(`/employer/search/detail/${params.id}`))
+    }
   },
   data() {
     return {
+      searchParams: this.$route.query.q,
       profile: {
         id: null,
         name: '',
@@ -363,6 +378,7 @@ export default Vue.extend({
   },
   async fetch() {
     try {
+      this.$router.push({ query: { q: undefined } })
       const id = this.$route.params.id
       const res = await this.$axios.$get(`/employer/employee_profile/${id}`)
       res.birth_date = new Date(res.birth_date)
@@ -390,7 +406,7 @@ export default Vue.extend({
   },
   computed: {
     backLink(): string {
-      return this.$nuxt.context.from?.fullPath || '/employer/search'
+      return this.$nuxt.context.from?.path || '/employer/search'
     },
     novelties(): String {
       const statuses = [
