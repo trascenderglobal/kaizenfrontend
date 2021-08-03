@@ -185,6 +185,7 @@ export default {
       manufacturing: 'Manufacturing',
     },
     state: 'State',
+    companyName: 'Company name',
     position: 'Position',
     contactPerson: 'Contact person',
     city: 'City',
