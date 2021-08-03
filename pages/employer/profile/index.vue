@@ -117,6 +117,31 @@
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">
+              {{ $t('profile.companyName') }}
+            </span>
+          </div>
+          <span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.company_name }"
+            >{{ profile.company_name || '-' }}</span
+          >
+          <div v-else class="w-1/2">
+            <ks-input
+              v-model="profile.company_name"
+              border-color="border-blue-light"
+              :label="$t('profile.companyName')"
+              disable-hint
+              dense
+            >
+            </ks-input>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">
               {{ $t('profile.contactPerson') }}
             </span>
           </div>
@@ -439,6 +464,7 @@ export default Vue.extend({
         lastName: '',
         birthDate: null as NullableDate,
         contact_person: '',
+        company_name: '',
         adress: '',
         industry: '',
         position: '',
@@ -584,6 +610,7 @@ export default Vue.extend({
         if (this.image) data.append('profile_picture', this.image as any)
         data.append('name', this.profile.name)
         data.append('last_name', this.profile.lastName)
+        data.append('company_name', this.profile.company_name || '')
         data.append('contact_person', this.profile.contact_person || '')
         data.append('position', this.profile.position || '')
         data.append('industry', this.profile.industry || '')
