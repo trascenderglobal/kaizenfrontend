@@ -452,6 +452,8 @@ export default {
     page: 'Page {p} of {t}',
     previous: 'Previous',
     next: 'Next',
+    approved: 'Approved',
+    rejected: 'Rejected',
     table: {
       company: 'Company',
       position: 'Position',

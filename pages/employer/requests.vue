@@ -288,7 +288,7 @@ export default Vue.extend({
   data() {
     return {
       expanded: null as Number | null,
-      showBy: 3,
+      showBy: null,
       loading: false,
       updatingStatus: false,
       loadingDetails: false,
@@ -302,7 +302,9 @@ export default Vue.extend({
   async fetch() {
     try {
       this.loading = true
-      const res = await this.$axios.$get('/employer/petition/view')
+      const res = await this.$axios.$get(
+        `/employer/petition/view/${this.showBy || 1}`
+      )
       this.requests = res.result as Request[]
     } catch (error) {
     } finally {
@@ -343,13 +345,20 @@ export default Vue.extend({
       return Math.ceil(this.requests.length / this.size) || 1
     },
     paginatedRequests(): Request[] {
-      const showBy = this.showBy
-      return this.requests
-        .filter((req) => (showBy ? req.status === showBy : true))
-        .slice(this.size * this.page - this.size, this.size * this.page)
+      return this.requests.slice(
+        this.size * this.page - this.size,
+        this.size * this.page
+      )
     },
     showCancel(): boolean {
       return this.requestCancel !== null
+    },
+  },
+  watch: {
+    showBy: {
+      async handler() {
+        await this.$fetch()
+      },
     },
   },
   methods: {

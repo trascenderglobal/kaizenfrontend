@@ -29,7 +29,6 @@
               ? 'bg-red-kaizen'
               : 'bg-gray-darker'
           "
-          clearable
         ></ks-select>
       </div>
     </div>
@@ -73,7 +72,9 @@
                   <ks-user-img
                     :initials="deal.name"
                     :image-url="deal.profile_picture_URL"
-                  /><span>{{ deal.name + ' ' + deal.last_name }}</span>
+                  /><span>{{
+                    deal.company_name || deal.name + ' ' + deal.last_name
+                  }}</span>
                 </div>
               </td>
               <td>{{ $d(new Date(deal.petition_date)) }}</td>
@@ -169,9 +170,7 @@ export default Vue.extend({
   async fetch() {
     try {
       this.loading = true
-      const res = await this.$axios.$get(
-        `/admin/deals/view/${this.showBy || 3}`
-      )
+      const res = await this.$axios.$get(`/admin/deals/view/${this.showBy}`)
       this.deals = res.deals
     } catch (error) {
     } finally {

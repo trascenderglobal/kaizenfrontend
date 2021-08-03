@@ -453,6 +453,8 @@ export default {
     page: 'Página {p} de {t}',
     previous: 'Anterior',
     next: 'Siguiente',
+    approved: 'Aprobado',
+    rejected: 'Rechazado',
     table: {
       company: 'Compañía',
       position: 'Posición',

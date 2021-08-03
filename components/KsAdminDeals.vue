@@ -11,12 +11,14 @@
       <p class="text-gray-dark">{{ $t('alerts.newAlerts') }}</p>
       <div v-for="(deal, i) in deals" :key="`alert-${i}`" class="deal-alert">
         <ks-user-img
-          :title="deal.name + ' ' + deal.last_name"
-          :initials="deal.name"
+          :title="deal.company_name || deal.name + ' ' + deal.last_name"
+          :initials="deal.company_name || deal.name"
           :image-url="images[i]"
         />
         <div class="flex-auto">
-          <p class="text-blue-kaizen">{{ deal.name + ' ' + deal.last_name }}</p>
+          <p class="text-blue-kaizen">
+            {{ deal.company_name || deal.name + ' ' + deal.last_name }}
+          </p>
           <p class="text-sm text-gray-dark">
             {{ $d(new Date(deal.petition_date)) }}
           </p>

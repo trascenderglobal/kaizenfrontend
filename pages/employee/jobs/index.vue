@@ -19,14 +19,12 @@
           v-model="showBy"
           class="transition"
           :label="$t('jobs.showBy')"
-          :items="[]"
+          :items="showByItems"
           :bg-color="
             showBy === 1
-              ? 'bg-blue-light'
+              ? 'bg-green-kaizen'
               : showBy === 2
               ? 'bg-red-kaizen'
-              : showBy === 3
-              ? 'bg-orange-pending'
               : 'bg-gray-darker'
           "
           clearable
@@ -64,8 +62,11 @@
             <tr v-for="(job, i) in paginatedJobs" :key="`job-${i}`">
               <td>
                 <div class="flex items-center space-x-2">
-                  <ks-user-img :initials="job.company" /><span>{{
-                    job.company
+                  <ks-user-img
+                    :initials="job.company_name || job.name"
+                    :image-url="images[i]"
+                  /><span>{{
+                    job.company_name || job.name + ' ' + job.last_name
                   }}</span>
                 </div>
               </td>
@@ -106,6 +107,7 @@
 import Vue from 'vue'
 
 interface Job {
+  company_id: number
   company: string
   position: string
   start_date: string
@@ -118,17 +120,25 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      showBy: 1,
+      showBy: null,
       page: 1,
       size: 5,
       jobs: [] as Job[],
+      images: [] as string[],
     }
   },
   async fetch() {
     try {
       this.loading = true
-      const res = await this.$axios.$get('/employee/jobs')
+      const res = await this.$axios.$get(`/employee/jobs/${this.showBy || 3}`)
       this.jobs = res.results
+      this.images = []
+      this.paginatedJobs.forEach(async (job) => {
+        const res = await this.$axios.$get(
+          `/employee/employer/profile_picture/${job.company_id}`
+        )
+        this.images.push(res.profile_picture_URL)
+      })
     } catch (error) {
     } finally {
       this.loading = false
@@ -152,6 +162,18 @@ export default Vue.extend({
     }
   },
   computed: {
+    showByItems(): object[] {
+      return [
+        {
+          text: this.$t('jobs.approved'),
+          value: 1,
+        },
+        {
+          text: this.$t('jobs.rejected'),
+          value: 2,
+        },
+      ]
+    },
     totalPages(): number {
       return Math.ceil(this.jobs.length / this.size) || 1
     },
@@ -160,6 +182,13 @@ export default Vue.extend({
         this.size * this.page - this.size,
         this.size * this.page
       )
+    },
+  },
+  watch: {
+    showBy: {
+      async handler() {
+        await this.$fetch()
+      },
     },
   },
   methods: {
