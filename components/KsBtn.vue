@@ -156,7 +156,7 @@ export default Vue.extend({
   @apply border-green-kaizen bg-transparent text-green-kaizen;
 }
 
-.ks-btn.success.transparent {
+.ks-btn.success.text {
   @apply border-transparent bg-transparent text-green-kaizen;
 }
 
@@ -180,7 +180,7 @@ export default Vue.extend({
   @apply border-red-kaizen bg-transparent text-red-kaizen;
 }
 
-.ks-btn.danger.transparent {
+.ks-btn.danger.text {
   @apply border-transparent bg-transparent text-red-kaizen;
 }
 

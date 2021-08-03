@@ -302,7 +302,7 @@ export default {
       description: 'Solicitudes',
     },
     requests: 'Solicitudes',
-    header: 'Filtra tus solicitudes por reciente, en proceso o cancelado',
+    header: 'Filtra tus solicitudes en proceso o canceladas',
     showBy: 'Filtrar por',
     recent: 'Reciente',
     inProcess: 'En proceso',
@@ -324,9 +324,14 @@ export default {
       rate: '{salary} USD por hora',
       talent: 'Talento',
     },
+    cancelModal: {
+      title: '¿Estás seguro de que deseas cancelar esta solicitud?',
+      subtitle: 'Puedes enviarlo de nuevo para su revisión más tarde',
+    },
     send: 'Enviar solicitud',
     pending: 'Solicitud pendiente',
     cancel: 'Cancelar solicitud',
+    close: 'Cerrar',
     previous: 'Anterior',
     next: 'Siguiente',
     page: 'Page {p} of {t}',
@@ -350,6 +355,7 @@ export default {
     addFilter: 'Añadir filtros',
     removeFilter: 'Remover filtro',
     addFilterDescription: 'Agrega filtros para una búsqueda más precisa',
+    filtersApplied: '¡Filtros aplicados!',
     city: 'Ciudad',
     state: 'Estado',
     language: {
@@ -449,7 +455,7 @@ export default {
     table: {
       company: 'Compañía',
       position: 'Posición',
-      date: 'Fecha',
+      date: 'Fecha Inicio',
       noItems: 'No hay trabajos',
     },
     meta: {

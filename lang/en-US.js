@@ -301,7 +301,7 @@ export default {
       description: 'Requests',
     },
     requests: 'Requests',
-    header: 'Filter your requests by recent, in process or canceled',
+    header: 'Filter your requests by in process or canceled',
     showBy: 'Show by',
     recent: 'Recent',
     inProcess: 'In process',
@@ -323,9 +323,14 @@ export default {
       rate: 'USD {salary} per hour',
       talent: 'Talent',
     },
+    cancelModal: {
+      title: 'Are you sure you want to cancel this request?',
+      subtitle: 'You can send it again for review later',
+    },
     send: 'Send request',
     pending: 'Pending request',
     cancel: 'Cancel request',
+    close: 'Close',
     previous: 'Previous',
     next: 'Next',
     page: 'Page {p} of {t}',
@@ -349,6 +354,7 @@ export default {
     addFilter: 'Add filter',
     removeFilter: 'Remove filter',
     addFilterDescription: 'Add new filters to make your search more accurate',
+    filtersApplied: 'Filters applied!',
     city: 'City',
     state: 'State',
     language: {
@@ -448,7 +454,7 @@ export default {
     table: {
       company: 'Company',
       position: 'Position',
-      date: 'Date',
+      date: 'Start Date',
       noItems: 'There are no jobs',
     },
     meta: {

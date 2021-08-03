@@ -5,12 +5,20 @@
         {{ $t('adminDetail.title') }}
       </h1>
       <div class="flex items-center space-x-2 min-w-40">
-        <ks-btn color="success" dense @click="approveDeal(currentDeal.id)">{{
-          $t('adminDetail.approve')
-        }}</ks-btn>
-        <ks-btn color="darker-gray" dense @click="rejectDeal(currentDeal.id)">{{
-          $t('adminDetail.reject')
-        }}</ks-btn>
+        <ks-btn
+          color="success"
+          :disabled="response.get(currentDeal.user_id)"
+          dense
+          @click="approveDeal(currentDeal.id)"
+          >{{ $t('adminDetail.approve') }}</ks-btn
+        >
+        <ks-btn
+          color="darker-gray"
+          :disabled="response.get(currentDeal.user_id)"
+          dense
+          @click="rejectDeal(currentDeal.id)"
+          >{{ $t('adminDetail.reject') }}</ks-btn
+        >
         <ks-btn color="danger" dense icon :to="localePath('/admin/deals')"
           ><iconly-icon name="close" class="stroke-current"
         /></ks-btn>
@@ -98,7 +106,7 @@
             >{{ $t('adminDetail.jobDescription') }}:</span
           >
           <span class="text-gray-darker">{{
-            currentDeal.job_description || '-'
+            currentDeal.job_descriptions || '-'
           }}</span>
         </div>
       </div>
@@ -179,6 +187,8 @@ export default Vue.extend({
         profile_picture_url: '',
         contract_type: '',
         salary_rate: null,
+        job_descriptions: '',
+        observations: '',
       },
       response: new Map() as Map<number, number>,
       images: new Map() as Map<number, string>,
@@ -234,7 +244,7 @@ export default Vue.extend({
     typeOfContract(): string {
       if (this.currentDeal.contract_type === 'contract labor')
         return this.$t('negotiation.contracts.0') as string
-      if (this.currentDeal.contract_type === 'direct hired')
+      if (this.currentDeal.contract_type === 'direct hire')
         return this.$t('negotiation.contracts.1') as string
       return '-'
     },
@@ -270,6 +280,7 @@ export default Vue.extend({
     },
     async approveDeal(id: number) {
       try {
+        if (this.response.get(id)) return
         this.response.set(id, 1)
         const next = this.nextPage()
         if (!next && this.response.size === this.dealDetail.length) {
@@ -290,6 +301,7 @@ export default Vue.extend({
     },
     async rejectDeal(id: number) {
       try {
+        if (this.response.get(id)) return
         this.response.set(id, 2)
         const next = this.nextPage()
         if (!next && this.response.size === this.dealDetail.length) {

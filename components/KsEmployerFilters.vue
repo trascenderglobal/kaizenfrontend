@@ -193,6 +193,9 @@ export default Vue.extend({
   methods: {
     applyFilters() {
       this.$store.dispatch('employer/updateSearchFilters', this.search)
+      this.$notifier.showNotification({
+        content: this.$t('search.filtersApplied') as string,
+      })
     },
   },
 })

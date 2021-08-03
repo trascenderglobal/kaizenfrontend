@@ -102,7 +102,7 @@
                     :disabled="updatingStatus || request.status === 2"
                     dense
                     icon
-                    @click="cancelRequest(request)"
+                    @click="setCancelRequest(request)"
                     ><i><iconly-icon name="close" class="stroke-current" /></i
                   ></ks-btn>
                 </div>
@@ -215,6 +215,40 @@
       </div>
       <div class="flex-auto"></div>
     </div>
+    <transition name="cancel">
+      <div v-if="showCancel" class="cancel-modal" role="dialog">
+        <div class="w-3/5">
+          <ks-card class="p-8" col>
+            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                {{ $t('requests.cancelModal.title') }}
+              </h1>
+              <hr class="self-stretch border-blue-light" />
+              <p class="text-xl text-blue-kaizen text-center">
+                {{ $t('requests.cancelModal.subtitle') }}
+              </p>
+              <div
+                class="flex pt-16 space-x-2 flex-grow items-end justify-center"
+              >
+                <ks-btn
+                  color="danger"
+                  outline
+                  class="text-xl"
+                  @click="cancelRequest(requestCancel)"
+                  >{{ $t('requests.cancel') }}</ks-btn
+                >
+                <ks-btn
+                  color="darker-gray"
+                  class="text-xl"
+                  @click="requestCancel = null"
+                  >{{ $t('requests.close') }}</ks-btn
+                >
+              </div>
+            </div>
+          </ks-card>
+        </div>
+      </div>
+    </transition>
   </ks-card>
 </template>
 
@@ -254,7 +288,7 @@ export default Vue.extend({
   data() {
     return {
       expanded: null as Number | null,
-      showBy: null,
+      showBy: 3,
       loading: false,
       updatingStatus: false,
       loadingDetails: false,
@@ -262,6 +296,7 @@ export default Vue.extend({
       size: 5,
       requests: [] as Request[],
       requestDetails: [] as RequestDetail[],
+      requestCancel: null as Request | null,
     }
   },
   async fetch() {
@@ -295,10 +330,6 @@ export default Vue.extend({
     showByItems(): object[] {
       return [
         {
-          text: this.$t('requests.recent'),
-          value: 1,
-        },
-        {
           text: this.$t('requests.inProcess'),
           value: 3,
         },
@@ -317,12 +348,15 @@ export default Vue.extend({
         .filter((req) => (showBy ? req.status === showBy : true))
         .slice(this.size * this.page - this.size, this.size * this.page)
     },
+    showCancel(): boolean {
+      return this.requestCancel !== null
+    },
   },
   methods: {
     typeOfContract(contract: string): string {
       if (contract === 'contract labor')
         return this.$t('negotiation.contracts.0') as string
-      if (contract === 'direct hired')
+      if (contract === 'direct hire')
         return this.$t('negotiation.contracts.1') as string
       return '-'
     },
@@ -373,6 +407,9 @@ export default Vue.extend({
         this.updatingStatus = false
       }
     },
+    setCancelRequest(requestCancel: Request) {
+      this.requestCancel = requestCancel
+    },
     async cancelRequest(request: Request) {
       try {
         this.updatingStatus = true
@@ -380,6 +417,7 @@ export default Vue.extend({
           petitionID: request.id,
         })
         request.status = 2
+        this.requestCancel = null
         this.$notifier.showNotification({
           content: this.$t('requests.requestCanceled'),
         })
@@ -488,5 +526,18 @@ tbody > .request-detail td:last-child {
 
 .expanded-cell .expanded-row > span {
   @apply flex-1;
+}
+
+.cancel-enter-active,
+.cancel-leave-active {
+  transition: opacity 0.2s;
+}
+.cancel-enter,
+.cancel-leave-to {
+  opacity: 0;
+}
+
+.cancel-modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
 }
 </style>

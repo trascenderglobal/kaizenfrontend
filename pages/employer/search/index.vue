@@ -323,6 +323,13 @@ export default Vue.extend({
       filters: (state: any) => state.employer.searchFilters,
     }),
   },
+  watch: {
+    filters: {
+      async handler() {
+        await this.search()
+      },
+    },
+  },
   methods: {
     removeFilter(i: number): void {
       this.skills.splice(i, 1)

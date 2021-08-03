@@ -141,7 +141,6 @@
             v-model="negotiations[currentIndex].jobDescription"
             dense
             disable-hint
-            :label="$t('negotiation.jobDescription')"
             :error="
               $v.negotiations.$each.$iter[currentIndex].jobDescription.$error
             "
@@ -161,7 +160,6 @@
           <ks-text-area
             v-model="negotiations[currentIndex].observation"
             dense
-            :label="$t('negotiation.observation')"
             disable-hint
             @blur="$v.negotiations.$each.$iter[currentIndex].observation.$touch"
           />
@@ -317,7 +315,7 @@ export default Vue.extend({
       typeContract: [
         {
           text: this.$t('negotiation.contracts.0'),
-          value: 'contact labor',
+          value: 'contract labor',
         },
         {
           text: this.$t('negotiation.contracts.1'),
