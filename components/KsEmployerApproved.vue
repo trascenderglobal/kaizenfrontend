@@ -47,13 +47,15 @@ export default Vue.extend({
     }),
   },
   async mounted() {
-    await this.$store.dispatch('employer/fetchApprovedDeals')
-    this.approved.forEach(async (deal) => {
-      const res = await this.$axios.$get(
-        `/employer/employee_picture/${deal.user_id}`
+    try {
+      await this.$store.dispatch('employer/fetchApprovedDeals')
+      const profileImages = await Promise.all(
+        this.approved.map((deal) =>
+          this.$axios.$get(`/employer/employee_picture/${deal.user_id}`)
+        )
       )
-      this.images.push(res.profile_picture_URL)
-    })
+      this.images = profileImages.map((res: any) => res.profile_picture_URL)
+    } catch (error) {}
   },
 })
 </script>

@@ -8,7 +8,9 @@
           class="text-link-blue"
           :to="localePath(`${role}/profile`)"
         >
-          {{ $auth.user.name + ' ' + $auth.user.lastName }}
+          {{
+            $auth.loggedIn ? $auth.user.name + ' ' + $auth.user.lastName : ''
+          }}
         </nuxt-link>
         <span v-else class="cursor-default text-blue-kaizen">{{
           $auth.user.name + ' ' + $auth.user.lastName

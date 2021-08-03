@@ -4,10 +4,11 @@
       <h1 class="text-3xl font-medium">
         {{ $t('adminDetail.title') }}
       </h1>
-      <div class="flex items-center space-x-2 min-w-40">
+      <div class="flex items-center justify-end space-x-2 min-w-40">
         <ks-btn
+          v-if="!currentDeal.petition_status"
           color="success"
-          :disabled="currentResponse === 2"
+          :disabled="currentResponse === 1"
           dense
           @click="approveDeal(currentDeal.id)"
           >{{
@@ -17,8 +18,9 @@
           }}</ks-btn
         >
         <ks-btn
+          v-if="!currentDeal.petition_status"
           color="darker-gray"
-          :disabled="currentResponse === 1"
+          :disabled="currentResponse === 2"
           dense
           @click="rejectDeal(currentDeal.id)"
           >{{
@@ -317,7 +319,6 @@ export default Vue.extend({
     },
     async approveDeal(id: number) {
       try {
-        if (this.response.get(id)) return
         this.response.set(id, 1)
         this.currentResponse = this.response.get(id) || 0
         this.nextPage()
@@ -339,10 +340,9 @@ export default Vue.extend({
     },
     async rejectDeal(id: number) {
       try {
-        if (this.response.get(id)) return
         this.response.set(id, 2)
-        this.nextPage()
         this.currentResponse = this.response.get(id) || 0
+        this.nextPage()
         if (this.response.size === this.dealDetail.length) {
           const response: DealResponse[] = []
           this.response.forEach((status, petitionElementID) => {

@@ -27,6 +27,8 @@
               ? 'bg-blue-light'
               : showBy === 5
               ? 'bg-red-kaizen'
+              : showBy === 6
+              ? 'bg-orange-pending'
               : 'bg-gray-darker'
           "
         ></ks-select>
@@ -94,33 +96,33 @@
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-status-icon
-                    :title="
-                      deal.status === 4
-                        ? $t('adminDeals.table.approved')
-                        : deal.status === 5
-                        ? $t('adminDeals.table.rejected')
-                        : deal.status === 3
-                        ? $t('adminDeals.table.pending')
-                        : deal.status === 6
-                        ? $t('adminDeals.table.partiallyApproved')
-                        : ''
-                    "
-                    :color="
-                      deal.status === 4
-                        ? 'success'
-                        : deal.status === 5
-                        ? 'danger'
-                        : 'warning'
-                    "
+                    v-if="deal.status === 4"
+                    :title="$t('adminDeals.table.approved')"
+                    color="success"
                     dense
-                    :icon="
-                      deals.status === 4
-                        ? 'tick'
-                        : deal.status === 5
-                        ? 'close'
-                        : 'time-circle'
-                    "
-                  ></ks-status-icon>
+                    icon="tick"
+                  />
+                  <ks-status-icon
+                    v-else-if="deal.status === 5"
+                    :title="$t('adminDeals.table.rejected')"
+                    color="danger"
+                    dense
+                    icon="close"
+                  />
+                  <ks-status-icon
+                    v-else-if="deal.status === 3"
+                    :title="$t('adminDeals.table.pending')"
+                    color="light-blue"
+                    dense
+                    icon="time-circle"
+                  />
+                  <ks-status-icon
+                    v-else-if="deal.status === 6"
+                    :title="$t('adminDeals.table.partiallyApproved')"
+                    color="warning"
+                    dense
+                    icon="minus"
+                  />
                 </div>
               </td>
             </tr>
