@@ -34,6 +34,7 @@ export default {
     { src: '~/plugins/Vuelidate' },
     { src: '~/plugins/datepicker', mode: 'client' },
     { src: '~/plugins/notifier' },
+    { src: '~/plugins/vmask' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

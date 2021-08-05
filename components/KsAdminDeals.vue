@@ -14,6 +14,9 @@
           :title="deal.company_name || deal.name + ' ' + deal.last_name"
           :initials="deal.company_name || deal.name"
           :image-url="images[i]"
+          origin="origin-left"
+          expand
+          expand-on-click
         />
         <div class="flex-auto">
           <p class="text-blue-kaizen">
@@ -23,7 +26,12 @@
             {{ $d(new Date(deal.petition_date)) }}
           </p>
         </div>
-        <ks-btn color="success" dense icon :to="localePath('/admin/deals')"
+        <ks-btn
+          :title="$t('adminDeals.meta.title')"
+          color="success"
+          dense
+          icon
+          :to="localePath('/admin/deals')"
           ><iconly-icon name="show" class="fill-current" />
         </ks-btn>
       </div>

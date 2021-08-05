@@ -1,6 +1,10 @@
 <template>
   <div class="user-wrap">
-    <ks-user-img :initials="initials" :image-url="profilePicture" />
+    <ks-user-img
+      :initials="initials"
+      :image-url="profilePicture"
+      :to="localePath(`${role}/profile`)"
+    />
     <div class="user-name">
       <div class="user-name-wrap">
         <nuxt-link

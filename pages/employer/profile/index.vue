@@ -252,11 +252,12 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.phone }"
-            >{{ profile.phone || '-' }}</span
+            >{{ formattedPhone }}</span
           >
           <div v-else class="flex-grow">
             <ks-input
               v-model="profile.phone"
+              v-mask="'(###) ###-####'"
               border-color="border-blue-light"
               :error="$v.profile.phone.$error"
               :label="$t('profile.edit.phone')"
@@ -420,7 +421,7 @@ const isLinkedin = helpers.regex(
 
 const isPhoneUS = helpers.regex(
   'isPhoneUS',
-  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+  /^\(([2-9][0-8][0-9])\)\s([2-9][0-9]{2})-([0-9]{4})$/
 )
 // Indiana and Michigan ZIP codes start at 46 and 49
 const isZIP = helpers.regex('isZIP', /^4[6-9]\d{3}(?:[- ]?\d{4})?$/)
@@ -599,6 +600,11 @@ export default Vue.extend({
         },
       ]
     },
+    formattedPhone(): string {
+      return this.profile.phone
+        ? this.$options.filters.VMask(this.profile.phone, '(###) ###-####')
+        : '-'
+    },
   },
   methods: {
     async updateProfile() {
@@ -732,7 +738,7 @@ hr {
 }
 
 .edit-profile-btn {
-  @apply inline-flex items-center justify-between w-full space-x-4  focus:outline-none;
+  @apply inline-flex items-center justify-end w-full space-x-4  focus:outline-none;
 }
 
 .item-value {
@@ -753,11 +759,11 @@ hr {
 
 .edit-enter-active,
 .edit-leave-active {
-  transition: opacity 0.2s;
+  @apply transition duration-200;
 }
 .edit-enter,
 .edit-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 
 .saved-modal {

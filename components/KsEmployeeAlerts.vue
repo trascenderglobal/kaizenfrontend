@@ -14,6 +14,9 @@
           :title="alert.company"
           :initials="alert.company"
           :image-url="images[i]"
+          origin="origin-left"
+          expand
+          expand-on-click
         />
         <div class="flex-auto">
           <p class="text-blue-kaizen">{{ alert.position }}</p>
@@ -22,6 +25,7 @@
           </p>
         </div>
         <ks-btn
+          :title="$t('jobs.meta.title')"
           color="primary"
           dense
           icon

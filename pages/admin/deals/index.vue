@@ -72,8 +72,13 @@
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-user-img
+                    :title="
+                      deal.company_name || deal.name + ' ' + deal.last_name
+                    "
                     :initials="deal.name"
                     :image-url="deal.profile_picture_URL"
+                    expand
+                    origin="origin-bottom-left"
                   /><span>{{
                     deal.company_name || deal.name + ' ' + deal.last_name
                   }}</span>

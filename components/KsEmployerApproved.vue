@@ -14,6 +14,9 @@
           :title="deal.user_name + ' ' + deal.user_last_name"
           :initials="deal.user_name"
           :image-url="images[i]"
+          origin="origin-left"
+          expand
+          expand-on-click
         />
         <div class="flex-auto">
           <p class="text-blue-kaizen">
@@ -23,7 +26,12 @@
             {{ $d(new Date(deal.start_date)) }}
           </p>
         </div>
-        <ks-btn color="success" dense icon :to="localePath('/employer/deals')"
+        <ks-btn
+          :title="$t('deals.meta.title')"
+          color="success"
+          dense
+          icon
+          :to="localePath('/employer/deals')"
           ><iconly-icon name="swap" class="fill-current" />
         </ks-btn>
       </div>

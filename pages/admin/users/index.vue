@@ -83,8 +83,11 @@
               <td>
                 <div class="flex items-center space-x-2">
                   <ks-user-img
+                    :title="user.name + ' ' + user.last_name"
                     :initials="user.name"
-                    :image-url="user.profile_picture_URL"
+                    :image-url="images[i]"
+                    expand
+                    origin="origin-bottom-left"
                   /><span>{{ user.name + ' ' + user.last_name }}</span>
                 </div>
               </td>
@@ -153,6 +156,15 @@
 <script lang="ts">
 import Vue from 'vue'
 
+interface User {
+  id: string
+  name: string
+  last_name: string
+  role: number
+  status: number
+  created_at: string | Date
+}
+
 export default Vue.extend({
   layout: 'admin',
   data() {
@@ -162,7 +174,8 @@ export default Vue.extend({
       status: 1,
       page: 1,
       size: 5,
-      users: [],
+      users: [] as User[],
+      images: [] as string[],
     }
   },
   async fetch() {
@@ -172,6 +185,12 @@ export default Vue.extend({
         `/admin/users/view?status=${this.status}&role=${this.searchBy}`
       )
       this.users = res.Users
+      // const profileImages = await Promise.all(
+      //   this.paginatedUsers.map((user) =>
+      //     this.$axios.$get(`/admin/user/profile_picture/${user.id}`)
+      //   )
+      // )
+      // this.images = profileImages.map((res: any) => res.profile_picture_URL)
     } catch (error) {
     } finally {
       this.loading = false
@@ -222,7 +241,7 @@ export default Vue.extend({
     totalPages(): number {
       return Math.ceil(this.users.length / this.size) || 1
     },
-    paginatedUsers(): any[] {
+    paginatedUsers(): User[] {
       return this.users.slice(
         this.size * this.page - this.size,
         this.size * this.page

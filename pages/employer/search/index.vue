@@ -176,8 +176,11 @@
                 <td>
                   <div class="flex items-center space-x-2">
                     <ks-user-img
+                      :title="result.name + ' ' + result.last_name"
                       :initials="result.name"
                       :image-url="images[i]"
+                      expand
+                      origin="origin-bottom-left"
                     /><span>{{ result.name }} {{ result.last_name }}</span>
                   </div>
                 </td>
@@ -188,6 +191,7 @@
                       $t('results.table.view')
                     }}</span>
                     <ks-btn
+                      :title="$t('results.table.view')"
                       color="light-blue"
                       dense
                       icon

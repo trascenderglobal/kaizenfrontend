@@ -4,7 +4,16 @@
     :class="{ 'cursor-pointer': to, 'user-img-lg': large }"
     :role="to ? 'link' : 'img'"
   >
-    <nuxt-link v-if="to" class="img-wrapper" :to="localePath(to)">
+    <nuxt-link
+      v-if="to"
+      class="img-wrapper link"
+      :class="[
+        expand ? `expand ${origin}` : '',
+        expandOnClick ? 'expand-focus' : 'expand-hover',
+      ]"
+      :to="localePath(to)"
+      role="link"
+    >
       <span v-if="firstLetter" class="text-white select-none">{{
         firstLetter
       }}</span>
@@ -16,7 +25,15 @@
         :style="userImage"
       ></div>
     </nuxt-link>
-    <div v-else class="img-wrapper">
+    <div
+      v-else
+      class="img-wrapper"
+      :class="[
+        expand ? `expand ${origin}` : '',
+        expandOnClick ? 'expand-focus' : 'expand-hover',
+      ]"
+      tabindex="-1"
+    >
       <span
         v-if="firstLetter"
         class="text-white select-none"
@@ -56,6 +73,12 @@ export default Vue.extend({
       type: String,
       default: '',
     },
+    expand: Boolean,
+    origin: {
+      type: String,
+      default: 'origin-top-left',
+    },
+    expandOnClick: Boolean,
   },
   computed: {
     firstLetter() {
@@ -74,15 +97,29 @@ export default Vue.extend({
 
 <style scoped>
 .user-img {
-  @apply inline-block flex-shrink-0 w-8 h-8;
+  @apply relative inline-block flex-shrink-0 w-8 h-8;
 }
 
 .user-img.user-img-lg {
   @apply w-20 h-20;
 }
 
+.img-wrapper.expand {
+  @apply transform transition duration-200 shadow-md;
+}
+
+.img-wrapper.expand.expand-hover:hover {
+  @apply z-20;
+  transform: scale(2.5);
+}
+
+.img-wrapper.expand.expand-focus:not(.link):focus {
+  @apply z-20;
+  transform: scale(2.5);
+}
+
 .img-wrapper {
-  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b shadow backdrop-filter backdrop-blur-md;
+  @apply absolute flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b shadow backdrop-filter backdrop-blur-md z-10;
 }
 
 .img-wrapper > .img {

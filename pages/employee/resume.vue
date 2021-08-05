@@ -239,6 +239,7 @@
         <div class="field-col flex-1 min-w-1/4">
           <ks-input
             v-model="v.phone.$model"
+            v-mask="'(###) ###-####'"
             :border-color="
               v.phone.$error ? 'border-red-kaizen' : 'border-gray-light'
             "
@@ -323,6 +324,22 @@ import {
   maxValue,
 } from 'vuelidate/lib/validators'
 
+const maxDate = (maxVal: string) =>
+  helpers.withParams(
+    { type: 'maxDate', maxVal },
+    function (value: Date | null, parentVm: Vue) {
+      return value ? value <= helpers.ref(maxVal, undefined, parentVm) : true
+    }
+  )
+
+const minDate = (maxVal: string) =>
+  helpers.withParams(
+    { type: 'minDate', maxVal },
+    function (value: Date | null, parentVm: Vue) {
+      return value ? value >= helpers.ref(maxVal, undefined, parentVm) : true
+    }
+  )
+
 interface Skill {
   skill_name: Number | null
   years_of_experience: Number | null
@@ -339,7 +356,7 @@ interface Job {
 
 const isPhoneUS = helpers.regex(
   'isPhoneUS',
-  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+  /^\(([2-9][0-8][0-9])\)\s([2-9][0-9]{2})-([0-9]{4})$/
 )
 
 export default Vue.extend({
@@ -611,6 +628,7 @@ export default Vue.extend({
               requiredIf('contact_person'),
               requiredIf('phone')
             ),
+            maxDate: maxDate('end_date'),
           },
           end_date: {
             required: and(
@@ -620,6 +638,7 @@ export default Vue.extend({
               requiredIf('contact_person'),
               requiredIf('phone')
             ),
+            minDate: minDate('initial_date'),
             maxValue: maxValue(new Date()),
           },
           position: {

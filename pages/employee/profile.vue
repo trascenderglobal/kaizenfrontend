@@ -179,11 +179,12 @@
             v-if="!edit"
             class="item-value"
             :class="{ 'select-none': !profile.phone }"
-            >{{ profile.phone || '-' }}</span
+            >{{ formattedPhone }}</span
           >
           <div v-else class="flex-grow">
             <ks-input
               v-model="profile.phone"
+              v-mask="'(###) ###-####'"
               border-color="border-blue-light"
               :error="$v.profile.phone.$error"
               :label="$t('profile.edit.phone')"
@@ -347,7 +348,7 @@ const isLinkedin = helpers.regex(
 
 const isPhoneUS = helpers.regex(
   'isPhoneUS',
-  /^\(?([2-9][0-8][0-9])\)?[-.●]?([2-9][0-9]{2})[-.●]?([0-9]{4})$/
+  /^\(([2-9][0-8][0-9])\)\s([2-9][0-9]{2})-([0-9]{4})$/
 )
 // Indiana and Michigan ZIP codes start at 46 and 49
 const isZIP = helpers.regex('isZIP', /^4[6-9]\d{3}(?:[- ]?\d{4})?$/)
@@ -507,6 +508,11 @@ export default Vue.extend({
           value: 0,
         },
       ]
+    },
+    formattedPhone(): string {
+      return this.profile.phone
+        ? this.$options.filters.VMask(this.profile.phone, '(###) ###-####')
+        : '-'
     },
   },
   methods: {

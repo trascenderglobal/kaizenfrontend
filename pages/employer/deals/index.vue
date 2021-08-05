@@ -144,9 +144,12 @@
                           >
                           <span class="space-x-2"
                             ><ks-user-img
+                              :title="detail.name"
                               :initials="detail.name"
                               :image-url="detail.profileImage"
                               :to="`/employer/search/detail/${detail.user_id}`"
+                              expand
+                              origin="origin-bottom-left"
                           /></span>
                         </div>
                       </td>

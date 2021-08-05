@@ -2,11 +2,12 @@
   <div class="ks-drawer scroller" role="navigation">
     <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
       <img
+        aria-label="Kaizen Squad"
         class="kaizen-img"
         :src="require('@/assets/img/kaizen-black.png')"
         alt="Kaizen Squad"
         role="link"
-        @click="navigate"
+        @click.stop="navigate"
       />
     </nuxt-link>
     <div class="menu">
@@ -18,10 +19,11 @@
         :to="localePath(link.path)"
       >
         <div
+          :aria-label="$t(link.text)"
           class="ks-drawer-link"
           :class="{ 'link-active': $route.path.startsWith(href) }"
           role="link"
-          @click="navigate"
+          @click.stop="navigate"
         >
           <div class="link-wrapper">
             <span v-if="link.badge" class="job-badge"></span>
@@ -151,7 +153,7 @@ export default Vue.extend({
 }
 
 .ks-drawer {
-  @apply flex flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 sticky top-0 overflow-y-auto;
+  @apply flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 top-0 overflow-y-auto relative flex z-10;
 }
 
 .ks-drawer-link {
@@ -184,5 +186,14 @@ export default Vue.extend({
 
 #logout {
   @apply flex justify-center items-end flex-grow pb-4;
+}
+
+.drawer-enter-active,
+.drawer-leave-active {
+  @apply transition origin-left duration-200;
+}
+.drawer-enter,
+.drawer-leave-to {
+  @apply transform scale-x-0;
 }
 </style>
