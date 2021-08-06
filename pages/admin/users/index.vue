@@ -185,12 +185,12 @@ export default Vue.extend({
         `/admin/users/view?status=${this.status}&role=${this.searchBy}`
       )
       this.users = res.Users
-      // const profileImages = await Promise.all(
-      //   this.paginatedUsers.map((user) =>
-      //     this.$axios.$get(`/admin/user/profile_picture/${user.id}`)
-      //   )
-      // )
-      // this.images = profileImages.map((res: any) => res.profile_picture_URL)
+      const profileImages = await Promise.all(
+        this.paginatedUsers.map((user) =>
+          this.$axios.$get(`/admin/user/profile_picture/${user.id}`)
+        )
+      )
+      this.images = profileImages.map((res: any) => res.profile_picture_URL)
     } catch (error) {
     } finally {
       this.loading = false
