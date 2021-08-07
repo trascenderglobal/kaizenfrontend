@@ -64,7 +64,7 @@ export default Vue.extend({
 
 <style scoped>
 .language {
-  @apply relative h-12;
+  @apply hidden md:block relative h-12;
 }
 
 .language-wrapper {

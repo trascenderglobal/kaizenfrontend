@@ -1,7 +1,8 @@
 <template>
   <div class="user-wrap">
     <ks-user-img
-      :initials="initials"
+      :title="name"
+      :initials="name"
       :image-url="profilePicture"
       :to="localePath(`${role}/profile`)"
     />
@@ -12,13 +13,9 @@
           class="text-link-blue"
           :to="localePath(`${role}/profile`)"
         >
-          {{
-            $auth.loggedIn ? $auth.user.name + ' ' + $auth.user.lastName : ''
-          }}
+          {{ name }}
         </nuxt-link>
-        <span v-else class="cursor-default text-blue-kaizen">{{
-          $auth.user.name + ' ' + $auth.user.lastName
-        }}</span>
+        <span v-else class="cursor-default text-blue-kaizen">{{ name }}</span>
       </div>
     </div>
   </div>
@@ -36,9 +33,13 @@ export default Vue.extend({
   },
   fetchOnServer: false,
   computed: {
-    initials() {
+    name() {
       if (this.$auth.loggedIn) {
-        return (this.$auth.user as any).name.charAt(0)
+        return (
+          (this.$auth.user as any).name +
+          ' ' +
+          (this.$auth.user as any).lastName
+        )
       }
       return ''
     },
@@ -52,11 +53,11 @@ export default Vue.extend({
 
 <style scoped>
 .user-wrap {
-  @apply bg-white border-2 rounded-xl flex border-white p-2;
+  @apply bg-white border-2 rounded-xl flex justify-end items-center border-white p-2;
 }
 
 .user-name {
-  @apply flex flex-grow h-8 items-center justify-center pl-4 text-lg;
+  @apply hidden md:flex flex-grow h-8 items-center justify-center pl-4 text-lg;
 }
 
 .user-name-wrap {

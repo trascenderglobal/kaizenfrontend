@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex space-x-2">
+  <ul class="ks-breadcrumb">
     <li v-for="(item, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
       <nuxt-link :to="item.path" class="text-link-blue">{{
         isGlobal(item.name) ? item.name : $t(`breadcrumb.${item.name}`)
@@ -44,6 +44,10 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.ks-breadcrumb {
+  @apply hidden md:flex space-x-2;
+}
+
 li {
   @apply inline relative text-sm;
 }

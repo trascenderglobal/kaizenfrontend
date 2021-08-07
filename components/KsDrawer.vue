@@ -1,51 +1,60 @@
 <template>
-  <div class="ks-drawer scroller" role="navigation">
-    <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
-      <img
-        aria-label="Kaizen Squad"
-        class="kaizen-img"
-        :src="require('@/assets/img/kaizen-black.png')"
-        alt="Kaizen Squad"
-        role="link"
-        @click.stop="navigate"
-      />
-    </nuxt-link>
-    <div class="menu">
-      <nuxt-link
-        v-for="link in links"
-        :key="link.path"
-        v-slot="{ navigate, href }"
-        custom
-        :to="localePath(link.path)"
-      >
-        <div
-          :aria-label="$t(link.text)"
-          class="ks-drawer-link"
-          :class="{ 'link-active': $route.path.startsWith(href) }"
-          role="link"
-          @click.stop="navigate"
-        >
-          <div class="link-wrapper">
-            <span v-if="link.badge" class="job-badge"></span>
-            <iconly-icon :name="link.icon" class="fill-current" />
-            <span class="pt-2 text-center">{{ $t(link.text) }}</span>
-          </div>
+  <transition name="drawer">
+    <div
+      v-show="value || !isMobile"
+      class="drawer-mask"
+      @click="$emit('input', false)"
+    >
+      <div class="ks-drawer scroller" role="navigation">
+        <nuxt-link v-slot="{ navigate }" custom :to="localePath('/')">
+          <img
+            aria-label="Kaizen Squad"
+            class="kaizen-img"
+            :src="require('@/assets/img/kaizen-black.png')"
+            alt="Kaizen Squad"
+            role="link"
+            @click.stop="goTo(navigate)"
+          />
+        </nuxt-link>
+        <div class="menu">
+          <nuxt-link
+            v-for="link in links"
+            :key="link.path"
+            v-slot="{ navigate, href }"
+            custom
+            :to="localePath(link.path)"
+          >
+            <div
+              :aria-label="$t(link.text)"
+              class="ks-drawer-link"
+              :class="{ 'link-active': $route.path.startsWith(href) }"
+              role="link"
+              @click.stop="goTo(navigate, $event)"
+            >
+              <div class="link-wrapper">
+                <span v-if="link.badge" class="job-badge"></span>
+                <iconly-icon :name="link.icon" class="fill-current" />
+                <span class="pt-2 text-center">{{ $t(link.text) }}</span>
+              </div>
+            </div>
+          </nuxt-link>
         </div>
-      </nuxt-link>
-    </div>
-    <div id="logout">
-      <button type="button" class="ks-drawer-link" @click.stop="logout">
-        <div class="link-wrapper">
-          <iconly-icon name="logout" class="fill-current" />
-          <span class="pt-2 text-center">{{ $t('drawer.logout') }}</span>
+        <div id="logout">
+          <button type="button" class="ks-drawer-link" @click.stop="logout">
+            <div class="link-wrapper">
+              <iconly-icon name="logout" class="fill-current" />
+              <span class="pt-2 text-center">{{ $t('drawer.logout') }}</span>
+            </div>
+          </button>
         </div>
-      </button>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import throttle from 'lodash.throttle'
 
 interface DrawerLink {
   text: string
@@ -55,13 +64,23 @@ interface DrawerLink {
 }
 
 export default Vue.extend({
+  props: {
+    value: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       loading: false,
+      width: 0,
     }
   },
   computed: {
-    links() {
+    isMobile(): boolean {
+      return this.width < 768
+    },
+    links(): DrawerLink[] {
       const links = [] as DrawerLink[]
       if (!this.$auth.user) return links
       else if (this.$auth.user.role === 0) {
@@ -133,6 +152,18 @@ export default Vue.extend({
       return links
     },
   },
+  mounted() {
+    this.$nextTick(function () {
+      if (!this.$nuxt.$isServer) {
+        window.addEventListener('resize', throttle(this.setWidth, 200))
+      }
+    })
+  },
+  beforeDestroy() {
+    if (!this.$nuxt.$isServer) {
+      window.removeEventListener('resize', throttle(this.setWidth, 200))
+    }
+  },
   methods: {
     async logout(): Promise<void> {
       try {
@@ -143,6 +174,13 @@ export default Vue.extend({
         this.loading = false
       }
     },
+    setWidth() {
+      if (!this.$nuxt.$isServer) this.width = window.innerWidth
+    },
+    goTo(navigate: Function, e: Event) {
+      navigate(e)
+      this.$emit('input', false)
+    },
   },
 })
 </script>
@@ -152,8 +190,12 @@ export default Vue.extend({
   @apply cursor-pointer rounded-lg w-32 mx-auto justify-start hover:bg-gray-lighter transition duration-200;
 }
 
+.drawer-mask {
+  @apply fixed w-full h-full bg-opacity-50 bg-blue-kaizen md:relative md:bg-opacity-100 md:bg-transparent md:h-auto md:w-auto z-30;
+}
+
 .ks-drawer {
-  @apply flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 top-0 overflow-y-auto relative flex z-10;
+  @apply fixed flex flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 top-0 overflow-y-auto shadow-md md:relative md:shadow-none z-30;
 }
 
 .ks-drawer-link {
@@ -188,12 +230,13 @@ export default Vue.extend({
   @apply flex justify-center items-end flex-grow pb-4;
 }
 
-.drawer-enter-active,
-.drawer-leave-active {
-  @apply transition origin-left duration-200;
+.drawer-leave-active,
+.drawer-enter-active {
+  @apply transition transform duration-300;
+  transition-timing-function: cubic-bezier(0.57, 0.26, 0.45, 0.97);
 }
 .drawer-enter,
 .drawer-leave-to {
-  @apply transform scale-x-0;
+  transform: translate(-100%, 0);
 }
 </style>

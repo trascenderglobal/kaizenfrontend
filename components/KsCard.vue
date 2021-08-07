@@ -22,10 +22,10 @@ export default Vue.extend({
 
 <style scoped>
 .card {
-  @apply w-full relative rounded-xl overflow-hidden;
+  @apply w-full rounded-xl overflow-y-hidden overflow-x-visible;
 }
 
 .card-wrapper {
-  @apply flex min-h-full max-h-full overflow-y-auto overflow-x-hidden;
+  @apply relative z-10 flex min-h-full max-h-full overflow-y-auto overflow-x-visible;
 }
 </style>
