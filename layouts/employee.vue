@@ -83,11 +83,7 @@ export default Vue.extend({
   @apply sticky top-0 z-20 md:relative flex max-w-full space-x-2 lg:space-x-4 bg-white md:bg-transparent shadow-md md:shadow-none rounded-xl;
 }
 .main-content {
-  @apply flex max-w-full space-x-2 lg:space-x-4;
-}
-
-.main-content {
-  @apply flex-grow;
+  @apply flex flex-grow max-w-full space-x-2 lg:space-x-4;
 }
 
 .breadcrumb {

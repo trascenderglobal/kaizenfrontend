@@ -1,8 +1,19 @@
 <template>
   <div class="add-filter-wrapper">
-    <h1 class="add-filter-title">
-      {{ $t('search.addFilter') }}
-    </h1>
+    <div class="flex justify-between items-end">
+      <h1 class="add-filter-title">
+        {{ $t('search.addFilter') }}
+      </h1>
+      <ks-btn
+        id="closeFiltersMobile"
+        color="danger"
+        icon
+        text
+        @click.stop="$store.commit('employer/SET_FILTER', false)"
+      >
+        <iconly-icon name="close" class="stroke-current" />
+      </ks-btn>
+    </div>
     <div class="add-filter-description">
       <span>{{ $t('search.addFilterDescription') }}</span>
     </div>
@@ -205,6 +216,7 @@ export default Vue.extend({
   methods: {
     applyFilters() {
       this.$store.dispatch('employer/updateSearchFilters', this.search)
+      this.$store.commit('employer/SET_FILTER', false)
       this.$notifier.showNotification({
         content: this.$t('search.filtersApplied') as string,
       })
@@ -246,5 +258,9 @@ export default Vue.extend({
 
 .filter-input {
   @apply pl-8;
+}
+
+#closeFiltersMobile {
+  @apply lg:hidden;
 }
 </style>

@@ -1,4 +1,5 @@
 export const state = () => ({
+  filter: false,
   searchFilters: {
     state: null,
     city: null,
@@ -13,6 +14,9 @@ export const state = () => ({
 export const getters = {}
 
 export const mutations = {
+  SET_FILTER: (state, filter) => {
+    state.filter = filter
+  },
   SET_SEARCH_FILTERS: (state, searchFilters) => {
     state.searchFilters.state = searchFilters.state
     state.searchFilters.city = searchFilters.city

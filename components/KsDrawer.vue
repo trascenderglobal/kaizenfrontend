@@ -191,11 +191,11 @@ export default Vue.extend({
 }
 
 .drawer-mask {
-  @apply fixed w-full h-full bg-opacity-50 bg-blue-kaizen md:relative md:bg-opacity-100 md:bg-transparent md:h-auto md:w-auto z-30;
+  @apply flex fixed w-full min-h-full max-h-full bg-opacity-50 bg-blue-kaizen md:relative md:bg-opacity-100 md:bg-transparent md:h-auto md:w-auto z-30;
 }
 
 .ks-drawer {
-  @apply fixed flex flex-col space-y-3 items-center min-h-full min-w-48 max-w-48 bg-white p-6 top-0 overflow-y-auto shadow-md md:relative md:shadow-none z-30;
+  @apply fixed flex flex-col space-y-3 items-center h-full max-h-full min-w-48 max-w-48 bg-white p-6 top-0 overflow-y-auto shadow-md md:relative md:shadow-none z-30;
 }
 
 .ks-drawer-link {

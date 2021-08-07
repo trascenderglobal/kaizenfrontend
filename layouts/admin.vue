@@ -4,13 +4,25 @@
     <div class="layout-blur"></div>
     <div class="ks-app">
       <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm" row>
-        <ks-drawer />
+        <ks-drawer v-model="drawer" />
         <div class="ks-content">
           <div class="top-content">
             <div class="breadcrumb">
               <ks-breadcrumb />
+              <ks-btn
+                id="ksBurgerMenu"
+                color="primary"
+                text
+                icon
+                large
+                @click.stop="drawer = true"
+                ><iconly-icon
+                  name="category"
+                  :class="{ 'transform rotate-180': drawer }"
+              /></ks-btn>
               <ks-language />
             </div>
+            <ks-home />
             <div class="user-info">
               <ks-user-info />
             </div>
@@ -38,6 +50,11 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'AdminLayout',
   middleware: 'admin',
+  data() {
+    return {
+      drawer: false,
+    }
+  },
 })
 </script>
 
@@ -63,28 +80,38 @@ export default Vue.extend({
   @apply flex flex-col flex-grow p-2 lg:p-4 space-y-2 lg:space-y-4 overflow-auto;
 }
 
-.top-content,
-.main-content {
-  @apply flex max-w-full space-x-2 lg:space-x-4;
+.top-content {
+  @apply sticky top-0 z-20 md:relative flex max-w-full space-x-2 lg:space-x-4 bg-white md:bg-transparent shadow-md md:shadow-none rounded-xl;
 }
-
 .main-content {
-  @apply flex-grow;
+  @apply flex flex-grow max-w-full space-x-2 lg:space-x-4;
 }
 
 .breadcrumb {
-  @apply flex justify-between items-end min-w-3/4 max-w-3/4;
+  @apply flex flex-1 md:flex-auto justify-between items-end md:w-full md:max-w-3/4;
 }
 
 .user-info {
-  @apply flex-grow;
+  @apply flex-1 md:flex-auto;
 }
 
 .main-info {
-  @apply h-full min-w-3/4 max-w-3/4;
+  @apply h-full w-full lg:max-w-3/4;
 }
 
 .alerts {
-  @apply h-full flex-grow;
+  @apply hidden lg:block h-full flex-grow;
+}
+
+#ksBurgerMenu {
+  @apply md:hidden self-center;
+}
+
+#ksBurgerMenu svg {
+  @apply fill-current duration-300 ease-out transition;
+}
+
+.logo-mobile {
+  @apply flex items-center justify-center flex-1 md:hidden;
 }
 </style>

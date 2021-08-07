@@ -4,13 +4,25 @@
     <div class="layout-blur"></div>
     <div class="ks-app">
       <ks-card class="bg-opacity-50 backdrop-filter backdrop-blur-sm" row>
-        <ks-drawer />
+        <ks-drawer v-model="drawer" />
         <div class="ks-content">
           <div class="top-content">
             <div class="breadcrumb">
               <ks-breadcrumb />
+              <ks-btn
+                id="ksBurgerMenu"
+                color="primary"
+                text
+                icon
+                large
+                @click.stop="drawer = true"
+                ><iconly-icon
+                  name="category"
+                  :class="{ 'transform rotate-180': drawer }"
+              /></ks-btn>
               <ks-language />
             </div>
+            <ks-home />
             <div class="user-info">
               <ks-user-info />
             </div>
@@ -19,11 +31,13 @@
             <div class="main-info">
               <Nuxt />
             </div>
-            <div class="alerts">
-              <ks-card class="h-full p-8">
-                <ks-employer-filters />
-              </ks-card>
-            </div>
+            <transition name="filters">
+              <div v-show="filter || !isMdAndDown" class="alerts">
+                <ks-card class="h-full p-8">
+                  <ks-employer-filters />
+                </ks-card>
+              </div>
+            </transition>
           </div>
         </div>
       </ks-card>
@@ -34,9 +48,44 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { mapState } from 'vuex'
+import throttle from 'lodash.throttle'
 
 export default Vue.extend({
   name: 'EmployerSearchLayout',
+  middleware: 'employer',
+  data() {
+    return {
+      drawer: false,
+      width: 0,
+    }
+  },
+  computed: {
+    isMdAndDown(): boolean {
+      return this.width < 1024
+    },
+    ...mapState({
+      filter: (state: any): boolean => state.employer.filter,
+    }),
+  },
+  mounted() {
+    this.$nextTick(function () {
+      if (!this.$nuxt.$isServer) {
+        window.addEventListener('resize', throttle(this.setWidth, 200))
+      }
+    })
+  },
+  beforeDestroy() {
+    if (!this.$nuxt.$isServer) {
+      window.removeEventListener('resize', throttle(this.setWidth, 200))
+    }
+    this.$store.commit('employer/SET_FILTER', false)
+  },
+  methods: {
+    setWidth() {
+      if (!this.$nuxt.$isServer) this.width = window.innerWidth
+    },
+  },
 })
 </script>
 
@@ -62,9 +111,11 @@ export default Vue.extend({
   @apply flex flex-col flex-grow p-2 lg:p-4 space-y-2 lg:space-y-4 overflow-auto;
 }
 
-.top-content,
+.top-content {
+  @apply sticky top-0 z-20 md:relative flex max-w-full space-x-2 lg:space-x-4 bg-white md:bg-transparent shadow-md md:shadow-none rounded-xl;
+}
 .main-content {
-  @apply flex max-w-full space-x-2 lg:space-x-4;
+  @apply relative flex max-w-full space-x-2 lg:space-x-4;
 }
 
 .main-content {
@@ -72,18 +123,40 @@ export default Vue.extend({
 }
 
 .breadcrumb {
-  @apply flex justify-between items-end min-w-3/4 max-w-3/4;
+  @apply flex flex-1 md:flex-auto justify-between items-end md:w-full md:max-w-3/4;
 }
 
 .user-info {
-  @apply flex-grow;
+  @apply flex-1 md:flex-auto;
 }
 
 .main-info {
-  @apply h-full min-w-3/4 max-w-3/4;
+  @apply h-full w-full lg:max-w-3/4;
 }
 
 .alerts {
-  @apply h-full flex-grow;
+  @apply absolute lg:relative z-10 right-0 shadow-md lg:shadow-none h-full flex-grow;
+}
+
+#ksBurgerMenu {
+  @apply md:hidden self-center;
+}
+
+#ksBurgerMenu svg {
+  @apply fill-current duration-300 ease-out transition;
+}
+
+.logo-mobile {
+  @apply flex items-center justify-center flex-1 md:hidden;
+}
+
+.filters-leave-active,
+.filters-enter-active {
+  @apply transition transform duration-300;
+  transition-timing-function: cubic-bezier(0.57, 0.26, 0.45, 0.97);
+}
+.filters-enter,
+.filters-leave-to {
+  transform: translate(100%, 0);
 }
 </style>

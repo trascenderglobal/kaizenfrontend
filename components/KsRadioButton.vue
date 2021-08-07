@@ -89,7 +89,7 @@ export default Vue.extend({
 }
 
 input + .radio-label {
-  @apply py-1 px-2 cursor-pointer select-none border rounded-lg;
+  @apply py-1 px-2 cursor-pointer select-none border rounded-lg whitespace-nowrap;
 }
 
 input:checked + .radio-label {

@@ -6,6 +6,16 @@
           <h1 class="title">
             {{ $t('search.title') }}
           </h1>
+          <ks-btn
+            id="filterBtn"
+            :title="$t('search.addFilter')"
+            :aria-label="$t('search.addFilter')"
+            icon
+            text
+            @click="$store.commit('employer/SET_FILTER', true)"
+          >
+            <iconly-icon name="filter" class="fill-current" />
+          </ks-btn>
         </div>
         <h1 class="subtitle">
           {{ $t('search.subtitle') }}
@@ -46,11 +56,11 @@
                 </div>
               </div>
             </div>
-            <form class="flex w-full space-x-4" @submit.prevent>
+            <form class="flex flex-wrap w-full" @submit.prevent>
               <span class="flex items-center text-blue-kaizen pr-4"
                 >{{ $t('search.experience.experience') }}:</span
               >
-              <div>
+              <div class="py-1 pr-4">
                 <ks-radio-button
                   :id="`${i}-1`"
                   v-model.number="v.years_of_experience.$model"
@@ -68,7 +78,7 @@
                   :label="$t('search.experience.option1')"
                 />
               </div>
-              <div>
+              <div class="py-1 pr-4">
                 <ks-radio-button
                   :id="`${i}-2`"
                   v-model.number="v.years_of_experience.$model"
@@ -86,7 +96,7 @@
                   :label="$t('search.experience.option2')"
                 />
               </div>
-              <div>
+              <div class="py-1">
                 <ks-radio-button
                   :id="`${i}-3`"
                   v-model.number="v.years_of_experience.$model"
@@ -357,6 +367,7 @@ export default Vue.extend({
       }
     },
     ...mapState({
+      filter: (state: any): boolean => state.employer.filter,
       filters: (state: any) => state.employer.searchFilters,
     }),
   },
@@ -454,8 +465,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.search-header {
+  @apply pt-4 flex justify-between items-center;
+}
+
+#filterBtn {
+  @apply lg:hidden;
+}
+
 .search-header > * {
-  @apply pt-4 text-blue-kaizen text-3xl font-medium;
+  @apply text-blue-kaizen text-3xl font-medium;
 }
 
 .subtitle {

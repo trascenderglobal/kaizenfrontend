@@ -10,8 +10,8 @@
         <span>{{ $t('adminUsers.subtitle') }}</span>
       </div>
     </div>
-    <div class="flex">
-      <div class="flex flex-auto pt-6">
+    <div class="flex flex-wrap">
+      <div class="flex flex-auto pt-6 pr-2">
         <div class="min-w-40">
           <span class="text-gray-dark">{{ $t('adminUsers.searchBy') }}</span>
         </div>
