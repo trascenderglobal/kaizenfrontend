@@ -13,7 +13,11 @@
       >
         <iconly-icon name="clear" class="stroke-current" />
       </button>
-      <button type="button" class="show-icon">
+      <button
+        type="button"
+        class="show-icon"
+        :class="{ 'cursor-default': disabled }"
+      >
         <iconly-icon
           class="transition duration-200"
           :class="{ 'transform rotate-180': show }"

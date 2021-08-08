@@ -13,7 +13,7 @@
             :src="require('@/assets/img/kaizen-black.png')"
             alt="Kaizen Squad"
             role="link"
-            @click.stop="goTo(navigate)"
+            @click.stop="goTo(navigate, $event)"
           />
         </nuxt-link>
         <div class="menu">
