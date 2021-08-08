@@ -231,18 +231,18 @@
                 {{ $t('requests.cancelModal.subtitle') }}
               </p>
               <div
-                class="flex pt-16 space-x-2 flex-grow items-end justify-center"
+                class="flex flex-wrap pt-14 flex-grow items-end justify-center"
               >
                 <ks-btn
                   color="danger"
                   outline
-                  class="text-xl"
+                  class="text-xl mr-2 mt-2"
                   @click="cancelRequest(requestCancel)"
                   >{{ $t('requests.cancel') }}</ks-btn
                 >
                 <ks-btn
                   color="darker-gray"
-                  class="text-xl"
+                  class="text-xl mt-2"
                   @click="requestCancel = null"
                   >{{ $t('requests.close') }}</ks-btn
                 >
