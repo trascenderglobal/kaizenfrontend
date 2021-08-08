@@ -73,7 +73,7 @@ export default Vue.extend({
   data() {
     return {
       loading: false,
-      width: 0,
+      width: this.$nuxt.$isServer ? 0 : window.innerWidth,
     }
   },
   computed: {
