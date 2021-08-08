@@ -52,7 +52,7 @@ export default Vue.extend({
   middleware: 'admin',
   data() {
     return {
-      drawer: false,
+      drawer: true,
     }
   },
 })

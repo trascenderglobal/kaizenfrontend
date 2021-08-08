@@ -56,7 +56,7 @@ export default Vue.extend({
   middleware: 'employer',
   data() {
     return {
-      drawer: false,
+      drawer: true,
       width: this.$nuxt.$isServer ? 0 : window.innerWidth,
     }
   },

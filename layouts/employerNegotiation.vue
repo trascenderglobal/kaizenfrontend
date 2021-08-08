@@ -47,7 +47,7 @@ export default Vue.extend({
   middleware: 'employer',
   data() {
     return {
-      drawer: false,
+      drawer: true,
     }
   },
 })
