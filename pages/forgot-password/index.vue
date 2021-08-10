@@ -90,9 +90,7 @@
           </transition>
         </div>
       </section>
-      <section
-        class="absolute top-0 right-0 hidden w-3/5 min-h-full bg-black lg:block"
-      >
+      <section class="hero-wrapper">
         <div class="hero"></div>
       </section>
     </ks-card>
@@ -169,13 +167,17 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.hero-wrapper {
+  @apply relative top-0 right-0 hidden w-3/5 min-h-full bg-black lg:block;
+}
+
 .hero {
   background-image: url('~/assets/img/auth2.png');
   @apply w-full h-full bg-no-repeat bg-center bg-cover absolute bg-black top-0 left-0 right-0 bottom-0;
 }
 
 .main {
-  @apply w-full h-full p-8 lg:w-2/5 xl:px-16;
+  @apply w-full min-h-full max-h-full p-8 overflow-y-auto lg:w-2/5 xl:px-16;
 }
 
 .main > div {

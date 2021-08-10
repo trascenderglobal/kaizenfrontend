@@ -28,9 +28,8 @@
     </h1>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <div class="user-img-lg" :class="{ 'cursor-pointer': edit }">
+        <div v-if="edit" class="user-img-lg cursor-pointer">
           <div
-            v-if="edit"
             class="img-wrapper"
             @click="$refs.imgInput.click()"
             @dragenter.prevent
@@ -59,24 +58,13 @@
               />
             </div>
           </div>
-          <div v-else class="img-wrapper">
-            <span v-if="profile.name" class="text-white select-none text-3xl">{{
-              profile.name.charAt(0)
-            }}</span>
-            <iconly-icon
-              v-else
-              name="camera"
-              :size="1.2"
-              class="fill-current text-white"
-            />
-            <div
-              role="img"
-              :aria-label="$t('profile.userImage')"
-              class="img"
-              :style="userImage"
-            ></div>
-          </div>
         </div>
+        <ks-user-img
+          v-else
+          large
+          :initials="profile.name"
+          :image-url="profile.profile_picture_URL"
+        />
         <div class="flex flex-col space-y-2">
           <template v-if="!edit">
             <span class="font-medium text-blue-kaizen">{{

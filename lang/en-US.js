@@ -572,6 +572,9 @@ export default {
       description: 'Users',
     },
   },
+  adminUserDetail: {
+    title: 'Profile detail',
+  },
   adminAlerts: {
     title: 'Deals made',
     subtitle: 'These are the deals that have been closed successfully',

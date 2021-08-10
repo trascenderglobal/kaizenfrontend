@@ -573,6 +573,9 @@ export default {
       description: 'Usuarios',
     },
   },
+  adminUserDetail: {
+    title: 'Profile detail',
+  },
   adminAlerts: {
     title: 'Tratos hechos',
     subtitle: 'Estos son los tratos que han sido cerrados exitosamente',

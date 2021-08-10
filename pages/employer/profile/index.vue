@@ -79,12 +79,12 @@
               profile.name + ' ' + profile.lastName
             }}</span>
             <span
-              class="font-light text-gray-dark"
+              class="text-gray-dark"
               :class="{ 'select-none': !profile.industry }"
               >{{ industryAbbr }}</span
             >
             <span
-              class="font-light text-gray-dark"
+              class="text-gray-dark"
               :class="{ 'select-none': !registerDate }"
               >{{ registerDate ? $d(registerDate, 'numeric') : '-' }}</span
             >
