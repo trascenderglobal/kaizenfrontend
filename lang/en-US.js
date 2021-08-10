@@ -184,6 +184,22 @@ export default {
     industries: {
       manufacturing: 'Manufacturing',
     },
+    salaryRate: 'Expected salary rate',
+    shift: 'Shift',
+    typeOfContract: 'Type of contract',
+    shifts: {
+      first: 'First shift',
+      second: 'Second shift',
+      third: 'Third shift',
+    },
+    workModes: {
+      partTime: 'Part-time',
+      fullTime: 'Full-time',
+    },
+    contracts: {
+      0: 'Contract labor',
+      1: 'Direct hire',
+    },
     state: 'State',
     companyName: 'Company name',
     position: 'Position',
@@ -209,6 +225,7 @@ export default {
       email: 'Your best e-mail',
       linkedin: 'Your LinkedIn profile',
       save: 'Save',
+      saveError: 'An error occurred, please try again',
       saved: {
         title: 'Changes Saved',
         text: 'The changes to your profile have been saved correctly',

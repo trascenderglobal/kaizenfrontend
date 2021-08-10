@@ -132,6 +132,96 @@
     <hr :class="edit ? 'my-6' : 'my-8'" />
     <div class="fields">
       <div class="field-row">
+        <div class="field-col flex-auto">
+          <div>
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.salaryRate')
+            }}</span>
+          </div>
+          <div class="flex-auto">
+            <ks-range
+              v-model.number="profile.expected_salary_rate"
+              :disabled="!edit"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.shift')
+            }}</span>
+          </div>
+          <span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.shift }"
+            >{{ shift }}</span
+          >
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
+            <ks-select
+              v-model="profile.shift"
+              class="border border-blue-light"
+              :label="$t('profile.edit.select')"
+              :items="shifts"
+              clearable
+              bg-color="bg-transparent"
+              color="text-gray-darker"
+            />
+          </div>
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.typeOfContract')
+            }}</span>
+          </div>
+          <span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.type_of_contract }"
+            >{{ typeOfContract }}</span
+          >
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
+            <ks-select
+              v-model="profile.type_of_contract"
+              class="border border-blue-light"
+              :label="$t('profile.edit.select')"
+              :items="typeOfContracts"
+              clearable
+              bg-color="bg-transparent"
+              color="text-gray-darker"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="invisible min-w-1/5"></div>
+          <span
+            v-if="!edit"
+            class="item-value"
+            :class="{ 'select-none': !profile.working_mode }"
+            >{{ workingMode }}</span
+          >
+          <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
+            <ks-select
+              v-model="profile.working_mode"
+              class="border border-blue-light"
+              :label="$t('profile.edit.select')"
+              :items="workingModes"
+              clearable
+              bg-color="bg-transparent"
+              color="text-gray-darker"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr :class="edit ? 'my-6' : 'my-8'" />
+    <div class="fields">
+      <div class="field-row">
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
@@ -369,6 +459,10 @@ export default Vue.extend({
         lastName: '',
         birthDate: null as NullableDate,
         novelties: 0,
+        expected_salary_rate: 0,
+        type_of_contract: '',
+        working_mode: 0,
+        shift: 0,
         state: '',
         city: '',
         phone: '',
@@ -502,6 +596,61 @@ export default Vue.extend({
         ? this.$options.filters.VMask(this.profile.phone, '(###) ###-####')
         : '-'
     },
+    shifts(): any[] {
+      return [
+        {
+          text: this.$t('profile.shifts.first'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.shifts.second'),
+          value: 2,
+        },
+        {
+          text: this.$t('profile.shifts.third'),
+          value: 3,
+        },
+      ]
+    },
+    shift(): string {
+      return this.profile.shift ? this.shifts[this.profile.shift - 1].text : '-'
+    },
+    typeOfContracts(): any[] {
+      return [
+        {
+          text: this.$t('profile.contracts.0'),
+          value: 'contract labor',
+        },
+        {
+          text: this.$t('profile.contracts.1'),
+          value: 'direct hire',
+        },
+      ]
+    },
+    typeOfContract(): string {
+      if (this.profile.type_of_contract === 'contract labor')
+        return this.$t('profile.contracts.0') as string
+      if (this.profile.type_of_contract === 'direct hire')
+        return this.$t('profile.contracts.1') as string
+      return '-'
+    },
+    workingModes(): any[] {
+      return [
+        {
+          text: this.$t('profile.workModes.partTime'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.workModes.fullTime'),
+          value: 2,
+        },
+      ]
+    },
+    workingMode(): string {
+      return this.profile.working_mode
+        ? this.workingModes[this.profile.working_mode - 1].text
+        : '-'
+    },
   },
   methods: {
     isLaborAge(d: Date): boolean {
@@ -524,6 +673,21 @@ export default Vue.extend({
             ? ''
             : this.profile.novelties.toString()
         )
+        data.append(
+          'expected_salary_rate',
+          this.profile.expected_salary_rate
+            ? this.profile.expected_salary_rate.toString()
+            : ''
+        )
+        data.append(
+          'shift',
+          this.profile.shift ? this.profile.shift.toString() : ''
+        )
+        data.append('type_of_contract', this.profile.type_of_contract || '')
+        data.append(
+          'working_mode',
+          this.profile.working_mode ? this.profile.working_mode.toString() : ''
+        )
         data.append('state', this.profile.state || '')
         data.append('phone', this.profile.phone || '')
         data.append('city', this.profile.city || '')
@@ -540,6 +704,10 @@ export default Vue.extend({
         this.image = null
         this.saved = true
       } catch (error) {
+        this.$notifier.showNotification({
+          content: this.$t('profile.edit.saveError'),
+          bgColor: 'bg-red-kaizen',
+        })
         this.saved = false
       } finally {
         this.loading = false

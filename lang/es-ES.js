@@ -185,6 +185,22 @@ export default {
     industries: {
       manufacturing: 'Manufactura',
     },
+    salaryRate: 'Tasa de salario esperada',
+    shift: 'Turno',
+    typeOfContract: 'Tipo de contrato',
+    shifts: {
+      first: 'Primer turno',
+      second: 'Segundo turno',
+      third: 'Tercer turno',
+    },
+    workModes: {
+      partTime: 'Tiempo medio',
+      fullTime: 'Tiempo completo',
+    },
+    contracts: {
+      0: 'Contract labor',
+      1: 'Direct hire',
+    },
     state: 'Estado',
     companyName: 'Nombre de empresa',
     position: 'Cargo',
@@ -210,6 +226,7 @@ export default {
       email: 'Tu mejor e-mail',
       linkedin: 'Tu perfil de LinkedIn',
       save: 'Guardar',
+      saveError: 'Ocurrió un error, intenta de nuevo',
       saved: {
         title: 'Cambios guardados',
         text: 'Los cambios en tu perfil han sido guardados',
