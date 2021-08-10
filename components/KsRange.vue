@@ -10,7 +10,9 @@
       :step="step"
       :disabled="disabled"
       :class="{ error: error }"
-      @input="updateValue"
+      @input="
+        !disabled && $emit('input', Number.parseFloat($event.target.value))
+      "
       @blur="$emit('blur')"
     />
     <span
@@ -42,11 +44,9 @@ export default {
       type: Number,
       default: 0.25,
     },
-    disabled: Boolean,
-  },
-  methods: {
-    updateValue(e: any) {
-      if (!this.disabled) this.$emit('input', Number.parseFloat(e.target.value))
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
 }
