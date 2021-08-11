@@ -89,7 +89,7 @@
                 class="flex space-x-6 pt-8 flex-grow items-end justify-center"
               >
                 <ks-btn
-                  color="transparent"
+                  color="darker-gray"
                   outline
                   class="text-xl"
                   @click="showDelete = false"

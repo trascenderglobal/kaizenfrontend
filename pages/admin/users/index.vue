@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="flex flex-wrap">
-      <div class="flex flex-auto pt-6 pr-2">
+      <div class="flex flex-wrap flex-auto pt-6 pr-2">
         <div class="min-w-40">
           <span class="text-gray-dark">{{ $t('adminUsers.searchBy') }}</span>
         </div>
@@ -26,7 +26,7 @@
           ></ks-select>
         </div>
       </div>
-      <div class="flex flex-auto pt-6">
+      <div class="flex flex-wrap flex-auto pt-6">
         <div class="min-w-40">
           <span class="text-gray-dark">{{ $t('adminUsers.status') }}</span>
         </div>
@@ -129,26 +129,36 @@
       </table>
     </div>
     <div class="users-footer">
-      <div class="flex-auto text-blue-kaizen">
-        <span>{{ $t('adminUsers.page', { p: page, t: totalPages }) }}</span>
-      </div>
-      <div class="flex justify-center flex-auto space-x-2">
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === 1"
-          @click="previousPage"
-          >{{ $t('adminDeals.previous') }}</ks-btn
+      <div class="footer-wrapper">
+        <div
+          class="
+            flex
+            justify-center
+            sm:justify-start
+            flex-auto
+            text-blue-kaizen
+          "
         >
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === totalPages"
-          @click="nextPage"
-          >{{ $t('adminDeals.next') }}</ks-btn
-        >
+          <span>{{ $t('adminUsers.page', { p: page, t: totalPages }) }}</span>
+        </div>
+        <div class="flex justify-center flex-auto space-x-2">
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === 1"
+            @click="previousPage"
+            >{{ $t('adminDeals.previous') }}</ks-btn
+          >
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === totalPages"
+            @click="nextPage"
+            >{{ $t('adminDeals.next') }}</ks-btn
+          >
+        </div>
+        <div class="flex-auto"></div>
       </div>
-      <div class="flex-auto"></div>
     </div>
   </ks-card>
 </template>
@@ -286,7 +296,7 @@ export default Vue.extend({
 
 table {
   border-spacing: 0;
-  @apply border-separate w-full;
+  @apply border-separate min-w-full;
 }
 
 .text-thead {
@@ -327,5 +337,9 @@ tbody > tr:nth-of-type(even) {
 
 .users-footer {
   @apply flex justify-center items-end flex-grow pt-4;
+}
+
+.footer-wrapper {
+  @apply flex flex-auto flex-wrap justify-between items-end;
 }
 </style>

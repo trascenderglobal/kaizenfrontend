@@ -10,10 +10,8 @@
         <span>{{ $t('deals.header') }}</span>
       </div>
     </div>
-    <div class="flex justify pt-6">
-      <div class="flex flex-col space-y-2 min-w-40">
-        <span class="text-gray-dark">{{ $t('deals.showBy') }}</span>
-      </div>
+    <div class="flex flex-wrap justify pt-6">
+      <span class="min-w-40 text-gray-dark">{{ $t('deals.showBy') }}</span>
       <div class="flex flex-col space-y-2 min-w-40">
         <ks-select
           v-model="showBy"
@@ -204,6 +202,38 @@
         </tbody>
       </table>
     </div>
+    <div class="deal-footer">
+      <div class="footer-wrapper">
+        <div
+          class="
+            flex
+            justify-center
+            sm:justify-start
+            flex-auto
+            text-blue-kaizen
+          "
+        >
+          <span>{{ $t('requests.page', { p: page, t: totalPages }) }}</span>
+        </div>
+        <div class="flex justify-center flex-auto space-x-2">
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === 1"
+            @click="previousPage"
+            >{{ $t('requests.previous') }}</ks-btn
+          >
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === totalPages"
+            @click="nextPage"
+            >{{ $t('requests.next') }}</ks-btn
+          >
+        </div>
+        <div class="flex-auto"></div>
+      </div>
+    </div>
   </ks-card>
 </template>
 
@@ -376,7 +406,7 @@ export default Vue.extend({
 table {
   table-layout: fixed;
   border-spacing: 0;
-  @apply border-separate w-full;
+  @apply border-separate min-w-full;
 }
 
 .text-thead {
@@ -452,5 +482,13 @@ tbody > .request-detail td:last-child {
 
 .expanded-cell .expanded-row {
   @apply flex-1;
+}
+
+.deal-footer {
+  @apply flex flex-wrap justify-center items-end flex-grow pt-4;
+}
+
+.footer-wrapper {
+  @apply flex flex-auto flex-wrap justify-between items-end;
 }
 </style>

@@ -10,10 +10,8 @@
         <span>{{ $t('requests.header') }}</span>
       </div>
     </div>
-    <div class="flex pt-6">
-      <div class="flex flex-col space-y-2 min-w-40">
-        <span class="text-gray-dark">{{ $t('requests.showBy') }}</span>
-      </div>
+    <div class="flex flex-wrap pt-6">
+      <span class="min-w-40 text-gray-dark">{{ $t('requests.showBy') }}</span>
       <div class="flex flex-col space-y-2 min-w-40">
         <ks-select
           v-model="showBy"
@@ -197,26 +195,36 @@
       </table>
     </div>
     <div class="request-footer">
-      <div class="flex-auto text-blue-kaizen">
-        <span>{{ $t('requests.page', { p: page, t: totalPages }) }}</span>
-      </div>
-      <div class="flex justify-center flex-auto space-x-2">
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === 1"
-          @click="previousPage"
-          >{{ $t('requests.previous') }}</ks-btn
+      <div class="footer-wrapper">
+        <div
+          class="
+            flex
+            justify-center
+            sm:justify-start
+            flex-auto
+            text-blue-kaizen
+          "
         >
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === totalPages"
-          @click="nextPage"
-          >{{ $t('requests.next') }}</ks-btn
-        >
+          <span>{{ $t('requests.page', { p: page, t: totalPages }) }}</span>
+        </div>
+        <div class="flex justify-center flex-auto space-x-2">
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === 1"
+            @click="previousPage"
+            >{{ $t('requests.previous') }}</ks-btn
+          >
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === totalPages"
+            @click="nextPage"
+            >{{ $t('requests.next') }}</ks-btn
+          >
+        </div>
+        <div class="flex-auto"></div>
       </div>
-      <div class="flex-auto"></div>
     </div>
     <transition name="cancel">
       <div v-if="showCancel" class="cancel-modal" role="dialog">
@@ -452,7 +460,11 @@ export default Vue.extend({
 }
 
 .request-footer {
-  @apply flex justify-center items-end flex-grow pt-4;
+  @apply flex flex-wrap justify-center items-end flex-grow pt-4;
+}
+
+.footer-wrapper {
+  @apply flex flex-auto flex-wrap justify-between items-end;
 }
 
 .text-header {
@@ -462,7 +474,7 @@ export default Vue.extend({
 table {
   table-layout: fixed;
   border-spacing: 0;
-  @apply border-separate w-full;
+  @apply border-separate min-w-full;
 }
 
 .text-thead {

@@ -10,10 +10,8 @@
         <span>{{ $t('jobs.subtitle') }}</span>
       </div>
     </div>
-    <div class="flex pt-6">
-      <div class="flex flex-col space-y-2 min-w-40">
-        <span class="text-gray-dark">{{ $t('jobs.showBy') }}</span>
-      </div>
+    <div class="flex flex-wrap pt-6">
+      <span class="min-w-40 text-gray-dark">{{ $t('jobs.showBy') }}</span>
       <div class="flex flex-col space-y-2 min-w-40">
         <ks-select
           v-model="showBy"
@@ -83,24 +81,34 @@
       </table>
     </div>
     <div class="jobs-footer">
-      <div class="text-blue-kaizen">
-        <span>{{ $t('jobs.page', { p: page, t: totalPages }) }}</span>
-      </div>
-      <div class="flex justify-end space-x-2">
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === 1"
-          @click="previousPage"
-          >{{ $t('requests.previous') }}</ks-btn
+      <div class="footer-wrapper">
+        <div
+          class="
+            flex
+            justify-center
+            sm:justify-start
+            flex-auto
+            text-blue-kaizen
+          "
         >
-        <ks-btn
-          color="primary"
-          dense
-          :disabled="page === totalPages"
-          @click="nextPage"
-          >{{ $t('requests.next') }}</ks-btn
-        >
+          <span>{{ $t('jobs.page', { p: page, t: totalPages }) }}</span>
+        </div>
+        <div class="flex flex-auto justify-center sm:justify-end space-x-2">
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === 1"
+            @click="previousPage"
+            >{{ $t('requests.previous') }}</ks-btn
+          >
+          <ks-btn
+            color="primary"
+            dense
+            :disabled="page === totalPages"
+            @click="nextPage"
+            >{{ $t('requests.next') }}</ks-btn
+          >
+        </div>
       </div>
     </div>
   </ks-card>
@@ -220,7 +228,7 @@ export default Vue.extend({
 
 table {
   border-spacing: 0;
-  @apply border-separate w-full;
+  @apply border-separate min-w-full;
 }
 
 .text-thead {
@@ -261,5 +269,9 @@ tbody > tr:nth-of-type(even) {
 
 .jobs-footer {
   @apply flex justify-between items-end flex-grow pt-4;
+}
+
+.footer-wrapper {
+  @apply flex flex-auto flex-wrap justify-between items-end;
 }
 </style>

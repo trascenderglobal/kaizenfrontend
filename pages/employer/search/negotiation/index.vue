@@ -1,5 +1,5 @@
 <template>
-  <ks-card class="h-full p-8">
+  <ks-card class="h-full p-6">
     <div class="negotiation-header">
       <h1 class="text-3xl font-medium">
         {{ $t('negotiation.negotiation') }}
@@ -10,7 +10,7 @@
         }}</span>
       </div>
     </div>
-    <div class="flex flex-wrap justify-between pt-6">
+    <div class="flex flex-wrap justify-between pt-6 px-2">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
         <ks-user-img
           :initials="negotiations[currentIndex].name"
@@ -40,41 +40,43 @@
         </div>
       </div>
     </div>
-    <hr class="my-8 border" />
-    <h1 class="title">
+    <hr />
+    <h1 class="title px-2">
       {{ $t('negotiation.typeOfN') }}
     </h1>
     <div class="fields">
-      <div class="field-row w-full">
-        <div class="field-col w-1/6">
-          <ks-datepicker
-            v-model="negotiations[currentIndex].from"
-            :label="$t('negotiation.from')"
-            :bg-color="
-              $v.negotiations.$each.$iter[currentIndex].from.$error
-                ? 'bg-red-kaizen'
-                : 'bg-blue-darker'
-            "
-            :disabled-date="isPast"
-            clearable
-            @blur="$v.negotiations.$each.$iter[currentIndex].from.$touch"
-          />
+      <div class="field-row">
+        <div class="field-col flex flex-auto">
+          <div class="flex-auto pr-2">
+            <ks-datepicker
+              v-model="negotiations[currentIndex].from"
+              :label="$t('negotiation.from')"
+              :bg-color="
+                $v.negotiations.$each.$iter[currentIndex].from.$error
+                  ? 'bg-red-kaizen'
+                  : 'bg-blue-darker'
+              "
+              :disabled-date="isPast"
+              clearable
+              @blur="$v.negotiations.$each.$iter[currentIndex].from.$touch"
+            />
+          </div>
+          <div class="flex-auto">
+            <ks-datepicker
+              v-model="negotiations[currentIndex].to"
+              :label="$t('negotiation.to')"
+              :bg-color="
+                $v.negotiations.$each.$iter[currentIndex].to.$error
+                  ? 'bg-red-kaizen'
+                  : 'bg-blue-darker'
+              "
+              :disabled-date="isPast"
+              clearable
+              @blur="$v.negotiations.$each.$iter[currentIndex].to.$touch"
+            />
+          </div>
         </div>
-        <div class="field-col w-1/6">
-          <ks-datepicker
-            v-model="negotiations[currentIndex].to"
-            :label="$t('negotiation.to')"
-            :bg-color="
-              $v.negotiations.$each.$iter[currentIndex].to.$error
-                ? 'bg-red-kaizen'
-                : 'bg-blue-darker'
-            "
-            :disabled-date="isPast"
-            clearable
-            @blur="$v.negotiations.$each.$iter[currentIndex].to.$touch"
-          />
-        </div>
-        <div class="field-col w-full">
+        <div class="field-col flex-auto">
           <ks-input
             v-model="negotiations[currentIndex].position"
             :error="$v.negotiations.$each.$iter[currentIndex].position.$error"
@@ -86,14 +88,13 @@
           />
         </div>
       </div>
-      <div class="field-row w-full">
-        <div class="field-col w-1/6">
+      <div class="field-row">
+        <div class="field-col">
           <span class="text-blue-kaizen pr-4">{{
             $t('negotiation.typeOfC')
           }}</span>
         </div>
-
-        <div class="field-col w-full">
+        <div class="field-col">
           <ks-select
             v-model="negotiations[currentIndex].typeContract"
             :items="typeContract"
@@ -113,13 +114,13 @@
           />
         </div>
       </div>
-      <div class="field-row w-full">
-        <div class="field-col w-1/6">
+      <div class="field-row">
+        <div class="field-col flex items-center">
           <span class="text-blue-kaizen pr-4">{{
             $t('negotiation.salaryRate')
           }}</span>
         </div>
-        <div class="field-col w-full">
+        <div class="field-col flex-auto">
           <ks-range
             v-model.number="negotiations[currentIndex].salaryRate"
             :error="$v.negotiations.$each.$iter[currentIndex].salaryRate.$error"
@@ -128,9 +129,9 @@
         </div>
       </div>
     </div>
-    <hr class="my-8 border" />
+    <hr />
     <div class="fields">
-      <div class="field-row w-full">
+      <div class="field-row">
         <div class="field-col w-1/6">
           <span class="text-blue-kaizen pr-4">{{
             $t('negotiation.jobDescription')
@@ -150,7 +151,7 @@
           />
         </div>
       </div>
-      <div class="field-row w-full">
+      <div class="field-row">
         <div class="field-col w-1/6">
           <span class="text-blue-kaizen pr-4">{{
             $t('negotiation.observation')
@@ -167,7 +168,7 @@
       </div>
     </div>
     <div class="negotiation-footer">
-      <div class="flex justify-end flex-auto space-x-2">
+      <div class="flex justify-center sm:justify-end flex-auto space-x-2 px-2">
         <ks-btn
           v-if="page === 1"
           color="danger"
@@ -209,7 +210,7 @@
                   large
                 />
               </div>
-              <hr class="my-8 self-stretch" />
+              <hr class="self-stretch" />
               <p class="text-xl text-blue-kaizen text-center">
                 {{ $t('negotiation.requestsCompleted.paragraph1') }}
               </p>
@@ -470,11 +471,11 @@ export default Vue.extend({
 
 <style scoped>
 hr {
-  @apply my-6 border-blue-light;
+  @apply my-6 mx-2 border-blue-light;
 }
 
 .negotiation-header {
-  @apply flex justify-between text-blue-kaizen flex-col lg:flex-row;
+  @apply flex justify-between px-2 text-blue-kaizen flex-col lg:flex-row;
 }
 
 .negotiation-header > * {
@@ -498,11 +499,11 @@ hr {
 }
 
 .field-row {
-  @apply mt-4 inline-flex;
+  @apply mt-4 flex flex-wrap w-full;
 }
 
 .field-col {
-  @apply p-1;
+  @apply p-2;
 }
 
 .negotiation-footer {

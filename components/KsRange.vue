@@ -16,7 +16,7 @@
       @blur="$emit('blur')"
     />
     <span
-      class="flex w-1/3 pl-4"
+      class="pl-4"
       :class="error ? 'text-red-kaizen' : 'text-blue-kaizen'"
       >{{ $t('negotiation.perHour', { value: value || 7.25 }) }}</span
     >

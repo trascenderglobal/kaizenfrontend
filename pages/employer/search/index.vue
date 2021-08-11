@@ -166,106 +166,122 @@
         <h1 class="py-6 text-lg text-blue-kaizen">
           {{ $t('results.subtitle', { resultsLength: results.length }) }}
         </h1>
-        <table>
-          <thead class="text-thead">
-            <tr>
-              <th>{{ $t('results.table.name') }}</th>
-              <th>{{ $t('results.table.position') }}</th>
-              <th>{{ $t('results.table.profile') }}</th>
-              <th>{{ $t('results.table.request') }}</th>
-            </tr>
-            <tr>
-              <td colspan="4">
-                <hr class="border-blue-light" />
-              </td>
-            </tr>
-          </thead>
-          <tbody class="text-tbody">
-            <template v-for="(result, i) in results">
-              <tr :key="`result-${i}`" class="result-row">
-                <td>
-                  <div class="flex items-center space-x-2">
-                    <ks-user-img
-                      :title="result.name + ' ' + result.last_name"
-                      :initials="result.name"
-                      :image-url="images[i]"
-                      expand
-                      origin="origin-bottom-left"
-                    /><span>{{ result.name }} {{ result.last_name }}</span>
-                  </div>
-                </td>
-                <td>{{ result.position }}</td>
-                <td>
-                  <div class="flex items-center space-x-2">
-                    <span class="font-light text-gray-dark">{{
-                      $t('results.table.view')
-                    }}</span>
-                    <ks-btn
-                      :title="$t('results.table.view')"
-                      color="light-blue"
-                      dense
-                      icon
-                      :to="`/employer/search/detail/${
-                        result.id
-                      }?q=${JSON.stringify(searchParams)}`"
-                      ><i><iconly-icon name="show" class="fill-current" /></i
-                    ></ks-btn>
-                  </div>
-                </td>
-                <td>
-                  <div class="flex items-center space-x-2">
-                    <ks-btn
-                      color="light-blue"
-                      dense
-                      icon
-                      :disabled="requestIds.includes(result.id)"
-                      @click="addRequest(result.id)"
-                      ><i
-                        ><iconly-icon
-                          name="plus-alt"
-                          class="stroke-current" /></i
-                    ></ks-btn>
-                    <ks-btn
-                      color="danger"
-                      dense
-                      icon
-                      :disabled="!requestIds.includes(result.id)"
-                      @click="removeRequest(result.id)"
-                      ><i><iconly-icon name="minus" class="stroke-current" /></i
-                    ></ks-btn>
-                  </div>
+        <div class="overflow-x-auto">
+          <table>
+            <thead class="text-thead">
+              <tr>
+                <th>{{ $t('results.table.name') }}</th>
+                <th>{{ $t('results.table.position') }}</th>
+                <th>{{ $t('results.table.profile') }}</th>
+                <th>{{ $t('results.table.request') }}</th>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <hr class="border-blue-light" />
                 </td>
               </tr>
-            </template>
-          </tbody>
-        </table>
+            </thead>
+            <tbody class="text-tbody">
+              <template v-for="(result, i) in results">
+                <tr :key="`result-${i}`" class="result-row">
+                  <td>
+                    <div class="flex items-center space-x-2">
+                      <ks-user-img
+                        :title="result.name + ' ' + result.last_name"
+                        :initials="result.name"
+                        :image-url="images[i]"
+                        expand
+                        origin="origin-bottom-left"
+                      /><span>{{ result.name }} {{ result.last_name }}</span>
+                    </div>
+                  </td>
+                  <td>{{ result.position }}</td>
+                  <td>
+                    <div class="flex items-center space-x-2">
+                      <span class="font-light text-gray-dark">{{
+                        $t('results.table.view')
+                      }}</span>
+                      <ks-btn
+                        :title="$t('results.table.view')"
+                        color="light-blue"
+                        dense
+                        icon
+                        :to="`/employer/search/detail/${
+                          result.id
+                        }?q=${JSON.stringify(searchParams)}`"
+                        ><i><iconly-icon name="show" class="fill-current" /></i
+                      ></ks-btn>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="flex items-center space-x-2">
+                      <ks-btn
+                        color="light-blue"
+                        dense
+                        icon
+                        :disabled="requestIds.includes(result.id)"
+                        @click="addRequest(result.id)"
+                        ><i
+                          ><iconly-icon
+                            name="plus-alt"
+                            class="stroke-current" /></i
+                      ></ks-btn>
+                      <ks-btn
+                        color="danger"
+                        dense
+                        icon
+                        :disabled="!requestIds.includes(result.id)"
+                        @click="removeRequest(result.id)"
+                        ><i
+                          ><iconly-icon
+                            name="minus"
+                            class="stroke-current" /></i
+                      ></ks-btn>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
         <div class="result-footer">
-          <div class="flex-auto text-blue-kaizen justify-items-start">
-            <span>{{ $t('results.page', { p: page, t: totalPages }) }}</span>
-          </div>
-          <div class="flex justify-center flex-auto space-x-2">
-            <ks-btn
-              color="primary"
-              dense
-              :disabled="page === 1"
-              @click="previousPage"
-              >{{ $t('results.previous') }}</ks-btn
+          <div class="footer-wrapper">
+            <div
+              class="
+                flex
+                justify-center
+                sm:justify-start
+                flex-auto
+                text-blue-kaizen
+              "
             >
-            <ks-btn
-              color="primary"
-              dense
-              :disabled="page === totalPages"
-              @click="nextPage"
-              >{{ $t('results.next') }}</ks-btn
-            >
-          </div>
-          <div class="flex justify-end flex-grow items-end">
-            <ks-btn
-              color="success"
-              dense
-              :to="`/employer/search/negotiation?ids=${queryId}`"
-              >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
-            >
+              <span>{{ $t('results.page', { p: page, t: totalPages }) }}</span>
+            </div>
+            <div class="flex justify-center flex-auto space-x-2">
+              <ks-btn
+                color="primary"
+                dense
+                :disabled="page === 1"
+                @click="previousPage"
+                >{{ $t('results.previous') }}</ks-btn
+              >
+              <ks-btn
+                color="primary"
+                dense
+                :disabled="page === totalPages"
+                @click="nextPage"
+                >{{ $t('results.next') }}</ks-btn
+              >
+            </div>
+            <div class="flex flex-auto justify-end">
+              <ks-btn
+                class="w-full sm:w-auto"
+                color="success"
+                dense
+                :to="`/employer/search/negotiation?ids=${queryId}`"
+                >{{ $t('detail.request') + ` (${requestIds.length})` }}</ks-btn
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -359,11 +375,9 @@ export default Vue.extend({
         skills: this.skills.filter(
           (skill) => skill.skill_name && skill.years_of_experience
         ),
-        language: this.filters.lang
-          ? [this.filters.lang].filter((lang) => !!lang.language)
-          : [],
-        city: this.filters.city ? [{ city: this.filters.city }] : [],
-        state: this.filters.state ? [{ state: this.filters.state }] : [],
+        language: this.filters.language || undefined,
+        city: this.filters.city || undefined,
+        state: this.filters.state || undefined,
       }
     },
     ...mapState({
@@ -512,12 +526,20 @@ hr {
 }
 
 .result-footer {
-  @apply flex justify-center items-end flex-grow pt-4;
+  @apply flex justify-center items-end flex-grow;
+}
+
+.footer-wrapper {
+  @apply flex flex-auto flex-wrap justify-between items-end;
+}
+
+.footer-wrapper > * {
+  @apply pt-4;
 }
 
 table {
   border-spacing: 0;
-  @apply border-separate w-full;
+  @apply border-separate min-w-full;
 }
 
 .text-thead {
