@@ -4,9 +4,18 @@
       <h1 class="text-3xl font-medium">
         {{ $t('adminUserDetail.title') }}
       </h1>
-      <ks-btn color="danger" dense icon :to="localePath('/admin/users')"
-        ><i><iconly-icon name="close" class="stroke-current" /></i
-      ></ks-btn>
+      <div class="flex items-center space-x-2">
+        <ks-btn
+          v-if="user.role === 1 && !edit"
+          color="success"
+          dense
+          @click="edit = true"
+          >{{ $t('adminUsers.edit') }}</ks-btn
+        >
+        <ks-btn color="danger" dense icon :to="localePath('/admin/users')"
+          ><i><iconly-icon name="close" class="stroke-current" /></i
+        ></ks-btn>
+      </div>
     </div>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
@@ -202,6 +211,39 @@
           </button>
         </div>
       </div>
+      <div v-if="user.role === 1" class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.interview')
+            }}</span>
+          </div>
+          <div class="flex-grow inline-flex items-center">
+            <button
+              type="button"
+              class="interview-btn"
+              :class="{
+                active: user.video_url,
+              }"
+              :disabled="edit"
+              @click.stop="showVideo"
+            >
+              <iconly-icon name="play" class="fill-current text-white" />
+            </button>
+            <div v-if="edit" class="flex-grow px-2">
+              <ks-input
+                v-model="user.video_url"
+                border-color="border-blue-light"
+                dense
+                disable-hint
+                :error="$v.user.video_url.$error"
+                :label="$t('profile.interview')"
+                @blur="$v.user.video_url.$touch"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <template v-if="user.role === 1">
       <hr class="mt-6 mb-8" />
@@ -382,12 +424,26 @@
         </div>
       </div>
     </template>
+    <div class="flex justify-end flex-grow">
+      <transition name="edit">
+        <ks-btn
+          v-if="edit"
+          class="self-end"
+          color="success"
+          dense
+          :loading="loading"
+          @click="updateProfile"
+          >{{ $t('profile.edit.save') }}</ks-btn
+        >
+      </transition>
+    </div>
   </ks-card>
 </template>
 
 <script lang="ts">
 /* eslint-disable camelcase */
 import Vue from 'vue'
+import { url } from 'vuelidate/lib/validators'
 
 type Skill = {
   skill_name: number | null
@@ -430,6 +486,7 @@ interface User {
   contact_person?: string | null
   position?: string | null
   address?: string | null
+  video_url?: string | null
 }
 
 export default Vue.extend({
@@ -437,6 +494,8 @@ export default Vue.extend({
   layout: 'admin',
   data() {
     return {
+      loading: false,
+      edit: false,
       user: {
         id: -1,
         name: '',
@@ -458,6 +517,7 @@ export default Vue.extend({
         contact_person: null,
         position: null,
         address: null,
+        video_url: null,
       } as User,
     }
   },
@@ -539,9 +599,36 @@ export default Vue.extend({
     },
   },
   methods: {
+    showVideo(): void {
+      if (this.user.video_url) window.open(this.user.video_url, '_blank')
+    },
     showLinkedin(): void {
       if (this.user.linkedin) window.open(this.user.linkedin, '_blank')
     },
+    async updateProfile() {
+      try {
+        this.$v.$touch()
+        if (this.$v.$invalid) return
+        this.loading = true
+        await this.$axios.$post('/admin/employee/video', {
+          id: this.user.id,
+          video: this.user.video_url,
+        })
+      } catch (error) {
+      } finally {
+        this.edit = false
+        this.loading = false
+      }
+    },
+  },
+  validations() {
+    return {
+      user: {
+        video_url: {
+          url,
+        },
+      },
+    }
   },
 })
 </script>
@@ -552,7 +639,7 @@ hr {
 }
 
 .detail-header {
-  @apply flex items-center justify-between text-blue-kaizen flex-col lg:flex-row;
+  @apply flex flex-wrap items-center justify-between text-blue-kaizen;
 }
 
 .detail-header > * {
@@ -581,5 +668,27 @@ hr {
 
 .linkedin-btn.active {
   @apply cursor-pointer hover:bg-blue-kaizen;
+}
+
+.interview-btn {
+  @apply flex transition items-center justify-center cursor-default rounded-lg w-8 h-8 focus:outline-none bg-red-kaizen;
+}
+
+.interview-btn.active {
+  @apply cursor-pointer hover:bg-red-badge;
+}
+
+.interview-btn:disabled,
+.interview-btn.active:disabled {
+  @apply bg-gray-darker hover:bg-gray-darker cursor-default;
+}
+
+.edit-enter-active,
+.edit-leave-active {
+  transition: opacity 0.2s;
+}
+.edit-enter,
+.edit-leave-to {
+  opacity: 0;
 }
 </style>

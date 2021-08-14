@@ -104,7 +104,7 @@ export default Vue.extend({
 }
 
 .ks-btn {
-  @apply flex justify-center items-center relative px-8 py-2 border rounded-lg focus:outline-none;
+  @apply inline-flex justify-center items-center relative px-8 py-2 border rounded-lg focus:outline-none;
 }
 
 .ks-btn.icon {

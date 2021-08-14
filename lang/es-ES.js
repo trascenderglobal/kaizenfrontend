@@ -178,6 +178,7 @@ export default {
     editProfile: 'Editar perfil',
     novelties: 'Novedades',
     status: 'Estado',
+    interview: 'Entrevista',
     statuses: {
       available: 'Disponible',
       busy: 'Ocupado',
@@ -574,6 +575,7 @@ export default {
     inactive: 'Inactivo',
     employer: 'Empleador',
     employee: 'Empleado',
+    edit: 'Editar perfil',
     previous: 'Anterior',
     next: 'Siguiente',
     page: 'Página {p} de {t}',

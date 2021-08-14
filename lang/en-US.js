@@ -177,6 +177,7 @@ export default {
     editProfile: 'Edit profile',
     novelties: 'Novelties',
     status: 'Status',
+    interview: 'Interview',
     statuses: {
       available: 'Available',
       busy: 'Busy',
@@ -573,6 +574,7 @@ export default {
     inactive: 'Inactive',
     employer: 'Employer',
     employee: 'Employee',
+    edit: 'Edit profile',
     previous: 'Previous',
     next: 'Next',
     page: 'Page {p} of {t}',
