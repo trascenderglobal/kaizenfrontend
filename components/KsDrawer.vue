@@ -146,6 +146,11 @@ export default Vue.extend({
             text: 'drawer.users',
             path: '/admin/users',
             icon: '3-user',
+          },
+          {
+            text: 'drawer.codes',
+            path: '/admin/codes',
+            icon: 'discount',
           }
         )
       }

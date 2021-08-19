@@ -10,21 +10,11 @@
     </h1>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <div class="user-img-lg">
-          <div class="img-wrapper">
-            <iconly-icon
-              name="camera"
-              :size="1.2"
-              class="fill-current text-white"
-            />
-            <div
-              role="img"
-              :aria-label="$t('profile.userImage')"
-              class="img"
-              :style="userImage"
-            ></div>
-          </div>
-        </div>
+        <ks-user-img
+          :initials="profile.name"
+          :image-url="profile.profile_picture_URL"
+          large
+        />
         <div class="flex flex-col space-y-2">
           <span class="font-medium text-blue-kaizen">{{
             $t('settings.account')
@@ -60,54 +50,51 @@
         >{{ $t('settings.deleteMyAccount') }}</ks-btn
       >
     </div>
-    <transition name="edit">
-      <div v-if="showDelete" class="saved-modal">
-        <div class="w-3/5">
-          <ks-card class="p-8" col>
-            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
-              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
-                {{ $t('settings.deleteMyAccount') }}
-              </h1>
-              <div class="user-img-lg">
-                <div class="img-wrapper">
-                  <iconly-icon
-                    name="camera"
-                    :size="1.2"
-                    class="fill-current text-white"
-                  />
-                  <div class="img" :style="userImage"></div>
+    <template #outer>
+      <transition name="edit">
+        <div v-if="showDelete" class="saved-modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('settings.deleteMyAccount') }}
+                </h1>
+                <ks-user-img
+                  :initials="profile.name"
+                  :image-url="profile.profile_picture_URL"
+                  large
+                />
+                <hr class="self-stretch" />
+                <p class="text-lg text-blue-kaizen text-center">
+                  {{ $t('settings.deleteLeave') }}
+                </p>
+                <p class="text-2xl font-medium text-blue-kaizen text-center">
+                  {{ $t('settings.deleteSure') }}
+                </p>
+                <div
+                  class="flex space-x-6 pt-8 flex-grow items-end justify-center"
+                >
+                  <ks-btn
+                    color="darker-gray"
+                    text
+                    class="text-xl"
+                    @click="showDelete = false"
+                    >{{ $t('settings.cancel') }}</ks-btn
+                  >
+                  <ks-btn
+                    color="danger"
+                    class="text-xl"
+                    :loading="deleting"
+                    @click="deleteProfile"
+                    >{{ $t('settings.delete') }}</ks-btn
+                  >
                 </div>
               </div>
-              <hr class="self-stretch" />
-              <p class="text-blue-kaizen text-center">
-                {{ $t('settings.deleteLeave') }}
-              </p>
-              <p class="text-2xl font-medium text-blue-kaizen text-center">
-                {{ $t('settings.deleteSure') }}
-              </p>
-              <div
-                class="flex space-x-6 pt-8 flex-grow items-end justify-center"
-              >
-                <ks-btn
-                  color="darker-gray"
-                  outline
-                  class="text-xl"
-                  @click="showDelete = false"
-                  >{{ $t('settings.cancel') }}</ks-btn
-                >
-                <ks-btn
-                  color="danger"
-                  class="text-xl"
-                  :loading="deleting"
-                  @click="deleteProfile"
-                  >{{ $t('settings.delete') }}</ks-btn
-                >
-              </div>
-            </div>
-          </ks-card>
+            </ks-card>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -156,15 +143,6 @@ export default Vue.extend({
       ],
     }
   },
-  computed: {
-    userImage(): object {
-      if (this.profile.profile_picture_URL)
-        return {
-          'background-image': `url(${this.profile.profile_picture_URL})`,
-        }
-      return {}
-    },
-  },
   methods: {
     async deleteProfile(): Promise<void> {
       try {
@@ -194,18 +172,6 @@ hr {
   @apply pt-4;
 }
 
-.user-img-lg {
-  @apply flex-shrink-0 w-20 h-20;
-}
-
-.img-wrapper {
-  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
-}
-
-.img-wrapper > .img {
-  @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
-}
-
 .title {
   @apply text-lg text-blue-kaizen;
 }
@@ -220,6 +186,6 @@ hr {
 }
 
 .saved-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>

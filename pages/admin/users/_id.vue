@@ -211,7 +211,7 @@
           </button>
         </div>
       </div>
-      <div v-if="user.role === 1" class="field-row">
+      <div v-if="false" class="field-row">
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{

@@ -10,21 +10,11 @@
     </h1>
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
-        <div class="user-img-lg">
-          <div class="img-wrapper">
-            <iconly-icon
-              name="camera"
-              :size="1.2"
-              class="fill-current text-white"
-            />
-            <div
-              role="img"
-              :aria-label="$t('profile.userImage')"
-              class="img"
-              :style="userImage"
-            ></div>
-          </div>
-        </div>
+        <ks-user-img
+          :initials="profile.name"
+          :image-url="profile.profile_picture_URL"
+          large
+        />
         <div class="flex flex-col space-y-2">
           <span class="font-medium text-blue-kaizen">{{
             $t('settings.account')
@@ -44,64 +34,175 @@
         <ks-language-list />
       </div>
     </div>
-    <hr class="my-8 border" />
-    <h1 class="title">{{ $t('settings.deleteAccount') }}</h1>
-    <div class="flex justify-start py-2">
-      <ks-btn color="light" large font="font-normal" @click="showDelete = true"
-        >{{ $t('settings.deleteMyAccount') }}
-      </ks-btn>
-    </div>
-    <span class="py-2 text-gray-darker font-light"
-      >{{ $t('settings.deleteLeaveSure') }}
-    </span>
-    <transition name="edit">
-      <div v-if="showDelete" class="saved-modal">
-        <div class="w-3/5">
-          <ks-card class="p-8" col>
-            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
-              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
-                {{ $t('settings.deleteMyAccount') }}
-              </h1>
-              <div class="user-img-lg">
-                <div class="img-wrapper">
-                  <iconly-icon
-                    name="camera"
-                    :size="1.2"
-                    class="fill-current text-white"
-                  />
-                  <div class="img" :style="userImage"></div>
-                </div>
-              </div>
-              <hr class="self-stretch" />
-              <p class="text-blue-kaizen text-center">
-                {{ $t('settings.deleteLeave') }}
-              </p>
-              <p class="text-2xl font-medium text-blue-kaizen text-center">
-                {{ $t('settings.deleteSure') }}
-              </p>
-              <div
-                class="flex space-x-6 pt-8 flex-grow items-end justify-center"
-              >
-                <ks-btn
-                  color="darker-gray"
-                  outline
-                  class="text-xl"
-                  @click="showDelete = false"
-                  >{{ $t('settings.cancel') }}</ks-btn
-                >
-                <ks-btn
-                  color="danger"
-                  class="text-xl"
-                  :loading="deleting"
-                  @click="deleteProfile"
-                  >{{ $t('settings.delete') }}</ks-btn
-                >
-              </div>
-            </div>
-          </ks-card>
+    <hr class="my-8" />
+    <div class="flex flex-wrap">
+      <div class="flex-auto pr-2">
+        <h1 class="title">{{ $t('settings.subscription') }}</h1>
+        <ks-btn color="light" large font="font-normal" @click="showCheckout"
+          >{{ $t('settings.subscribe') }}
+        </ks-btn>
+        <div @click.stop="showCode = true">
+          <span class="py-2 text-gray-darker font-light"
+            >{{ $t('settings.subscribeWithCode') }}
+          </span>
+          <button type="button" class="py-2 text-link-blue">
+            {{ $t('settings.digits', { digits }) }}
+          </button>
         </div>
       </div>
-    </transition>
+      <div class="flex-auto">
+        <h1 class="title">{{ $t('settings.deleteAccount') }}</h1>
+        <ks-btn
+          color="light"
+          large
+          font="font-normal"
+          @click="showDelete = true"
+          >{{ $t('settings.deleteMyAccount') }}
+        </ks-btn>
+        <span class="block py-2 text-gray-darker font-light"
+          >{{ $t('settings.deleteLeaveSure') }}
+        </span>
+      </div>
+    </div>
+    <template #outer>
+      <transition name="edit">
+        <div v-if="showCode" class="modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('settings.subscribe') }}
+                </h1>
+                <ks-user-img
+                  :initials="profile.name"
+                  :image-url="profile.profile_picture_URL"
+                  large
+                />
+                <hr class="self-stretch" />
+                <p
+                  class="text-lg text-center"
+                  :class="invalidCode ? 'text-red-kaizen' : 'text-blue-kaizen'"
+                >
+                  {{
+                    invalidCode
+                      ? $t('settings.invalidCode', { digits })
+                      : $t('settings.enterCode', { digits })
+                  }}
+                </p>
+                <ks-code-input
+                  v-model="codeDigits"
+                  :length="digits"
+                  :error="invalidCode"
+                />
+                <div
+                  class="flex space-x-6 pt-8 flex-grow items-end justify-center"
+                >
+                  <ks-btn
+                    class="text-xl"
+                    color="darker-gray"
+                    text
+                    @click="showCode = false"
+                    >{{ $t('settings.cancel') }}</ks-btn
+                  >
+                  <ks-btn
+                    class="text-xl"
+                    color="success"
+                    :loading="loading"
+                    @click="subWithCode"
+                    >{{ $t('settings.subscribe') }}</ks-btn
+                  >
+                </div>
+              </div>
+            </ks-card>
+          </div>
+        </div>
+      </transition>
+      <transition name="edit">
+        <div v-if="showSubscribe" class="modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('settings.subscribe') }}
+                </h1>
+                <ks-user-img
+                  :initials="profile.name"
+                  :image-url="profile.profile_picture_URL"
+                  large
+                />
+                <hr class="self-stretch" />
+                <div class="checkout-form px-4 self-stretch">
+                  <div id="payment-request"></div>
+                </div>
+                <p class="text-lg text-blue-kaizen text-center">
+                  {{ $t('settings.or') }}
+                </p>
+                <div class="checkout-form px-4 self-stretch">
+                  <div id="card-element" class="pb-2 border-b"></div>
+                </div>
+                <div
+                  class="flex space-x-6 pt-8 flex-grow items-end justify-center"
+                >
+                  <ks-btn
+                    class="text-xl"
+                    color="darker-gray"
+                    text
+                    @click="cancelCheckout"
+                    >{{ $t('settings.cancel') }}</ks-btn
+                  >
+                  <ks-btn class="text-xl" color="success">{{
+                    $t('settings.subscribe')
+                  }}</ks-btn>
+                </div>
+              </div>
+            </ks-card>
+          </div>
+        </div>
+      </transition>
+      <transition name="edit">
+        <div v-if="showDelete" class="modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('settings.deleteMyAccount') }}
+                </h1>
+                <ks-user-img
+                  :initials="profile.name"
+                  :image-url="profile.profile_picture_URL"
+                  large
+                />
+                <hr class="self-stretch" />
+                <p class="text-lg text-blue-kaizen text-center">
+                  {{ $t('settings.deleteLeave') }}
+                </p>
+                <p class="text-2xl font-medium text-blue-kaizen text-center">
+                  {{ $t('settings.deleteSure') }}
+                </p>
+                <div
+                  class="flex space-x-6 pt-8 flex-grow items-end justify-center"
+                >
+                  <ks-btn
+                    class="text-xl"
+                    color="darker-gray"
+                    text
+                    @click="showDelete = false"
+                    >{{ $t('settings.cancel') }}</ks-btn
+                  >
+                  <ks-btn
+                    class="text-xl"
+                    color="danger"
+                    :loading="deleting"
+                    @click="deleteProfile"
+                    >{{ $t('settings.delete') }}</ks-btn
+                  >
+                </div>
+              </div>
+            </ks-card>
+          </div>
+        </div>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -123,7 +224,16 @@ export default Vue.extend({
         profile_picture_URL: '',
       },
       showDelete: false,
+      showSubscribe: false,
+      showCode: false,
       deleting: false,
+      card: undefined as any,
+      paymentRequestButton: undefined as any,
+      paymentIntent: undefined as any,
+      checkoutComplete: false,
+      codeDigits: new Array(8).fill(''),
+      loading: false,
+      invalidCode: false,
     }
   },
   async fetch() {
@@ -133,13 +243,26 @@ export default Vue.extend({
       this.profile = res
     } catch (error) {}
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('settings.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('settings.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
-    userImage(): object {
-      if (this.profile.profile_picture_URL)
-        return {
-          'background-image': `url(${this.profile.profile_picture_URL})`,
-        }
-      return {}
+    digits(): number {
+      return this.codeDigits.length
     },
   },
   methods: {
@@ -154,8 +277,107 @@ export default Vue.extend({
         this.showDelete = false
       }
     },
+    async subWithCode(): Promise<void> {
+      try {
+        const license = this.codeDigits.join('')
+        if (license.length !== this.digits) {
+          this.invalidCode = true
+          return
+        }
+        this.loading = true
+        this.invalidCode = false
+        await this.$axios.$post('/employer/validateLicense', {
+          license,
+        })
+      } catch (error) {
+        this.invalidCode = true
+      } finally {
+        this.loading = false
+      }
+    },
+    showCheckout(): void {
+      this.showSubscribe = true
+      this.$nextTick(async () => {
+        if (this.$stripe) {
+          const elements = this.$stripe.elements()
+          this.mountCardElement(elements)
+          await this.mountPaymentRequestButton(elements)
+          await this.setPaymentIntent()
+        }
+      })
+    },
+    cancelCheckout(): void {
+      this.showSubscribe = false
+      this.codeDigits = new Array(8).fill('')
+      this.invalidCode = false
+    },
+    mountCardElement(elements: any): boolean {
+      try {
+        this.card = elements.create('card', {
+          hidePostalCode: true,
+          style: {
+            base: {
+              iconColor: '#3E7CA3',
+              color: '#969696',
+              fontWeight: '400',
+              fontFamily: 'Orkney, Roboto, Open Sans, Segoe UI, sans-serif',
+              fontSize: '16px',
+              fontSmoothing: 'antialiased',
+              ':-webkit-autofill': {
+                color: '#969696',
+              },
+              '::placeholder': {
+                color: '#9E9E9E',
+              },
+            },
+            invalid: {
+              iconColor: '#F2868F',
+              color: '#F2868F',
+            },
+          },
+        })
+        this.card.mount('#card-element')
+        this.card.on('change', (event: any) => {
+          if (event.complete) {
+            this.checkoutComplete = true
+          } else {
+            this.checkoutComplete = false
+          }
+        })
+        return true
+      } catch (error) {
+        return false
+      }
+    },
+    async mountPaymentRequestButton(elements: any): Promise<boolean> {
+      try {
+        const paymentRequest = this.$stripe.paymentRequest({
+          country: 'US',
+          currency: 'usd',
+          total: {
+            label: 'Kaizen Squad lifetime subscription',
+            amount: 1499,
+          },
+          requestPayerName: true,
+          requestPayerEmail: true,
+        })
+        const canMakePayment = await paymentRequest.canMakePayment()
+        this.paymentRequestButton = elements.create('paymentRequestButton', {
+          paymentRequest,
+        })
+        if (canMakePayment) {
+          this.paymentRequestButton.mount('#payment-request')
+          return true
+        }
+        return false
+      } catch (error) {
+        return false
+      }
+    },
+    setPaymentIntent(): boolean {
+      return false
+    },
   },
-  fetchOnServer: false,
 })
 </script>
 
@@ -172,18 +394,6 @@ hr {
   @apply pt-4;
 }
 
-.user-img-lg {
-  @apply flex-shrink-0 w-20 h-20;
-}
-
-.img-wrapper {
-  @apply relative flex items-center justify-center w-full h-full rounded-lg bg-gradient-to-b from-gray-darker to-gray-light shadow-md backdrop-filter backdrop-blur-md;
-}
-
-.img-wrapper > .img {
-  @apply w-full h-full bg-no-repeat bg-center z-10 bg-cover absolute rounded-md top-0 left-0 right-0 bottom-0;
-}
-
 .title {
   @apply text-lg font-extralight text-blue-kaizen;
 }
@@ -197,7 +407,7 @@ hr {
   opacity: 0;
 }
 
-.saved-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur;
+.modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>

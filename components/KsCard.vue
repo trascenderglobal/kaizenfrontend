@@ -3,6 +3,7 @@
     <div class="card-wrapper scroller" :class="{ 'flex-col': !row }">
       <slot />
     </div>
+    <slot name="outer" />
   </div>
 </template>
 
@@ -22,7 +23,7 @@ export default Vue.extend({
 
 <style scoped>
 .card {
-  @apply w-full rounded-xl overflow-y-hidden overflow-x-visible;
+  @apply relative w-full rounded-xl overflow-y-hidden overflow-x-visible;
 }
 
 .card-wrapper {

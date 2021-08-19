@@ -3,6 +3,7 @@ import { I18N } from './config/i18n'
 export default {
   publicRuntimeConfig: {
     axios: { baseURL: process.env.BASE_URL },
+    stripe: { publishableKey: process.env.STRIPE_PUBLISHABLE_KEY },
   },
 
   target: 'server',
@@ -53,6 +54,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
+    'nuxt-stripe-module',
     ['nuxt-i18n', I18N],
   ],
 

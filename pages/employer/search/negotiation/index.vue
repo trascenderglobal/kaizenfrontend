@@ -193,43 +193,45 @@
         }}</ks-btn>
       </div>
     </div>
-    <transition name="sent">
-      <div v-if="sent" class="sent-modal">
-        <div class="w-11/12 lg:w-3/5">
-          <ks-card class="p-8" col>
-            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
-              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
-                {{ $t('negotiation.requestsCompleted.title') }}
-              </h1>
-              <div class="flex space-x-2">
-                <ks-user-img
-                  v-for="(neg, i) in negotiations"
-                  :key="`user-img-${i}`"
-                  :initials="neg.name"
-                  :image-url="neg.profileImage"
-                  large
-                />
+    <template #outer>
+      <transition name="sent">
+        <div v-if="sent" class="sent-modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('negotiation.requestsCompleted.title') }}
+                </h1>
+                <div class="flex space-x-2">
+                  <ks-user-img
+                    v-for="(neg, i) in negotiations"
+                    :key="`user-img-${i}`"
+                    :initials="neg.name"
+                    :image-url="neg.profileImage"
+                    large
+                  />
+                </div>
+                <hr class="self-stretch" />
+                <p class="text-xl text-blue-kaizen text-center">
+                  {{ $t('negotiation.requestsCompleted.paragraph1') }}
+                </p>
+                <p class="pt-6 text-xl text-blue-kaizen text-center">
+                  {{ $t('negotiation.requestsCompleted.paragraph2') }}
+                </p>
+                <div class="flex pt-16 flex-grow items-end justify-center">
+                  <ks-btn
+                    color="success"
+                    class="text-xl"
+                    :to="localePath('/employer/requests')"
+                    >{{ $t('negotiation.requestsCompleted.btn') }}</ks-btn
+                  >
+                </div>
               </div>
-              <hr class="self-stretch" />
-              <p class="text-xl text-blue-kaizen text-center">
-                {{ $t('negotiation.requestsCompleted.paragraph1') }}
-              </p>
-              <p class="pt-6 text-xl text-blue-kaizen text-center">
-                {{ $t('negotiation.requestsCompleted.paragraph2') }}
-              </p>
-              <div class="flex pt-16 flex-grow items-end justify-center">
-                <ks-btn
-                  color="success"
-                  class="text-xl"
-                  :to="localePath('/employer/requests')"
-                  >{{ $t('negotiation.requestsCompleted.btn') }}</ks-btn
-                >
-              </div>
-            </div>
-          </ks-card>
+            </ks-card>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -520,6 +522,6 @@ hr {
 }
 
 .sent-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 rounded-xl backdrop-filter backdrop-blur;
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>

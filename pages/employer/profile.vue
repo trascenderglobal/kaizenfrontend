@@ -377,36 +377,38 @@
         >
       </transition>
     </div>
-    <transition name="edit">
-      <div v-if="saved" class="saved-modal">
-        <div class="w-11/12 lg:w-3/5">
-          <ks-card class="p-8" col>
-            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
-              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
-                {{ $t('profile.edit.saved.title') }}
-              </h1>
-              <ks-user-img
-                :initials="profile.name"
-                :image-url="profile.profile_picture_URL"
-                large
-              />
-              <hr class="my-8" />
-              <p class="text-xl text-blue-kaizen text-center">
-                {{ $t('profile.edit.saved.text') }}
-              </p>
-              <div class="flex pt-16 flex-grow items-end justify-center">
-                <ks-btn
-                  color="success"
-                  class="text-xl"
-                  @click="saved = false"
-                  >{{ $t('profile.edit.saved.btn') }}</ks-btn
-                >
+    <template #outer>
+      <transition name="edit">
+        <div v-if="saved" class="saved-modal">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('profile.edit.saved.title') }}
+                </h1>
+                <ks-user-img
+                  :initials="profile.name"
+                  :image-url="profile.profile_picture_URL"
+                  large
+                />
+                <hr class="my-8" />
+                <p class="text-xl text-blue-kaizen text-center">
+                  {{ $t('profile.edit.saved.text') }}
+                </p>
+                <div class="flex pt-16 flex-grow items-end justify-center">
+                  <ks-btn
+                    color="success"
+                    class="text-xl"
+                    @click="saved = false"
+                    >{{ $t('profile.edit.saved.btn') }}</ks-btn
+                  >
+                </div>
               </div>
-            </div>
-          </ks-card>
+            </ks-card>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -767,6 +769,6 @@ hr {
 }
 
 .saved-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 rounded-xl backdrop-filter backdrop-blur;
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>

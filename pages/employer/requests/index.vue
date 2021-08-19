@@ -226,40 +226,48 @@
         <div class="flex-auto"></div>
       </div>
     </div>
-    <transition name="cancel">
-      <div v-if="showCancel" class="cancel-modal" role="dialog">
-        <div class="w-11/12 lg:w-3/5">
-          <ks-card class="p-8" col>
-            <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
-              <h1 class="text-3xl font-medium text-center text-blue-kaizen">
-                {{ $t('requests.cancelModal.title') }}
-              </h1>
-              <hr class="self-stretch border-blue-light" />
-              <p class="text-xl text-blue-kaizen text-center">
-                {{ $t('requests.cancelModal.subtitle') }}
-              </p>
-              <div
-                class="flex flex-wrap pt-14 flex-grow items-end justify-center"
-              >
-                <ks-btn
-                  color="danger"
-                  outline
-                  class="text-xl mr-2 mt-2"
-                  @click="cancelRequest(requestCancel)"
-                  >{{ $t('requests.cancel') }}</ks-btn
+    <template #outer>
+      <transition name="cancel">
+        <div v-if="showCancel" class="cancel-modal" role="dialog">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('requests.cancelModal.title') }}
+                </h1>
+                <hr class="self-stretch border-blue-light" />
+                <p class="text-xl text-blue-kaizen text-center">
+                  {{ $t('requests.cancelModal.subtitle') }}
+                </p>
+                <div
+                  class="
+                    flex flex-wrap
+                    pt-14
+                    flex-grow
+                    items-end
+                    justify-center
+                  "
                 >
-                <ks-btn
-                  color="darker-gray"
-                  class="text-xl mt-2"
-                  @click="requestCancel = null"
-                  >{{ $t('requests.close') }}</ks-btn
-                >
+                  <ks-btn
+                    color="danger"
+                    text
+                    class="text-xl mr-2 mt-2"
+                    @click="cancelRequest(requestCancel)"
+                    >{{ $t('requests.cancel') }}</ks-btn
+                  >
+                  <ks-btn
+                    color="darker-gray"
+                    class="text-xl mt-2"
+                    @click="requestCancel = null"
+                    >{{ $t('requests.close') }}</ks-btn
+                  >
+                </div>
               </div>
-            </div>
-          </ks-card>
+            </ks-card>
+          </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -562,6 +570,6 @@ tbody > .request-detail td:last-child {
 }
 
 .cancel-modal {
-  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 rounded-xl backdrop-filter backdrop-blur;
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>
