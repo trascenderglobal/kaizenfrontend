@@ -38,10 +38,7 @@
     <h1 class="title">
       {{ $t('settings.deleteAccount') }}
     </h1>
-    <span class="py-2 text-gray-darker font-light">{{
-      $t('settings.deleteLeaveSure')
-    }}</span>
-    <div class="flex justify-start py-2">
+    <div class="py-2">
       <ks-btn
         color="light"
         large
@@ -50,6 +47,9 @@
         >{{ $t('settings.deleteMyAccount') }}</ks-btn
       >
     </div>
+    <span class="block py-2 text-gray-darker font-light">{{
+      $t('settings.deleteLeaveSure')
+    }}</span>
     <template #outer>
       <transition name="edit">
         <div v-if="showDelete" class="saved-modal">

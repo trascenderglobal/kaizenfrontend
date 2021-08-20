@@ -529,6 +529,23 @@ export default Vue.extend({
       this.user = res
     } catch (error) {}
   },
+  head(): object {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      title: this.$t('adminUserDetail.meta.title'),
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('adminUserDetail.meta.description'),
+        },
+        ...i18nHead.meta,
+      ],
+    }
+  },
   computed: {
     industryAbbr(): string {
       if (this.user.industry === 'manufacturing')

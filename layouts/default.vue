@@ -9,7 +9,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({})
+export default Vue.extend({
+  fetch() {
+    this.$notifier.clearNotifications()
+  },
+})
 </script>
 
 <style scoped>

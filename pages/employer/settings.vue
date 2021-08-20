@@ -38,10 +38,22 @@
     <div class="flex flex-wrap">
       <div class="flex-auto pr-2">
         <h1 class="title">{{ $t('settings.subscription') }}</h1>
-        <ks-btn color="light" large font="font-normal" @click="showCheckout"
-          >{{ $t('settings.subscribe') }}
-        </ks-btn>
-        <div @click.stop="showCode = true">
+        <div class="py-2">
+          <ks-btn
+            v-if="!$auth.user.payment_status || !$auth.user.payment_date"
+            color="light"
+            large
+            font="font-normal"
+            @click="showCheckout"
+            >{{ $t('settings.subscribe') }}
+          </ks-btn>
+        </div>
+        <div
+          v-if="!$auth.user.payment_status || !$auth.user.payment_date"
+          role="button"
+          class="cursor-pointer"
+          @click.stop="showCode = true"
+        >
           <span class="py-2 text-gray-darker font-light"
             >{{ $t('settings.subscribeWithCode') }}
           </span>
@@ -49,16 +61,23 @@
             {{ $t('settings.digits', { digits }) }}
           </button>
         </div>
+        <div v-else>
+          <span class="py-2 text-gray-darker font-light"
+            >{{ $t('settings.subscribed') }}
+          </span>
+        </div>
       </div>
       <div class="flex-auto">
         <h1 class="title">{{ $t('settings.deleteAccount') }}</h1>
-        <ks-btn
-          color="light"
-          large
-          font="font-normal"
-          @click="showDelete = true"
-          >{{ $t('settings.deleteMyAccount') }}
-        </ks-btn>
+        <div class="py-2">
+          <ks-btn
+            color="light"
+            large
+            font="font-normal"
+            @click="showDelete = true"
+            >{{ $t('settings.deleteMyAccount') }}
+          </ks-btn>
+        </div>
         <span class="block py-2 text-gray-darker font-light"
           >{{ $t('settings.deleteLeaveSure') }}
         </span>
@@ -231,7 +250,7 @@ export default Vue.extend({
       paymentRequestButton: undefined as any,
       paymentIntent: undefined as any,
       checkoutComplete: false,
-      codeDigits: new Array(8).fill(''),
+      codeDigits: new Array(8).fill('') as string[],
       loading: false,
       invalidCode: false,
     }
@@ -279,16 +298,23 @@ export default Vue.extend({
     },
     async subWithCode(): Promise<void> {
       try {
-        const license = this.codeDigits.join('')
-        if (license.length !== this.digits) {
+        const rawLicense = this.codeDigits.join('')
+
+        if (rawLicense.length !== this.digits) {
           this.invalidCode = true
           return
         }
         this.loading = true
         this.invalidCode = false
+        const license = rawLicense.slice(0, 4) + '-' + rawLicense.slice(4, 8)
         await this.$axios.$post('/employer/validateLicense', {
           license,
         })
+        await this.$auth.fetchUser()
+        this.$notifier.showNotification({
+          content: this.$t('settings.subscribed'),
+        })
+        this.showCode = false
       } catch (error) {
         this.invalidCode = true
       } finally {
@@ -395,7 +421,7 @@ hr {
 }
 
 .title {
-  @apply text-lg font-extralight text-blue-kaizen;
+  @apply text-lg text-blue-kaizen;
 }
 
 .edit-enter-active,

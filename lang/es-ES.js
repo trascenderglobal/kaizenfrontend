@@ -601,10 +601,24 @@ export default {
   },
   adminUserDetail: {
     title: 'Profile detail',
+    meta: {
+      title: 'Profile detail',
+      description: 'Profile detail',
+    },
   },
   adminAlerts: {
     title: 'Tratos hechos',
     subtitle: 'Estos son los tratos que han sido cerrados exitosamente',
     noDeals: 'No se han cerrado tratos',
+  },
+  adminCodes: {
+    title: 'Tus códigos',
+    subtitle: 'Genera códigos para tus mejores clientes',
+    generateCode: 'Generar código',
+    copied: '¡Código copiado!',
+    meta: {
+      title: 'Códigos',
+      description: 'Códigos',
+    },
   },
 }

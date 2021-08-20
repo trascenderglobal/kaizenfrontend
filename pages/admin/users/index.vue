@@ -176,6 +176,7 @@ interface User {
 }
 
 export default Vue.extend({
+  name: 'UsersPage',
   layout: 'admin',
   data() {
     return {

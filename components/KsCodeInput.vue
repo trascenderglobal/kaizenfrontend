@@ -59,7 +59,7 @@ export default Vue.extend({
     },
     handlePaste(e: ClipboardEvent) {
       const text = e.clipboardData?.getData('text') || ''
-      const textArray = text.split('')
+      const textArray = text.replace(/[-\s]/g, '').split('')
       let aux = this.focused
       for (let i = this.focused; i < this.code.length; i++) {
         this.code.splice(i, 1, textArray[i - this.focused] || this.code[i])

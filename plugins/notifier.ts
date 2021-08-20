@@ -1,7 +1,8 @@
 import { Plugin } from '@nuxt/types'
+import { TranslateResult } from 'vue-i18n'
 
 interface Notification {
-  content: string
+  content: string | TranslateResult
   bgColor?: string
   hoverColor?: string
   textColor?: string
