@@ -77,6 +77,63 @@
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
+              $t('profile.salaryRate')
+            }}</span>
+          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !profile.expected_salary_rate }"
+            >{{
+              profile.expected_salary_rate
+                ? $t('negotiation.perHour', {
+                    value: profile.expected_salary_rate,
+                  })
+                : '-'
+            }}</span
+          >
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.shift')
+            }}</span>
+          </div>
+          <span class="item-value" :class="{ 'select-none': !profile.shift }">{{
+            shift || '-'
+          }}</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.typeOfContract')
+            }}</span>
+          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !profile.type_of_contract }"
+            >{{ typeOfContract || '-' }}</span
+          >
+        </div>
+        <div class="field-col">
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/3">
+            <ks-chip
+              :bg-color="
+                profile.working_mode ? 'bg-blue-light' : 'bg-gray-darker'
+              "
+              >{{ workingMode }}</ks-chip
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="fields">
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
               $t('profile.state')
             }}</span>
           </div>
@@ -363,6 +420,10 @@ export default Vue.extend({
         last_name: '',
         birth_date: null as Date | null,
         novelties: null,
+        expected_salary_rate: 0,
+        type_of_contract: '',
+        working_mode: 0,
+        shift: 0,
         state: '',
         city: '',
         phone: '',
@@ -473,6 +534,49 @@ export default Vue.extend({
         return this.$t('resume.levels.3') as string
       return this.$t('detail.none') as string
     },
+    shifts(): any[] {
+      return [
+        {
+          text: this.$t('profile.shifts.first'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.shifts.second'),
+          value: 2,
+        },
+        {
+          text: this.$t('profile.shifts.third'),
+          value: 3,
+        },
+      ]
+    },
+    shift(): string {
+      return this.profile.shift ? this.shifts[this.profile.shift - 1].text : '-'
+    },
+    typeOfContract(): string {
+      if (this.profile.type_of_contract === 'contract labor')
+        return this.$t('profile.contracts.0') as string
+      if (this.profile.type_of_contract === 'direct hire')
+        return this.$t('profile.contracts.1') as string
+      return '-'
+    },
+    workingModes(): any[] {
+      return [
+        {
+          text: this.$t('profile.workModes.partTime'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.workModes.fullTime'),
+          value: 2,
+        },
+      ]
+    },
+    workingMode(): string {
+      return this.profile.working_mode
+        ? this.workingModes[this.profile.working_mode - 1].text
+        : '-'
+    },
   },
   methods: {
     requestProfile() {
@@ -491,6 +595,10 @@ export default Vue.extend({
 <style scoped>
 hr {
   @apply border-blue-light my-8;
+}
+
+hr:not(:first-of-type) {
+  @apply mt-4;
 }
 
 .detail-header {

@@ -6,7 +6,7 @@
       </h1>
       <div class="flex items-center space-x-2">
         <ks-btn
-          v-if="user.role === 1 && !edit"
+          v-if="user.role === 1 && false /* !edit */"
           color="success"
           dense
           @click="edit = true"
@@ -82,51 +82,101 @@
       </div>
     </div>
     <hr class="my-8" />
-    <template v-if="user.role === 0">
-      <div class="fields">
-        <div class="field-row">
-          <div class="field-col">
-            <div class="min-w-1/5">
-              <span class="font-medium text-blue-kaizen">
-                {{ $t('profile.companyName') }}
-              </span>
-            </div>
-            <span
-              class="item-value"
-              :class="{ 'select-none': !user.company_name }"
-              >{{ user.company_name || '-' }}</span
-            >
+    <div v-if="user.role === 0" class="fields">
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">
+              {{ $t('profile.companyName') }}
+            </span>
           </div>
-          <div class="field-col">
-            <div class="min-w-1/5">
-              <span class="font-medium text-blue-kaizen">
-                {{ $t('profile.position') }}
-              </span>
-            </div>
-            <span
-              class="item-value"
-              :class="{ 'select-none': !user.position }"
-              >{{ user.position || '-' }}</span
-            >
-          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !user.company_name }"
+            >{{ user.company_name || '-' }}</span
+          >
         </div>
-        <div class="field-row">
-          <div class="field-col">
-            <div class="min-w-1/5">
-              <span class="font-medium text-blue-kaizen">
-                {{ $t('profile.contactPerson') }}
-              </span>
-            </div>
-            <span
-              class="item-value"
-              :class="{ 'select-none': !user.contact_person }"
-              >{{ user.contact_person || '-' }}</span
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">
+              {{ $t('profile.position') }}
+            </span>
+          </div>
+          <span class="item-value" :class="{ 'select-none': !user.position }">{{
+            user.position || '-'
+          }}</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">
+              {{ $t('profile.contactPerson') }}
+            </span>
+          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !user.contact_person }"
+            >{{ user.contact_person || '-' }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <div v-else class="fields">
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.salaryRate')
+            }}</span>
+          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !user.expected_salary_rate }"
+            >{{
+              user.expected_salary_rate
+                ? $t('negotiation.perHour', {
+                    value: user.expected_salary_rate,
+                  })
+                : '-'
+            }}</span
+          >
+        </div>
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.shift')
+            }}</span>
+          </div>
+          <span class="item-value" :class="{ 'select-none': !user.shift }">{{
+            shift || '-'
+          }}</span>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-col">
+          <div class="min-w-1/5">
+            <span class="font-medium text-blue-kaizen">{{
+              $t('profile.typeOfContract')
+            }}</span>
+          </div>
+          <span
+            class="item-value"
+            :class="{ 'select-none': !user.type_of_contract }"
+            >{{ typeOfContract || '-' }}</span
+          >
+        </div>
+        <div class="field-col">
+          <div class="flex-grow lg:flex-grow-0 xl:w-1/3">
+            <ks-chip
+              :bg-color="user.working_mode ? 'bg-blue-light' : 'bg-gray-darker'"
+              >{{ workingMode }}</ks-chip
             >
           </div>
         </div>
       </div>
-      <hr class="mt-6 mb-8" />
-    </template>
+    </div>
+    <hr class="mt-4 mb-8" />
     <div class="fields">
       <div v-if="user.role === 0" class="field-row">
         <div class="field-col">
@@ -211,7 +261,7 @@
           </button>
         </div>
       </div>
-      <div v-if="false" class="field-row">
+      <div v-if="/* user.role === 1 */ false" class="field-row">
         <div class="field-col">
           <div class="min-w-1/5">
             <span class="font-medium text-blue-kaizen">{{
@@ -246,7 +296,7 @@
       </div>
     </div>
     <template v-if="user.role === 1">
-      <hr class="mt-6 mb-8" />
+      <hr class="mt-4 mb-8" />
       <h1 class="pb-6 text-lg text-blue-kaizen">
         {{ $t('detail.skills') }}
       </h1>
@@ -328,7 +378,7 @@
           </div>
         </div>
       </div>
-      <hr class="mt-6 mb-8" />
+      <hr class="mt-4 mb-8" />
       <h1 class="pb-6 text-lg text-blue-kaizen">
         {{ $t('resume.secondaryLanguage') }}
       </h1>
@@ -350,7 +400,7 @@
           </div>
         </div>
       </div>
-      <hr class="mt-6 mb-8" />
+      <hr class="mt-4 mb-8" />
       <h1 class="pb-6 text-lg text-blue-kaizen">
         {{ $t('resume.previousJob') }}
       </h1>
@@ -424,7 +474,7 @@
         </div>
       </div>
     </template>
-    <div class="flex justify-end flex-grow">
+    <div v-if="false" class="flex justify-end flex-grow">
       <transition name="edit">
         <ks-btn
           v-if="edit"
@@ -479,6 +529,10 @@ interface User {
   created_at?: string | Date | null
   birth_date?: string | Date | null
   novelties?: number | null
+  expected_salary_rate?: number | null
+  type_of_contract?: string | null
+  working_mode?: number | null
+  shift?: number | null
   skills?: Skill[]
   languages?: Language[]
   previous_jobs?: Job[]
@@ -510,6 +564,10 @@ export default Vue.extend({
         created_at: null,
         birth_date: null,
         novelties: null,
+        expected_salary_rate: 0,
+        type_of_contract: '',
+        working_mode: 0,
+        shift: 0,
         skills: [] as Skill[],
         languages: [] as Language[],
         previous_jobs: [] as Job[],
@@ -613,6 +671,49 @@ export default Vue.extend({
       else if (this.user.languages[0].language_level === 4)
         return this.$t('resume.levels.3') as string
       return this.$t('detail.none') as string
+    },
+    shifts(): any[] {
+      return [
+        {
+          text: this.$t('profile.shifts.first'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.shifts.second'),
+          value: 2,
+        },
+        {
+          text: this.$t('profile.shifts.third'),
+          value: 3,
+        },
+      ]
+    },
+    shift(): string {
+      return this.user.shift ? this.shifts[this.user.shift - 1].text : '-'
+    },
+    typeOfContract(): string {
+      if (this.user.type_of_contract === 'contract labor')
+        return this.$t('profile.contracts.0') as string
+      if (this.user.type_of_contract === 'direct hire')
+        return this.$t('profile.contracts.1') as string
+      return '-'
+    },
+    workingModes(): any[] {
+      return [
+        {
+          text: this.$t('profile.workModes.partTime'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.workModes.fullTime'),
+          value: 2,
+        },
+      ]
+    },
+    workingMode(): string {
+      return this.user.working_mode
+        ? this.workingModes[this.user.working_mode - 1].text
+        : '-'
     },
   },
   methods: {

@@ -416,11 +416,13 @@ export default {
     to: 'Hasta',
     position: 'Cargo',
     typeOfC: 'Tipo de contrato',
+    shift: 'Turno',
     contracts: {
       0: 'Contract labor',
       1: 'Direct hire',
     },
     selectContract: 'Selecciona el tipo de contrato',
+    selectShift: 'Selecciona un turno',
     salaryRate: 'Tasa de salario',
     perHour: '{value} USD por hora',
     jobDescription: 'Descripción del trabajo',

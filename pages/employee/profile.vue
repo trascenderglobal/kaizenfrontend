@@ -198,22 +198,33 @@
       </div>
       <div class="field-row">
         <div class="field-col">
-          <div class="invisible min-w-1/5"></div>
-          <span
-            v-if="!edit"
-            class="item-value"
-            :class="{ 'select-none': !profile.working_mode }"
-            >{{ workingMode }}</span
-          >
+          <div v-if="!edit" class="flex-grow lg:flex-grow-0 lg:w-1/2">
+            <ks-chip
+              v-if="!edit"
+              :class="{ 'select-none': !profile.working_mode }"
+              :bg-color="
+                profile.working_mode ? 'bg-blue-light' : 'bg-gray-darker'
+              "
+              >{{ workingMode }}</ks-chip
+            >
+          </div>
           <div v-else class="flex-grow lg:flex-grow-0 lg:w-1/2">
             <ks-select
               v-model="profile.working_mode"
-              class="border border-blue-light"
+              class="border"
+              :class="
+                profile.working_mode && !edit
+                  ? 'border-blue-light'
+                  : 'border-gray-darker'
+              "
               :label="$t('profile.edit.select')"
               :items="workingModes"
               clearable
-              bg-color="bg-transparent"
-              color="text-gray-darker"
+              :bg-color="
+                profile.working_mode && !edit
+                  ? 'bg-blue-light'
+                  : 'bg-gray-darker'
+              "
             />
           </div>
         </div>

@@ -89,29 +89,78 @@
         </div>
       </div>
       <div class="field-row">
-        <div class="field-col">
-          <span class="text-blue-kaizen pr-4">{{
-            $t('negotiation.typeOfC')
-          }}</span>
+        <div class="flex flex-1 flex-wrap">
+          <div class="field-col flex flex-1">
+            <span class="text-blue-kaizen pr-4">{{
+              $t('negotiation.typeOfC')
+            }}</span>
+            <div class="flex-auto">
+              <ks-select
+                v-model="negotiations[currentIndex].typeContract"
+                :items="typeContract"
+                :label="$t('negotiation.selectContract')"
+                class="transition border"
+                :class="
+                  $v.negotiations.$each.$iter[currentIndex].typeContract.$error
+                    ? 'border-red-kaizen text-red-kaizen'
+                    : 'border-gray-light'
+                "
+                bg-color="bg-transparent"
+                color="text-gray-dark"
+                @blur="
+                  $v.negotiations.$each.$iter[currentIndex].typeContract.$touch
+                "
+              />
+            </div>
+          </div>
+          <div class="field-col flex flex-1">
+            <span class="text-blue-kaizen pr-4">{{
+              $t('negotiation.shift')
+            }}</span>
+            <div class="flex-auto">
+              <ks-select
+                v-model="negotiations[currentIndex].shift"
+                :items="shifts"
+                :label="$t('negotiation.selectShift')"
+                class="transition border"
+                :class="
+                  $v.negotiations.$each.$iter[currentIndex].shift.$error
+                    ? 'border-red-kaizen text-red-kaizen'
+                    : 'border-gray-light'
+                "
+                bg-color="bg-transparent"
+                color="text-gray-dark"
+                @blur="$v.negotiations.$each.$iter[currentIndex].shift.$touch"
+              />
+            </div>
+          </div>
         </div>
-        <div class="field-col">
-          <ks-select
-            v-model="negotiations[currentIndex].typeContract"
-            :items="typeContract"
-            :label="$t('negotiation.selectContract')"
-            class="transition border"
-            :class="
-              $v.negotiations.$each.$iter[currentIndex].typeContract.$error
-                ? 'border-red-kaizen text-red-kaizen'
-                : 'border-gray-light'
-            "
-            bg-color="bg-transparent"
-            color="text-gray-dark"
-            clearable
-            @blur="
-              $v.negotiations.$each.$iter[currentIndex].typeContract.$touch
-            "
-          />
+        <div class="field-col flex flex-1">
+          <div class="flex-auto">
+            <ks-select
+              v-model="negotiations[currentIndex].workingMode"
+              class="border"
+              :class="
+                $v.negotiations.$each.$iter[currentIndex].workingMode.$error
+                  ? 'border-red-kaizen'
+                  : negotiations[currentIndex].workingMode
+                  ? 'border-blue-light'
+                  : 'border-gray-darker'
+              "
+              :label="$t('profile.edit.select')"
+              :items="workingModes"
+              :bg-color="
+                $v.negotiations.$each.$iter[currentIndex].workingMode.$error
+                  ? 'bg-red-kaizen'
+                  : negotiations[currentIndex].workingMode
+                  ? 'bg-blue-light'
+                  : 'bg-gray-darker'
+              "
+              @blur="
+                $v.negotiations.$each.$iter[currentIndex].workingMode.$touch
+              "
+            />
+          </div>
         </div>
       </div>
       <div class="field-row">
@@ -276,6 +325,8 @@ interface Negotiation {
   to: Date | null
   position: string
   typeContract: string
+  shift: number | null
+  workingMode: number | null
   salaryRate: number
   jobDescription: string
   observation: string
@@ -302,6 +353,8 @@ export default Vue.extend({
           to: null,
           position: '',
           typeContract: '',
+          shift: null,
+          workingMode: 1,
           salaryRate: 12,
           jobDescription: '',
           observation: '',
@@ -381,6 +434,34 @@ export default Vue.extend({
       )
       return skill
     },
+    shifts(): any[] {
+      return [
+        {
+          text: this.$t('profile.shifts.first'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.shifts.second'),
+          value: 2,
+        },
+        {
+          text: this.$t('profile.shifts.third'),
+          value: 3,
+        },
+      ]
+    },
+    workingModes(): any[] {
+      return [
+        {
+          text: this.$t('profile.workModes.partTime'),
+          value: 1,
+        },
+        {
+          text: this.$t('profile.workModes.fullTime'),
+          value: 2,
+        },
+      ]
+    },
   },
   watch: {
     currentIndex: {
@@ -412,6 +493,8 @@ export default Vue.extend({
                 end_date: neg.to?.toJSON(),
                 position: neg.position,
                 contract_type: neg.typeContract,
+                shift: neg.shift,
+                working_mode: neg.workingMode,
                 salary_rate: neg.salaryRate,
                 job_description: neg.jobDescription,
                 observations: neg.observation,
@@ -454,6 +537,12 @@ export default Vue.extend({
             required,
           },
           typeContract: {
+            required,
+          },
+          shift: {
+            required,
+          },
+          workingMode: {
             required,
           },
           salaryRate: {

@@ -415,11 +415,13 @@ export default {
     to: 'To',
     position: 'Position',
     typeOfC: 'Type of contract',
+    shift: 'Shift',
     contracts: {
       0: 'Contract labor',
       1: 'Direct hire',
     },
     selectContract: 'Select a type of contract',
+    selectShift: 'Select a shift',
     salaryRate: 'Salary rate',
     perHour: 'USD {value} per hour',
     jobDescription: 'Job description',

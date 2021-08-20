@@ -323,12 +323,9 @@ export default Vue.extend({
         const query = JSON.parse(this.$route.query.q as string)
         this.skills = query.skills
         this.$store.dispatch('employer/updateSearchFilters', {
-          lang: {
-            language: query.language[0]?.language,
-            level: null,
-          },
-          state: query.state[0]?.state,
-          city: query.city[0]?.city,
+          lang: query.language,
+          state: query.state,
+          city: query.city,
         })
         await this.search()
         this.$router.push({ query: { q: undefined } })
