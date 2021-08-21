@@ -166,12 +166,16 @@
                     class="text-xl"
                     color="darker-gray"
                     text
-                    @click="cancelCheckout"
+                    @click="closeCheckout"
                     >{{ $t('settings.cancel') }}</ks-btn
                   >
-                  <ks-btn class="text-xl" color="success">{{
-                    $t('settings.subscribe')
-                  }}</ks-btn>
+                  <ks-btn
+                    class="text-xl"
+                    color="success"
+                    :loading="loading"
+                    @click="confirmCardPayment"
+                    >{{ $t('settings.subscribe') }}</ks-btn
+                  >
                 </div>
               </div>
             </ks-card>
@@ -248,11 +252,11 @@ export default Vue.extend({
       deleting: false,
       card: undefined as any,
       paymentRequestButton: undefined as any,
-      paymentIntent: undefined as any,
       checkoutComplete: false,
       codeDigits: new Array(8).fill('') as string[],
       loading: false,
       invalidCode: false,
+      secret: undefined as string | undefined,
     }
   },
   async fetch() {
@@ -310,7 +314,7 @@ export default Vue.extend({
         await this.$axios.$post('/employer/validateLicense', {
           license,
         })
-        await this.$auth.fetchUser()
+        this.$auth.fetchUser()
         this.$notifier.showNotification({
           content: this.$t('settings.subscribed'),
         })
@@ -321,18 +325,19 @@ export default Vue.extend({
         this.loading = false
       }
     },
-    showCheckout(): void {
+    async showCheckout() {
       this.showSubscribe = true
+      await this.setPaymentIntent()
       this.$nextTick(async () => {
         if (this.$stripe) {
           const elements = this.$stripe.elements()
           this.mountCardElement(elements)
           await this.mountPaymentRequestButton(elements)
-          await this.setPaymentIntent()
+          if (!this.secret) this.showSubscribe = false
         }
       })
     },
-    cancelCheckout(): void {
+    closeCheckout(): void {
       this.showSubscribe = false
       this.codeDigits = new Array(8).fill('')
       this.invalidCode = false
@@ -400,8 +405,56 @@ export default Vue.extend({
         return false
       }
     },
-    setPaymentIntent(): boolean {
-      return false
+    async setPaymentIntent(): Promise<void> {
+      try {
+        if (this.secret) return
+        const res = await this.$axios.$post('/employer/paymentIntent')
+        this.secret = res.client_secret
+      } catch (error) {
+        this.secret = undefined
+      }
+    },
+    async confirmCardPayment(): Promise<void> {
+      try {
+        if (!this.checkoutComplete) return
+        this.loading = true
+        const { paymentIntent, error } = await this.$stripe.confirmCardPayment(
+          this.secret,
+          {
+            payment_method: {
+              card: this.card,
+              billing_details: {
+                email: this.profile.email,
+                name: this.profile.name + ' ' + this.profile.lastName,
+              },
+            },
+          }
+        )
+        if (error) throw error
+        else if (paymentIntent) {
+          await this.$axios.$post('/employer/upgradeAccount')
+          this.$auth.fetchUser()
+          this.closeCheckout()
+          this.secret = undefined
+          this.$notifier.showNotification({
+            content: this.$t('settings.paymentConfirmed'),
+          })
+        }
+      } catch (error) {
+        if (error.decline_code === 'insufficient_funds') {
+          this.$notifier.showNotification({
+            content: this.$t('settings.insufficientFunds'),
+            bgColor: 'bg-red-kaizen',
+          })
+        } else {
+          this.$notifier.showNotification({
+            content: this.$t('settings.paymentError'),
+            bgColor: 'bg-red-kaizen',
+          })
+        }
+      } finally {
+        this.loading = false
+      }
     },
   },
 })

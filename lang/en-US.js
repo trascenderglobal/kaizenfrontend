@@ -506,8 +506,9 @@ export default {
     enterCode: 'Please, enter your {digits}-digit code to subscribe',
     invalidCode: 'Please, enter a valid {digits}-digit code',
     subscribed: 'You have a lifetime subscription in Kaizen Squad',
-    ifUnsubscribe:
-      'If you unsubscribe, all your data will be deleted. Are you sure?',
+    insufficientFunds: 'Insufficient funds.',
+    paymentError: 'Could not confirm your payment, please try again.',
+    paymentConfirmed: 'Payment confirmed!',
     noDate: 'No date',
     deleteAccount: 'Delete your account',
     deleteLeave: 'You are about to leave us',
