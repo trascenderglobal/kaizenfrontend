@@ -11,7 +11,7 @@
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
         <ks-user-img
-          :initials="profile.name"
+          :initials="$auth.user.name"
           :image-url="profile.profile_picture_URL"
           large
         />
@@ -93,7 +93,7 @@
                   {{ $t('settings.subscribe') }}
                 </h1>
                 <ks-user-img
-                  :initials="profile.name"
+                  :initials="$auth.user.name"
                   :image-url="profile.profile_picture_URL"
                   large
                 />
@@ -145,7 +145,7 @@
                   {{ $t('settings.subscribe') }}
                 </h1>
                 <ks-user-img
-                  :initials="profile.name"
+                  :initials="$auth.user.name"
                   :image-url="profile.profile_picture_URL"
                   large
                 />
@@ -191,7 +191,7 @@
                   {{ $t('settings.deleteMyAccount') }}
                 </h1>
                 <ks-user-img
-                  :initials="profile.name"
+                  :initials="$auth.user.name"
                   :image-url="profile.profile_picture_URL"
                   large
                 />
@@ -424,8 +424,8 @@ export default Vue.extend({
             payment_method: {
               card: this.card,
               billing_details: {
-                email: this.profile.email,
-                name: this.profile.name + ' ' + this.profile.lastName,
+                email: this.$auth.user.email,
+                name: this.$auth.user.name + ' ' + this.$auth.user.lastName,
               },
             },
           }

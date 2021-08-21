@@ -11,7 +11,7 @@
     <div class="flex flex-wrap justify-between pt-6">
       <div class="flex flex-grow lg:flex-grow-0 space-x-4">
         <ks-user-img
-          :initials="profile.name"
+          :initials="$auth.user.name"
           :image-url="profile.profile_picture_URL"
           large
         />
@@ -60,7 +60,7 @@
                   {{ $t('settings.deleteMyAccount') }}
                 </h1>
                 <ks-user-img
-                  :initials="profile.name"
+                  :initials="$auth.user.name"
                   :image-url="profile.profile_picture_URL"
                   large
                 />
