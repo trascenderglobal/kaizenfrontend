@@ -17,16 +17,10 @@ export const I18N = {
   lazy: true,
   strategy: 'no_prefix',
   defaultLocale: 'en',
-  seo: false,
   detectBrowserLanguage: {
-    onlyOnRoot: true,
+    redirectOn: 'no prefix',
   },
-  vuex: {
-    moduleName: 'i18n',
-    syncLocale: true,
-    syncMessages: false,
-    syncRouteParams: false,
-  },
+  vuex: false,
   vueI18n: {
     fallbackLocale: 'en',
     dateTimeFormats: {

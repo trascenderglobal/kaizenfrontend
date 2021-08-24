@@ -23,13 +23,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { mapState } from 'vuex'
 
 export default Vue.extend({
   computed: {
-    ...mapState({
-      locale: (state: any): string => state.i18n.locale,
-    }),
+    locale(): string {
+      return this.$i18n.locale
+    },
   },
   methods: {
     async changeLocale(locale: string): Promise<void> {

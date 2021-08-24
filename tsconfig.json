@@ -21,7 +21,7 @@
       "@nuxtjs/axios",
       "@nuxtjs/auth-next",
       "@types/vuelidate",
-      "nuxt-i18n",
+      "@nuxtjs/i18n",
       "nuxt-stripe-module"
     ]
   },

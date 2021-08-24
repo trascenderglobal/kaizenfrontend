@@ -55,7 +55,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     'nuxt-stripe-module',
-    ['nuxt-i18n', I18N],
+    ['@nuxtjs/i18n', I18N],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
