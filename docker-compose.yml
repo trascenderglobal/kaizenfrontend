@@ -2,10 +2,10 @@ version: '3.9'
 services:
   web:
     build: .
-    restart: always
+    restart: unless-stopped
     ports:
-      - '3000:3000'
-    image: kaizen-frontend-dev
+      - 3000:3000
+    image: kaizen-frontend-dev:latest
     container_name: kaizen-frontend-dev
     env_file:
-      - production.env
+      - .production.env
