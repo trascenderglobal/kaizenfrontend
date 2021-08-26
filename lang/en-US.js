@@ -589,6 +589,9 @@ export default {
     previous: 'Previous',
     next: 'Next',
     page: 'Page {p} of {t}',
+    close: 'Close',
+    disable: 'Deactivate',
+    userStatusChanged: 'User status changed!',
     table: {
       company: 'Company',
       date: 'Date',
@@ -596,6 +599,11 @@ export default {
       profile: 'Profile',
       status: 'Status',
       noItems: 'There are no users',
+    },
+    disableModal: {
+      title: 'Are you sure you want to deactivate this user?',
+      subtitle:
+        'You will be able to reactivate them later if you change your mind.',
     },
     meta: {
       title: 'Users',

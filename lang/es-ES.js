@@ -591,6 +591,9 @@ export default {
     previous: 'Anterior',
     next: 'Siguiente',
     page: 'Página {p} de {t}',
+    close: 'Cerrar',
+    disable: 'Desactivar',
+    userStatusChanged: '¡Estado del usuario cambiado!',
     table: {
       company: 'Compañía',
       date: 'Fecha',
@@ -598,6 +601,10 @@ export default {
       profile: 'Perfil',
       status: 'Estado',
       noItems: 'No hay usuarios',
+    },
+    disableModal: {
+      title: '¿Estás seguro que quieres desactivar este usuario?',
+      subtitle: 'Podrás reactivarlo después si cambias de opinión.',
     },
     meta: {
       title: 'Usuarios',

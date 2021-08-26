@@ -109,18 +109,30 @@
               </td>
               <td>
                 <div class="flex items-center space-x-2">
-                  <ks-status-icon
+                  <ks-btn
                     :color="user.status ? 'success' : 'light-gray'"
                     dense
-                    icon="circle"
-                    type="bold"
-                  ></ks-status-icon>
-                  <ks-status-icon
+                    icon
+                    @click="activateUser(user)"
+                  >
+                    <iconly-icon
+                      name="circle"
+                      :type="user.status ? 'bold' : 'outline'"
+                      class="fill-current stroke-current stroke-0"
+                    />
+                  </ks-btn>
+                  <ks-btn
                     :color="user.status ? 'light-gray' : 'danger'"
                     dense
-                    icon="circle"
-                    icon-class="stroke-current"
-                  ></ks-status-icon>
+                    icon
+                    @click="userDisable = user"
+                  >
+                    <iconly-icon
+                      name="circle"
+                      :type="user.status ? 'outline' : 'bold'"
+                      class="fill-current stroke-current stroke-0"
+                    />
+                  </ks-btn>
                 </div>
               </td>
             </tr>
@@ -160,6 +172,48 @@
         <div class="flex-auto"></div>
       </div>
     </div>
+    <template #outer>
+      <transition name="disable">
+        <div v-if="showDisableUser" class="disable-modal" role="dialog">
+          <div class="w-11/12 lg:w-3/5">
+            <ks-card class="p-8" col>
+              <div class="flex flex-col pt-16 flex-grow items-center space-y-8">
+                <h1 class="text-3xl font-medium text-center text-blue-kaizen">
+                  {{ $t('adminUsers.disableModal.title') }}
+                </h1>
+                <hr class="self-stretch border-blue-light" />
+                <p class="text-xl text-blue-kaizen text-center">
+                  {{ $t('adminUsers.disableModal.subtitle') }}
+                </p>
+                <div
+                  class="
+                    flex flex-wrap
+                    pt-14
+                    flex-grow
+                    items-end
+                    justify-center
+                  "
+                >
+                  <ks-btn
+                    color="darker-gray"
+                    class="text-xl mr-2 mt-2"
+                    @click="userDisable = null"
+                    >{{ $t('adminUsers.close') }}</ks-btn
+                  >
+                  <ks-btn
+                    color="danger"
+                    text
+                    class="text-xl mt-2"
+                    @click="disableUser(userDisable)"
+                    >{{ $t('adminUsers.disable') }}</ks-btn
+                  >
+                </div>
+              </div>
+            </ks-card>
+          </div>
+        </div>
+      </transition>
+    </template>
   </ks-card>
 </template>
 
@@ -167,7 +221,7 @@
 import Vue from 'vue'
 
 interface User {
-  id: string
+  id: number
   name: string
   last_name: string
   role: number
@@ -187,6 +241,7 @@ export default Vue.extend({
       size: 5,
       users: [] as User[],
       images: [] as string[],
+      userDisable: null as User | null,
     }
   },
   async fetch() {
@@ -258,6 +313,9 @@ export default Vue.extend({
         this.size * this.page
       )
     },
+    showDisableUser(): boolean {
+      return this.userDisable !== null
+    },
   },
   watch: {
     status: {
@@ -277,6 +335,37 @@ export default Vue.extend({
     },
     nextPage() {
       if (this.page < this.totalPages) this.page++
+    },
+    async activateUser(user: User) {
+      try {
+        if (user.status) return
+        await this.changeUserStatus(user.id)
+      } catch (error) {
+        this.$notifier.showNotification({
+          content: this.$t('profile.edit.saveError'),
+          bgColor: 'bg-red-kaizen',
+        })
+      }
+    },
+    async disableUser(user: User) {
+      try {
+        if (!user.status) return
+        await this.changeUserStatus(user.id)
+      } catch (error) {
+        this.$notifier.showNotification({
+          content: this.$t('profile.edit.saveError'),
+          bgColor: 'bg-red-kaizen',
+        })
+      } finally {
+        this.userDisable = null
+      }
+    },
+    async changeUserStatus(id: number) {
+      await this.$axios.$put(`/admin/user/status/change/${id}`)
+      this.$notifier.showNotification({
+        content: this.$t('adminUsers.userStatusChanged'),
+      })
+      await this.$fetch()
     },
   },
 })
@@ -342,5 +431,18 @@ tbody > tr:nth-of-type(even) {
 
 .footer-wrapper {
   @apply flex flex-auto flex-wrap justify-between items-end;
+}
+
+.disable-enter-active,
+.disable-leave-active {
+  transition: opacity 0.2s;
+}
+.disable-enter,
+.disable-leave-to {
+  opacity: 0;
+}
+
+.disable-modal {
+  @apply flex items-center justify-center absolute left-0 top-0 w-full h-full bg-gray-lightest z-10 bg-opacity-60 backdrop-filter backdrop-blur overflow-y-auto;
 }
 </style>
