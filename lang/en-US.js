@@ -632,4 +632,8 @@ export default {
       description: 'Codes',
     },
   },
+  error: {
+    title: 'We are sorry, an error occurred.',
+    subtitle: 'Go back to the main page',
+  },
 }

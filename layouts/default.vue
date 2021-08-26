@@ -23,7 +23,7 @@ export default Vue.extend({
 
 .layout-blur {
   backdrop-filter: blur(0.85px);
-  @apply fixed w-full h-full bg-white bg-opacity-50;
+  @apply fixed inset-0 bg-white bg-opacity-50;
 }
 
 .layout-circle {

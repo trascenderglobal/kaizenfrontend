@@ -633,4 +633,8 @@ export default {
       description: 'Códigos',
     },
   },
+  error: {
+    title: 'Lo sentimos, ocurrió un error.',
+    subtitle: 'Volver a la página principal',
+  },
 }
