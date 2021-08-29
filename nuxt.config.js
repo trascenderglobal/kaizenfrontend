@@ -58,10 +58,14 @@ export default {
     ['@nuxtjs/i18n', I18N],
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     credentials: false,
-    baseURL: 'http://localhost:8000/api', // replaced with runtimeConfig variable
+    baseURL: 'http://localhost:8000/api',
+  },
+
+  stripe: {
+    publishableKey:
+      'pk_test_51JNuZoK6hPImZD9RqTb2ofcWSPUBYMMSmwTxBSKXsqvmZQBlHXioQp4sqMhYbRNcD77lRD8afMin42GXvf544FGZ00dm4rEeaA',
   },
 
   auth: {
