@@ -504,6 +504,13 @@ export default Vue.extend({
           this.sent = true
         }
       } catch (error) {
+        if (error?.response?.status === 402)
+          this.$notifier.showNotification({
+            content: this.$t('negotiation.limitReached'),
+            bgColor: 'bg-red-kaizen',
+            action: 'negotiation.upgradeAccount',
+            to: '/employer/settings',
+          })
         this.sent = false
       } finally {
         this.sending = false

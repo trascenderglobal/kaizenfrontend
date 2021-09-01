@@ -5,9 +5,15 @@
     role="alert"
   >
     <span class="notification-content">{{ notification.content }}</span>
-    <template v-if="$slots.action">
-      <slot name="action" />
-    </template>
+    <nuxt-link
+      v-if="notification.to"
+      class="notification-btn"
+      :class="notification.hoverColor"
+      :to="localePath(notification.to)"
+      @click="$emit('click:dismiss')"
+    >
+      {{ $t(notification.action || 'notifier.dismiss') }}
+    </nuxt-link>
     <button
       v-else
       type="button"
@@ -15,7 +21,7 @@
       :class="notification.hoverColor"
       @click="$emit('click:dismiss')"
     >
-      {{ $t('notifier.dismiss') }}
+      {{ $t(notification.action || 'notifier.dismiss') }}
     </button>
   </div>
 </template>

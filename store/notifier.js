@@ -35,6 +35,8 @@ export const actions = {
       bgColor = 'bg-blue-kaizen',
       hoverColor = 'hover:underline',
       textColor = 'text-white',
+      action = undefined,
+      to = undefined,
     }
   ) {
     commit('PUSH_NOTIFICATION', {
@@ -42,6 +44,8 @@ export const actions = {
       bgColor,
       hoverColor,
       textColor,
+      action,
+      to,
     })
     setTimeout(function () {
       commit('SHIFT_NOTIFICATION')

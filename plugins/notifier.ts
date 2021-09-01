@@ -6,6 +6,8 @@ interface Notification {
   bgColor?: string
   hoverColor?: string
   textColor?: string
+  action?: string
+  to?: string
 }
 
 interface Notifier {

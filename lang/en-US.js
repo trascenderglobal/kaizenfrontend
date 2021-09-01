@@ -426,6 +426,8 @@ export default {
     perHour: 'USD {value} per hour',
     jobDescription: 'Job description',
     observation: 'Observation',
+    limitReached: "You've reached your requests limit!",
+    upgradeAccount: 'Upgrade account',
     buttons: {
       cancel: 'Cancel',
       next: 'Next',
