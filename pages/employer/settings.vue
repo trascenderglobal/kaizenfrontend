@@ -153,10 +153,16 @@
                 <div class="checkout-form px-4 self-stretch">
                   <div id="payment-request"></div>
                 </div>
-                <p class="text-lg text-blue-kaizen text-center">
+                <p
+                  v-if="canMakePayment"
+                  class="text-lg text-blue-kaizen text-center"
+                >
                   {{ $t('settings.or') }}
                 </p>
                 <div class="checkout-form px-4 self-stretch">
+                  <p class="pb-4 text-lg text-blue-kaizen text-center">
+                    {{ $t('settings.enterPaymentDetails') }}
+                  </p>
                   <div id="card-element" class="pb-2 border-b"></div>
                 </div>
                 <div
@@ -251,6 +257,8 @@ export default Vue.extend({
       showCode: false,
       deleting: false,
       card: undefined as any,
+      paymentRequest: undefined as any,
+      canMakePayment: undefined,
       paymentRequestButton: undefined as any,
       checkoutComplete: false,
       codeDigits: new Array(8).fill('') as string[],
@@ -328,11 +336,12 @@ export default Vue.extend({
     async showCheckout() {
       this.showSubscribe = true
       await this.setPaymentIntent()
-      this.$nextTick(async () => {
+      this.$nextTick(() => {
         if (this.$stripe) {
           const elements = this.$stripe.elements()
           this.mountCardElement(elements)
-          await this.mountPaymentRequestButton(elements)
+          // TODO: Implement payment request button
+          // await this.mountPaymentRequestButton(elements)
           if (!this.secret) this.showSubscribe = false
         }
       })
@@ -382,7 +391,7 @@ export default Vue.extend({
     },
     async mountPaymentRequestButton(elements: any): Promise<boolean> {
       try {
-        const paymentRequest = this.$stripe.paymentRequest({
+        this.paymentRequest = this.$stripe.paymentRequest({
           country: 'US',
           currency: 'usd',
           total: {
@@ -392,11 +401,11 @@ export default Vue.extend({
           requestPayerName: true,
           requestPayerEmail: true,
         })
-        const canMakePayment = await paymentRequest.canMakePayment()
+        this.canMakePayment = await this.paymentRequest.canMakePayment()
         this.paymentRequestButton = elements.create('paymentRequestButton', {
-          paymentRequest,
+          paymentRequest: this.paymentRequest,
         })
-        if (canMakePayment) {
+        if (this.canMakePayment) {
           this.paymentRequestButton.mount('#payment-request')
           return true
         }

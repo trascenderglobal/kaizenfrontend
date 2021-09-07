@@ -501,6 +501,7 @@ export default {
     payment: 'Pago',
     or: 'O',
     paymentMethod: 'Método de pago',
+    enterPaymentDetails: 'Ingresa tus datos de pago',
     changePayment: 'Cambiar método de pago',
     subscribe: 'Suscribirme',
     unsubscribe: 'Cancelar suscripción',

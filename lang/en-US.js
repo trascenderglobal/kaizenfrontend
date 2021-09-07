@@ -500,6 +500,7 @@ export default {
     payment: 'Payment',
     or: 'Or',
     paymentMethod: 'Payment method',
+    enterPaymentDetails: 'Enter your payment details',
     changePayment: 'Change the payment method that suits your preferences.',
     subscribe: 'Subscribe',
     unsubscribe: 'Unsubscribe',
