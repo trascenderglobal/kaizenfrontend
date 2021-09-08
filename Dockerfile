@@ -1,4 +1,4 @@
-FROM node:14-alpine AS development
+FROM node:16-alpine AS development
 
 # create destination directory
 RUN mkdir -p /usr/src/kaizen-front
@@ -20,7 +20,7 @@ COPY . ./
 # build app
 RUN yarn build
 
-FROM node:14-alpine AS production
+FROM node:16-alpine AS production
 
 ENV NODE_ENV=production
 
